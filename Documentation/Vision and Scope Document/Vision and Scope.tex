@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{listings} % Required for insertion of code
+\usepackage{courier} % Required for the courier font
+\usepackage{color}
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+\vspace{4em}
+
+\newcommand{\Title}{Vision and Scope Document} % Assignment title
+\begin{document}
+
+	\begin{center}%
+		\LARGE \bf \Title \\[3em]
+		\Large {Project:}\\
+		Financial markets simulation with multiple competing algorithmic trading entities.\\[0.7em]
+		\Large {Client:}
+		Cortical Systems\\[2em]
+		\LARGE {\bf Group:}\\
+			\begin{figure}[ht!]
+				\centering
+				\includegraphics[scale=0.4]{Logo8.png}
+			\end{figure}
+			
+		\Large {\bf Members:}\\[0.3em]
+		\large
+		Daniel Makgonta \\
+		Moeletji Semenya 12349136\\
+		Madimetja Shika 12127877\\[3em]
+	
+	\small Publication Date: 13 May 2014\\[0.5em]
+	\small Version: 0.0 		    
+	\end{center}%
+	
+	\newpage		
+	\LARGE 
+ 	{\bf Change Log}\\[1em]
+	\begin{tabular}{llll}
+		Date & Name & Reason & Version \\
+		13/05/2014 & Madimetja & Creation & 0.0 \\
+		~ & ~ & ~ & ~ \\
+		~ & ~ & ~ & ~ \\
+	\end{tabular}
+	
+
+	
+	\newpage
+	\tableofcontents
+				  
+	\newpage
+	\section{Vision and Scope}
+		\subsection{Vision}
+		The vision is to create a system that simulates the activities of a real-world financial market and the entities involved, while allowing interaction from both real-word and virtual entities.
+		
+		\subsection{Scope}
+		The proposed system is a financial markets simulator system which will allow trading entities to:
+		\begin{itemize}
+		\item trade securities through the system as they would in a real-world financial market while adhering to free market principles,
+		\item observe and follow trends in the market through the system by means of observing technical analysis patterns and indicators. This would furthermore provide entities with information on when best to enter or exit the market,
+		\item compete with each other by assessing the profit and loss thy make.
+		\end{itemize}
+		
+		In particular, apart from allowing the participants to compete with each other in terms of the profits or loss they make, the system will allow the following specific activities for participants:
+		
+		\begin{itemize}
+		\item Sellers
+			\begin{itemize}
+			\item make offers to sell shares.
+			\item sell shares to buyers.
+			\item negotiate over share buying price when selling shares to buyers
+			\end{itemize}
+		\item Buyers
+			\begin{itemize}
+			\item propose bids to buy shares.
+			\item search for shares on sale.
+			\item buy shares on sale.
+			\item negotiate over share buying price when buying shares from seller.
+			\end{itemize}
+		\item Companies
+			\begin{itemize}
+			\item Enter the market (system) and list stocks on the market (the system).
+			\end{itemize}
+		
+		\end{itemize}
+		\subsection{Limitations/Exclusions}
+		The project scope explicitly excludes and/or is limited in the following manner:
+		\begin{itemize}
+		\item Sock-brokers will not be active in the system as individual separate independent entities. The responsibilities of the stock-broker will be handled and performed by the matching engine.
+		\end{itemize}
+	
+		
+	\newpage				    
+	\section{Glossary}
+	\begin{itemize}
+	\item Trading entities - These are individuals, organizations participating in financial markets.
+	\end{itemize}					    			    			    		
+\end{document}
