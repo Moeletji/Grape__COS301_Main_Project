@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{listings} % Required for insertion of code
+\usepackage{courier} % Required for the courier font
+\usepackage{color}
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+\vspace{4em}
+
+\newcommand{\Title}{Architecture Requirements Document} % Assignment title
+\begin{document}
+
+	\begin{center}%
+		\LARGE \bf \Title \\[3em]
+		\Large {Project:}\\
+		Financial markets simulation with multiple competing algorithmic trading entities.\\[0.7em]
+		\Large {Client:}
+		Cortical Systems\\[2em]
+		\LARGE {\bf Group:}\\
+			\begin{figure}[ht!]
+				\centering
+				\includegraphics[scale=0.4]{Logo8.png}
+			\end{figure}
+			
+		\Large {\bf Members:}\\[0.3em]
+		\large
+		Daniel Makgonta \\
+		Moeletji Semenya 12349136\\
+		Madimetja Shika 12127877\\[3em]
+	
+	\small Publication Date: 13 May 2014\\[0.5em]
+	\small Version: 0.0 		    
+	\end{center}%
+	
+	\newpage		
+	\LARGE 
+ 	{\bf Change Log}\\[1em]
+	\begin{tabular}{llll}
+		Date & Name & Reason & Version \\
+		14/05/2014 & Madimetja & Creation & 0.0 \\
+		~ & ~ & ~ & ~ \\
+		~ & ~ & ~ & ~ \\
+	\end{tabular}
+	
+
+	\newpage
+	\tableofcontents
+				  
+	\newpage
+	This document discusses the requirements around the software infrastructure within which the application functionality is to be developed. 
+	\section{Access channel requirements}
+	The system will be accessible by human users through the following front-end channels:
+	\begin{itemize}
+	\item From a web browser through a rich web interface. The system will be accessible through the more recent versions of any of the major used browsers, including Google Chrome, Mozilla Firefox, Microsoft Internet Explorer and Apple Safari.
+	\end{itemize}
+	Other systems may be able to access the services offered by this system through either SOAP-based or RESTful web services
+	
+	\section{Quality Requirements}
+		\subsection{Security}
+		\begin{itemize}
+		\item Communication of sensitive information with the system should occur over the Secure Hypertext Transfer Protocol.
+		\end{itemize}
+		\subsection{Auditability}
+		\begin{itemize}
+		\item The system should provide mechanisms through which the activity of every entity/participant can be monitored. This information would include
+			\begin{itemize}
+			\item the action taken by the participant, 
+			\item the date and time the action was taken, 
+			\item the immediate impact the action had on the market,
+			\item the state of the participant before and after the action.
+			\end{itemize}
+		\end{itemize}
+		\subsection{Testability}
+		\begin{itemize}
+		\item Every service offered by the system should be testable against its pre and post condition.
+		\end{itemize}
+		\subsection{Usability}
+		\begin{itemize}
+		\item The system should be usable, in that the system should provide a fully functional matching engine.
+		\item Users in the financial/investment sector should be able to understand and use the system without any training or tutorial.
+		\item Most of the users excluding those in the financial/investment sector should be able to understand the system through the affordance that the system provides through its interface.
+		\end{itemize}
+		\subsection{Scalability}
+		\begin{itemize}
+		\item If need be, the system should allow for independent entities operating from independent machines to participate in the market.
+		\end{itemize}
+		\subsection{Performance}
+		\begin{itemize}
+		\item Algorithmic performance as measured by profit and loss should take preference over absolute system performance. 
+		\end{itemize}
+	\section{Integration Requirements}
+	The system is self-contained and there is no need for integration with other external systems or components.
+	\section{Architectural Constraints}
+	The system should be built using either of the following technologies:
+	\begin{itemize}
+	\item Java Enterprise Edition
+	\item C++
+	\item .NET
+	\end{itemize}
+	In order to minimize cost and complexity, the system can be developed to run and operate on a single machine. 
+		
+	\newpage				    
+	\section{Glossary}				    			    			    		
+\end{document}
