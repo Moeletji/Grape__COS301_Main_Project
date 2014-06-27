@@ -20,4 +20,11 @@ public class Offer extends MarketEntryAttempt{
         date = new Date();
         this.timeStamp = date.toString();
     }
+    
+    public String toString()
+    {
+        return this.getParticipantName() + " offered " +
+                this.getNumberOfShares() + "@" + this.getPrice() +
+                " at " + this.getTimeStamp();
+    }
 }

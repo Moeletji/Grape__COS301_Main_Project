@@ -80,7 +80,7 @@ public class MarketEntryAttempt {
     /**
      * @return String value representing time stamp of the entry attempt formatted as DD/MM/YYYY HH:MM:SS:MS TIME_ZONE
      */
-    public String getTimeStanp() {
+    public String getTimeStamp() {
         return this.timeStamp;
     }
     
