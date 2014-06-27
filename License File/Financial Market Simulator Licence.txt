@@ -1,0 +1,10 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}This project is property of team Grape, COS 301 Department of Computer Science, University of Pretoria, 2014.
+${licensePrefix}This code can be publicly used as long as it is sorced well and the authors are well stated.
+${licensePrefix}Please note that the code may contain external code which is well sourced. Please do source that particular
+${licensePrefix}code with the correct authors.
+<#if licenseLast??>
+${licenseLast}
+</#if>
