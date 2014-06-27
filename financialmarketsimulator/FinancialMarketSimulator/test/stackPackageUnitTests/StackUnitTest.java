@@ -19,20 +19,13 @@ import org.junit.Test;
  *
  * @author Madimetja
  */
-public class StackUnitTest extends Thread {
-
-    private int PushCount;
-    private int PopCount;
-    private int ItemCount;
-
-    public StackUnitTest(int push_count, int pop_count, int item_count) {
-        PushCount = push_count;
-        PopCount = pop_count;
-        ItemCount = item_count;
+public class StackUnitTest{
+    
+    public StackUnitTest() {
     }
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() {       
     }
 
     @AfterClass

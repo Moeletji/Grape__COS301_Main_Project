@@ -23,7 +23,7 @@ import org.junit.Test;
  */
 public class MatchingEngineUnitTest {
 
-    public MatchingEngineUnitTest() {
+    /*public MatchingEngineUnitTest() {
     }
 
     @BeforeClass
@@ -40,7 +40,7 @@ public class MatchingEngineUnitTest {
 
     @After
     public void tearDown() {
-    }
+    }*/
     
     /**
      * The MatchingEngine object used for testing throughout the class
