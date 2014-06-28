@@ -1,5 +1,8 @@
 package financialmarketsimulator;
 
+import financialmarketsimulator.stack.BidStack;
+import financialmarketsimulator.stack.OfferStack;
+
 /**
  *
  * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
@@ -16,7 +19,7 @@ public class MatchingEngine {
     }
 
     /* Update the matching engine */
-    public void update() {
+    public void update(OfferStack offerStack, BidStack bidStack) {
 
     }
 
