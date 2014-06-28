@@ -4,7 +4,7 @@ import financialmarketsimulator.exception.ItemNotFoundException;
 
 /**
  *
- * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketStrategy implements Trade {
 

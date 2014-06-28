@@ -3,7 +3,6 @@ package stackPackageUnitTests;
 import financialmarketsimulator.Bid;
 import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
-import financialmarketsimulator.stack.Stack;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,8 +12,9 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+
 public class MarketEntryAttemptNodeUnitTest {
     
     public MarketEntryAttemptNodeUnitTest() {

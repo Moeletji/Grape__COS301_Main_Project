@@ -1,26 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.Bid;
 import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.MatchingEngine;
 import financialmarketsimulator.Offer;
 import financialmarketsimulator.stack.*;
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  *
- * @author Madimetja
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+
 public class MatchingEngineUnitTest {
 
     /*public MatchingEngineUnitTest() {

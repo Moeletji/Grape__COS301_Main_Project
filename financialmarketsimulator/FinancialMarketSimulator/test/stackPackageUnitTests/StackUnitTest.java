@@ -14,8 +14,9 @@ import org.junit.Test;
 
 /**
  *
- * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+
 public class StackUnitTest {
 
     public StackUnitTest() {

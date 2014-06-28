@@ -6,8 +6,9 @@ import java.util.Stack;
 
 /**
  *
- * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+
 public abstract class MarketManager {
 
     private String stockName;

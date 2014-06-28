@@ -5,7 +5,7 @@ import java.util.UUID;
 
 /**
  *
- * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class Offer extends MarketEntryAttempt{
 

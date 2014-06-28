@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketEntity {
     
