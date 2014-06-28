@@ -8,7 +8,10 @@ import financialmarketsimulator.exception.ItemNotFoundException;
  */
 public class MarketStrategy implements Trade {
 
-    public MarketStrategy() {
+    private String name;
+
+    public MarketStrategy(String name) {
+        this.name = name;
     }
 
     @Override
@@ -23,17 +26,14 @@ public class MarketStrategy implements Trade {
 
     @Override
     public void retractBid() {
-
     }
 
     @Override
     public void retractOffer() {
-
     }
 
     @Override
     public void setStrategy(String strategy) {
-
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MarketStrategy implements Trade {
         MarketEntryAttempt foundNode = null;
 
         //implement search function here ...
-        
+
         if (foundNode == null) {
             throw new ItemNotFoundException();
         } else {
@@ -49,4 +49,7 @@ public class MarketStrategy implements Trade {
         }
     }
 
+    public String getName() {
+        return name;
+    }
 }
