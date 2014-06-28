@@ -23,7 +23,7 @@ public class Stack {
     
     protected boolean tryPush(MarketEntryAttemptNode node) {
         MarketEntryAttemptNode oldTop = top.get();
-        node.next = oldTop.node;
+        node.next = oldTop;
         return (top.compareAndSet(oldTop, node));
     }
 
@@ -44,7 +44,7 @@ public class Stack {
             throw new EmptyException();
         }
         MarketEntryAttemptNode newTop = null;
-        newTop.node = oldTop.next;
+        newTop= oldTop.next;
         if (top.compareAndSet(oldTop, newTop)) {
             return oldTop;
         } else {

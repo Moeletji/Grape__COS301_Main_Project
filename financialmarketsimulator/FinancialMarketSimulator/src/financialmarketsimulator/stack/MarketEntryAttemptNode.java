@@ -9,7 +9,7 @@ import financialmarketsimulator.MarketEntryAttempt;
 
 public class MarketEntryAttemptNode {
 
-    public MarketEntryAttempt next;
+    public MarketEntryAttemptNode next;
     public MarketEntryAttempt node;
     
     public MarketEntryAttemptNode(MarketEntryAttempt node1) {
