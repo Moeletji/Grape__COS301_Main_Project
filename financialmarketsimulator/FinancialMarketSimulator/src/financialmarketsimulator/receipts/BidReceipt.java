@@ -13,7 +13,7 @@ public class BidReceipt extends Receipt{
     
     /**
      * @brief Constructor of Receipt object
-     * @param bid the accepted bid
+     * @param bid the bid that will a receipt
      */
     public BidReceipt(Bid bid)
     {

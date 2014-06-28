@@ -13,7 +13,7 @@ public class OfferReceipt extends Receipt {
     
     /**
      * @brief Constructor of Receipt object
-     * @param offer the accepted offer
+     * @param offer the offer that will have a receipt
      */
     public OfferReceipt(Offer offer)
     {

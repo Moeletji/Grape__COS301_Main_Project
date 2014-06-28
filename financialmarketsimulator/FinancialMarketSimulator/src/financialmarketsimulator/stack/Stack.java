@@ -41,6 +41,7 @@ public class Stack {
     protected MarketEntryAttemptNode tryPop() throws EmptyException {
         MarketEntryAttemptNode oldTop = top.get();
         if (oldTop == null) {
+            length = 0;
             throw new EmptyException();
         }
         MarketEntryAttemptNode newTop = null;
