@@ -64,6 +64,24 @@ public class MarketEntity {
     }
     
     /**
+     * @brief Get the current strategy for the entity.
+     * @return The current strategy being used by the entity.
+     */
+    public MarketStrategy getCurrentStrategy()
+    {
+        return this.currentStrategy;
+    }
+    
+    /**
+     * @brief get the full list of strategies being used by the entity.
+     * @return ArrayList of all the strategies being used by the entity.
+     */
+    public ArrayList getStrategies()
+    {
+        return this.strategies;
+    }
+    
+    /**
      * @brief set the entity name 
      */
     public void setMarketName(String marketName)
