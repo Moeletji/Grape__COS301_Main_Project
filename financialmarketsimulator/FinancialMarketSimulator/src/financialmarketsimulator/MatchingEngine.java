@@ -1,6 +1,8 @@
 package financialmarketsimulator;
 
+import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.stack.BidStack;
+import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.OfferStack;
 
 /**
@@ -9,18 +11,32 @@ import financialmarketsimulator.stack.OfferStack;
  */
 public class MatchingEngine {
 
+    /**
+     * @brief Stack containing all bids for a stock
+     */
+    private BidStack bidStack;
+    /**
+     * @brief Stack containing all offers for a stock
+     */
+    private OfferStack offerStack;
+
     public MatchingEngine() {
-
+        bidStack = null;
+        offerStack = null;
     }
 
-    /* Match a bid and an offer */
+    /**
+     * @brief Matching a bids and an offers
+     */
     public void trade() {
-        
     }
 
-    /* Update the matching engine */
+    /**
+     * @brief Update matching engine with modified bids and offers
+     */
     public void update(OfferStack offerStack, BidStack bidStack) {
-
     }
 
+    /* Private methods */
 }
+

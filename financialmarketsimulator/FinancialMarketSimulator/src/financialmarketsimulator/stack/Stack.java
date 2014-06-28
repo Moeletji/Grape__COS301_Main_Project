@@ -18,7 +18,13 @@ public class Stack {
     static final int MIN_DELAY = 0;
     static final int MAX_DELAY = 0;
     Backoff backoff = new Backoff(MIN_DELAY, MAX_DELAY);
+    private int length;
 
+    public Stack()
+    {
+        length = 0;
+    }
+    
     protected boolean tryPush(MarketEntryAttemptNode node) {
         MarketEntryAttemptNode oldTop = top.get();
         node.next = oldTop.node;
@@ -28,6 +34,7 @@ public class Stack {
     public void push(MarketEntryAttemptNode node) throws InterruptedException {
         while (true) {
             if (tryPush(node)) {
+                length++;
                 return;
             } else {
                 backoff.backoff();
@@ -53,10 +60,23 @@ public class Stack {
         while (true) {
             MarketEntryAttemptNode returnNode = tryPop();
             if (returnNode != null) {
+                length--;
                 return returnNode;
             } else {
                 backoff.backoff();
             }
         }
+    }
+    
+    public MarketEntryAttemptNode peek() throws EmptyException
+    {
+        if(top.get() == null)
+            throw new EmptyException();
+        return top.get();
+    }
+    
+    public int length()
+    {
+        return length;
     }
 }

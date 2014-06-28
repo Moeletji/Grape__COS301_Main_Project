@@ -1,6 +1,7 @@
 package financialmarketsimulator;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -17,8 +18,7 @@ public class Offer extends MarketEntryAttempt{
         this.price = _price;
         this.numberOfShares = _numShares;
         this.participantName = _name;
-        date = new Date();
-        this.timeStamp = date.toString();
+        this.timeStamp = UUID.randomUUID().toString();
     }
     
     public String toString()
