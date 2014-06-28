@@ -29,6 +29,7 @@ public class MatchingEngine {
      * @brief Matching a bids and an offers
      */
     public void trade() {
+        
     }
 
     /**
