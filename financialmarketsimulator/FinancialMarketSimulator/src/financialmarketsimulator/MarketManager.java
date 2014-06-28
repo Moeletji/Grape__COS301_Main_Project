@@ -1,8 +1,12 @@
 package financialmarketsimulator;
 
 import financialmarketsimulator.receipts.Receipt;
-import java.util.Queue;
-import java.util.Stack;
+import financialmarketsimulator.stack.BidStack;
+import financialmarketsimulator.stack.MarketEntryAttemptNode;
+import financialmarketsimulator.stack.OfferStack;
+import financialmarketsimulator.Bid;
+import financialmarketsimulator.receipts.BidReceipt;
+import financialmarketsimulator.receipts.OfferReceipt;
 
 /**
  *
@@ -16,14 +20,15 @@ public abstract class MarketManager {
     private int totalNumberOfShares;
     private double stockMarketValue;
     private MatchingEngine matchingEngine;
-    private Stack<MarketEntryAttempt> bidsStack;
-    private Stack<MarketEntryAttempt> offerStack;
+    private BidStack bidStack;
+    private OfferStack offerStack;
 
     /**
      * MarketManager Constructor
      */
     public MarketManager() {
-
+        bidStack = new BidStack();
+        offerStack = new OfferStack();
     }
     
     /**
@@ -36,6 +41,7 @@ public abstract class MarketManager {
      */
     public MarketManager(String sName, String sType, int numShares, double val)
     {
+        this();
         this.stockName = sName;
         this.stockType = sType;
         this.totalNumberOfShares = numShares;
@@ -48,8 +54,10 @@ public abstract class MarketManager {
      * @param bid Bid object to be accepted
      * @return Returns a receipt object that acknowledges that a bid was accepted
      */
-    public Receipt acceptBid(Bid bid) {
-        return new Receipt();
+    public Receipt acceptBid(Bid bid) throws InterruptedException {
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(bid);
+        bidStack.push(node);
+        return new BidReceipt(bid);
     }
 
     /**
@@ -58,8 +66,10 @@ public abstract class MarketManager {
      * @param offer Offer object to be accepted
      * @return Returns a receipt object that acknowledges that an offer was accepted
      */
-    public Receipt acceptOffer(Offer offer) {
-        return new Receipt();
+    public Receipt acceptOffer(Offer offer) throws InterruptedException {
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(offer);
+        offerStack.push(node);
+        return new OfferReceipt(offer);
     }
 
     /**

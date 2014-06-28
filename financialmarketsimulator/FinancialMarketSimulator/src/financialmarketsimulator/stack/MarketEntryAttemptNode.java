@@ -6,24 +6,22 @@ import financialmarketsimulator.MarketEntryAttempt;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 public class MarketEntryAttemptNode {
 
     public MarketEntryAttempt next;
     public MarketEntryAttempt node;
-    
-    public MarketEntryAttemptNode(MarketEntryAttempt node1) {
-        node = node1;
+
+    public MarketEntryAttemptNode(MarketEntryAttempt node) {
+        this.node = node;
         next = null;
     }
 
     public MarketEntryAttemptNode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.node = null;
+        this.next = null;
     }
 
-    
-    public String toString()
-    {
+    public String toString() {
         return node.getNumberOfShares() + "@" + node.getPrice() + " by " + node.getParticipantName();
     }
 }
