@@ -37,16 +37,14 @@ public class MarketEntryAttemptNodeUnitTest {
     }
  
     @Test
-    public String toStringTest()
+    public void toStringTest()
     {
         String expectedResult = "1000@100.01 by Daniel Smith";
         
-        Bid bid = (Bid)new MarketEntryAttempt(100.01, 1000, "Daniel Smith");
+        MarketEntryAttempt bid = new MarketEntryAttempt(100.01, 1000, "Daniel Smith");
         MarketEntryAttemptNode node = new MarketEntryAttemptNode(bid);
         
         assertEquals(expectedResult, node.toString());
-        
-        return node.toString();
     }
     
 }
