@@ -1,5 +1,6 @@
 package financialmarketsimulator;
 
+import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import java.util.ArrayList;
 
@@ -88,20 +89,26 @@ public class MarketEntity {
     
     /**
      * @brief add a strategy to be used to trade
-     * @param strategy strategy to be added
+     * @param strategy new strategy to be added
+     * @throws NameAlreadyExistsException 
      */
-    public void addStrategy(MarketStrategy strategy)
+    public void addStrategy(MarketStrategy strategy) throws NameAlreadyExistsException 
     {
         for(MarketStrategy strategyTmp : strategies)
         {
             if(strategyTmp.getName().equals(strategy.getName()))
             {
-                
+                throw new NameAlreadyExistsException();
             }
         }
         this.strategies.add(strategy);
     }
     
+    /**
+     * @brief set the current strategy used by the entity
+     * @param name of the current strategy to be used
+     * @throws NameNotFoundException 
+     */
     public void setCurrentStrategy(String name) throws NameNotFoundException
     {
         for(MarketStrategy strategy : strategies)

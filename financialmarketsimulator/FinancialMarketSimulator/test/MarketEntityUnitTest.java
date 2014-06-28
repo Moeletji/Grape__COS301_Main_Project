@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import financialmarketsimulator.MarketStrategy;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,6 +41,8 @@ public class MarketEntityUnitTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void addMarketStrategyTest(MarketStrategy strategy) {
+        //Implement Unit Test here ... 
+    }
 }
