@@ -6,6 +6,7 @@
 package financialmarketsimulator;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -48,12 +49,11 @@ public class MarketEntryAttempt {
      * @param numShares The number of shares being bid or offered
      * @param name The name of the participant making the bid or the offer.
     */
-    public MarketEntryAttempt(double pr, int numShares, String name) {
-        this.price = pr;
+    public MarketEntryAttempt(double price, int numShares, String name) {
+        this.price = price;
         this.numberOfShares = numShares;
         this.participantName = name;
-        date = new Date();
-        this.timeStamp = date.toString();
+        this.timeStamp = UUID.randomUUID().toString();
     }
 
     /**
