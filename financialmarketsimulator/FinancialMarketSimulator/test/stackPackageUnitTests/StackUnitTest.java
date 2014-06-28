@@ -1,10 +1,13 @@
 package stackPackageUnitTests;
 
 import financialmarketsimulator.Bid;
+import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.Offer;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -16,7 +19,6 @@ import org.junit.Test;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 public class StackUnitTest {
 
     public StackUnitTest() {
@@ -40,7 +42,7 @@ public class StackUnitTest {
 
     // TODO Tests whether the stack returns the correct size of nodes inside the stack.
     @Test
-    public int lengthTest() throws InterruptedException {
+    public void lengthTest() throws InterruptedException {
 
         int expectedResult = 3;
 
@@ -57,35 +59,45 @@ public class StackUnitTest {
         int result = stack.length();
 
         assertEquals(expectedResult, result);
-
-        return result;
     }
 
     @Test
-    public void pushTest(MarketEntryAttemptNode node) throws InterruptedException, EmptyException {
+    public void pushAndPopTest() throws InterruptedException, EmptyException {
         //if it pushed an object into the stack which is initially empty 
         //and then pops that node without throwing an exception then the 
         //test has completed successfully
-
+        MarketEntryAttemptNode expected = new MarketEntryAttemptNode(new MarketEntryAttempt());
         Stack stack = new Stack();
 
-        stack.push(node);
+        stack.push(expected);
 
         MarketEntryAttemptNode nodeTmp = stack.pop();
+        assertEquals(expected, nodeTmp);
     }
 
     @Test
-    public MarketEntryAttemptNode popTest() throws InterruptedException, EmptyException {
+    public void popTest() throws InterruptedException, EmptyException {
         //if it pushed an object into the stack which is initially empty 
         //and then pops that node without throwing an exception then the 
         //test has completed successfully
 
         Stack stack = new Stack();
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode();
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new MarketEntryAttempt());
         stack.push(node);
 
         MarketEntryAttemptNode tmp = stack.pop();
+        assertEquals(node, tmp);
+    }
 
-        return tmp;
+    /**
+     * @brief Test to check if the stack is empty
+     * @throws EmptyException
+     */
+    @Test(expected = EmptyException.class)
+    public void testEmptyStack() throws EmptyException, InterruptedException {
+        Stack stack;
+        
+        stack = new Stack();
+        assertTrue(stack.pop() == null ? true : false);
     }
 }
