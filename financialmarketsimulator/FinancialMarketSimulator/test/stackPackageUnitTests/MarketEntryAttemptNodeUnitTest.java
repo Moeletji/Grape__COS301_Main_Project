@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package stackPackageUnitTests;
 
 import financialmarketsimulator.Bid;
 import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
+import financialmarketsimulator.stack.Stack;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,7 +13,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Madimetja
+ * @authors Madimetja Shika, Moeletji Semenya, Daniel Makgonta
  */
 public class MarketEntryAttemptNodeUnitTest {
     
@@ -56,4 +51,5 @@ public class MarketEntryAttemptNodeUnitTest {
         
         return node.toString();
     }
+    
 }
