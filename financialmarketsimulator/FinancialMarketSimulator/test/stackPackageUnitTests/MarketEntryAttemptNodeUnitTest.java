@@ -35,9 +35,6 @@ public class MarketEntryAttemptNodeUnitTest {
     @After
     public void tearDown() {
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
  
     @Test
     public String toStringTest()

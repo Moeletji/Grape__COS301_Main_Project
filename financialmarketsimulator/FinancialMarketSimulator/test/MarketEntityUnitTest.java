@@ -18,22 +18,22 @@ import static org.junit.Assert.*;
  * @author Madimetja
  */
 public class MarketEntityUnitTest {
-    
+
     public MarketEntityUnitTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -41,8 +41,48 @@ public class MarketEntityUnitTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
+    /**
+     *
+     */
     @Test
-    public void addMarketStrategyTest(MarketStrategy strategy) {
-        //Implement Unit Test here ... 
+    public void instantiation() {
+
+    }
+
+    public void getMarketNameTest() {
+
+    }
+
+    public void getIDTest() {
+
+    }
+
+    public void getTypeTest() {
+
+    }
+
+    public void setMarketNameTest() {
+
+    }
+
+    public void setIDTest() {
+
+    }
+
+    public void setTypeTest() {
+
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void addMarketStrategyTest() {
+
+    }
+
+    @Test
+    public void setCurrentStrategyTest() {
+
     }
 }
