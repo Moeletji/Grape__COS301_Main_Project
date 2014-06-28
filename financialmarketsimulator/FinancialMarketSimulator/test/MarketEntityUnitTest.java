@@ -9,8 +9,6 @@ import financialmarketsimulator.MarketStrategy;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -20,7 +18,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Madimetja
+ * @author Madimetja Shika, Moeletji Semenya, Daniel Makgonta
  */
 public class MarketEntityUnitTest {
 
@@ -130,11 +128,11 @@ public class MarketEntityUnitTest {
 
         String expectedStrategyName = "testStrategy";
         Boolean expectedStrategyFound = false;
-        MarketStrategy strategy = new MarketStrategy(expectedStrategyName);
+        MarketStrategy expectedStrategy = new MarketStrategy(expectedStrategyName);
 
         //Attempt to add the strategy. No exceptionn should be thrown.
         try {
-            marketEntity.addStrategy(strategy);
+            marketEntity.addStrategy(expectedStrategy);
         } catch (NameAlreadyExistsException ex) {
             ex.printStackTrace();
         }
@@ -143,7 +141,7 @@ public class MarketEntityUnitTest {
 
         //Check if the added strategy exists in the strategy array list
         for (MarketStrategy tempStrategy : returnedStrategies) {
-            if (tempStrategy.getName().equals(expectedStrategyName)) {
+            if (tempStrategy.equals(expectedStrategy)) {
                 expectedStrategyFound = true;
                 break;
             }
