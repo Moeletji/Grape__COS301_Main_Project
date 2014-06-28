@@ -165,7 +165,11 @@ public class MatchingEngineUnitTest {
      * @todo Observes the bid and offer stacks when called and informs the
      * MarketManager to either update or not update the views accordingly.
      */
-    public void updateTest() {
-
+    public void updateTest(OfferStack offerStack, BidStack bidStack) {
+        OfferStack offerStack1 = offerStack;
+        BidStack bidStack1 = bidStack;
+        
+        assertEquals(offerStack1, offerStack);
+        assertEquals(bidStack1, bidStack);
     }
 }
