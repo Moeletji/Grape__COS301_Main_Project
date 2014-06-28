@@ -17,7 +17,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Madimetja
+ * @author Madimetja, Moeletji Semenya, Daniel Makgonta
  */
 public class MarketManagerUnitTest {
 

@@ -4,18 +4,24 @@
  * and open the template in the editor.
  */
 
+import financialmarketsimulator.MarketStrategy;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Madimetja
  */
 public class MarketStrategyUnitTest {
+
+    /**
+     * MarketStrategy test object used throughout the unit tests.
+     */
+    MarketStrategy marketStrategy;
 
     public MarketStrategyUnitTest() {
     }
@@ -35,10 +41,21 @@ public class MarketStrategyUnitTest {
     @After
     public void tearDown() {
     }
-    
+
     @Test
     /**
-     * @todo 
+     * @todo Tests if the getName method returns the expected strategy name
+     */
+    public void getNameTest() {
+        String expectedName = "Test Strategy";
+        marketStrategy = new MarketStrategy(expectedName);
+        
+        assertEquals(expectedName, marketStrategy.getName());
+    }
+
+    @Test
+    /**
+     * @todo
      */
     public void makeOfferTest() {
     }
@@ -75,9 +92,9 @@ public class MarketStrategyUnitTest {
     }
 
     @Test
-   /**
-    * @todo
-    */
+    /**
+     * @todo
+     */
     public void searchMarketEntryAttempt() {
     }
 }
