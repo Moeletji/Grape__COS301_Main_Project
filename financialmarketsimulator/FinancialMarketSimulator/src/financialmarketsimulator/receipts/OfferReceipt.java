@@ -6,7 +6,7 @@ import financialmarketsimulator.Offer;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class OfferReceipt extends Receipt {
+public class OfferReceipt implements Receipt {
     
     /* Receipt object of the offer  */
     Offer offerReceipt;
@@ -19,6 +19,11 @@ public class OfferReceipt extends Receipt {
     {
         super();
         this.offerReceipt = offer;
+    }
+
+    @Override
+    public void issueReceipt() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
