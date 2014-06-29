@@ -105,4 +105,9 @@ public class MarketEntryAttempt {
     {
         this.participantName = _name;
     }
+    
+    public boolean hasNoSharesLeft()
+    {
+        return (this.numberOfShares <= 0);
+    }
 }
