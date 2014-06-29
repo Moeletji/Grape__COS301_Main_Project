@@ -21,6 +21,11 @@ import org.junit.Test;
  */
 public class StackUnitTest {
 
+    //Mock data used throughout the tests
+    int mockPrice = 0;
+    int mockNumShares = 0;
+    String mockName = "";
+
     public StackUnitTest() {
     }
 
@@ -48,9 +53,9 @@ public class StackUnitTest {
 
         Stack stack = new Stack();
 
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new Bid());
-        MarketEntryAttemptNode node1 = new MarketEntryAttemptNode(new Offer());
-        MarketEntryAttemptNode node2 = new MarketEntryAttemptNode(new Offer());
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new Bid(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node1 = new MarketEntryAttemptNode(new Offer(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node2 = new MarketEntryAttemptNode(new Offer(mockPrice, mockNumShares, mockName));
 
         stack.push(node);
         stack.push(node1);
@@ -66,7 +71,7 @@ public class StackUnitTest {
         //if it pushed an object into the stack which is initially empty 
         //and then pops that node without throwing an exception then the 
         //test has completed successfully
-        MarketEntryAttemptNode expected = new MarketEntryAttemptNode(new MarketEntryAttempt());
+        MarketEntryAttemptNode expected = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
         Stack stack = new Stack();
 
         stack.push(expected);
@@ -82,7 +87,7 @@ public class StackUnitTest {
         //test has completed successfully
 
         Stack stack = new Stack();
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new MarketEntryAttempt());
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
         stack.push(node);
 
         MarketEntryAttemptNode tmp = stack.pop();
@@ -96,7 +101,7 @@ public class StackUnitTest {
     @Test(expected = EmptyException.class)
     public void testEmptyStack() throws EmptyException, InterruptedException {
         Stack stack;
-        
+
         stack = new Stack();
         assertTrue(stack.pop() == null ? true : false);
     }

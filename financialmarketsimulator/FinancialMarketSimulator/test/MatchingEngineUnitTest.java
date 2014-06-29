@@ -69,13 +69,30 @@ public class MatchingEngineUnitTest {
         MarketEntryAttempt offer = null;
         MarketEntryAttemptNode bidNode = null;
         MarketEntryAttemptNode offerNode = null;
+        
+        //Bid and offer instantiation variables
+        int offerPrice;
+        int offerNumShares;
+        String offerName;
+        int bidPrice;
+        int bidNumShares;
+        String bidName;
 
         //************//
         //***TEST 1***//
         //************//
         //The bid and offer attemts that will match
-        MarketEntryAttempt expectedBid = new MarketEntryAttempt();
-        MarketEntryAttempt expectedOffer = new MarketEntryAttempt();
+        
+        //Instantiation values for the bid and offer
+        offerPrice = 1000;
+        offerNumShares = 150;
+        offerName = "John Smith";
+        bidPrice = 1000;
+        bidNumShares = 150;
+        bidName = "Mark Angelou";
+        
+        MarketEntryAttempt expectedBid = new MarketEntryAttempt(offerPrice, offerNumShares, offerName);
+        MarketEntryAttempt expectedOffer = new MarketEntryAttempt(bidPrice, bidNumShares, bidName);
         MarketEntryAttemptNode expectedBidNode = new MarketEntryAttemptNode(expectedBid);
         MarketEntryAttemptNode expectedOfferNode = new MarketEntryAttemptNode(expectedOffer);
 
@@ -90,8 +107,16 @@ public class MatchingEngineUnitTest {
 
         //Push mock bids and offers to the stack
         for (int i = 0; i < 9; i++) {
-            bid = new Bid();
-            offer = new Offer();
+            //Set variables with different data from first and each other
+            offerPrice = i*1000;
+            offerNumShares = 500+i;
+            offerName = "Offer Test " + i;
+            bidPrice = i*2000;
+            bidNumShares = 300+i;
+            bidName = "Bid Test " + i;
+            
+            offer = new Bid(offerPrice, offerNumShares, offerName);
+            bid = new Offer(bidPrice, bidNumShares, bidName);
             bidNode = new MarketEntryAttemptNode(bid);
             offerNode = new MarketEntryAttemptNode(offer);
 
@@ -128,8 +153,16 @@ public class MatchingEngineUnitTest {
         //************//
         //Push mock bids and offers to the stack
         for (int i = 0; i < 9; i++) {
-            bid = new Bid();
-            offer = new Offer();
+            //Set variables with different data
+            offerPrice = i*1000;
+            offerNumShares = 150+i;
+            offerName = "Offer Test " + i;
+            bidPrice = i*1500;
+            bidNumShares = 200+i;
+            bidName = "Bid Test " + i;
+            
+            offer = new Bid(offerPrice, offerNumShares, offerName);
+            bid = new Offer(bidPrice, bidNumShares, bidName);
             bidNode = new MarketEntryAttemptNode(bid);
             offerNode = new MarketEntryAttemptNode(offer);
 

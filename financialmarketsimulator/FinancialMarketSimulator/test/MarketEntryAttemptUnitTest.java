@@ -54,7 +54,7 @@ public class MarketEntryAttemptUnitTest {
         assertEquals(price, exchange.getPrice(), DELTA);
         assertEquals(numShares, exchange.getNumberOfShares());
         assertEquals(name, exchange.getParticipantName());
-        assertEquals(new Date().toString(), exchange.getTimeStamp());
+        assertEquals(new Date().toString(), exchange.getTimeStampString());
         //test for timeStampNotDone
         // --timeStamp should only be off by mili or nano seconds yes?
     }

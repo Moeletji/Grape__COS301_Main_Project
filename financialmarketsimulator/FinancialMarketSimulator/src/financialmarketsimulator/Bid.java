@@ -9,20 +9,13 @@ import java.util.UUID;
 
 public class Bid extends MarketEntryAttempt {
 
-    public Bid() {
-
-    }
-
     public Bid(double _price, int _numShares, String _name) {
-        this.price = _price;
-        this.numberOfShares = _numShares;
-        this.participantName = _name;
-        this.timeStamp = UUID.randomUUID().toString();
+        super(_price, _numShares, _name);
     }
 
     public String toString() {
         return this.getParticipantName() + " bid "
                 + this.getNumberOfShares() + "@" + this.getPrice()
-                + " at " + this.getTimeStamp();
+                + " at " + this.getTimeStampString();
     }
 }

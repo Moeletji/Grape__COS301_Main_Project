@@ -49,7 +49,7 @@ public class OfferUnitTest {
         assertEquals(price, offer.getPrice(), DELTA);
         assertEquals(numShares, offer.getNumberOfShares());
         assertEquals(name, offer.getParticipantName());
-        assertEquals(new Date().toString(), offer.getTimeStamp());
+        assertEquals(new Date().toString(), offer.getTimeStampString());
         
         String expectedOutput = "" + " offered " + numShares + "@" + price + " at " + new Date().toString();
         String actualOutput = offer.toString();

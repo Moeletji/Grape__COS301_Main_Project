@@ -50,7 +50,7 @@ public class BidUnitTest {
         assertEquals(price, bid.getPrice(), DELTA);
         assertEquals(numShares, bid.getNumberOfShares());
         assertEquals(name, bid.getParticipantName());
-        assertEquals(new Date().toString(), bid.getTimeStamp());
+        assertEquals(new Date().toString(), bid.getTimeStampString());
         
         String expectedOutput = "" + " bid " + numShares + "@" + price + " at " + new Date().toString();
         String actualOutput = bid.toString();
