@@ -6,6 +6,7 @@ package financialmarketsimulator.stack;
  */
 public class BidStack extends Stack {
 
-    public void sortStack() {
+    public BidStack() {
+        super();
     }
 }
