@@ -2,13 +2,11 @@ package financialmarketsimulator;
 
 import financialmarketsimulator.exception.BidNotFoundException;
 import financialmarketsimulator.receipts.Receipt;
-import financialmarketsimulator.stack.BidStack;
-import financialmarketsimulator.stack.MarketEntryAttemptNode;
-import financialmarketsimulator.stack.OfferStack;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.exception.OfferNotFoundException;
 import financialmarketsimulator.receipts.BidReceipt;
 import financialmarketsimulator.receipts.OfferReceipt;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,20 +15,27 @@ import financialmarketsimulator.receipts.OfferReceipt;
 
 public abstract class MarketManager {
 
+    //Name of the stock
     private String stockName;
+    //The type of stock used
     private String stockType;
+    //Total number of shares that the stock holds
     private int totalNumberOfShares;
+    //The market value of the stock
     private double stockMarketValue;
+    //Matching engine for the stock
     private MatchingEngine matchingEngine;
-    private BidStack bidStack;
-    private OfferStack offerStack;
+    //Stack of all bids
+    private ArrayList<Bid> bids;
+    //Stack of all offers
+    private ArrayList<Offer> offers;
 
     /**
      * MarketManager Constructor
      */
     public MarketManager() {
-        bidStack = new BidStack();
-        offerStack = new OfferStack();
+        bids = new ArrayList();
+        offers = new ArrayList();
     }
 
     /**
@@ -58,8 +63,7 @@ public abstract class MarketManager {
      * @throws InterruptedException 
      */
     public Receipt acceptBid(Bid bid) throws InterruptedException {
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(bid);
-        bidStack.push(node);
+        bids.add(bid);
         return new BidReceipt(bid);
     }
 
@@ -72,8 +76,7 @@ public abstract class MarketManager {
      * @return Returns a receipt object that acknowledges that an offer was accepted
      */
     public Receipt acceptOffer(Offer offer) throws InterruptedException {
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(offer);
-        offerStack.push(node);
+        offers.add(offer);
         return new OfferReceipt(offer);
     }
 
@@ -87,28 +90,8 @@ public abstract class MarketManager {
      * @throws BidNotFoundException 
      */
     public Receipt removeBid(Bid bid) throws EmptyException, InterruptedException, BidNotFoundException {
-
-        BidStack tmpStack = new BidStack();
-        MarketEntryAttemptNode tmpNode = null;
-
-        for (int j = 0; j < bidStack.length(); j++) {
-            tmpStack.push(bidStack.pop());
-
-            if (tmpStack.peek().node.getTimeStamp().equals(bid.getTimeStamp())) {
-                //Remove the node that was found by popping it off the stack
-                tmpNode = tmpStack.pop();
-                for (int i = 0; i < tmpStack.length(); i++) {
-                    bidStack.push(tmpStack.pop());
-                }
-
-                return new BidReceipt((Bid) tmpNode.node);
-            }
-        }
-
-        for (int j = 0; j < tmpStack.length(); j++) {
-            bidStack.push(tmpStack.pop());
-        }
-        throw new BidNotFoundException();
+        bids.remove(bid);
+        return new BidReceipt(bid);
     }
 
     /**
@@ -121,36 +104,16 @@ public abstract class MarketManager {
      * @throws OfferNotFoundException 
      */
     public Receipt removeOffer(Offer offer) throws InterruptedException, EmptyException, OfferNotFoundException {
-
-        OfferStack tmpStack = new OfferStack();
-        MarketEntryAttemptNode tmpNode = null;
-
-        for (int j = 0; j < offerStack.length(); j++) {
-            tmpStack.push(offerStack.pop());
-
-            if (tmpStack.peek().node.getTimeStamp().equals(offer.getTimeStamp())) {
-                //Remove the node that was found by popping it off the stack
-                tmpNode = tmpStack.pop();
-                for (int i = 0; i < tmpStack.length(); i++) {
-                    offerStack.push(tmpStack.pop());
-                }
-
-                return new OfferReceipt((Offer) tmpNode.node);
-            }
-        }
-
-        for (int j = 0; j < tmpStack.length(); j++) {
-            offerStack.push(tmpStack.pop());
-        }
-        throw new OfferNotFoundException();
+        offers.remove(offer);
+        return new OfferReceipt(offer);
     }
 
     /**
      * @brief Update the engine with the current states of the bid and offer
      * stack.
      */
-    public void updateEngine() {
-        matchingEngine.update(offerStack, bidStack);
+    public void updateEngine() throws InterruptedException {
+        matchingEngine.update(offers, bids);
     }
 
     /**
