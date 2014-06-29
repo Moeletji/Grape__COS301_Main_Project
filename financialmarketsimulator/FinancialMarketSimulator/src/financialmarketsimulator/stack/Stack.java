@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
-public class Stack {
+public class Stack implements Cloneable {
 
     AtomicReference<MarketEntryAttemptNode> top = new AtomicReference<>(null);
     static final int MIN_DELAY = 0;
@@ -25,6 +25,11 @@ public class Stack {
         MarketEntryAttemptNode oldTop = top.get();
         node.next = oldTop;
         return (top.compareAndSet(oldTop, node));
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     public void push(MarketEntryAttemptNode node) throws InterruptedException {

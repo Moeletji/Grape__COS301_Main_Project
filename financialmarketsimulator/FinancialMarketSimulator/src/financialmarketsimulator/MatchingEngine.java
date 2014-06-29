@@ -29,40 +29,36 @@ public class MatchingEngine {
     /**
      * @brief Matching a bids and an offers
      */
-    public void trade() throws EmptyException {
+    public void trade() throws EmptyException, InterruptedException {
+        //trade while there is something to offer
+        while (true) {
+            Bid bid = (Bid) bidStack.peek().node;
+            Offer offer = (Offer) offerStack.peek().node;
 
-        Bid bid = (Bid) bidStack.peek().node;
-        Offer offer = (Offer) offerStack.peek().node;
+            //First type of trade, if prices are the same
+            if (bid.getPrice() == offer.getPrice()) {
+                int bidShares = bid.getNumberOfShares();
+                int offerShares = offer.getNumberOfShares();
 
-        //First type of trade, if rpices are the same
-        if (bid.getPrice() == offer.getPrice()) {
-            int bidShares = bid.getNumberOfShares();
-            int offerShares = offer.getNumberOfShares();
+                if (offerShares == bidShares) {
+                    bidStack.pop();
+                    offerStack.pop();
+                } else if (offerShares > bidShares) {
+                    offerShares = (offerShares - bidShares);
+                    offerStack.peek().node.setNumberOfShares(offerShares);
+                    bidStack.pop();
+                } else {
+                    bidShares = (bidShares - offerShares);
+                    bidStack.peek().node.setNumberOfShares(bidShares);
+                    offerStack.pop();
+                }
+            }
 
-            if (offerShares >= bidShares) {
-                offerShares = (offerShares - bidShares);
-                offerStack.peek().node.setNumberOfShares(offerShares);
-            } else {
-                bidShares = (bidShares - offerShares);
-                bidStack.peek().node.setNumberOfShares(bidShares);
-            }
-            
-            if(bid.hasNoSharesLeft())
-            {
-                //remove bid
-            }
-            
-            if(offer.hasNoSharesLeft())
-            {
-                //remove offer
-            }
+            //Calculate the spread because they have different prices
+            double spread = (offer.getPrice() - bid.getPrice());
+
+            //Implement the spread algorihms later
         }
-
-        //Calculate the spread because they have different prices
-        double spread = (offer.getPrice() - bid.getPrice());
-
-        //Implement the spread algorihms later
-
     }
 
     /**
@@ -71,6 +67,26 @@ public class MatchingEngine {
     public void update(ArrayList<Offer> offers, ArrayList<Bid> bids) throws InterruptedException {
         this.sort(offers, bids);
         this.populateStacks(offers, bids);
+    }
+
+    public ArrayList<Bid> getNewBidList() throws CloneNotSupportedException, EmptyException, InterruptedException {
+        BidStack tmpBidStack = (BidStack) bidStack.clone();
+        ArrayList<Bid> tmpBidList = new ArrayList<>();
+
+        for (int i = 0; i < tmpBidStack.length(); i++) {
+            tmpBidList.add((Bid) tmpBidStack.pop().node);
+        }
+        return tmpBidList;
+    }
+
+    public ArrayList<Offer> getNewOfferList() throws CloneNotSupportedException, EmptyException, InterruptedException {
+        OfferStack tmpOfferStack = (OfferStack) offerStack.clone();
+        ArrayList<Offer> tmpOfferList = new ArrayList<>();
+
+        for (int i = 0; i < tmpOfferStack.length(); i++) {
+            tmpOfferList.add((Offer) tmpOfferStack.pop().node);
+        }
+        return tmpOfferList;
     }
 
     /* HELPER FUNCTIONS */

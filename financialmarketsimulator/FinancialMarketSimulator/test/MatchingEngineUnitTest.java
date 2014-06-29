@@ -57,7 +57,7 @@ public class MatchingEngineUnitTest {
      * match. The function creates mock bid and offer stacks and populates them
      * with mock bid and offer objects. Trade is then called on those stacks.
      */
-    public void tradeTest() throws EmptyException {
+    public void tradeTest() throws EmptyException, InterruptedException {
         matchingEngine = new MatchingEngine();
 
         //Mock bid and offer stacks
