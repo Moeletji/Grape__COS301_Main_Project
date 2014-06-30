@@ -1,7 +1,8 @@
 package financialmarketsimulator.strategies;
 
 /**
- * @brief EMA(Exponential Moving Average)
+ * @brief EMA(Exponential Moving Average) EMA places more weight on the most 
+ * recent closing price and less weight on the other prices(closing past prices)
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class EMA {
