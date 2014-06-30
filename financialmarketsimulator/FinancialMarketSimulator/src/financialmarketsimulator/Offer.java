@@ -13,6 +13,9 @@ public class Offer extends MarketEntryAttempt{
         super(_price, _numShares, _name);
     }
     
+    public Offer(){
+    }
+    
     public String toString()
     {
         return this.getParticipantName() + " offered " +

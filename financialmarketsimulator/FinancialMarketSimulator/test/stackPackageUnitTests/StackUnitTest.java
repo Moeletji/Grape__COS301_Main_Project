@@ -29,6 +29,8 @@ public class StackUnitTest {
     public StackUnitTest() {
     }
 
+   
+
     // TODO Tests whether the stack returns the correct size of nodes inside the stack.
     @Test
     public void lengthTest() throws InterruptedException {

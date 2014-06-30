@@ -13,6 +13,10 @@ public class Bid extends MarketEntryAttempt {
         super(_price, _numShares, _name);
     }
 
+    public Bid() {
+    
+    }
+
     public String toString() {
         return this.getParticipantName() + " bid "
                 + this.getNumberOfShares() + "@" + this.getPrice()

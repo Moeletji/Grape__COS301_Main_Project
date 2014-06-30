@@ -99,7 +99,7 @@ public class MatchingEngine {
      * @param offers list of all offers
      * @param bids list of all bids
      */
-    private void sort(ArrayList offers, ArrayList bids) {
+    public void sort(ArrayList offers, ArrayList bids) {
         //IMPLEMENT SORT ALGORITHM HERE!!!
         //implement sort function here in reverse order because remember stacks are FIFO
         //E.g. If offers should be arranged by highest price then sort by lowest price because when you

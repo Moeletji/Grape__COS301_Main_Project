@@ -1,9 +1,10 @@
-import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.Bid;
 import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.MatchingEngine;
 import financialmarketsimulator.Offer;
+import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.stack.*;
+import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -168,16 +169,68 @@ public class MatchingEngineUnitTest {
 
     }
 
-    @Test
-    /**
+    /*@Test
      * @todo Observes the bid and offer stacks when called and informs the
-     * MarketManager to either update or not update the views accordingly.
-     */
-    public void updateTest(OfferStack offerStack, BidStack bidStack) {
+     * @brief marketManager to either update or not update the views accordingly.
+
+    public void updateTest() {
+        
+        OfferStack
+        
         OfferStack offerStack1 = offerStack;
         BidStack bidStack1 = bidStack;
         
         assertEquals(offerStack1, offerStack);
         assertEquals(bidStack1, bidStack);
+    }*/
+    
+    @Test
+    /**
+     * @brief 
+     */
+    public void sortTest() throws CloneNotSupportedException, EmptyException, InterruptedException{
+        ArrayList<Bid> bids = new ArrayList<>();
+        ArrayList<Offer> offers = new ArrayList<>();
+        
+        Bid bid1 = new Bid(23.78, 1000, "Elliot");
+        Bid bid2 = new Bid(34.56, 1000, "Lois");
+        Bid bid3 = new Bid(34.55, 999, "Bobby");
+        Bid bid4 = new Bid(34.56, 500, "Theron");
+        
+        Offer offer1 = new Offer(45.34, 456, "Lois");
+        Offer offer2 = new Offer(45.23, 643, "Bobby");
+        Offer offer3 = new Offer(67.34, 235, "Cindy");
+        Offer offer4 = new Offer(99.00, 456, "Andy");
+        
+        bids.add(bid1);
+        bids.add(bid2);
+        bids.add(bid3);
+        bids.add(bid4);
+        
+        offers.add(offer1);
+        offers.add(offer2);
+        offers.add(offer3);
+        offers.add(offer4);
+        
+        matchingEngine.sort(bids, offers);
+        
+        ArrayList<Bid> sortedBids = matchingEngine.getNewBidList();
+        ArrayList<Offer> sortedOffers = matchingEngine.getNewOfferList();
+        
+        ArrayList<Bid> expectedSortedBids = new ArrayList<>();
+        ArrayList<Offer> expectedSortedOffers = new ArrayList<>();
+
+        expectedSortedBids.add(bid4);
+        expectedSortedBids.add(bid2);
+        expectedSortedBids.add(bid3);
+        expectedSortedBids.add(bid1);
+        
+        expectedSortedOffers.add(offer2);
+        expectedSortedOffers.add(offer1);
+        expectedSortedOffers.add(offer3);
+        expectedSortedOffers.add(offer4);
+        
+        assertEquals(expectedSortedBids, sortedBids);
+        assertEquals(expectedSortedOffers, sortedOffers);
     }
 }
