@@ -26,9 +26,9 @@ public abstract class MarketManager {
     //Matching engine for the stock
     private MatchingEngine matchingEngine;
     //Stack of all bids
-    private ArrayList<Bid> bids;
+    private ArrayList<MarketEntryAttempt> bids;
     //Stack of all offers
-    private ArrayList<Offer> offers;
+    private ArrayList<MarketEntryAttempt> offers;
 
     /**
      * MarketManager Constructor
@@ -110,25 +110,25 @@ public abstract class MarketManager {
     }
 
     /**
+     * @throws java.lang.InterruptedException
      * @brief Update the engine with the current states of the bid and offer
      * stack.
      */
     public void updateEngine() throws InterruptedException {
         
         //Remove any bids or offers that have no shares to trade
-        for (Offer offer : offers) {
+        for (MarketEntryAttempt offer : offers) {
             if (offer.hasNoSharesLeft()) {
                 try {
                     if (!offers.remove(offer)) {
                         throw new ItemNotFoundException();
                     }
                 } catch (ItemNotFoundException ei) {
-                    ei.printStackTrace();
                 }
             }
         }
 
-        for (Bid bid : bids) {
+        for (MarketEntryAttempt bid : bids) {
             if (bid.hasNoSharesLeft()) {
                 try {
                     if (!bids.remove(bid)) {

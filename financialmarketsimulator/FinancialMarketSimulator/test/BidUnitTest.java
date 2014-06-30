@@ -25,7 +25,7 @@ public class BidUnitTest {
      * @brief Test to check if initialization of the Bid class occurs as it should
      */
     public void instantiation() {
-          final double DELTA = 1e-20;
+        final double DELTA = 1e-20;
         double price = 0.0;
         int numShares = 0;
         String name = "";

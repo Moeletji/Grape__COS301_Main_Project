@@ -1,6 +1,7 @@
 package financialmarketsimulator;
 
 import financialmarketsimulator.exception.EmptyException;
+import financialmarketsimulator.receipts.TradeReceipt;
 import financialmarketsimulator.stack.BidStack;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.OfferStack;
@@ -22,49 +23,69 @@ public class MatchingEngine {
     private OfferStack offerStack;
 
     public MatchingEngine() {
-        bidStack = null;
-        offerStack = null;
+        bidStack = new BidStack();
+        offerStack = new OfferStack();
+    }
+
+    /**
+     * @brief returns the bid stack
+     * @return current bid stack
+     */
+    public BidStack getBidStack() {
+        return bidStack;
+    }
+
+    /**
+     * @brief returns the offer stack
+     * @return current offer stack
+     */
+    public OfferStack getOfferStack() {
+        return offerStack;
     }
 
     /**
      * @brief Matching a bids and an offers
      */
-    public void trade() throws EmptyException, InterruptedException {
+    public TradeReceipt trade() throws EmptyException, InterruptedException {
         //trade while there is something to offer
-        while (true) {
-            Bid bid = (Bid) bidStack.peek().node;
-            Offer offer = (Offer) offerStack.peek().node;
+        MarketEntryAttempt bid = bidStack.peek().node;
+        MarketEntryAttempt offer = offerStack.peek().node;
 
-            //First type of trade, if prices are the same
-            if (bid.getPrice() == offer.getPrice()) {
-                int bidShares = bid.getNumberOfShares();
-                int offerShares = offer.getNumberOfShares();
+        //First type of trade, if prices are the same
+        if (bid.getPrice() == offer.getPrice()) {
+            int bidShares = bid.getNumberOfShares();
+            int offerShares = offer.getNumberOfShares();
 
-                if (offerShares == bidShares) {
-                    bidStack.pop();
-                    offerStack.pop();
-                } else if (offerShares > bidShares) {
-                    offerShares = (offerShares - bidShares);
-                    offerStack.peek().node.setNumberOfShares(offerShares);
-                    bidStack.pop();
-                } else {
-                    bidShares = (bidShares - offerShares);
-                    bidStack.peek().node.setNumberOfShares(bidShares);
-                    offerStack.pop();
-                }
+            if (offerShares == bidShares) {
+                bidStack.pop();
+                offerStack.pop();
+            } else if (offerShares > bidShares) {
+                offerShares = (offerShares - bidShares);
+                offerStack.peek().node.setNumberOfShares(offerShares);
+                bidStack.pop();
+            } else if (bidShares > offerShares) {
+                bidShares = (bidShares - offerShares);
+                bidStack.peek().node.setNumberOfShares(bidShares);
+                offerStack.pop();
             }
-
-            //Calculate the spread because they have different prices
-            double spread = (offer.getPrice() - bid.getPrice());
-
-            //Implement the spread algorihms later
+            
+            return new TradeReceipt();
         }
+
+        //Calculate the spread because they have different prices
+        double spread = (offer.getPrice() - bid.getPrice());
+
+        //Implement the spread algorihms later
+        return new TradeReceipt();
     }
 
     /**
+     * @param offers list of offers to updated
+     * @param bids list of bids to updated
+     * @throws java.lang.InterruptedException
      * @brief Update matching engine with modified bids and offers
      */
-    public void update(ArrayList<Offer> offers, ArrayList<Bid> bids) throws InterruptedException {
+    public void update(ArrayList<MarketEntryAttempt> offers, ArrayList<MarketEntryAttempt> bids) throws InterruptedException {
         this.sort(offers, bids);
         this.populateStacks(offers, bids);
     }
@@ -114,15 +135,13 @@ public class MatchingEngine {
      * @param bids list of all bids
      * @throws InterruptedException
      */
-    private void populateStacks(ArrayList<Offer> offers, ArrayList<Bid> bids) throws InterruptedException {
-        for (Offer offer : offers) {
-            MarketEntryAttemptNode node = new MarketEntryAttemptNode(offer);
-            offerStack.push(node);
+    public void populateStacks(ArrayList<MarketEntryAttempt> offers, ArrayList<MarketEntryAttempt> bids) throws InterruptedException {
+        for (MarketEntryAttempt offer : offers) {
+            offerStack.push(new MarketEntryAttemptNode(offer));
         }
 
-        for (Bid bid : bids) {
-            MarketEntryAttemptNode node = new MarketEntryAttemptNode(bid);
-            bidStack.push(node);
+        for (MarketEntryAttempt bid : bids) {
+            bidStack.push(new MarketEntryAttemptNode(bid));
         }
     }
 }
