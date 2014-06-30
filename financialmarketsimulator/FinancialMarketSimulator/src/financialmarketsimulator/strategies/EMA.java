@@ -34,6 +34,6 @@ public class EMA {
         EMAYesterday = prevEMA;
 
         double k = 2 / (numOfDays + 1);
-        return (todaysPrice * k * EMAYesterday * (1 - k));
+        return ((todaysPrice * k) + (EMAYesterday * (1 - k)));
     }
 }
