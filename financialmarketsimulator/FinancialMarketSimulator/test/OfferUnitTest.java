@@ -17,22 +17,6 @@ public class OfferUnitTest {
     public OfferUnitTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     protected Offer offer;
     @Test
     /**

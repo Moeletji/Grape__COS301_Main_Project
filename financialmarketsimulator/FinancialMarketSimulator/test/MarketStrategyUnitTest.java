@@ -21,22 +21,6 @@ public class MarketStrategyUnitTest {
     public MarketStrategyUnitTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     @Test
     /**
      * @todo Tests if the getName method returns the expected strategy name

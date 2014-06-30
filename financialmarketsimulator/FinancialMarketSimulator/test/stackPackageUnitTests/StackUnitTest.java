@@ -29,22 +29,6 @@ public class StackUnitTest {
     public StackUnitTest() {
     }
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     // TODO Tests whether the stack returns the correct size of nodes inside the stack.
     @Test
     public void lengthTest() throws InterruptedException {
