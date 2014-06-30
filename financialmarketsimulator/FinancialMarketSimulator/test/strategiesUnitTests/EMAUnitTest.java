@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Moeletji
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
 
@@ -19,27 +19,6 @@ public class EMAUnitTest {
     public EMAUnitTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
     EMA ema;
     
     /**
@@ -48,23 +27,26 @@ public class EMAUnitTest {
     @Test
     public void testCalculateEMA()
     {
-        ema = new EMA();
-        
         double expectedEMA = 0.0;
         int numberOfDays = 0;
         double closingPrice = 0.0;
         double previousEMA = 0.0;
         
-        double ans = ema.calculateEMA(closingPrice, numberOfDays, previousEMA);
+        ema = new EMA(numberOfDays);
+        
+        double ans = ema.calculateEMA();
         assertEquals(expectedEMA, ans, 0.0000001);
         
         numberOfDays = 9;
         closingPrice = 50.0;
-        previousEMA = 20.0;
+        previousEMA = 1.0;
+        
+        ema = new EMA(numberOfDays);
         
         double k = 2/(numberOfDays-1);
         expectedEMA = (k*closingPrice)+(previousEMA*(1-k));
-        ans = ema.calculateEMA(closingPrice, numberOfDays, previousEMA);
+        ans = ema.calculateEMA();
+        
         assertEquals(expectedEMA, ans, 0.0000001);
     }
 }
