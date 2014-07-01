@@ -41,7 +41,7 @@ public class Order {
     /**
      * Stores a unique identifier for the entry attempt
      */
-    protected UUID uniqueID;
+    protected UUID orderID;
 
     /**
      * @todo MarketEntryAttempt class constructor
@@ -55,7 +55,7 @@ public class Order {
         this.quantity = numShares;
         this.participantName = name;
         this.side = side;
-        this.uniqueID = UUID.randomUUID();
+        this.orderID = UUID.randomUUID();
         this.date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
         this.timeStamp = sdf.format(date);
@@ -111,8 +111,8 @@ public class Order {
         return this.timeStamp;
     }
     
-    public String getID(){
-        return uniqueID.toString();
+    public String getorderID(){
+        return orderID.toString();
     }
     
     /**
@@ -168,7 +168,7 @@ public class Order {
         this.price = price;
         this.quantity = numShares;
         this.participantName = name;
-        this.uniqueID = UUID.randomUUID();
+        this.orderID = UUID.randomUUID();
         this.date = newDate;
         this.timeStamp = stamp;
     }
