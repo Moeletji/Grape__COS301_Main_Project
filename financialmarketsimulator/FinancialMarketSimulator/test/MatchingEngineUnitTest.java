@@ -1,4 +1,4 @@
-import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.Order;
 import financialmarketsimulator.MatchingEngine;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.stack.*;
@@ -43,12 +43,12 @@ public class MatchingEngineUnitTest {
         matchingEngine = new MatchingEngine();
 
         //Mock bid and offer stacks
-        ArrayList<MarketEntryAttempt> bids = new ArrayList<>();
-        ArrayList<MarketEntryAttempt> offers = new ArrayList<>();
+        ArrayList<Order> bids = new ArrayList<>();
+        ArrayList<Order> offers = new ArrayList<>();
 
         //Create mock bid and offer objects
-        MarketEntryAttempt bid = null;
-        MarketEntryAttempt offer = null;
+        Order bid = null;
+        Order offer = null;
         MarketEntryAttemptNode bidNode = null;
         MarketEntryAttemptNode offerNode = null;
 
@@ -75,8 +75,8 @@ public class MatchingEngineUnitTest {
             bidNumShares = 300 + i;
             bidName = "Bid Test " + i;
 
-            offer = new MarketEntryAttempt(offerPrice, offerNumShares, offerName);
-            bid = new MarketEntryAttempt(bidPrice, bidNumShares, bidName);
+            offer = new Order(offerPrice, offerNumShares, offerName, Order.SIDE.OFFER);
+            bid = new Order(bidPrice, bidNumShares, bidName, Order.SIDE.BID);
             bidNode = new MarketEntryAttemptNode(bid);
             offerNode = new MarketEntryAttemptNode(offer);
 
@@ -91,8 +91,8 @@ public class MatchingEngineUnitTest {
         bidNumShares = 150;
         bidName = "Mark Angelou";
 
-        MarketEntryAttempt expectedBid = new MarketEntryAttempt(offerPrice, offerNumShares, offerName);
-        MarketEntryAttempt expectedOffer = new MarketEntryAttempt(bidPrice, bidNumShares, bidName);
+        Order expectedBid = new Order(offerPrice, offerNumShares, offerName, Order.SIDE.BID);
+        Order expectedOffer = new Order(bidPrice, bidNumShares, bidName, Order.SIDE.OFFER);
         MarketEntryAttemptNode expectedBidNode = new MarketEntryAttemptNode(expectedBid);
         MarketEntryAttemptNode expectedOfferNode = new MarketEntryAttemptNode(expectedOffer);
 
@@ -137,8 +137,8 @@ public class MatchingEngineUnitTest {
             bidNumShares = 200 + i;
             bidName = "Bid Test " + i;
 
-            offer = new MarketEntryAttempt(offerPrice, offerNumShares, offerName);
-            bid = new MarketEntryAttempt(bidPrice, bidNumShares, bidName);
+            offer = new Order(offerPrice, offerNumShares, offerName, Order.SIDE.OFFER);
+            bid = new Order(bidPrice, bidNumShares, bidName, Order.SIDE.BID);
             bidNode = new MarketEntryAttemptNode(bid);
             offerNode = new MarketEntryAttemptNode(offer);
 
@@ -177,18 +177,18 @@ public class MatchingEngineUnitTest {
     public void sortTest() throws CloneNotSupportedException, EmptyException, InterruptedException {
         matchingEngine = new MatchingEngine();
 
-        ArrayList<MarketEntryAttempt> bids = new ArrayList<>();
-        ArrayList<MarketEntryAttempt> offers = new ArrayList<>();
+        ArrayList<Order> bids = new ArrayList<>();
+        ArrayList<Order> offers = new ArrayList<>();
 
-        MarketEntryAttempt bid1 = new MarketEntryAttempt(23.78, 1000, "Elliot");
-        MarketEntryAttempt bid2 = new MarketEntryAttempt(34.56, 1000, "Lois");
-        MarketEntryAttempt bid3 = new MarketEntryAttempt(34.55, 999, "Bobby");
-        MarketEntryAttempt bid4 = new MarketEntryAttempt(34.56, 500, "Theron");
+        Order bid1 = new Order(23.78, 1000, "Elliot", Order.SIDE.BID);
+        Order bid2 = new Order(34.56, 1000, "Lois", Order.SIDE.BID);
+        Order bid3 = new Order(34.55, 999, "Bobby", Order.SIDE.BID);
+        Order bid4 = new Order(34.56, 500, "Theron", Order.SIDE.BID);
 
-        MarketEntryAttempt offer1 = new MarketEntryAttempt(45.34, 456, "Lois");
-        MarketEntryAttempt offer2 = new MarketEntryAttempt(45.23, 643, "Bobby");
-        MarketEntryAttempt offer3 = new MarketEntryAttempt(67.34, 235, "Cindy");
-        MarketEntryAttempt offer4 = new MarketEntryAttempt(99.00, 456, "Andy");
+        Order offer1 = new Order(45.34, 456, "Lois", Order.SIDE.OFFER);
+        Order offer2 = new Order(45.23, 643, "Bobby", Order.SIDE.OFFER);
+        Order offer3 = new Order(67.34, 235, "Cindy", Order.SIDE.OFFER);
+        Order offer4 = new Order(99.00, 456, "Andy", Order.SIDE.OFFER);
 
         bids.add(bid1);
         bids.add(bid2);
@@ -202,11 +202,11 @@ public class MatchingEngineUnitTest {
 
         matchingEngine.sort(bids, offers);
 
-        ArrayList<MarketEntryAttempt> sortedBids = matchingEngine.getNewBidList();
-        ArrayList<MarketEntryAttempt> sortedOffers = matchingEngine.getNewOfferList();
+        ArrayList<Order> sortedBids = matchingEngine.getNewBidList();
+        ArrayList<Order> sortedOffers = matchingEngine.getNewOfferList();
 
-        ArrayList<MarketEntryAttempt> expectedSortedBids = new ArrayList<>();
-        ArrayList<MarketEntryAttempt> expectedSortedOffers = new ArrayList<>();
+        ArrayList<Order> expectedSortedBids = new ArrayList<>();
+        ArrayList<Order> expectedSortedOffers = new ArrayList<>();
 
         expectedSortedBids.add(bid4);
         expectedSortedBids.add(bid2);
@@ -239,18 +239,18 @@ public class MatchingEngineUnitTest {
     public void populateStacksTest() throws InterruptedException, CloneNotSupportedException, EmptyException {
         matchingEngine = new MatchingEngine();
 
-        ArrayList<MarketEntryAttempt> bids = new ArrayList<>();
-        ArrayList<MarketEntryAttempt> offers = new ArrayList<>();
+        ArrayList<Order> bids = new ArrayList<>();
+        ArrayList<Order> offers = new ArrayList<>();
 
-        MarketEntryAttempt bid1 = new MarketEntryAttempt(23.78, 1000, "Elliot");
-        MarketEntryAttempt bid2 = new MarketEntryAttempt(34.56, 1000, "Lois");
-        MarketEntryAttempt bid3 = new MarketEntryAttempt(34.55, 999, "Bobby");
-        MarketEntryAttempt bid4 = new MarketEntryAttempt(34.56, 500, "Theron");
+        Order bid1 = new Order(23.78, 1000, "Elliot", Order.SIDE.BID);
+        Order bid2 = new Order(34.56, 1000, "Lois", Order.SIDE.BID);
+        Order bid3 = new Order(34.55, 999, "Bobby", Order.SIDE.BID);
+        Order bid4 = new Order(34.56, 500, "Theron", Order.SIDE.BID);
 
-        MarketEntryAttempt offer1 = new MarketEntryAttempt(45.34, 456, "Lois");
-        MarketEntryAttempt offer2 = new MarketEntryAttempt(45.23, 643, "Bobby");
-        MarketEntryAttempt offer3 = new MarketEntryAttempt(67.34, 235, "Cindy");
-        MarketEntryAttempt offer4 = new MarketEntryAttempt(99.00, 456, "Andy");
+        Order offer1 = new Order(45.34, 456, "Lois", Order.SIDE.OFFER);
+        Order offer2 = new Order(45.23, 643, "Bobby", Order.SIDE.OFFER);
+        Order offer3 = new Order(67.34, 235, "Cindy", Order.SIDE.OFFER);
+        Order offer4 = new Order(99.00, 456, "Andy", Order.SIDE.OFFER);
 
         bids.add(bid1);
         bids.add(bid2);

@@ -8,12 +8,15 @@ import java.util.UUID;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MarketEntryAttempt {
+public class Order {
 
+    //Static variables declaration
+    public static enum SIDE {BID, OFFER}
+    
     /**
-     * 
+     * @brief stores which side of the order it is
      */
-    protected static enum SIDE {BID, OFFER}
+    protected SIDE side;
     /*!
      * @brief Stores the price of the entry attempt. This can be either a bid share price
      * or an offer share price.
@@ -47,17 +50,18 @@ public class MarketEntryAttempt {
      * @param numShares The number of shares being bid or offered
      * @param name The name of the participant making the bid or the offer.
      */
-    public MarketEntryAttempt(double price, int numShares, String name) {
+    public Order(double price, int numShares, String name, SIDE side) {
         this.price = price;
         this.quantity = numShares;
         this.participantName = name;
+        this.side = side;
         this.uniqueID = UUID.randomUUID();
         this.date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
         this.timeStamp = sdf.format(date);
     }
 
-    public MarketEntryAttempt() {
+    public Order() {
     }
 
     /**

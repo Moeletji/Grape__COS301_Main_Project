@@ -1,4 +1,4 @@
-import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.Order;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,7 +18,7 @@ public class MarketEntryAttemptUnitTest {
     }
     
     //Test Object
-    MarketEntryAttempt exchange;
+    Order exchange;
 
     /*
      * Function  : constuctor
@@ -33,7 +33,7 @@ public class MarketEntryAttemptUnitTest {
         double price = 0.0;
         int numShares = 0;
         String name = "";
-        exchange = new MarketEntryAttempt(price,numShares, name);
+        exchange = new Order(price,numShares, name, Order.SIDE.BID);
         
         assertEquals(price, exchange.getPrice(), DELTA);
         assertEquals(numShares, exchange.getQuantity());

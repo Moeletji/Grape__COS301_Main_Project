@@ -15,12 +15,12 @@ public class MarketStrategy implements Trade {
     }
 
     @Override
-    public MarketEntryAttempt makeOffer() {
+    public Order makeOffer() {
         return null;
     }
 
     @Override
-    public MarketEntryAttempt makeBid() {
+    public Order makeBid() {
         return null;
     }
 
@@ -37,8 +37,8 @@ public class MarketStrategy implements Trade {
     }
 
     @Override
-    public MarketEntryAttempt searchMarketEntryAttempt(MarketEntryAttempt entry) throws ItemNotFoundException {
-        MarketEntryAttempt foundNode = null;
+    public Order searchMarketEntryAttempt(Order entry) throws ItemNotFoundException {
+        Order foundNode = null;
 
         //implement search function here ...
 

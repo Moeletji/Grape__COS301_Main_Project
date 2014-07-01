@@ -23,9 +23,9 @@ public abstract class MarketManager {
     //Matching engine for the stock
     private MatchingEngine matchingEngine;
     //Stack of all bids
-    private ArrayList<MarketEntryAttempt> bids;
+    private ArrayList<Order> bids;
     //Stack of all offers
-    private ArrayList<MarketEntryAttempt> offers;
+    private ArrayList<Order> offers;
 
     /**
      * MarketManager Constructor
@@ -59,7 +59,7 @@ public abstract class MarketManager {
      * accepted
      * @throws InterruptedException
      */
-    public void ascceptBid(MarketEntryAttempt bid) throws InterruptedException {
+    public void ascceptBid(Order bid) throws InterruptedException {
         bids.add(bid);
     }
 
@@ -72,7 +72,7 @@ public abstract class MarketManager {
      * @return Returns a receipt object that acknowledges that an offer was
      * accepted
      */
-    public void acceptOffer(MarketEntryAttempt offer) throws InterruptedException {
+    public void acceptOffer(Order offer) throws InterruptedException {
         offers.add(offer);
     }
 
@@ -85,7 +85,7 @@ public abstract class MarketManager {
      * @throws InterruptedException
      * @throws BidNotFoundException
      */
-    public void removeBid(MarketEntryAttempt bid) throws EmptyException, InterruptedException, BidNotFoundException {
+    public void removeBid(Order bid) throws EmptyException, InterruptedException, BidNotFoundException {
         bids.remove(bid);
     }
 
@@ -98,7 +98,7 @@ public abstract class MarketManager {
      * @throws EmptyException
      * @throws OfferNotFoundException
      */
-    public void removeOffer(MarketEntryAttempt offer) throws InterruptedException, EmptyException, OfferNotFoundException {
+    public void removeOffer(Order offer) throws InterruptedException, EmptyException, OfferNotFoundException {
         offers.remove(offer);
     }
 
@@ -110,7 +110,7 @@ public abstract class MarketManager {
     public void updateEngine() throws InterruptedException {
         
         //Remove any bids or offers that have no shares to trade
-        for (MarketEntryAttempt offer : offers) {
+        for (Order offer : offers) {
             if (offer.hasNoSharesLeft()) {
                 try {
                     if (!offers.remove(offer)) {
@@ -121,7 +121,7 @@ public abstract class MarketManager {
             }
         }
 
-        for (MarketEntryAttempt bid : bids) {
+        for (Order bid : bids) {
             if (bid.hasNoSharesLeft()) {
                 try {
                     if (!bids.remove(bid)) {

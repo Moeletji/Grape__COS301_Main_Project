@@ -11,16 +11,16 @@ public interface Trade {
     /**
      * @todo Make an offer
      *
-     * @return will return a MarketEntryAttempt
+     * @return will return a Order
      */
-    public MarketEntryAttempt makeOffer();
+    public Order makeOffer();
 
     /**
      * @todo Make a bid
      *
-     * @return will return a MarketEntryAttempt
+     * @return will return a Order
      */
-    public MarketEntryAttempt makeBid();
+    public Order makeBid();
 
     /**
      * @todo Retract a bid that was previously accepted
@@ -43,10 +43,10 @@ public interface Trade {
     /**
      * @todo Search for a market entry attempt (bid or offer)
      * 
-     * @param entry MarketEntryAttempt object to be searched
-     * @return Returns the searched MarketEntryAttempt object
+     * @param entry Order object to be searched
+     * @return Returns the searched Order object
      * @throws Exception.ItemNotFoundException
      */
-    public MarketEntryAttempt searchMarketEntryAttempt(MarketEntryAttempt entry) throws ItemNotFoundException;
+    public Order searchMarketEntryAttempt(Order entry) throws ItemNotFoundException;
 
 }

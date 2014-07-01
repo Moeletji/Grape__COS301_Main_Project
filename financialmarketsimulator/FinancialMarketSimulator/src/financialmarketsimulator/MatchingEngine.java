@@ -48,8 +48,8 @@ public class MatchingEngine {
      */
     public TradeReceipt trade() throws EmptyException, InterruptedException {
         //trade while there is something to offer
-        MarketEntryAttempt bid = bidStack.peek().node;
-        MarketEntryAttempt offer = offerStack.peek().node;
+        Order bid = bidStack.peek().node;
+        Order offer = offerStack.peek().node;
 
         //First type of trade, if prices are the same
         if (bid.getPrice() == offer.getPrice()) {
@@ -85,27 +85,27 @@ public class MatchingEngine {
      * @throws java.lang.InterruptedException
      * @brief Update matching engine with modified bids and offers
      */
-    public void update(ArrayList<MarketEntryAttempt> offers, ArrayList<MarketEntryAttempt> bids) throws InterruptedException {
+    public void update(ArrayList<Order> offers, ArrayList<Order> bids) throws InterruptedException {
         this.sort(offers, bids);
         this.populateStacks(offers, bids);
     }
 
-    public ArrayList<MarketEntryAttempt> getNewBidList() throws CloneNotSupportedException, EmptyException, InterruptedException {
+    public ArrayList<Order> getNewBidList() throws CloneNotSupportedException, EmptyException, InterruptedException {
         BidStack tmpBidStack = (BidStack) bidStack.clone();
-        ArrayList<MarketEntryAttempt> tmpBidList = new ArrayList<>();
+        ArrayList<Order> tmpBidList = new ArrayList<>();
 
         for (int i = 0; i < tmpBidStack.length(); i++) {
-            tmpBidList.add((MarketEntryAttempt) tmpBidStack.pop().node);
+            tmpBidList.add((Order) tmpBidStack.pop().node);
         }
         return tmpBidList;
     }
 
-    public ArrayList<MarketEntryAttempt> getNewOfferList() throws CloneNotSupportedException, EmptyException, InterruptedException {
+    public ArrayList<Order> getNewOfferList() throws CloneNotSupportedException, EmptyException, InterruptedException {
         OfferStack tmpOfferStack = (OfferStack) offerStack.clone();
-        ArrayList<MarketEntryAttempt> tmpOfferList = new ArrayList<>();
+        ArrayList<Order> tmpOfferList = new ArrayList<>();
 
         for (int i = 0; i < tmpOfferStack.length(); i++) {
-            tmpOfferList.add((MarketEntryAttempt) tmpOfferStack.pop().node);
+            tmpOfferList.add((Order) tmpOfferStack.pop().node);
         }
         return tmpOfferList;
     }
@@ -135,12 +135,12 @@ public class MatchingEngine {
      * @param bids list of all bids
      * @throws InterruptedException
      */
-    public void populateStacks(ArrayList<MarketEntryAttempt> offers, ArrayList<MarketEntryAttempt> bids) throws InterruptedException {
-        for (MarketEntryAttempt offer : offers) {
+    public void populateStacks(ArrayList<Order> offers, ArrayList<Order> bids) throws InterruptedException {
+        for (Order offer : offers) {
             offerStack.push(new MarketEntryAttemptNode(offer));
         }
 
-        for (MarketEntryAttempt bid : bids) {
+        for (Order bid : bids) {
             bidStack.push(new MarketEntryAttemptNode(bid));
         }
     }

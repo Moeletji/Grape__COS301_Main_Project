@@ -1,6 +1,6 @@
 package stackPackageUnitTests;
 
-import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.Order;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.Stack;
@@ -37,9 +37,9 @@ public class StackUnitTest {
 
         Stack stack = new Stack();
 
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
-        MarketEntryAttemptNode node1 = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
-        MarketEntryAttemptNode node2 = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new Order(mockPrice, mockNumShares, mockName, Order.SIDE.BID));
+        MarketEntryAttemptNode node1 = new MarketEntryAttemptNode(new Order(mockPrice, mockNumShares, mockName, Order.SIDE.BID));
+        MarketEntryAttemptNode node2 = new MarketEntryAttemptNode(new Order(mockPrice, mockNumShares, mockName, Order.SIDE.OFFER));
 
         stack.push(node);
         stack.push(node1);
@@ -55,7 +55,7 @@ public class StackUnitTest {
         //if it pushed an object into the stack which is initially empty 
         //and then pops that node without throwing an exception then the 
         //test has completed successfully
-        MarketEntryAttemptNode expected = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode expected = new MarketEntryAttemptNode(new Order(mockPrice, mockNumShares, mockName, Order.SIDE.BID));
         Stack stack = new Stack();
 
         stack.push(expected);
@@ -71,7 +71,7 @@ public class StackUnitTest {
         //test has completed successfully
 
         Stack stack = new Stack();
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new Order(mockPrice, mockNumShares, mockName, Order.SIDE.BID));
         stack.push(node);
 
         MarketEntryAttemptNode tmp = stack.pop();

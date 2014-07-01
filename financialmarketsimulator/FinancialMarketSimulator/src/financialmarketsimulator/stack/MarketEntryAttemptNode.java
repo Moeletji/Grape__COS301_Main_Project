@@ -1,6 +1,6 @@
 package financialmarketsimulator.stack;
 
-import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.Order;
 
 /**
  *
@@ -9,9 +9,9 @@ import financialmarketsimulator.MarketEntryAttempt;
 public class MarketEntryAttemptNode {
 
     public MarketEntryAttemptNode next;
-    public MarketEntryAttempt node;
+    public Order node;
 
-    public MarketEntryAttemptNode(MarketEntryAttempt node) {
+    public MarketEntryAttemptNode(Order node) {
         this.node = node;
         next = null;
     }
