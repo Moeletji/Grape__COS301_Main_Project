@@ -2,6 +2,7 @@ package financialmarketsimulator;
 
 import java.util.Stack;
 import java.util.Vector;
+import financialmarketsimulator.receipts.MatchedOrders;
 
 /**
  *
@@ -19,6 +20,11 @@ public class OrderList {
      * @brief list of bids
      */
     Vector<Order> bids;
+    
+    /**
+     * @brief list of all trades that occurred within the stock
+     */
+    Vector<MatchedOrders> trade;
     
     /**
      * @brief Name of the stock stored as a string
@@ -41,6 +47,38 @@ public class OrderList {
         bids = new Vector<Order>();
         offers = new Vector<Order>();
     }
+    
+    /**
+     * @brief Returns a list of all bids
+     * @return list of bids
+     */
+    public Vector<Order> getBids()
+    {
+        return bids;
+    }
+    
+    /**
+     * @brief Returns a list of all offers
+     * @return list of offers
+     */
+    public Vector<Order> getOffers()
+    {
+        return offers;
+    }
+    
+    /**
+     * @brief Gets the name of the stock
+     * @return name of the stock
+     */
+    public String getStockName()
+    {
+        return this.stockName;
+    }
+    
+    public void alterOrder(){
+        
+    }
+    
     /**
      * This method adds on order to a list of orders
      * @param order 
@@ -52,11 +90,6 @@ public class OrderList {
 
         //enter the bid at right index
         temp.add(searchForOrder(temp, order, side), order);
-    }
-    
-    public String getStockName()
-    {
-        return this.stockName;
     }
     
     /**
@@ -89,16 +122,6 @@ public class OrderList {
         return (_side == Order.SIDE.BID) ? 
                 !(order_1.getPrice()<order_2.getPrice()):
                     !(order_1.getPrice()>order_2.getPrice());
-    }
-    
-    public Vector<Order> getBids()
-    {
-        return bids;
-    }
-    
-    public Vector<Order> getOffers()
-    {
-        return offers;
     }
 }
 
