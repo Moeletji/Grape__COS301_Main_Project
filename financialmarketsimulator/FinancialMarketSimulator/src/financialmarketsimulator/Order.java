@@ -46,7 +46,7 @@ public class Order {
     /**
      * @todo MarketEntryAttempt class constructor
      *
-     * @param pr The price of the entry attempt
+     * @param price The price of the entry attempt
      * @param numShares The number of shares being bid or offered
      * @param name The name of the participant making the bid or the offer.
      */
@@ -111,7 +111,7 @@ public class Order {
         return this.timeStamp;
     }
     
-    public String getorderID(){
+    public String getOrderID(){
         return orderID.toString();
     }
     

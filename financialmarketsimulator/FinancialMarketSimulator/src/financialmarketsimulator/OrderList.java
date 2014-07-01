@@ -75,10 +75,25 @@ public class OrderList {
         return this.stockName;
     }
     
-    public void alterOrder(){
+    public void alterOrder(String orderID, double price, int shares){
+        Order order = searchForOrder(orderID);
+        if (price <= 0 || shares <= 0 || order == null)
+            return;
         
+        Vector<Order> temp =  (order.getSide() == Order.SIDE.BID) ? bids : offers;
+        
+        if (order.getQuantity() != shares)
+        {
+            order.setQuantity(shares);
+        }
+        else if (price != order.getPrice())
+        {
+            Order newOrder = new Order(price, order.getQuantity(), order.getParticipantName(),order.getSide());
+            removeOrder(order.getOrderID(), order.getSide());
+            addOrderToList(newOrder);
+        }
     }
-    
+  
     /**
      * This method adds on order to a list of orders
      * @param order 
