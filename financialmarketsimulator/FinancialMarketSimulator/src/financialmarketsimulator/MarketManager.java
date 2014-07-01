@@ -59,7 +59,7 @@ public abstract class MarketManager {
      * accepted
      * @throws InterruptedException
      */
-    public void ascceptBid(Order bid) throws InterruptedException {
+    public void acceptBid(Order bid) throws InterruptedException {
         bids.add(bid);
     }
 
