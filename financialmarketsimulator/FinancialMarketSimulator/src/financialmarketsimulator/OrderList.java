@@ -75,11 +75,17 @@ public class OrderList {
         return this.stockName;
     }
     
+    /**
+    * @brief Alter the price and/or shares of an Order
+    * @param orderID Id of the order
+    * @param price price of the order
+    * @param shares number of the order
+    */
     public void alterOrder(String orderID, double price, int shares){
         Order order = searchForOrder(orderID);
         if (price <= 0 || shares <= 0 || order == null)
             return;
-        
+    
         Vector<Order> temp =  (order.getSide() == Order.SIDE.BID) ? bids : offers;
         
         if (order.getQuantity() != shares)
