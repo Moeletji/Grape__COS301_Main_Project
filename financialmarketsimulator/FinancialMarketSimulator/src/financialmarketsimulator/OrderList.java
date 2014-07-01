@@ -75,6 +75,12 @@ public class OrderList {
         return this.stockName;
     }
     
+    /**
+     * @brief Alter the price and/or shares of an Order
+     * @param orderID Id of the order
+     * @param price price of the order
+     * @param shares number of the order
+     */
     public void alterOrder(){
         
     }
