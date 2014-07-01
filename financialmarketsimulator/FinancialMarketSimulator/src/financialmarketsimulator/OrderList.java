@@ -9,22 +9,33 @@ import java.util.Vector;
 
 
 public class OrderList {
+    /**
+     * @brief list of offers
+     */
     Vector<Order> offers;
+    
+    /**
+     * @brief list of bids
+     */
     Vector<Order> bids;
-    //Name of the stock stored as a string
-    private String stock; 
+    
+    /**
+     * @brief Name of the stock stored as a string
+     */
+    private String stockName; 
+    
     /**
      * 
      * @param _stock 
      */
     public OrderList(String _stock)
     {
-        stock = _stock;
+        stockName = _stock;
     }
     
     public OrderList()
     {
-        stock = "";
+        stockName = "";
     }
     /**
      * This method adds on order to a list of orders
@@ -37,6 +48,11 @@ public class OrderList {
 
         //enter the bid at right index
         temp.add(searchForOrder(temp, order, side), order);
+    }
+    
+    public String getStockName()
+    {
+        return this.stockName;
     }
     
     /**
@@ -76,7 +92,7 @@ public class OrderList {
         return bids;
     }
     
-    public Vector<Order> getOffer()
+    public Vector<Order> getOffers()
     {
         return offers;
     }

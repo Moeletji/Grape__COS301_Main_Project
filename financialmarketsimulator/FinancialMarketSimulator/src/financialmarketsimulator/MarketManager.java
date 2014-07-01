@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public abstract class MarketManager {
+public class MarketManager {
 
     //Name of the stock
     private String stockName;
