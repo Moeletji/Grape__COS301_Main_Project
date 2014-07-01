@@ -36,7 +36,7 @@ public class MarketEntryAttemptUnitTest {
         exchange = new MarketEntryAttempt(price,numShares, name);
         
         assertEquals(price, exchange.getPrice(), DELTA);
-        assertEquals(numShares, exchange.getNumberOfShares());
+        assertEquals(numShares, exchange.getQuantity());
         assertEquals(name, exchange.getParticipantName());
         assertEquals(new Date().toString(), exchange.getTimeStampString());
         //test for timeStampNotDone

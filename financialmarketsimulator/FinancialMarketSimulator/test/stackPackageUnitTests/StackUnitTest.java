@@ -1,8 +1,6 @@
 package stackPackageUnitTests;
 
-import financialmarketsimulator.Bid;
 import financialmarketsimulator.MarketEntryAttempt;
-import financialmarketsimulator.Offer;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.Stack;
@@ -39,9 +37,9 @@ public class StackUnitTest {
 
         Stack stack = new Stack();
 
-        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new Bid(mockPrice, mockNumShares, mockName));
-        MarketEntryAttemptNode node1 = new MarketEntryAttemptNode(new Offer(mockPrice, mockNumShares, mockName));
-        MarketEntryAttemptNode node2 = new MarketEntryAttemptNode(new Offer(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node1 = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
+        MarketEntryAttemptNode node2 = new MarketEntryAttemptNode(new MarketEntryAttempt(mockPrice, mockNumShares, mockName));
 
         stack.push(node);
         stack.push(node1);

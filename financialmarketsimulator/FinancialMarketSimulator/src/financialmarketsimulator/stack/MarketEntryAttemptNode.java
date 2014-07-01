@@ -22,6 +22,6 @@ public class MarketEntryAttemptNode {
     }
 
     public String toString() {
-        return node.getNumberOfShares() + "@" + node.getPrice() + " by " + node.getParticipantName();
+        return node.getQuantity() + "@" + node.getPrice() + " by " + node.getParticipantName();
     }
 }

@@ -1,12 +1,9 @@
 package financialmarketsimulator;
 
 import financialmarketsimulator.exception.BidNotFoundException;
-import financialmarketsimulator.receipts.Receipt;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.exception.ItemNotFoundException;
 import financialmarketsimulator.exception.OfferNotFoundException;
-import financialmarketsimulator.receipts.BidReceipt;
-import financialmarketsimulator.receipts.OfferReceipt;
 import java.util.ArrayList;
 
 /**
@@ -62,9 +59,8 @@ public abstract class MarketManager {
      * accepted
      * @throws InterruptedException
      */
-    public Receipt acceptBid(Bid bid) throws InterruptedException {
+    public void ascceptBid(MarketEntryAttempt bid) throws InterruptedException {
         bids.add(bid);
-        return new BidReceipt(bid);
     }
 
     /**
@@ -76,9 +72,8 @@ public abstract class MarketManager {
      * @return Returns a receipt object that acknowledges that an offer was
      * accepted
      */
-    public Receipt acceptOffer(Offer offer) throws InterruptedException {
+    public void acceptOffer(MarketEntryAttempt offer) throws InterruptedException {
         offers.add(offer);
-        return new OfferReceipt(offer);
     }
 
     /**
@@ -90,9 +85,8 @@ public abstract class MarketManager {
      * @throws InterruptedException
      * @throws BidNotFoundException
      */
-    public Receipt removeBid(Bid bid) throws EmptyException, InterruptedException, BidNotFoundException {
+    public void removeBid(MarketEntryAttempt bid) throws EmptyException, InterruptedException, BidNotFoundException {
         bids.remove(bid);
-        return new BidReceipt(bid);
     }
 
     /**
@@ -104,9 +98,8 @@ public abstract class MarketManager {
      * @throws EmptyException
      * @throws OfferNotFoundException
      */
-    public Receipt removeOffer(Offer offer) throws InterruptedException, EmptyException, OfferNotFoundException {
+    public void removeOffer(MarketEntryAttempt offer) throws InterruptedException, EmptyException, OfferNotFoundException {
         offers.remove(offer);
-        return new OfferReceipt(offer);
     }
 
     /**

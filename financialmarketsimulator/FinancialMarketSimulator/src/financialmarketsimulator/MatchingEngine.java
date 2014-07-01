@@ -53,19 +53,19 @@ public class MatchingEngine {
 
         //First type of trade, if prices are the same
         if (bid.getPrice() == offer.getPrice()) {
-            int bidShares = bid.getNumberOfShares();
-            int offerShares = offer.getNumberOfShares();
+            int bidShares = bid.getQuantity();
+            int offerShares = offer.getQuantity();
 
             if (offerShares == bidShares) {
                 bidStack.pop();
                 offerStack.pop();
             } else if (offerShares > bidShares) {
                 offerShares = (offerShares - bidShares);
-                offerStack.peek().node.setNumberOfShares(offerShares);
+                offerStack.peek().node.setQuantity(offerShares);
                 bidStack.pop();
             } else if (bidShares > offerShares) {
                 bidShares = (bidShares - offerShares);
-                bidStack.peek().node.setNumberOfShares(bidShares);
+                bidStack.peek().node.setQuantity(bidShares);
                 offerStack.pop();
             }
             
@@ -90,22 +90,22 @@ public class MatchingEngine {
         this.populateStacks(offers, bids);
     }
 
-    public ArrayList<Bid> getNewBidList() throws CloneNotSupportedException, EmptyException, InterruptedException {
+    public ArrayList<MarketEntryAttempt> getNewBidList() throws CloneNotSupportedException, EmptyException, InterruptedException {
         BidStack tmpBidStack = (BidStack) bidStack.clone();
-        ArrayList<Bid> tmpBidList = new ArrayList<>();
+        ArrayList<MarketEntryAttempt> tmpBidList = new ArrayList<>();
 
         for (int i = 0; i < tmpBidStack.length(); i++) {
-            tmpBidList.add((Bid) tmpBidStack.pop().node);
+            tmpBidList.add((MarketEntryAttempt) tmpBidStack.pop().node);
         }
         return tmpBidList;
     }
 
-    public ArrayList<Offer> getNewOfferList() throws CloneNotSupportedException, EmptyException, InterruptedException {
+    public ArrayList<MarketEntryAttempt> getNewOfferList() throws CloneNotSupportedException, EmptyException, InterruptedException {
         OfferStack tmpOfferStack = (OfferStack) offerStack.clone();
-        ArrayList<Offer> tmpOfferList = new ArrayList<>();
+        ArrayList<MarketEntryAttempt> tmpOfferList = new ArrayList<>();
 
         for (int i = 0; i < tmpOfferStack.length(); i++) {
-            tmpOfferList.add((Offer) tmpOfferStack.pop().node);
+            tmpOfferList.add((MarketEntryAttempt) tmpOfferStack.pop().node);
         }
         return tmpOfferList;
     }

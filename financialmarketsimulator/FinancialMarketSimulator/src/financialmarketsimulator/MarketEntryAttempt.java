@@ -10,24 +10,27 @@ import java.util.UUID;
  */
 public class MarketEntryAttempt {
 
+    /**
+     * 
+     */
+    protected static enum SIDE {BID, OFFER}
     /*!
-     * Stores the price of the entry attempt. This can be either a bid share price
+     * @brief Stores the price of the entry attempt. This can be either a bid share price
      * or an offer share price.
      */
     protected double price;
     /*!
-     * Stores the number of shares being offered of bid.
+     * @brief Stores the number of shares being offered of bid.
      */
-    protected int numberOfShares;
+    protected int quantity;
     /*!
-     * Stores the name of the participant making the bid or offer.
+     * @brief Stores the name of the participant making the bid or offer.
      */
     protected String participantName;
     /*!
-     * Java Data variable to get current date. 
+     * @brief Java Data variable to get current date. 
      */
     protected Date date;
-    protected SimpleDateFormat sdf;
     /*!
      * Stores the date and time the offer or bid was made. day yyyy.mm.dd hh.mm.ss pm/am timezone
      */
@@ -46,12 +49,12 @@ public class MarketEntryAttempt {
      */
     public MarketEntryAttempt(double price, int numShares, String name) {
         this.price = price;
-        this.numberOfShares = numShares;
+        this.quantity = numShares;
         this.participantName = name;
         this.uniqueID = UUID.randomUUID();
         this.date = new Date();
-        this.sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
-        this.timeStamp = this.sdf.format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
+        this.timeStamp = sdf.format(date);
     }
 
     public MarketEntryAttempt() {
@@ -68,8 +71,8 @@ public class MarketEntryAttempt {
     /**
      * @return Integer value for the number of shares being offered or bid.
      */
-    public int getNumberOfShares() {
-        return this.numberOfShares;
+    public int getQuantity() {
+        return this.quantity;
     }
 
     /**
@@ -114,8 +117,8 @@ public class MarketEntryAttempt {
      * shares being offered or bid
      * @param _numShares The number of shares for the entry attempt.
      */
-    public void setNumberOfShares(int _numShares) {
-        this.numberOfShares = _numShares;
+    public void setQuantity(int _numShares) {
+        this.quantity = _numShares;
     }
 
     /**
@@ -127,17 +130,22 @@ public class MarketEntryAttempt {
     }
 
     public boolean hasNoSharesLeft() {
-        return (this.numberOfShares <= 0);
+        return (this.quantity <= 0);
     }
 
     /**
+     * @param price 
+     * @param numShares
+     * @param name
+     * @param newDate
+     * @param stamp
      * @todo Must add history to this object modification
      * @brief Used in sort only. Replaces the current objects attributes with
      * those in the parameters
      */
-    public void replaceWith(Double price, int numShares, String name, Date newDate, String stamp) {
+    public void replaceWith(double price, int numShares, String name, Date newDate, String stamp) {
         this.price = price;
-        this.numberOfShares = numShares;
+        this.quantity = numShares;
         this.participantName = name;
         this.uniqueID = UUID.randomUUID();
         this.date = newDate;

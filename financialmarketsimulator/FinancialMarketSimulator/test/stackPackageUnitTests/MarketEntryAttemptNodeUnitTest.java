@@ -1,6 +1,5 @@
 package stackPackageUnitTests;
 
-import financialmarketsimulator.Bid;
 import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import org.junit.After;
