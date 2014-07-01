@@ -1,7 +1,7 @@
 package financialmarketsimulator;
 
 import financialmarketsimulator.exception.EmptyException;
-import financialmarketsimulator.receipts.TradeReceipt;
+import financialmarketsimulator.receipts.MatchedOrders;
 import financialmarketsimulator.stack.BidStack;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.OfferStack;
@@ -46,7 +46,7 @@ public class MatchingEngine {
     /**
      * @brief Matching a bids and an offers
      */
-    public TradeReceipt trade() throws EmptyException, InterruptedException {
+    public void trade() throws EmptyException, InterruptedException {
         //trade while there is something to offer
         Order bid = bidStack.peek().node;
         Order offer = offerStack.peek().node;
@@ -69,14 +69,14 @@ public class MatchingEngine {
                 offerStack.pop();
             }
             
-            return new TradeReceipt();
+           
         }
 
         //Calculate the spread because they have different prices
         double spread = (offer.getPrice() - bid.getPrice());
 
         //Implement the spread algorihms later
-        return new TradeReceipt();
+        
     }
 
     /**

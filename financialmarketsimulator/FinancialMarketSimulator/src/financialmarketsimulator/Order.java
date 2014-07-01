@@ -63,7 +63,15 @@ public class Order {
 
     public Order() {
     }
-
+    
+    /**
+     * 
+     * @return The side the order is on(BID or OFFER) 
+     */
+    public SIDE getSide()
+    {
+        return side;
+    }
     /**
      * @return Double value for the price of the entry attempt, i.e. bid or
      * offer
@@ -106,7 +114,16 @@ public class Order {
     public String getID(){
         return uniqueID.toString();
     }
-
+    
+    /**
+     * @brief Sets the side the order is on(i.e. a bid or an offer)
+     * @param side 
+     */
+    public void setSide(SIDE _side)
+    {
+        this.side = _side;
+    }
+    
     /**
      * @todo Sets the price of the shares for entry attempt, i.e. sets the price
      * of shares being offered or bid.
