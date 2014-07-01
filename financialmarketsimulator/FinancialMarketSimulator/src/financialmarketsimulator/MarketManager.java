@@ -14,18 +14,14 @@ public abstract class MarketManager {
 
     //Name of the stock
     private String stockName;
-    //The type of stock used
-    private String stockType;
-    //Total number of shares that the stock holds
-    private int totalNumberOfShares;
-    //The market value of the stock
-    private double stockMarketValue;
     //Matching engine for the stock
     private MatchingEngine matchingEngine;
     //Stack of all bids
     private ArrayList<Order> bids;
     //Stack of all offers
     private ArrayList<Order> offers;
+    //An order book of all the orders accepted
+    private OrderList orderList; 
 
     /**
      * MarketManager Constructor
@@ -43,105 +39,41 @@ public abstract class MarketManager {
      * @param numShares Number of shares the stock holds
      * @param val Market value of the stock
      */
-    public MarketManager(String sName, String sType, int numShares, double val) {
+    public MarketManager(String sName) {
         this();
         this.stockName = sName;
-        this.stockType = sType;
-        this.totalNumberOfShares = numShares;
-        this.stockMarketValue = val;
+        this.orderList = new OrderList();
         matchingEngine = new MatchingEngine();
     }
 
     /**
      * @brief Acknowledgement of the bid being accepted by the market manager
-     * @param bid Bid object to be accepted
+     * @param order Order object to be accepted
      * @return Returns a receipt object that acknowledges that a bid was
      * accepted
      * @throws InterruptedException
      */
-    public void acceptBid(Order bid) throws InterruptedException {
-        bids.add(bid);
+    public void acceptOrder(Order order) throws InterruptedException {
+        if (order.getPrice() ==0  || order.getQuantity() ==0)
+            return;
+        
+        orderList.addOrderToList(order);
     }
-
-    /**
-     *
-     * @brief Acknowledgement of the offer being accepted by the market manager
-     *
-     * @param offer Offer object to be accepted
-     * @throws InterruptedException
-     * @return Returns a receipt object that acknowledges that an offer was
-     * accepted
-     */
-    public void acceptOffer(Order offer) throws InterruptedException {
-        offers.add(offer);
+    
+    public OrderList getOrderList()
+    {
+        return orderList;
     }
-
     /**
      * @brief Acknowledgement of the bid being removed by the market manager
      *
-     * @param bid bid to be removed
+     * @param order Order to be removed
      * @return
      * @throws EmptyException
      * @throws InterruptedException
      * @throws BidNotFoundException
      */
-    public void removeBid(Order bid) throws EmptyException, InterruptedException, BidNotFoundException {
-        bids.remove(bid);
+    public void removeOrder(Order order) throws EmptyException, InterruptedException, BidNotFoundException {
+        //bids.remove(order);
     }
-
-    /**
-     * @brief Acknowledgement of the offer being removed by the market manager
-     *
-     * @param offer offer to be removed
-     * @return
-     * @throws InterruptedException
-     * @throws EmptyException
-     * @throws OfferNotFoundException
-     */
-    public void removeOffer(Order offer) throws InterruptedException, EmptyException, OfferNotFoundException {
-        offers.remove(offer);
-    }
-
-    /**
-     * @throws java.lang.InterruptedException
-     * @brief Update the engine with the current states of the bid and offer
-     * stack.
-     */
-    public void updateEngine() throws InterruptedException {
-        
-        //Remove any bids or offers that have no shares to trade
-        for (Order offer : offers) {
-            if (offer.hasNoSharesLeft()) {
-                try {
-                    if (!offers.remove(offer)) {
-                        throw new ItemNotFoundException();
-                    }
-                } catch (ItemNotFoundException ei) {
-                }
-            }
-        }
-
-        for (Order bid : bids) {
-            if (bid.hasNoSharesLeft()) {
-                try {
-                    if (!bids.remove(bid)) {
-                        throw new ItemNotFoundException();
-                    }
-                } catch (ItemNotFoundException ei) {
-                    ei.printStackTrace();
-                }
-            }
-        }
-        
-        //update matching engine
-        matchingEngine.update(offers, bids);
-    }
-
-    /**
-     * @todo I have no idea what to do here!
-     * @brief Update entities
-     */
-    public void updateEntities() {
-    }
-    
 }

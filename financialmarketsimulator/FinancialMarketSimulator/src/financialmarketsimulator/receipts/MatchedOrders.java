@@ -9,7 +9,7 @@ import java.util.UUID;
  * @brief An acknowledgement for a trade that has occured
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MatchedOrders implements Serializable, Cloneable {
+public class MatchedOrders {
 
     private Order offer;
     private Order bid;
