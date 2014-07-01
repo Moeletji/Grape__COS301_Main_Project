@@ -81,8 +81,8 @@ public class OrderList {
     * @param price price of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, double price, int shares){
-        Order order = searchForOrder(orderID);
+    public void alterOrder(String orderID, double price, int shares, Order.SIDE side){
+        Order order = searchForOrder(orderID, side);
         if (price <= 0 || shares <= 0 || order == null)
             return;
     
@@ -143,6 +143,37 @@ public class OrderList {
         return (_side == Order.SIDE.BID) ? 
                 !(order_1.getPrice()<order_2.getPrice()):
                     !(order_1.getPrice()>order_2.getPrice());
+    }
+    
+    private Order searchForOrder(String orderId, Order.SIDE side)
+    {
+        Vector<Order> orders = (Order.SIDE == Order.SIDE.BID ? bids : offers);
+          
+        for(int i = 0; i < orders.size(); i++){
+            Order order = orders.get(i);
+            if(order.getOrderID().equals(orderId)){
+                //update listeners
+                //set ids at a later stage
+                return orders.get(i);
+            }
+        }
+        
+        return null;
+    }
+    
+    public synchronized Order removeOrder(String orderId, Order.SIDE side){
+        Vector<Order> orders = (Order.SIDE == Order.SIDE.BID ? bids : offers);
+          
+        for(int i = 0; i < orders.size(); i++){
+            Order order = orders.get(i);
+            if(order.getOrderID().equals(orderId)){
+                //update listeners
+                //set ids at a later stage
+                return orders.remove(i);
+            }
+        }
+        
+        return null;
     }
 }
 
