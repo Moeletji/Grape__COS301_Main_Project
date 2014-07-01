@@ -29,6 +29,7 @@ public class MarketManager {
     public MarketManager() {
         bids = new ArrayList();
         offers = new ArrayList();
+        orderList = new OrderList();
     }
 
     /**

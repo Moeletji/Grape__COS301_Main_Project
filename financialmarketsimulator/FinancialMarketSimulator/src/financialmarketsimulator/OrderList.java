@@ -1,5 +1,6 @@
 package financialmarketsimulator;
 
+import java.util.Stack;
 import java.util.Vector;
 
 /**
@@ -30,12 +31,15 @@ public class OrderList {
      */
     public OrderList(String _stock)
     {
+        this();
         stockName = _stock;
     }
     
     public OrderList()
     {
         stockName = "";
+        bids = new Vector<Order>();
+        offers = new Vector<Order>();
     }
     /**
      * This method adds on order to a list of orders
@@ -83,8 +87,8 @@ public class OrderList {
     private boolean compareOrders(Order order_1, Order order_2,Order.SIDE _side)
     {
         return (_side == Order.SIDE.BID) ? 
-                !(order_1.getPrice()>order_2.getPrice()):
-                    !(order_1.getPrice()<order_2.getPrice());
+                !(order_1.getPrice()<order_2.getPrice()):
+                    !(order_1.getPrice()>order_2.getPrice());
     }
     
     public Vector<Order> getBids()
