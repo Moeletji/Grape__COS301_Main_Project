@@ -73,6 +73,10 @@ public class OrderList {
         return this.stockName;
     }
     
+    public void placeOrder(Order newOrder)
+    {
+        Vector<Order> temp =  (newOrder.getSide() == Order.SIDE.BID) ? bids : offers;
+    }
     /**
     * @brief Alter the price and/or shares of an Order
     * @param orderID Id of the order

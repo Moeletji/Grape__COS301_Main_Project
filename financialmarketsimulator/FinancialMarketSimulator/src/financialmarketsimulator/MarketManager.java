@@ -16,10 +16,6 @@ public class MarketManager {
     private String stockName;
     //Matching engine for the stock
     private MatchingEngine matchingEngine;
-    //Stack of all bids
-    private ArrayList<Order> bids;
-    //Stack of all offers
-    private ArrayList<Order> offers;
     //An order book of all the orders accepted
     private OrderList orderList; 
 
@@ -27,8 +23,6 @@ public class MarketManager {
      * MarketManager Constructor
      */
     public MarketManager() {
-        bids = new ArrayList();
-        offers = new ArrayList();
         this.orderList = new OrderList();
     }
 
