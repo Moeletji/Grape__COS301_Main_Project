@@ -44,7 +44,7 @@ public class MarketManager {
         if (order.getPrice() ==0  || order.getQuantity() ==0)
             return;
         
-        orderList.addOrderToList(order);
+        orderList.placeOrder(order);
     }
     
     /**

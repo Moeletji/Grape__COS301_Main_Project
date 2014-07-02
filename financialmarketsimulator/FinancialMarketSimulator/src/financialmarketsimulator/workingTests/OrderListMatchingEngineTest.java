@@ -6,6 +6,8 @@ import financialmarketsimulator.OrderList;
 import financialmarketsimulator.exception.BidNotFoundException;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
+import financialmarketsimulator.receipts.MatchedOrder;
+import java.util.Vector;
 
 /**
  *
@@ -131,8 +133,6 @@ public class OrderListMatchingEngineTest {
         System.out.println("\n\n");
         System.out.println("***************************************Test 3***************************************");
         
-        MarketManager googleManager = new MarketManager();
-        
         order1 = new Order(40.01, 2000, "Daniel Smith", Order.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
         order2 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
@@ -163,5 +163,61 @@ public class OrderListMatchingEngineTest {
         showBook(yahooManager.getOrderList());
         yahooManager.editOrder(order11.getOrderID(), order11.getPrice(), 500000, order11.getSide());
         showBook(yahooManager.getOrderList());
+        
+         //Test whether orders are matched correctly
+        System.out.println("***************************************Test 4***************************************");
+        
+        MarketManager googleManager = new MarketManager();
+        
+        showBook(googleManager.getOrderList());
+        Order order13 = new Order(34.50, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        googleManager.acceptOrder(order13);
+        showBook(googleManager.getOrderList());
+        Order order14 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        googleManager.acceptOrder(order14);
+        showBook(googleManager.getOrderList());
+        Order order15 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        googleManager.acceptOrder(order15);
+        showBook(googleManager.getOrderList());
+        Order order16 = new Order(34.50, 500, "Tim West", Order.SIDE.BID);
+        googleManager.acceptOrder(order16);
+        showBook(googleManager.getOrderList());
+        Order order17 = new Order(40.00, 3000, "Tim West", Order.SIDE.OFFER);
+        googleManager.acceptOrder(order17);
+        showBook(googleManager.getOrderList());
+        Order order18 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        googleManager.acceptOrder(order18);
+        showBook(googleManager.getOrderList());
+        Order order19 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        googleManager.acceptOrder(order19);
+        showBook(googleManager.getOrderList());
+        Order order20 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        googleManager.acceptOrder(order20);
+        showBook(googleManager.getOrderList());
+        Order order21 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        googleManager.acceptOrder(order21);
+        showBook(googleManager.getOrderList());
+        Order order22 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        googleManager.acceptOrder(order22);
+        showBook(googleManager.getOrderList());
+        Order order23 = new Order(20.89, 2000, "Past Longstone", Order.SIDE.BID);
+        googleManager.acceptOrder(order23);
+        showBook(googleManager.getOrderList());
+        Order order24 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        googleManager.acceptOrder(order24);
+        showBook(googleManager.getOrderList());
+        
+        Vector<MatchedOrder> testTrades = googleManager.getOrderList().getTrades();
+        
+        for(int i=0; i<testTrades.size();i++)
+        {
+            System.out.println();
+            System.out.println("Trade #" + i+1);
+            System.out.println("Trade ID: " + testTrades.get(i).getID());
+            System.out.println("Trade Time: " + testTrades.get(i).getDateIssued());
+            System.out.println("Trade Price: " + testTrades.get(i).getPrice());
+            System.out.println("Trade Quantity: " + testTrades.get(i).getQuantity());
+            System.out.println();
+        }
     }
 }

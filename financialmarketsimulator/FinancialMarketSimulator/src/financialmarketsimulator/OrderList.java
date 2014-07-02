@@ -46,6 +46,7 @@ public class OrderList {
         stockName = "";
         bids = new Vector<Order>();
         offers = new Vector<Order>();
+        trades = new Vector<MatchedOrder>();
     }
     
     /**
@@ -91,15 +92,17 @@ public class OrderList {
        
         boolean hasMoreShares = true;
         
+        //check if the other list still has orders and the order to be placed 
+        //still has more shares
         while (listToCheck.size() >0 && hasMoreShares)
         {
             Order topOrder = listToCheck.get(0);
-            
+            //if theres no match
             if ((orderSide == Order.SIDE.BID && newOrder.getPrice() < topOrder.getPrice())||
                  (orderSide == Order.SIDE.OFFER && newOrder.getPrice() > topOrder.getPrice()))
             {
                 return;
-            }
+            }//if there is a match 
             else if ((orderSide == Order.SIDE.BID && newOrder.getPrice() >= topOrder.getPrice())||
                  (orderSide == Order.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice()))
             {
@@ -109,24 +112,24 @@ public class OrderList {
                     removeOrder(topOrder);
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
                     trades.add(newTrade);
-                    return;//
                 }
                 else if (newOrder.getQuantity() > topOrder.getQuantity()) 
                 {
-                    newOrder.setQuantity(newOrder.getQuantity() - topOrder.getQuantity());
-                    removeOrder(topOrder);
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
                     trades.add(newTrade);
+                    newOrder.setQuantity(newOrder.getQuantity() - topOrder.getQuantity());
+                    removeOrder(topOrder);
                 }
-                else
+                else //if (newOrder.getQuantity() < topOrder.getQuantity())
                 {
-                    topOrder.setQuantity(topOrder.getQuantity() - newOrder.getQuantity());
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
-                    trades.add(newTrade);  
+                    trades.add(newTrade);
+                    topOrder.setQuantity(topOrder.getQuantity() - newOrder.getQuantity());
                 }
             }
         }
         
+        //if there are still more shares then add the order to the list
         if (hasMoreShares)
         {
             addOrderToList(newOrder);
@@ -145,7 +148,8 @@ public class OrderList {
         Order order = searchForOrder(orderID, side);
         
         if (price <= 0 || shares <= 0 || order == null)
-            throw new OrderHasNoValuesException();
+            //throw new OrderHasNoValuesException();
+            return;
         
         if (order.getQuantity() != shares)
         {
