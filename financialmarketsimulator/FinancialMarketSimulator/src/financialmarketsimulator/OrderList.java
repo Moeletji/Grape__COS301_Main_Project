@@ -280,6 +280,8 @@ public class OrderList {
     public void clearAllBidsAndOffers(){
         bids.clear();
         offers.clear();
+    }
+    
     public Vector<MatchedOrder> getTrades()
     {
         return trades;
