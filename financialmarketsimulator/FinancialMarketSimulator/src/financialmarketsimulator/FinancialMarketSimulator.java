@@ -8,7 +8,7 @@ package financialmarketsimulator;
 public class FinancialMarketSimulator {
 
     public static void main(String[] args) {
-        
+        MarketManager manager = new MarketManager();
     }
     
 }

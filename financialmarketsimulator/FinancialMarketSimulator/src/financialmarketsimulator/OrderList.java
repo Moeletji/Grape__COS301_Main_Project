@@ -1,14 +1,12 @@
 package financialmarketsimulator;
 
-import java.util.Stack;
 import java.util.Vector;
 import financialmarketsimulator.receipts.MatchedOrders;
 
 /**
  *
- * @author Moeletji
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 
 public class OrderList {
     /**
