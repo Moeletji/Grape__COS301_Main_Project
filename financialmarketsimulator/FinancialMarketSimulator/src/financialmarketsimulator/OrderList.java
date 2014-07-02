@@ -1,5 +1,6 @@
 package financialmarketsimulator;
 
+import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.receipts.MatchedOrders;
 import java.util.Vector;
 
@@ -84,10 +85,11 @@ public class OrderList {
     * @param price price of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, double price, int shares, Order.SIDE side){
+    public void alterOrder(String orderID, double price, int shares, Order.SIDE side) throws OrderHasNoValuesException{
         Order order = searchForOrder(orderID, side);
+        
         if (price <= 0 || shares <= 0 || order == null)
-            return;
+            throw new OrderHasNoValuesException();
     
         Vector<Order> temp =  (order.getSide() == Order.SIDE.BID) ? bids : offers;
         
@@ -97,7 +99,7 @@ public class OrderList {
         }
         else if (price != order.getPrice())
         {
-            Order newOrder = new Order(price, order.getQuantity(), order.getParticipantName(),order.getSide());
+            Order newOrder = new Order(price, order.getQuantity(), order.getParticipantName(), order.getSide());
             removeOrder(order.getOrderID(), order.getSide());
             addOrderToList(newOrder);
         }
@@ -177,5 +179,20 @@ public class OrderList {
         }
         
         return null;
-    }    
+    } 
+    
+    public synchronized Order removeOrder(Order orderToBeRemoved){
+        Vector<Order> orders = (orderToBeRemoved.side == Order.SIDE.BID ? bids : offers);
+          
+        for(int i = 0; i < orders.size(); i++){
+            Order order = orders.get(i);
+            if(order.getOrderID().equals(orderToBeRemoved.getOrderID())){
+                //update listeners
+                //set ids at a later stage
+                return orders.remove(i);
+            }
+        }
+        
+        return null;
+    }
 }
