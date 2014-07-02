@@ -1,7 +1,7 @@
 package financialmarketsimulator;
 
 import financialmarketsimulator.exception.EmptyException;
-import financialmarketsimulator.receipts.MatchedOrders;
+import financialmarketsimulator.receipts.MatchedOrder;
 import financialmarketsimulator.stack.BidStack;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import financialmarketsimulator.stack.OfferStack;

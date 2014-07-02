@@ -9,18 +9,23 @@ import java.util.UUID;
  * @brief An acknowledgement for a trade that has occured
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MatchedOrders {
+public class MatchedOrder {
 
     private Order offer;
     private Order bid;
     private String id;
     private Date dateIssued;
 
-    public MatchedOrders(Order _offer, Order _bid) {
+    public MatchedOrder(Order _offer, Order _bid) {
         id = UUID.randomUUID().toString();
         if ((_offer.getSide() == Order.SIDE.OFFER) && (_bid.getSide() == Order.SIDE.BID)) {
             offer = _offer;
             bid = _bid;
+        }
+        else
+        {
+            offer = _bid;
+            bid = _offer;
         }
        
         dateIssued = new Date();
@@ -31,7 +36,7 @@ public class MatchedOrders {
     }
 
     public int getQuantity() {
-        return offer.getQuantity();
+        return (offer.getQuantity() <= bid.getQuantity())? offer.getQuantity():bid.getQuantity();
     }
 
     public String getDateIssued() {
