@@ -1,15 +1,16 @@
 package financialmarketsimulator;
 
-import java.util.Vector;
 import financialmarketsimulator.receipts.MatchedOrders;
+import java.util.Vector;
 
 /**
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
+
 public class OrderList {
-    /**
+/**
      * @brief list of offers
      */
     Vector<Order> offers;
@@ -149,7 +150,7 @@ public class OrderList {
     
     private Order searchForOrder(String orderId, Order.SIDE side)
     {
-        Vector<Order> orders = (Order.SIDE == Order.SIDE.BID ? bids : offers);
+        Vector<Order> orders = (side == Order.SIDE.BID ? bids : offers);
           
         for(int i = 0; i < orders.size(); i++){
             Order order = orders.get(i);
@@ -163,8 +164,8 @@ public class OrderList {
         return null;
     }
     
-    public synchronized Order removeOrder(String orderId, Order.SIDE side){
-        Vector<Order> orders = (Order.SIDE == Order.SIDE.BID ? bids : offers);
+    public synchronized Order removeOrder(String orderId, Order.SIDE _side){
+        Vector<Order> orders = (_side == Order.SIDE.BID ? bids : offers);
           
         for(int i = 0; i < orders.size(); i++){
             Order order = orders.get(i);
@@ -176,6 +177,5 @@ public class OrderList {
         }
         
         return null;
-    }
+    }    
 }
-

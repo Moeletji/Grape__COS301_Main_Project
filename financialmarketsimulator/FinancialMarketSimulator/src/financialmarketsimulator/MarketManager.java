@@ -59,6 +59,7 @@ public class MarketManager {
     {
         return orderList;
     }
+    
     /**
      * @brief Acknowledgement of the bid being removed by the market manager
      *
