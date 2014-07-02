@@ -2,9 +2,7 @@ package financialmarketsimulator;
 
 import financialmarketsimulator.exception.BidNotFoundException;
 import financialmarketsimulator.exception.EmptyException;
-import financialmarketsimulator.exception.ItemNotFoundException;
-import financialmarketsimulator.exception.OfferNotFoundException;
-import java.util.ArrayList;
+import financialmarketsimulator.exception.OrderHasNoValuesException;
 
 /**
  *
@@ -14,31 +12,25 @@ public class MarketManager {
 
     //Name of the stock
     private String stockName;
-    //Matching engine for the stock
-    private MatchingEngine matchingEngine;
     //An order book of all the orders accepted
-    private OrderList orderList; 
+    private final OrderList orderList; 
 
     /**
      * MarketManager Constructor
      */
     public MarketManager() {
         this.orderList = new OrderList();
+        this.stockName = "";
     }
 
     /**
      * MarketManager Constructor
      *
      * @param sName Name of the stock
-     * @param sType Type of stock
-     * @param numShares Number of shares the stock holds
-     * @param val Market value of the stock
      */
     public MarketManager(String sName) {
         this();
         this.stockName = sName;
-        this.orderList = new OrderList();
-        matchingEngine = new MatchingEngine();
     }
 
     /**
@@ -55,6 +47,10 @@ public class MarketManager {
         orderList.addOrderToList(order);
     }
     
+    /**
+     * @brief get a list of all orders
+     * @return a list of orders
+     */
     public OrderList getOrderList()
     {
         return orderList;
@@ -64,12 +60,62 @@ public class MarketManager {
      * @brief Acknowledgement of the bid being removed by the market manager
      *
      * @param order Order to be removed
-     * @return
-     * @throws EmptyException
-     * @throws InterruptedException
-     * @throws BidNotFoundException
+     * @return Order to be removed
      */
-    public void removeOrder(Order order) throws EmptyException, InterruptedException, BidNotFoundException {
-        //bids.remove(order);
+    public Order removeOrder(Order order) {
+        return orderList.removeOrder(order);
+    }
+    
+    /**
+     * @brief Acknowledgement of the bid being removed by the market manager
+     * @param orderId id of order
+     * @param orderSide side of order
+     * @return Order to be removed
+     * @brief Acknowledgement of the bid being removed by the market manager
+     */
+    public Order removeOrder(String orderId, Order.SIDE orderSide){
+        return orderList.removeOrder(orderId, orderSide);
+    }
+    
+    /**
+     * @brief Edit the details of the order of a share
+     * 
+     * @param orderId id of the order
+     * @param price price of the order
+     * @param numberShares number of shares by th e order
+     * @param side side of the order
+     * @throws OrderHasNoValuesException 
+     */
+    public void editOrder(String orderId, double price, int numberShares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException
+    {
+        orderList.alterOrder(orderId, price, numberShares, side);
+    }
+    
+    /**
+     * @throws java.lang.CloneNotSupportedException
+     * @brief Edit the details of the order of a share
+     * 
+     * @param orderId id of the order
+     * @param price price of the order
+     * @param side side of the order
+     * @throws OrderHasNoValuesException 
+     */
+    public void editOrder(String orderId, double price, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException
+    {
+        orderList.alterOrder(orderId, price, -999, side);
+    }
+    
+    /**
+     * @throws java.lang.CloneNotSupportedException
+     * @brief Edit the details of the order of a share
+     * 
+     * @param orderId id of the order
+     * @param numberShares number of shares by th e order
+     * @param side side of the order
+     * @throws OrderHasNoValuesException 
+     */
+    public void editOrder(String orderId, int numberShares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException
+    {
+        orderList.alterOrder(orderId, -999, numberShares, side);
     }
 }

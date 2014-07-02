@@ -3,7 +3,9 @@ package financialmarketsimulator.workingTests;
 import financialmarketsimulator.MarketManager;
 import financialmarketsimulator.Order;
 import financialmarketsimulator.OrderList;
+import financialmarketsimulator.exception.BidNotFoundException;
 import financialmarketsimulator.exception.EmptyException;
+import financialmarketsimulator.exception.OrderHasNoValuesException;
 
 /**
  *
@@ -41,9 +43,11 @@ public class OrderListMatchingEngineTest {
         System.out.println();
     }
 
-    public static void main(String[] args) throws InterruptedException, EmptyException {
+    public static void main(String[] args) throws InterruptedException, EmptyException, BidNotFoundException, OrderHasNoValuesException, CloneNotSupportedException {
         MarketManager facebookStockManager = new MarketManager("FBK");
 
+        //Test whether orders are added into correct lists and in correct orders
+        System.out.println("***************************************Test 1***************************************");
         showBook(facebookStockManager.getOrderList());
         Order order1 = new Order(34.50, 2000, "Daniel Smith", Order.SIDE.OFFER);
         facebookStockManager.acceptOrder(order1);
@@ -81,5 +85,83 @@ public class OrderListMatchingEngineTest {
         Order order12 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
         facebookStockManager.acceptOrder(order12);
         showBook(facebookStockManager.getOrderList());
+        
+        //Test whether orders are removed correctly
+        System.out.println("\n\n");
+        System.out.println("***************************************Test 2***************************************");
+        
+        MarketManager yahooManager = new MarketManager();
+        
+        order1 = new Order(40.01, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order1);
+        order2 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order2);
+        order3 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        yahooManager.acceptOrder(order3);
+        order4 = new Order(34.51, 500, "Tim West", Order.SIDE.BID);
+        yahooManager.acceptOrder(order4);
+        order5 = new Order(40.02, 3000, "Tim West", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order5);
+        order6 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        yahooManager.acceptOrder(order6);
+        order7 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        yahooManager.acceptOrder(order7);
+        order8 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        yahooManager.acceptOrder(order8);
+        order9 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        yahooManager.acceptOrder(order9);
+        order10 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order10);
+        order11 = new Order(20.89, 2000, "Past Longstone", Order.SIDE.BID);
+        yahooManager.acceptOrder(order11);
+        order12 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        yahooManager.acceptOrder(order12);
+        
+        showBook(yahooManager.getOrderList());
+        yahooManager.removeOrder(order1);
+        showBook(yahooManager.getOrderList());
+        yahooManager.acceptOrder(order1);
+        yahooManager.removeOrder(order11);
+        showBook(yahooManager.getOrderList());
+        yahooManager.removeOrder(order10.getOrderID(), order10.getSide());
+        showBook(yahooManager.getOrderList());
+        
+        
+        //Test whether orders are edited and updated correctly
+        System.out.println("\n\n");
+        System.out.println("***************************************Test 3***************************************");
+        
+        MarketManager googleManager = new MarketManager();
+        
+        order1 = new Order(40.01, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order1);
+        order2 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order2);
+        order3 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        yahooManager.acceptOrder(order3);
+        order4 = new Order(34.51, 500, "Tim West", Order.SIDE.BID);
+        yahooManager.acceptOrder(order4);
+        order5 = new Order(40.02, 3000, "Tim West", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order5);
+        order6 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        yahooManager.acceptOrder(order6);
+        order7 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        yahooManager.acceptOrder(order7);
+        order8 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        yahooManager.acceptOrder(order8);
+        order9 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        yahooManager.acceptOrder(order9);
+        order10 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        yahooManager.acceptOrder(order10);
+        order11 = new Order(33.33, 2000, "Past Longstone", Order.SIDE.BID);
+        yahooManager.acceptOrder(order11);
+        order12 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        yahooManager.acceptOrder(order12);
+        
+        showBook(yahooManager.getOrderList());
+        yahooManager.editOrder(order1.getOrderID(), 10000000, 500000, order1.getSide());
+        showBook(yahooManager.getOrderList());
+        yahooManager.editOrder(order11.getOrderID(), order11.getPrice(), 500000, order11.getSide());
+        showBook(yahooManager.getOrderList());
     }
 }

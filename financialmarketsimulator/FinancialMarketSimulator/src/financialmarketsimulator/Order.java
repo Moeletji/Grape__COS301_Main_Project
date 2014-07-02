@@ -8,7 +8,7 @@ import java.util.UUID;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class Order {
+public class Order implements Cloneable {
 
     //Static variables declaration
     public static enum SIDE {BID, OFFER}
@@ -46,22 +46,35 @@ public class Order {
     /**
      * @todo MarketEntryAttempt class constructor
      *
+     * @param side side of order
      * @param price The price of the entry attempt
      * @param numShares The number of shares being bid or offered
      * @param name The name of the participant making the bid or the offer.
      */
     public Order(double price, int numShares, String name, SIDE side) {
+        this();
         this.price = price;
         this.quantity = numShares;
         this.participantName = name;
         this.side = side;
+    }
+
+    public Order() {
         this.orderID = UUID.randomUUID();
         this.date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
         this.timeStamp = sdf.format(date);
     }
-
-    public Order() {
+    
+    /**
+     * 
+     * @return Object cloned
+     * @throws CloneNotSupportedException 
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
     
     /**

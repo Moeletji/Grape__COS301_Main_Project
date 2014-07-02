@@ -81,12 +81,14 @@ public class OrderList {
     }
     
     /**
+    * @param side
+    * @throws financialmarketsimulator.exception.OrderHasNoValuesException
     * @brief Alter the price and/or shares of an Order
     * @param orderID Id of the order
     * @param price price of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, double price, int shares, Order.SIDE side) throws OrderHasNoValuesException{
+    public void alterOrder(String orderID, double price, int shares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
         Order order = searchForOrder(orderID, side);
         
         if (price <= 0 || shares <= 0 || order == null)
@@ -96,12 +98,39 @@ public class OrderList {
         {
             order.setQuantity(shares);
         }
-        else if (price != order.getPrice())
+        
+        if (price != order.getPrice())
         {
-            Order newOrder = new Order(price, order.getQuantity(), order.getParticipantName(), order.getSide());
+            order.setPrice(price);
+            
+            Order newOrder = (Order) order.clone();
             removeOrder(order.getOrderID(), order.getSide());
             addOrderToList(newOrder);
         }
+    }
+    
+    /**
+    * @param side
+    * @throws financialmarketsimulator.exception.OrderHasNoValuesException
+     * @throws java.lang.CloneNotSupportedException
+    * @brief Alter the price and/or shares of an Order
+    * @param orderID Id of the order
+    * @param shares number of the order
+    */
+    public void alterOrder(String orderID, int shares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+        this.alterOrder(orderID, -999, shares, side);
+    }
+    
+    /**
+    * @param side
+    * @throws financialmarketsimulator.exception.OrderHasNoValuesException
+    * @throws java.lang.CloneNotSupportedException
+    * @brief Alter the price and/or shares of an Order
+    * @param orderID Id of the order
+    * @param price price of the order
+    */
+    public void alterOrder(String orderID, double price, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+        this.alterOrder(orderID, price, -999, side);
     }
   
     /**
@@ -193,5 +222,10 @@ public class OrderList {
         }
         
         return null;
+    }
+    
+    public void clearAllBidsAndOffers(){
+        bids.clear();
+        offers.clear();
     }
 }
