@@ -219,5 +219,26 @@ public class OrderListMatchingEngineTest {
             System.out.println("Trade Quantity: " + testTrades.get(i).getQuantity());
             System.out.println();
         }
+        
+        //Test whether numbers are rounded to decimal places
+        System.out.println("\n\n");
+        System.out.println("***************************************Test 4***************************************");
+        double number = 56.563423234;
+        double answer;
+        
+        MarketManager man = new MarketManager();
+        
+        answer = man.getOrderList().roundNumber(number);
+        System.out.println("Expected value: 56.56 \n Actual Value: " + answer + "\n");
+        
+        answer = man.getOrderList().roundNumber(number, 4);
+        System.out.println("Expected value: 56.5634 \n Actual Value: " + answer + "\n");
+        
+        number = 56;
+        answer = man.getOrderList().roundNumber(number);
+        System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");
+        
+        answer = man.getOrderList().roundNumber(number, 3);
+        System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");
     }
 }

@@ -175,7 +175,16 @@ public class OrderList {
     * @param shares number of the order
     */
     public void alterOrder(String orderID, int shares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
-        this.alterOrder(orderID, -999, shares, side);
+         Order order = searchForOrder(orderID, side);
+        
+        if (shares <= 0 || order == null)
+            //throw new OrderHasNoValuesException();
+            return;
+        
+        if (order.getQuantity() != shares)
+        {
+            order.setQuantity(shares);
+        }
     }
     
     /**
@@ -187,7 +196,20 @@ public class OrderList {
     * @param price price of the order
     */
     public void alterOrder(String orderID, double price, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
-        this.alterOrder(orderID, price, -999, side);
+         Order order = searchForOrder(orderID, side);
+        
+        if (price <= 0 || order == null)
+            //throw new OrderHasNoValuesException();
+            return;
+        
+        if (price != order.getPrice())
+        {
+            order.setPrice(price);
+            
+            Order newOrder = (Order) order.clone();
+            removeOrder(order.getOrderID(), order.getSide());
+            addOrderToList(newOrder);
+        }
     }
   
     /**
@@ -289,5 +311,14 @@ public class OrderList {
     public Vector<MatchedOrder> getTrades()
     {
         return trades;
+    }
+    
+    public double roundNumber(double number){
+        return (double)Math.round(number*100.0)/100.0;
+    }
+    
+    public double roundNumber(double number, int numberOfDecimalPlaces){
+        double dec = Math.pow(10, numberOfDecimalPlaces); 
+        return (double)Math.round(number * dec)/dec;
     }
 }

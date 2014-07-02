@@ -102,7 +102,7 @@ public class MarketManager {
      */
     public void editOrder(String orderId, double price, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException
     {
-        orderList.alterOrder(orderId, price, -999, side);
+        orderList.alterOrder(orderId, price, side);
     }
     
     /**
@@ -116,6 +116,6 @@ public class MarketManager {
      */
     public void editOrder(String orderId, int numberShares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException
     {
-        orderList.alterOrder(orderId, -999, numberShares, side);
+        orderList.alterOrder(orderId, numberShares, side);
     }
 }
