@@ -219,5 +219,19 @@ public class OrderListMatchingEngineTest {
             System.out.println("Trade Quantity: " + testTrades.get(i).getQuantity());
             System.out.println();
         }
+        
+         //Test if prices are rounds to two decimals
+        System.out.println();
+        System.out.println();
+        System.out.println("***************************************Test 5***************************************");
+        
+        MarketManager angloManager = new MarketManager();
+        
+        order13 = new Order(34.50345345345, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        angloManager.acceptOrder(order13);
+        showBook(angloManager.getOrderList());
+        
+        System.out.print(angloManager.getOrderList().roundNumber(34.51345345345));
+        
     }
 }
