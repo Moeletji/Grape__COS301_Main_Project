@@ -1,7 +1,7 @@
 package financialmarketsimulator;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
-import financialmarketsimulator.receipts.MatchedOrders;
+import financialmarketsimulator.receipts.MatchedOrder;
 import java.util.Vector;
 
 /**
@@ -24,7 +24,7 @@ public class OrderList {
     /**
      * @brief list of all trades that occurred within the stock
      */
-    Vector<MatchedOrders> trade;
+    Vector<MatchedOrder> trades;
     
     /**
      * @brief Name of the stock stored as a string
@@ -75,9 +75,62 @@ public class OrderList {
         return this.stockName;
     }
     
+    /**
+     * @brief Function to look for trades and if there aren't any trades to be 
+     * made the order is added to the relevant order(bid or order) list. 
+     * @param newOrder 
+     */
     public void placeOrder(Order newOrder)
     {
-        Vector<Order> temp =  (newOrder.getSide() == Order.SIDE.BID) ? bids : offers;
+        if (newOrder.getPrice() == 0 || newOrder.getQuantity() == 0)
+            return;//throw exception
+        
+        Order.SIDE orderSide = newOrder.getSide();
+        //the list to check if any trades can be made
+        Vector<Order> listToCheck =  (orderSide == Order.SIDE.BID) ? offers : bids;
+       
+        boolean hasMoreShares = true;
+        
+        while (listToCheck.size() >0 && hasMoreShares)
+        {
+            Order topOrder = listToCheck.get(0);
+            
+            if ((orderSide == Order.SIDE.BID && newOrder.getPrice() < topOrder.getPrice())||
+                 (orderSide == Order.SIDE.OFFER && newOrder.getPrice() > topOrder.getPrice()))
+            {
+                return;
+            }
+            else if ((orderSide == Order.SIDE.BID && newOrder.getPrice() >= topOrder.getPrice())||
+                 (orderSide == Order.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice()))
+            {
+                if (newOrder.getQuantity() == topOrder.getQuantity())
+                {
+                    hasMoreShares = false;
+                    removeOrder(topOrder);
+                    MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
+                    trades.add(newTrade);
+                    return;//
+                }
+                else if (newOrder.getQuantity() > topOrder.getQuantity()) 
+                {
+                    newOrder.setQuantity(newOrder.getQuantity() - topOrder.getQuantity());
+                    removeOrder(topOrder);
+                    MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
+                    trades.add(newTrade);
+                }
+                else
+                {
+                    topOrder.setQuantity(topOrder.getQuantity() - newOrder.getQuantity());
+                    MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
+                    trades.add(newTrade);  
+                }
+            }
+        }
+        
+        if (hasMoreShares)
+        {
+            addOrderToList(newOrder);
+        }
     }
     
     /**
@@ -227,5 +280,8 @@ public class OrderList {
     public void clearAllBidsAndOffers(){
         bids.clear();
         offers.clear();
+    public Vector<MatchedOrder> getTrades()
+    {
+        return trades;
     }
 }
