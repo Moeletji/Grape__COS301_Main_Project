@@ -79,6 +79,7 @@ public class OrderList {
     {
         Vector<Order> temp =  (newOrder.getSide() == Order.SIDE.BID) ? bids : offers;
     }
+    
     /**
     * @brief Alter the price and/or shares of an Order
     * @param orderID Id of the order
@@ -90,8 +91,6 @@ public class OrderList {
         
         if (price <= 0 || shares <= 0 || order == null)
             throw new OrderHasNoValuesException();
-    
-        Vector<Order> temp =  (order.getSide() == Order.SIDE.BID) ? bids : offers;
         
         if (order.getQuantity() != shares)
         {
