@@ -1,6 +1,7 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 
 /**
  *
@@ -12,6 +13,8 @@ public class MarketManager {
     private String stockName;
     //An order book of all the orders accepted
     private final MarketEntryAttemptBook orderList; 
+    
+    private MatchedMarketEntryAttemptUpdate marketSnapShot; 
 
     /**
      * MarketManager Constructor
@@ -115,5 +118,10 @@ public class MarketManager {
     public void editOrder(String orderId, int numberShares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException
     {
         orderList.alterOrder(orderId, numberShares, side);
+    }
+    
+    public MatchedMarketEntryAttemptUpdate getMarketSnapShot()
+    {
+        return new MatchedMarketEntryAttemptUpdate(orderList.getMatchedOrders());  
     }
 }
