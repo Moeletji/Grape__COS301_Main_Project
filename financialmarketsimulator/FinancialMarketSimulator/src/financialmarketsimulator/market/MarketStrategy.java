@@ -1,4 +1,4 @@
-package financialmarketsimulator;
+package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.ItemNotFoundException;
 
@@ -6,7 +6,7 @@ import financialmarketsimulator.exception.ItemNotFoundException;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MarketStrategy implements Trade {
+public class MarketStrategy {
 
     private String name;
 
@@ -14,34 +14,35 @@ public class MarketStrategy implements Trade {
         this.name = name;
     }
 
-    @Override
+    /**
+     * @todo make an offer
+     * @return 
+     */
     public MarketEntryAttempt makeOffer() {
         return null;
     }
-
-    @Override
+    
+    /**
+     * @todo make a bid
+     * @return 
+     */
     public MarketEntryAttempt makeBid() {
         return null;
     }
 
-    @Override
     public void retractBid() {
     }
 
-    @Override
     public void retractOffer() {
     }
 
-    @Override
     public void setStrategy(String strategy) {
     }
 
-    @Override
     public MarketEntryAttempt searchMarketEntryAttempt(MarketEntryAttempt entry) throws ItemNotFoundException {
         MarketEntryAttempt foundNode = null;
 
         //implement search function here ...
-
         if (foundNode == null) {
             throw new ItemNotFoundException();
         } else {

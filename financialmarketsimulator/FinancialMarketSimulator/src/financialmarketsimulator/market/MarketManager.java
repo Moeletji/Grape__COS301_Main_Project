@@ -1,7 +1,5 @@
-package financialmarketsimulator;
+package financialmarketsimulator.market;
 
-import financialmarketsimulator.exception.BidNotFoundException;
-import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 
 /**

@@ -1,4 +1,4 @@
-package financialmarketsimulator;
+package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;

@@ -1,5 +1,5 @@
-import financialmarketsimulator.MarketEntryAttempt;
-import financialmarketsimulator.MarketManager;
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketManager;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;

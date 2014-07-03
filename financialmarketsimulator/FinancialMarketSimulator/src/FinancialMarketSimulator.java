@@ -1,4 +1,5 @@
-package financialmarketsimulator;
+
+import financialmarketsimulator.market.MarketManager;
 
 /**
  *

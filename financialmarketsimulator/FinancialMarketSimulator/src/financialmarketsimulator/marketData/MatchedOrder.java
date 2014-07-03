@@ -1,6 +1,6 @@
-package financialmarketsimulator.receipts;
+package financialmarketsimulator.marketData;
 
-import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttempt;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -11,10 +11,10 @@ import java.util.UUID;
  */
 public class MatchedOrder {
 
-    private MarketEntryAttempt offer;
-    private MarketEntryAttempt bid;
-    private String id;
-    private Date dateIssued;
+    private final MarketEntryAttempt offer;
+    private final MarketEntryAttempt bid;
+    private final String id;
+    private final Date dateIssued;
 
     public MatchedOrder(MarketEntryAttempt _offer, MarketEntryAttempt _bid) {
         id = UUID.randomUUID().toString();

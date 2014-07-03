@@ -1,7 +1,7 @@
-package financialmarketsimulator;
+package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
-import financialmarketsimulator.receipts.MatchedOrder;
+import financialmarketsimulator.marketData.MatchedOrder;
 import java.util.Vector;
 
 /**
@@ -24,7 +24,7 @@ public class MarketEntryAttemptBook {
     /**
      * @brief list of all trades that occurred within the stock
      */
-    Vector<MatchedOrder> trades;
+    Vector<MatchedOrder> matchedOrders;
     
     /**
      * @brief Name of the stock stored as a string
@@ -46,7 +46,7 @@ public class MarketEntryAttemptBook {
         stockName = "";
         bids = new Vector<MarketEntryAttempt>();
         offers = new Vector<MarketEntryAttempt>();
-        trades = new Vector<MatchedOrder>();
+        matchedOrders = new Vector<MatchedOrder>();
     }
     
     /**
@@ -81,13 +81,13 @@ public class MarketEntryAttemptBook {
      * made the order is added to the relevant order(bid or order) list. 
      * @param newOrder 
      */
-    public void placeOrder(MarketEntryAttempt newOrder)
+    public synchronized void placeOrder(MarketEntryAttempt newOrder)
     {
         if (newOrder.getPrice() == 0 || newOrder.getNumOfShares() == 0)
             return;//throw exception
         
         MarketEntryAttempt.SIDE orderSide = newOrder.getSide();
-        //the list to check if any trades can be made
+        //the list to check if any matchedOrders can be made
         Vector<MarketEntryAttempt> listToCheck =  (orderSide == MarketEntryAttempt.SIDE.BID) ? offers : bids;
        
         boolean hasMoreShares = true;
@@ -111,19 +111,19 @@ public class MarketEntryAttemptBook {
                     hasMoreShares = false;
                     removeOrder(topOrder);
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
-                    trades.add(newTrade);
+                    matchedOrders.add(newTrade);
                 }
                 else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) 
                 {
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
-                    trades.add(newTrade);
+                    matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                 }
                 else //if (newOrder.getQuantity() < topOrder.getQuantity())
-                {
+                                {
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
-                    trades.add(newTrade);
+                    matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                 }
             }
@@ -144,7 +144,7 @@ public class MarketEntryAttemptBook {
     * @param price price of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, double price, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+    public synchronized void alterOrder(String orderID, double price, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
         MarketEntryAttempt order = searchForOrder(orderID, side);
         
         if (price <= 0 || shares <= 0 || order == null)
@@ -174,7 +174,7 @@ public class MarketEntryAttemptBook {
     * @param orderID Id of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+    public synchronized void alterOrder(String orderID, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
          MarketEntryAttempt order = searchForOrder(orderID, side);
         
         if (shares <= 0 || order == null)
@@ -195,7 +195,7 @@ public class MarketEntryAttemptBook {
     * @param orderID Id of the order
     * @param price price of the order
     */
-    public void alterOrder(String orderID, double price, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+    public synchronized void alterOrder(String orderID, double price, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
          MarketEntryAttempt order = searchForOrder(orderID, side);
         
         if (price <= 0 || order == null)
@@ -216,7 +216,7 @@ public class MarketEntryAttemptBook {
      * This method adds on order to a list of orders
      * @param order 
      */
-    public void addOrderToList(MarketEntryAttempt order)
+    public synchronized void addOrderToList(MarketEntryAttempt order)
     {
         MarketEntryAttempt.SIDE side = order.getSide();
         Vector<MarketEntryAttempt> temp =  (order.getSide() == MarketEntryAttempt.SIDE.BID) ? bids : offers;
@@ -308,8 +308,8 @@ public class MarketEntryAttemptBook {
         offers.clear();
     }
     
-    public Vector<MatchedOrder> getTrades()
+    public synchronized Vector<MatchedOrder> getMatchedOrders()
     {
-        return trades;
+        return matchedOrders;
     }
 }

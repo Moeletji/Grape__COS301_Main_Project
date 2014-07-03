@@ -1,12 +1,11 @@
 package financialmarketsimulator.workingTests;
 
-import financialmarketsimulator.MarketManager;
-import financialmarketsimulator.MarketEntryAttempt;
-import financialmarketsimulator.MarketEntryAttemptBook;
-import financialmarketsimulator.exception.BidNotFoundException;
-import financialmarketsimulator.exception.EmptyException;
+import financialmarketsimulator.market.MarketManager;
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.exception.ItemNotFoundException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
-import financialmarketsimulator.receipts.MatchedOrder;
+import financialmarketsimulator.marketData.MatchedOrder;
 import java.util.Vector;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Vector;
  */
 public class MatchingEngineTest {
 
-    public static void showBook(MarketEntryAttemptBook book) throws EmptyException {
+    public static void showBook(MarketEntryAttemptBook book) throws ItemNotFoundException {
         System.out.printf("%n                    %s                      %n", book.getStockName());
         System.out.printf("--------------------------------------------%n");
         System.out.printf("         Bids                  Offers          %n");
@@ -23,7 +22,7 @@ public class MatchingEngineTest {
         int i = 0;
         if(book.getBids().equals(null) || book.getOffers().equals(null))
         {
-            throw new EmptyException();
+            throw new ItemNotFoundException();
         }
         while (i < Math.max(book.getBids().size(), book.getOffers().size())) {
             if (i < book.getBids().size()) {
@@ -45,7 +44,7 @@ public class MatchingEngineTest {
         System.out.println();
     }
 
-    public static void main(String[] args) throws InterruptedException, EmptyException, BidNotFoundException, OrderHasNoValuesException, CloneNotSupportedException {
+    public static void main(String[] args) throws InterruptedException, OrderHasNoValuesException, CloneNotSupportedException, ItemNotFoundException {
         MarketManager facebookStockManager = new MarketManager("FBK");
 
         //Test whether orders are added into correct lists and in correct orders
@@ -207,7 +206,7 @@ public class MatchingEngineTest {
         googleManager.acceptOrder(order24);
         showBook(googleManager.getOrderList());
         
-        Vector<MatchedOrder> testTrades = googleManager.getOrderList().getTrades();
+        Vector<MatchedOrder> testTrades = googleManager.getOrderList().getMatchedOrders();
         
         for(int i=0; i<testTrades.size();i++)
         {

@@ -1,4 +1,4 @@
-import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttempt;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;

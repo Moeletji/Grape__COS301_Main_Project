@@ -1,5 +1,5 @@
-import financialmarketsimulator.MarketEntity;
-import financialmarketsimulator.MarketStrategy;
+import financialmarketsimulator.market.MarketEntity;
+import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import java.util.ArrayList;
@@ -184,6 +184,6 @@ public class MarketEntityUnitTest {
         }
         
         //Check if the entity's returned strategy matches the excpeted strategy
-        assertEquals(expectedCurrentStrategy, marketEntity.getCurrentStrategy());
+        assertEquals(expectedCurrentStrategy, marketEntity.getCurrentStrategy().getName());
     }
 }

@@ -1,4 +1,4 @@
-package financialmarketsimulator;
+package financialmarketsimulator.market;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
