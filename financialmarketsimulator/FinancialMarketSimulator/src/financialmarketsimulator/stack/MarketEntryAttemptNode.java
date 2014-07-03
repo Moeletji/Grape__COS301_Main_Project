@@ -1,6 +1,6 @@
 package financialmarketsimulator.stack;
 
-import financialmarketsimulator.Order;
+import financialmarketsimulator.MarketEntryAttempt;
 
 /**
  *
@@ -9,9 +9,9 @@ import financialmarketsimulator.Order;
 public class MarketEntryAttemptNode {
 
     public MarketEntryAttemptNode next;
-    public Order node;
+    public MarketEntryAttempt node;
 
-    public MarketEntryAttemptNode(Order node) {
+    public MarketEntryAttemptNode(MarketEntryAttempt node) {
         this.node = node;
         next = null;
     }
@@ -22,6 +22,6 @@ public class MarketEntryAttemptNode {
     }
 
     public String toString() {
-        return node.getQuantity() + "@" + node.getPrice() + " by " + node.getParticipantName();
+        return node.getNumOfShares() + "@" + node.getPrice() + " by " + node.getParticipantName();
     }
 }

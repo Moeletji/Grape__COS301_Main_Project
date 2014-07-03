@@ -1,4 +1,4 @@
-import financialmarketsimulator.Order;
+import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.MarketManager;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,8 +39,8 @@ public class MarketManagerUnitTest {
      */
     public void acceptBidTest() {
         //marketManager = new MarketManager();
-        Order expectedOutput = null;
-        Order actualOutput = null;
+        MarketEntryAttempt expectedOutput = null;
+        MarketEntryAttempt actualOutput = null;
         assertEquals(expectedOutput, actualOutput);
     }
 
@@ -50,8 +50,8 @@ public class MarketManagerUnitTest {
      */
     public void acceptOfferTest() {
         //marketManager = new MarketManager();
-        Order expectedOutput = null;
-        Order actualOutput = null;
+        MarketEntryAttempt expectedOutput = null;
+        MarketEntryAttempt actualOutput = null;
         assertEquals(expectedOutput, actualOutput);
     }
 

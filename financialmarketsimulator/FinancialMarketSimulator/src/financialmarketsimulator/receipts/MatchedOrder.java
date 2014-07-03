@@ -1,6 +1,6 @@
 package financialmarketsimulator.receipts;
 
-import financialmarketsimulator.Order;
+import financialmarketsimulator.MarketEntryAttempt;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -11,14 +11,14 @@ import java.util.UUID;
  */
 public class MatchedOrder {
 
-    private Order offer;
-    private Order bid;
+    private MarketEntryAttempt offer;
+    private MarketEntryAttempt bid;
     private String id;
     private Date dateIssued;
 
-    public MatchedOrder(Order _offer, Order _bid) {
+    public MatchedOrder(MarketEntryAttempt _offer, MarketEntryAttempt _bid) {
         id = UUID.randomUUID().toString();
-        if ((_offer.getSide() == Order.SIDE.OFFER) && (_bid.getSide() == Order.SIDE.BID)) {
+        if ((_offer.getSide() == MarketEntryAttempt.SIDE.OFFER) && (_bid.getSide() == MarketEntryAttempt.SIDE.BID)) {
             offer = _offer;
             bid = _bid;
         }
@@ -36,7 +36,7 @@ public class MatchedOrder {
     }
 
     public int getQuantity() {
-        return (offer.getQuantity() <= bid.getQuantity())? offer.getQuantity():bid.getQuantity();
+        return (offer.getNumOfShares() <= bid.getNumOfShares())? offer.getNumOfShares():bid.getNumOfShares();
     }
 
     public String getDateIssued() {

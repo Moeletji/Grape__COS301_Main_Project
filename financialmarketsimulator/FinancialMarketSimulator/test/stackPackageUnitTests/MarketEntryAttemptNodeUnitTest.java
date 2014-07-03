@@ -1,6 +1,6 @@
 package stackPackageUnitTests;
 
-import financialmarketsimulator.Order;
+import financialmarketsimulator.MarketEntryAttempt;
 import financialmarketsimulator.stack.MarketEntryAttemptNode;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,7 +24,7 @@ public class MarketEntryAttemptNodeUnitTest {
     {
         String expectedResult = "1000@100.01 by Daniel Smith";
         
-        Order bid = new Order(100.01, 1000, "Daniel Smith", Order.SIDE.BID);
+        MarketEntryAttempt bid = new MarketEntryAttempt(100.01, 1000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         MarketEntryAttemptNode node = new MarketEntryAttemptNode(bid);
         
         assertEquals(expectedResult, node.toString());

@@ -10,16 +10,16 @@ import java.util.Vector;
  */
 
 
-public class OrderList {
+public class MarketEntryAttemptBook {
 /**
      * @brief list of offers
      */
-    Vector<Order> offers;
+    Vector<MarketEntryAttempt> offers;
     
     /**
      * @brief list of bids
      */
-    Vector<Order> bids;
+    Vector<MarketEntryAttempt> bids;
     
     /**
      * @brief list of all trades that occurred within the stock
@@ -35,17 +35,17 @@ public class OrderList {
      * 
      * @param _stock 
      */
-    public OrderList(String _stock)
+    public MarketEntryAttemptBook(String _stock)
     {
         this();
         stockName = _stock;
     }
     
-    public OrderList()
+    public MarketEntryAttemptBook()
     {
         stockName = "";
-        bids = new Vector<Order>();
-        offers = new Vector<Order>();
+        bids = new Vector<MarketEntryAttempt>();
+        offers = new Vector<MarketEntryAttempt>();
         trades = new Vector<MatchedOrder>();
     }
     
@@ -53,7 +53,7 @@ public class OrderList {
      * @brief Returns a list of all bids
      * @return list of bids
      */
-    public Vector<Order> getBids()
+    public Vector<MarketEntryAttempt> getBids()
     {
         return bids;
     }
@@ -62,7 +62,7 @@ public class OrderList {
      * @brief Returns a list of all offers
      * @return list of offers
      */
-    public Vector<Order> getOffers()
+    public Vector<MarketEntryAttempt> getOffers()
     {
         return offers;
     }
@@ -81,14 +81,14 @@ public class OrderList {
      * made the order is added to the relevant order(bid or order) list. 
      * @param newOrder 
      */
-    public void placeOrder(Order newOrder)
+    public void placeOrder(MarketEntryAttempt newOrder)
     {
-        if (newOrder.getPrice() == 0 || newOrder.getQuantity() == 0)
+        if (newOrder.getPrice() == 0 || newOrder.getNumOfShares() == 0)
             return;//throw exception
         
-        Order.SIDE orderSide = newOrder.getSide();
+        MarketEntryAttempt.SIDE orderSide = newOrder.getSide();
         //the list to check if any trades can be made
-        Vector<Order> listToCheck =  (orderSide == Order.SIDE.BID) ? offers : bids;
+        Vector<MarketEntryAttempt> listToCheck =  (orderSide == MarketEntryAttempt.SIDE.BID) ? offers : bids;
        
         boolean hasMoreShares = true;
         
@@ -96,35 +96,35 @@ public class OrderList {
         //still has more shares
         while (listToCheck.size() >0 && hasMoreShares)
         {
-            Order topOrder = listToCheck.get(0);
+            MarketEntryAttempt topOrder = listToCheck.get(0);
             //if theres no match
-            if ((orderSide == Order.SIDE.BID && newOrder.getPrice() < topOrder.getPrice())||
-                 (orderSide == Order.SIDE.OFFER && newOrder.getPrice() > topOrder.getPrice()))
+            if ((orderSide == MarketEntryAttempt.SIDE.BID && newOrder.getPrice() < topOrder.getPrice())||
+                 (orderSide == MarketEntryAttempt.SIDE.OFFER && newOrder.getPrice() > topOrder.getPrice()))
             {
                 return;
             }//if there is a match 
-            else if ((orderSide == Order.SIDE.BID && newOrder.getPrice() >= topOrder.getPrice())||
-                 (orderSide == Order.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice()))
+            else if ((orderSide == MarketEntryAttempt.SIDE.BID && newOrder.getPrice() >= topOrder.getPrice())||
+                 (orderSide == MarketEntryAttempt.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice()))
             {
-                if (newOrder.getQuantity() == topOrder.getQuantity())
+                if (newOrder.getNumOfShares() == topOrder.getNumOfShares())
                 {
                     hasMoreShares = false;
                     removeOrder(topOrder);
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
                     trades.add(newTrade);
                 }
-                else if (newOrder.getQuantity() > topOrder.getQuantity()) 
+                else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) 
                 {
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
                     trades.add(newTrade);
-                    newOrder.setQuantity(newOrder.getQuantity() - topOrder.getQuantity());
+                    newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                 }
                 else //if (newOrder.getQuantity() < topOrder.getQuantity())
                 {
                     MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
                     trades.add(newTrade);
-                    topOrder.setQuantity(topOrder.getQuantity() - newOrder.getQuantity());
+                    topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                 }
             }
         }
@@ -144,23 +144,23 @@ public class OrderList {
     * @param price price of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, double price, int shares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
-        Order order = searchForOrder(orderID, side);
+    public void alterOrder(String orderID, double price, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+        MarketEntryAttempt order = searchForOrder(orderID, side);
         
         if (price <= 0 || shares <= 0 || order == null)
             //throw new OrderHasNoValuesException();
             return;
         
-        if (order.getQuantity() != shares)
+        if (order.getNumOfShares() != shares)
         {
-            order.setQuantity(shares);
+            order.setNumOfShares(shares);
         }
         
         if (price != order.getPrice())
         {
             order.setPrice(price);
             
-            Order newOrder = (Order) order.clone();
+            MarketEntryAttempt newOrder = (MarketEntryAttempt) order.clone();
             removeOrder(order.getOrderID(), order.getSide());
             addOrderToList(newOrder);
         }
@@ -174,16 +174,16 @@ public class OrderList {
     * @param orderID Id of the order
     * @param shares number of the order
     */
-    public void alterOrder(String orderID, int shares, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
-         Order order = searchForOrder(orderID, side);
+    public void alterOrder(String orderID, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+         MarketEntryAttempt order = searchForOrder(orderID, side);
         
         if (shares <= 0 || order == null)
             //throw new OrderHasNoValuesException();
             return;
         
-        if (order.getQuantity() != shares)
+        if (order.getNumOfShares() != shares)
         {
-            order.setQuantity(shares);
+            order.setNumOfShares(shares);
         }
     }
     
@@ -195,8 +195,8 @@ public class OrderList {
     * @param orderID Id of the order
     * @param price price of the order
     */
-    public void alterOrder(String orderID, double price, Order.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
-         Order order = searchForOrder(orderID, side);
+    public void alterOrder(String orderID, double price, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException{
+         MarketEntryAttempt order = searchForOrder(orderID, side);
         
         if (price <= 0 || order == null)
             //throw new OrderHasNoValuesException();
@@ -206,7 +206,7 @@ public class OrderList {
         {
             order.setPrice(price);
             
-            Order newOrder = (Order) order.clone();
+            MarketEntryAttempt newOrder = (MarketEntryAttempt) order.clone();
             removeOrder(order.getOrderID(), order.getSide());
             addOrderToList(newOrder);
         }
@@ -216,10 +216,10 @@ public class OrderList {
      * This method adds on order to a list of orders
      * @param order 
      */
-    public void addOrderToList(Order order)
+    public void addOrderToList(MarketEntryAttempt order)
     {
-        Order.SIDE side = order.getSide();
-        Vector<Order> temp =  (order.getSide() == Order.SIDE.BID) ? bids : offers;
+        MarketEntryAttempt.SIDE side = order.getSide();
+        Vector<MarketEntryAttempt> temp =  (order.getSide() == MarketEntryAttempt.SIDE.BID) ? bids : offers;
 
         //enter the bid at right index
         temp.add(searchForOrder(temp, order, side), order);
@@ -231,7 +231,7 @@ public class OrderList {
      * @param element
      * @return An integer of the index where the order can be entered 
      */
-    private int searchForOrder(Vector<Order> list,Order element, Order.SIDE side)
+    private int searchForOrder(Vector<MarketEntryAttempt> list,MarketEntryAttempt element, MarketEntryAttempt.SIDE side)
     {
         //start index
         int start = 0;
@@ -250,19 +250,19 @@ public class OrderList {
         return end;
     }
     
-    private boolean compareOrders(Order order_1, Order order_2,Order.SIDE _side)
+    private boolean compareOrders(MarketEntryAttempt order_1, MarketEntryAttempt order_2,MarketEntryAttempt.SIDE _side)
     {
-        return (_side == Order.SIDE.BID) ? 
+        return (_side == MarketEntryAttempt.SIDE.BID) ? 
                 !(order_1.getPrice()<order_2.getPrice()):
                     !(order_1.getPrice()>order_2.getPrice());
     }
     
-    private Order searchForOrder(String orderId, Order.SIDE side)
+    private MarketEntryAttempt searchForOrder(String orderId, MarketEntryAttempt.SIDE side)
     {
-        Vector<Order> orders = (side == Order.SIDE.BID ? bids : offers);
+        Vector<MarketEntryAttempt> orders = (side == MarketEntryAttempt.SIDE.BID ? bids : offers);
           
         for(int i = 0; i < orders.size(); i++){
-            Order order = orders.get(i);
+            MarketEntryAttempt order = orders.get(i);
             if(order.getOrderID().equals(orderId)){
                 //update listeners
                 //set ids at a later stage
@@ -273,11 +273,11 @@ public class OrderList {
         return null;
     }
     
-    public synchronized Order removeOrder(String orderId, Order.SIDE _side){
-        Vector<Order> orders = (_side == Order.SIDE.BID ? bids : offers);
+    public synchronized MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE _side){
+        Vector<MarketEntryAttempt> orders = (_side == MarketEntryAttempt.SIDE.BID ? bids : offers);
           
         for(int i = 0; i < orders.size(); i++){
-            Order order = orders.get(i);
+            MarketEntryAttempt order = orders.get(i);
             if(order.getOrderID().equals(orderId)){
                 //update listeners
                 //set ids at a later stage
@@ -288,11 +288,11 @@ public class OrderList {
         return null;
     } 
     
-    public synchronized Order removeOrder(Order orderToBeRemoved){
-        Vector<Order> orders = (orderToBeRemoved.side == Order.SIDE.BID ? bids : offers);
+    public synchronized MarketEntryAttempt removeOrder(MarketEntryAttempt orderToBeRemoved){
+        Vector<MarketEntryAttempt> orders = (orderToBeRemoved.side == MarketEntryAttempt.SIDE.BID ? bids : offers);
           
         for(int i = 0; i < orders.size(); i++){
-            Order order = orders.get(i);
+            MarketEntryAttempt order = orders.get(i);
             if(order.getOrderID().equals(orderToBeRemoved.getOrderID())){
                 //update listeners
                 //set ids at a later stage
@@ -311,14 +311,5 @@ public class OrderList {
     public Vector<MatchedOrder> getTrades()
     {
         return trades;
-    }
-    
-    public double roundNumber(double number){
-        return (double)Math.round(number*100.0)/100.0;
-    }
-    
-    public double roundNumber(double number, int numberOfDecimalPlaces){
-        double dec = Math.pow(10, numberOfDecimalPlaces); 
-        return (double)Math.round(number * dec)/dec;
     }
 }

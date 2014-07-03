@@ -8,7 +8,7 @@ import java.util.UUID;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class Order implements Cloneable {
+public class MarketEntryAttempt implements Cloneable {
 
     //Static variables declaration
     public static enum SIDE {BID, OFFER}
@@ -25,7 +25,7 @@ public class Order implements Cloneable {
     /*!
      * @brief Stores the number of shares being offered of bid.
      */
-    protected int quantity;
+    protected int numOfShares;
     /*!
      * @brief Stores the name of the participant making the bid or offer.
      */
@@ -51,15 +51,15 @@ public class Order implements Cloneable {
      * @param numShares The number of shares being bid or offered
      * @param name The name of the participant making the bid or the offer.
      */
-    public Order(double price, int numShares, String name, SIDE side) {
+    public MarketEntryAttempt(double price, int numShares, String name, SIDE side) {
         this();
-        this.price = price;
-        this.quantity = numShares;
+        this.price = Math.round(price*20)/20.0;
+        this.numOfShares = numShares;
         this.participantName = name;
         this.side = side;
     }
 
-    public Order() {
+    public MarketEntryAttempt() {
         this.orderID = UUID.randomUUID();
         this.date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
@@ -96,8 +96,8 @@ public class Order implements Cloneable {
     /**
      * @return Integer value for the number of shares being offered or bid.
      */
-    public int getQuantity() {
-        return this.quantity;
+    public int getNumOfShares() {
+        return this.numOfShares;
     }
 
     /**
@@ -151,8 +151,8 @@ public class Order implements Cloneable {
      * shares being offered or bid
      * @param _numShares The number of shares for the entry attempt.
      */
-    public void setQuantity(int _numShares) {
-        this.quantity = _numShares;
+    public void setNumOfShares(int _numShares) {
+        this.numOfShares = _numShares;
     }
 
     /**
@@ -164,7 +164,7 @@ public class Order implements Cloneable {
     }
 
     public boolean hasNoSharesLeft() {
-        return (this.quantity <= 0);
+        return (this.numOfShares <= 0);
     }
 
     /**
@@ -179,7 +179,7 @@ public class Order implements Cloneable {
      */
     public void replaceWith(double price, int numShares, String name, Date newDate, String stamp) {
         this.price = price;
-        this.quantity = numShares;
+        this.numOfShares = numShares;
         this.participantName = name;
         this.orderID = UUID.randomUUID();
         this.date = newDate;

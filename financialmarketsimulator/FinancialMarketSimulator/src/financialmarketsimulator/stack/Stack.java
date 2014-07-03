@@ -117,8 +117,8 @@ public class Stack implements Cloneable {
                     //according to the price, with the highest price being on top.
                     if (current.node.getPrice() > previous.node.getPrice()) {
                         MarketEntryAttemptNode temp = previous;
-                        previous.node.replaceWith(current.node.getPrice(), current.node.getQuantity(), current.node.getParticipantName(), current.node.getDate(), current.node.getTimeStampString());
-                        current.node.replaceWith(temp.node.getPrice(), temp.node.getQuantity(), temp.node.getParticipantName(), temp.node.getDate(), temp.node.getTimeStampString());
+                        previous.node.replaceWith(current.node.getPrice(), current.node.getNumOfShares(), current.node.getParticipantName(), current.node.getDate(), current.node.getTimeStampString());
+                        current.node.replaceWith(temp.node.getPrice(), temp.node.getNumOfShares(), temp.node.getParticipantName(), temp.node.getDate(), temp.node.getTimeStampString());
                     }
                 }
                 //If the two dates differ, leave items as is and move on.

@@ -1,8 +1,8 @@
 package financialmarketsimulator.workingTests;
 
 import financialmarketsimulator.MarketManager;
-import financialmarketsimulator.Order;
-import financialmarketsimulator.OrderList;
+import financialmarketsimulator.MarketEntryAttempt;
+import financialmarketsimulator.MarketEntryAttemptBook;
 import financialmarketsimulator.exception.BidNotFoundException;
 import financialmarketsimulator.exception.EmptyException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
@@ -13,9 +13,9 @@ import java.util.Vector;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class OrderListMatchingEngineTest {
+public class MatchingEngineTest {
 
-    public static void showBook(OrderList book) throws EmptyException {
+    public static void showBook(MarketEntryAttemptBook book) throws EmptyException {
         System.out.printf("%n                    %s                      %n", book.getStockName());
         System.out.printf("--------------------------------------------%n");
         System.out.printf("         Bids                  Offers          %n");
@@ -27,15 +27,15 @@ public class OrderListMatchingEngineTest {
         }
         while (i < Math.max(book.getBids().size(), book.getOffers().size())) {
             if (i < book.getBids().size()) {
-                Order order = book.getBids().get(i);
-                System.out.printf("% 10d% 10.3f", order.getQuantity(), order.getPrice());
+                MarketEntryAttempt order = book.getBids().get(i);
+                System.out.printf("% 10d% 10.3f", order.getNumOfShares(), order.getPrice());
             } else {
                 System.out.printf("                    ");
             }
             System.out.printf(" | ");
             if (i < book.getOffers().size()) {
-                Order order = book.getOffers().get(i);
-                System.out.printf("%-10.3f% 10d", order.getPrice(), order.getQuantity());
+                MarketEntryAttempt order = book.getOffers().get(i);
+                System.out.printf("%-10.3f% 10d", order.getPrice(), order.getNumOfShares());
             }
             System.out.printf("%n");
             i++;
@@ -51,40 +51,40 @@ public class OrderListMatchingEngineTest {
         //Test whether orders are added into correct lists and in correct orders
         System.out.println("***************************************Test 1***************************************");
         showBook(facebookStockManager.getOrderList());
-        Order order1 = new Order(34.50, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        MarketEntryAttempt order1 = new MarketEntryAttempt(34.50, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         facebookStockManager.acceptOrder(order1);
         showBook(facebookStockManager.getOrderList());
-        Order order2 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        MarketEntryAttempt order2 = new MarketEntryAttempt(40.00, 2000, "Jonny Bravo", MarketEntryAttempt.SIDE.OFFER);
         facebookStockManager.acceptOrder(order2);
         showBook(facebookStockManager.getOrderList());
-        Order order3 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        MarketEntryAttempt order3 = new MarketEntryAttempt(34.50, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order3);
         showBook(facebookStockManager.getOrderList());
-        Order order4 = new Order(34.50, 500, "Tim West", Order.SIDE.BID);
+        MarketEntryAttempt order4 = new MarketEntryAttempt(34.50, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order4);
         showBook(facebookStockManager.getOrderList());
-        Order order5 = new Order(40.00, 3000, "Tim West", Order.SIDE.OFFER);
+        MarketEntryAttempt order5 = new MarketEntryAttempt(40.00, 3000, "Tim West", MarketEntryAttempt.SIDE.OFFER);
         facebookStockManager.acceptOrder(order5);
         showBook(facebookStockManager.getOrderList());
-        Order order6 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        MarketEntryAttempt order6 = new MarketEntryAttempt(34.56, 1000, "Jonny Bravo", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order6);
         showBook(facebookStockManager.getOrderList());
-        Order order7 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        MarketEntryAttempt order7 = new MarketEntryAttempt(35.00, 1000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order7);
         showBook(facebookStockManager.getOrderList());
-        Order order8 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        MarketEntryAttempt order8 = new MarketEntryAttempt(40.00, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order8);
         showBook(facebookStockManager.getOrderList());
-        Order order9 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        MarketEntryAttempt order9 = new MarketEntryAttempt(40.00, 500, "Luis Mario", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order9);
         showBook(facebookStockManager.getOrderList());
-        Order order10 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        MarketEntryAttempt order10 = new MarketEntryAttempt(20.89, 2000, "Jonny", MarketEntryAttempt.SIDE.OFFER);
         facebookStockManager.acceptOrder(order10);
         showBook(facebookStockManager.getOrderList());
-        Order order11 = new Order(20.89, 2000, "Past Longstone", Order.SIDE.BID);
+        MarketEntryAttempt order11 = new MarketEntryAttempt(20.89, 2000, "Past Longstone", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order11);
         showBook(facebookStockManager.getOrderList());
-        Order order12 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        MarketEntryAttempt order12 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order12);
         showBook(facebookStockManager.getOrderList());
         
@@ -94,29 +94,29 @@ public class OrderListMatchingEngineTest {
         
         MarketManager yahooManager = new MarketManager();
         
-        order1 = new Order(40.01, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        order1 = new MarketEntryAttempt(40.01, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
-        order2 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        order2 = new MarketEntryAttempt(40.00, 2000, "Jonny Bravo", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order2);
-        order3 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        order3 = new MarketEntryAttempt(34.50, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order3);
-        order4 = new Order(34.51, 500, "Tim West", Order.SIDE.BID);
+        order4 = new MarketEntryAttempt(34.51, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order4);
-        order5 = new Order(40.02, 3000, "Tim West", Order.SIDE.OFFER);
+        order5 = new MarketEntryAttempt(40.02, 3000, "Tim West", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order5);
-        order6 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        order6 = new MarketEntryAttempt(34.56, 1000, "Jonny Bravo", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order6);
-        order7 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        order7 = new MarketEntryAttempt(35.00, 1000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order7);
-        order8 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        order8 = new MarketEntryAttempt(40.00, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order8);
-        order9 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        order9 = new MarketEntryAttempt(40.00, 500, "Luis Mario", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order9);
-        order10 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        order10 = new MarketEntryAttempt(20.89, 2000, "Jonny", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order10);
-        order11 = new Order(20.89, 2000, "Past Longstone", Order.SIDE.BID);
+        order11 = new MarketEntryAttempt(20.89, 2000, "Past Longstone", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order11);
-        order12 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        order12 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order12);
         
         showBook(yahooManager.getOrderList());
@@ -133,29 +133,29 @@ public class OrderListMatchingEngineTest {
         System.out.println("\n\n");
         System.out.println("***************************************Test 3***************************************");
         
-        order1 = new Order(40.01, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        order1 = new MarketEntryAttempt(40.01, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
-        order2 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        order2 = new MarketEntryAttempt(40.00, 2000, "Jonny Bravo", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order2);
-        order3 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        order3 = new MarketEntryAttempt(34.50, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order3);
-        order4 = new Order(34.51, 500, "Tim West", Order.SIDE.BID);
+        order4 = new MarketEntryAttempt(34.51, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order4);
-        order5 = new Order(40.02, 3000, "Tim West", Order.SIDE.OFFER);
+        order5 = new MarketEntryAttempt(40.02, 3000, "Tim West", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order5);
-        order6 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        order6 = new MarketEntryAttempt(34.56, 1000, "Jonny Bravo", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order6);
-        order7 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        order7 = new MarketEntryAttempt(35.00, 1000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order7);
-        order8 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        order8 = new MarketEntryAttempt(40.00, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order8);
-        order9 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        order9 = new MarketEntryAttempt(40.00, 500, "Luis Mario", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order9);
-        order10 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        order10 = new MarketEntryAttempt(20.89, 2000, "Jonny", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order10);
-        order11 = new Order(33.33, 2000, "Past Longstone", Order.SIDE.BID);
+        order11 = new MarketEntryAttempt(33.33, 2000, "Past Longstone", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order11);
-        order12 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        order12 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order12);
         
         showBook(yahooManager.getOrderList());
@@ -170,40 +170,40 @@ public class OrderListMatchingEngineTest {
         MarketManager googleManager = new MarketManager();
         
         showBook(googleManager.getOrderList());
-        Order order13 = new Order(34.50, 2000, "Daniel Smith", Order.SIDE.OFFER);
+        MarketEntryAttempt order13 = new MarketEntryAttempt(34.50, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         googleManager.acceptOrder(order13);
         showBook(googleManager.getOrderList());
-        Order order14 = new Order(40.00, 2000, "Jonny Bravo", Order.SIDE.OFFER);
+        MarketEntryAttempt order14 = new MarketEntryAttempt(40.00, 2000, "Jonny Bravo", MarketEntryAttempt.SIDE.OFFER);
         googleManager.acceptOrder(order14);
         showBook(googleManager.getOrderList());
-        Order order15 = new Order(34.50, 1500, "Jimmy West", Order.SIDE.BID);
+        MarketEntryAttempt order15 = new MarketEntryAttempt(34.50, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order15);
         showBook(googleManager.getOrderList());
-        Order order16 = new Order(34.50, 500, "Tim West", Order.SIDE.BID);
+        MarketEntryAttempt order16 = new MarketEntryAttempt(34.50, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order16);
         showBook(googleManager.getOrderList());
-        Order order17 = new Order(40.00, 3000, "Tim West", Order.SIDE.OFFER);
+        MarketEntryAttempt order17 = new MarketEntryAttempt(40.00, 3000, "Tim West", MarketEntryAttempt.SIDE.OFFER);
         googleManager.acceptOrder(order17);
         showBook(googleManager.getOrderList());
-        Order order18 = new Order(34.56, 1000, "Jonny Bravo", Order.SIDE.BID);
+        MarketEntryAttempt order18 = new MarketEntryAttempt(34.56, 1000, "Jonny Bravo", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order18);
         showBook(googleManager.getOrderList());
-        Order order19 = new Order(35.00, 1000, "Daniel Smith", Order.SIDE.BID);
+        MarketEntryAttempt order19 = new MarketEntryAttempt(35.00, 1000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order19);
         showBook(googleManager.getOrderList());
-        Order order20 = new Order(40.00, 500, "Tim West", Order.SIDE.BID);
+        MarketEntryAttempt order20 = new MarketEntryAttempt(40.00, 500, "Tim West", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order20);
         showBook(googleManager.getOrderList());
-        Order order21 = new Order(40.00, 500, "Luis Mario", Order.SIDE.BID);
+        MarketEntryAttempt order21 = new MarketEntryAttempt(40.00, 500, "Luis Mario", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order21);
         showBook(googleManager.getOrderList());
-        Order order22 = new Order(20.89, 2000, "Jonny", Order.SIDE.OFFER);
+        MarketEntryAttempt order22 = new MarketEntryAttempt(20.89, 2000, "Jonny", MarketEntryAttempt.SIDE.OFFER);
         googleManager.acceptOrder(order22);
         showBook(googleManager.getOrderList());
-        Order order23 = new Order(20.89, 2000, "Past Longstone", Order.SIDE.BID);
+        MarketEntryAttempt order23 = new MarketEntryAttempt(20.89, 2000, "Past Longstone", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order23);
         showBook(googleManager.getOrderList());
-        Order order24 = new Order(34.56, 2000, "Daniel Smith", Order.SIDE.BID);
+        MarketEntryAttempt order24 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order24);
         showBook(googleManager.getOrderList());
         
@@ -221,7 +221,7 @@ public class OrderListMatchingEngineTest {
         }
         
         //Test whether numbers are rounded to decimal places
-        System.out.println("\n\n");
+        /*System.out.println("\n\n");
         System.out.println("***************************************Test 4***************************************");
         double number = 56.563423234;
         double answer;
@@ -239,6 +239,6 @@ public class OrderListMatchingEngineTest {
         System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");
         
         answer = man.getOrderList().roundNumber(number, 3);
-        System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");
+        System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");*/
     }
 }
