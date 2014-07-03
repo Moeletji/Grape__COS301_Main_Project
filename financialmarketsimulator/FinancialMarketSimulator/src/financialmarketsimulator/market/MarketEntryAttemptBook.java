@@ -5,7 +5,7 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
 /**
- *
+ * @Brief order book of all bids and offers
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
@@ -302,7 +302,9 @@ public class MarketEntryAttemptBook {
         
         return null;
     }
-    
+    /**
+     * @brief empty the order book
+     */
     public void clearAllBidsAndOffers(){
         bids.clear();
         offers.clear();
@@ -311,5 +313,131 @@ public class MarketEntryAttemptBook {
     public synchronized Vector<MatchedMarketEntryAttempt> getMatchedOrders()
     {
         return matchedOrders;
+    }
+    
+    /**
+     * @brief get the highest bid price
+     * @return highest bid price
+     */
+    public synchronized double getHighestBidPrice()
+    {
+        return (bids.get(0).price > 0.0? bids.get(0).price : 0.0);
+    }
+    /**
+     * @brief get the lowest offer price
+     * @return lowest offer price
+     */
+    public synchronized double getLowestOfferPrice()
+    {
+        return (offers.get(0).price > 0.0? offers.get(0).price : 0.0);
+    }
+    /**
+     * @brief get the total shares for the highest bid price
+     * @return total shares
+     */
+    public synchronized int getTotalSharesForHighestBidPrice()
+    {
+        return (bids.get(0).numOfShares > 0.0? bids.get(0).numOfShares : 0);
+    }
+    /**
+     * @brief get the total shares for the lowest offer price
+     * @return total shares
+     */
+    public synchronized int getTotalSharesForLowestOfferPrice()
+    {
+         return (offers.get(0).numOfShares > 0.0? offers.get(0).numOfShares : 0);
+    }
+    /**
+     * @brief count number of order at a bid price
+     * @return number of orders
+     */
+    public synchronized int getBidOrders()
+    {
+        int count = 0;
+        double price = bids.get(0).price;
+        
+        for(MarketEntryAttempt bid : bids){
+            if(bid.getPrice() == price){
+                count++;
+            }
+        } 
+        
+        for(MarketEntryAttempt offer : offers){
+            if(offer.getPrice() == price){
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    /**
+     * @brief count number of order at a offer price
+     * @return number of orders
+     */
+    public synchronized int getOfferOrders()
+    {
+        int count = 0;
+        double price = offers.get(0).price;
+        
+        for(MarketEntryAttempt offer : offers){
+            if(offer.getPrice() == price){
+                count++;
+            }
+        }
+        
+        for(MarketEntryAttempt bid : bids){
+            if(bid.getPrice() == price){
+                count++;
+            }
+        } 
+        
+        return count;
+    }
+    
+    /**
+     * @brief count number of order at a bid price
+     * @param price price of a bid
+     * @return number of orders
+     */
+    public synchronized int getBidOrders(double price)
+    {
+        int count = 0;
+        
+        for(MarketEntryAttempt bid : bids){
+            if(bid.getPrice() == price){
+                count++;
+            }
+        } 
+        
+        for(MarketEntryAttempt offer : offers){
+            if(offer.getPrice() == price){
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    /**
+     * @brief count number of order at a offer price
+     * @param price price of a offer
+     * @return number of orders
+     */
+    public synchronized int getOfferOrders(double price)
+    {
+        int count = 0;
+        
+        for(MarketEntryAttempt offer : offers){
+            if(offer.getPrice() == price){
+                count++;
+            }
+        }
+        
+        for(MarketEntryAttempt bid : bids){
+            if(bid.getPrice() == price){
+                count++;
+            }
+        } 
+        
+        return count;
     }
 }
