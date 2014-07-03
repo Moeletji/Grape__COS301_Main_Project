@@ -5,7 +5,7 @@ import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.exception.ItemNotFoundException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
-import financialmarketsimulator.marketData.MatchedOrder;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
 /**
@@ -206,7 +206,7 @@ public class MatchingEngineTest {
         googleManager.acceptOrder(order24);
         showBook(googleManager.getOrderList());
         
-        Vector<MatchedOrder> testTrades = googleManager.getOrderList().getMatchedOrders();
+        Vector<MatchedMarketEntryAttempt> testTrades = googleManager.getOrderList().getMatchedOrders();
         
         for(int i=0; i<testTrades.size();i++)
         {

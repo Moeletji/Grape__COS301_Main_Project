@@ -1,7 +1,7 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
-import financialmarketsimulator.marketData.MatchedOrder;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
 /**
@@ -24,7 +24,7 @@ public class MarketEntryAttemptBook {
     /**
      * @brief list of all trades that occurred within the stock
      */
-    Vector<MatchedOrder> matchedOrders;
+    Vector<MatchedMarketEntryAttempt> matchedOrders;
     
     /**
      * @brief Name of the stock stored as a string
@@ -46,7 +46,7 @@ public class MarketEntryAttemptBook {
         stockName = "";
         bids = new Vector<MarketEntryAttempt>();
         offers = new Vector<MarketEntryAttempt>();
-        matchedOrders = new Vector<MatchedOrder>();
+        matchedOrders = new Vector<MatchedMarketEntryAttempt>();
     }
     
     /**
@@ -110,19 +110,19 @@ public class MarketEntryAttemptBook {
                 {
                     hasMoreShares = false;
                     removeOrder(topOrder);
-                    MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
+                    MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder,topOrder);
                     matchedOrders.add(newTrade);
                 }
                 else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) 
                 {
-                    MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
+                    MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder,topOrder);
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                 }
                 else //if (newOrder.getQuantity() < topOrder.getQuantity())
-                                {
-                    MatchedOrder newTrade = new MatchedOrder(newOrder,topOrder);
+                                                                {
+                    MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder,topOrder);
                     matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                 }
@@ -308,7 +308,7 @@ public class MarketEntryAttemptBook {
         offers.clear();
     }
     
-    public synchronized Vector<MatchedOrder> getMatchedOrders()
+    public synchronized Vector<MatchedMarketEntryAttempt> getMatchedOrders()
     {
         return matchedOrders;
     }
