@@ -1,5 +1,6 @@
 package financialmarketsimulator.marketData;
 
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -9,11 +10,13 @@ import java.util.Vector;
  
 public class MatchedMarketEntryAttemptUpdate {
     
+    private Date dateGenerated;
     private Vector<MatchedMarketEntryAttempt> tradesData;
     
     public MatchedMarketEntryAttemptUpdate(Vector<MatchedMarketEntryAttempt> trades)
     {
         tradesData = trades;
+        dateGenerated = new Date();
     }
     
     public double getFirstTradePrice()
@@ -58,5 +61,10 @@ public class MatchedMarketEntryAttemptUpdate {
             }
         }
         return low;
+    }
+    
+    public String getDateGenerated()
+    {
+        return dateGenerated.toString();
     }
 }
