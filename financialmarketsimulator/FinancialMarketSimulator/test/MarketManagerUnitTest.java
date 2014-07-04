@@ -1,5 +1,5 @@
 import financialmarketsimulator.market.MarketEntryAttempt;
-import financialmarketsimulator.market.MarketManager;
+import financialmarketsimulator.market.StockManager;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -20,14 +20,14 @@ public class MarketManagerUnitTest {
     /*!
     * Test object. Used throughout the unit test.
     */
-    MarketManager marketManager;
+    StockManager marketManager;
 
     @Test
     /**
      * Tests if the MarketManager object instantiates as expected
      */
     public void instantiation() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
         String expectedOutput = "";
         String actualOutput = "";
         assertEquals(expectedOutput, actualOutput);
@@ -38,7 +38,7 @@ public class MarketManagerUnitTest {
      * @todo 
      */
     public void acceptBidTest() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
         MarketEntryAttempt expectedOutput = null;
         MarketEntryAttempt actualOutput = null;
         assertEquals(expectedOutput, actualOutput);
@@ -49,7 +49,7 @@ public class MarketManagerUnitTest {
      * @todo
      */
     public void acceptOfferTest() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
         MarketEntryAttempt expectedOutput = null;
         MarketEntryAttempt actualOutput = null;
         assertEquals(expectedOutput, actualOutput);
@@ -60,7 +60,7 @@ public class MarketManagerUnitTest {
      * @todo
      */
     public void removeBidTest() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
         Boolean expectedOutput = true;
         Boolean actualOutput = null;
         //assertEquals(expectedOutput, actualOutput);
@@ -71,7 +71,7 @@ public class MarketManagerUnitTest {
      * @todo
      */
     public void removeOfferTest() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
         Boolean expectedOutput = true;
         Boolean actualOutput = null;
         //assertEquals(expectedOutput, actualOutput);
@@ -82,7 +82,7 @@ public class MarketManagerUnitTest {
      * @todo
      */
     public void updateEngineTest() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
     }
 
     @Test
@@ -90,6 +90,6 @@ public class MarketManagerUnitTest {
      * @todo
      */
     public void updateEntitiesTest() {
-        //marketManager = new MarketManager();
+        //marketManager = new StockManager();
     }
 }

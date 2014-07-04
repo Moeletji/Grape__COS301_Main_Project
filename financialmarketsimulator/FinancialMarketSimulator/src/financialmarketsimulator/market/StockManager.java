@@ -7,7 +7,7 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MarketManager {
+public class StockManager {
 
     //Name of the stock
     private String stockName;
@@ -18,7 +18,7 @@ public class MarketManager {
     /**
      * MarketManager Constructor
      */
-    public MarketManager() {
+    public StockManager() {
         this.orderList = new MarketEntryAttemptBook();
         this.stockName = "";
     }
@@ -28,7 +28,7 @@ public class MarketManager {
      *
      * @param sName Name of the stock
      */
-    public MarketManager(String sName) {
+    public StockManager(String sName) {
         this();
         this.stockName = sName;
     }

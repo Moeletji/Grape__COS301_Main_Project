@@ -1,6 +1,6 @@
 package financialmarketsimulator.marketData;
 
-import financialmarketsimulator.market.MarketManager;
+import financialmarketsimulator.market.StockManager;
 import java.util.Date;
 
 /**
@@ -49,7 +49,7 @@ public final class QuoteUpdates {
      * Constructor used when a quote of the entire stock
      * @param manager manager of a stock
      */
-    public QuoteUpdates(MarketManager manager){
+    public QuoteUpdates(StockManager manager){
         this();
         
         this.setStockName(manager.getStockName());
@@ -67,8 +67,10 @@ public final class QuoteUpdates {
     /**
      * Constructor used when a quote of the stock, with specified price orders
      * @param manager manager of a stock
+     * @param bidPrice
+     * @param offerPrice
      */
-    public QuoteUpdates(MarketManager manager, double bidPrice, double offerPrice){
+    public QuoteUpdates(StockManager manager, double bidPrice, double offerPrice){
         this();
         
         this.setStockName(manager.getStockName());
@@ -85,7 +87,13 @@ public final class QuoteUpdates {
     
     /**
      * Constructor used when a quote of the stock, with all specified values
-     * @param manager manager of a stock
+     * @param stockName
+     * @param bidPrice
+     * @param offerPrice
+     * @param bidShares
+     * @param offerShares
+     * @param bidPriceOrders
+     * @param offerPriceOrders
      */
     public QuoteUpdates(String stockName, double bidPrice, double offerPrice, int bidShares, int offerShares, int bidPriceOrders, int offerPriceOrders){
         this();
@@ -104,7 +112,11 @@ public final class QuoteUpdates {
     
     /**
      * Constructor used when a quote of the stock without price orders
-     * @param manager manager of a stock
+     * @param stockName
+     * @param bidPrice
+     * @param offerPrice
+     * @param bidShares
+     * @param offerShares
      */
     public QuoteUpdates(String stockName, double bidPrice, double offerPrice, int bidShares, int offerShares){
         this();

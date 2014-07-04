@@ -1,5 +1,5 @@
 
-import financialmarketsimulator.market.MarketManager;
+import financialmarketsimulator.market.StockManager;
 
 /**
  *
@@ -9,7 +9,7 @@ import financialmarketsimulator.market.MarketManager;
 public class FinancialMarketSimulator {
 
     public static void main(String[] args) {
-        MarketManager manager = new MarketManager();
+        StockManager manager = new StockManager();
     }
     
 }

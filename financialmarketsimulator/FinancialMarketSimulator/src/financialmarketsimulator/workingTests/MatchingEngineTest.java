@@ -1,6 +1,6 @@
 package financialmarketsimulator.workingTests;
 
-import financialmarketsimulator.market.MarketManager;
+import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.exception.ItemNotFoundException;
@@ -45,7 +45,7 @@ public class MatchingEngineTest {
     }
 
     public static void main(String[] args) throws InterruptedException, OrderHasNoValuesException, CloneNotSupportedException, ItemNotFoundException {
-        MarketManager facebookStockManager = new MarketManager("FBK");
+        StockManager facebookStockManager = new StockManager("FBK");
 
         //Test whether orders are added into correct lists and in correct orders
         System.out.println("***************************************Test 1***************************************");
@@ -91,7 +91,7 @@ public class MatchingEngineTest {
         System.out.println("\n\n");
         System.out.println("***************************************Test 2***************************************");
         
-        MarketManager yahooManager = new MarketManager();
+        StockManager yahooManager = new StockManager();
         
         order1 = new MarketEntryAttempt(40.01, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
@@ -166,7 +166,7 @@ public class MatchingEngineTest {
          //Test whether orders are matched correctly
         System.out.println("***************************************Test 4***************************************");
         
-        MarketManager googleManager = new MarketManager();
+        StockManager googleManager = new StockManager();
         
         showBook(googleManager.getOrderList());
         MarketEntryAttempt order13 = new MarketEntryAttempt(34.50, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
@@ -225,7 +225,7 @@ public class MatchingEngineTest {
         double number = 56.563423234;
         double answer;
         
-        MarketManager man = new MarketManager();
+        StockManager man = new StockManager();
         
         answer = man.getOrderList().roundNumber(number);
         System.out.println("Expected value: 56.56 \n Actual Value: " + answer + "\n");
