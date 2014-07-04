@@ -1,4 +1,4 @@
-package financialmarketsimulator.strategies;
+package financialmarketsimulator.indicators;
 
 /**
  * @brief SMA(Simple Moving Average). This technical indicator is the average
@@ -14,6 +14,8 @@ public class SMA {
      */
     private int numOfDays;
     
+    private double previousSMAValue = 0;
+    
     public SMA(int numDays)
     {
         numOfDays = numDays;
@@ -22,6 +24,11 @@ public class SMA {
     public double calculateSMA()
     {
         double sum = 0.0;
+        previousSMAValue = sum/numOfDays;
         return sum/numOfDays;
+    }
+    
+    public double getPreviousSMAValue() {
+        return previousSMAValue;
     }
 }

@@ -1,4 +1,4 @@
-package financialmarketsimulator.strategies;
+package financialmarketsimulator.indicators;
 
 /**
  * @brief EMA(Exponential Moving Average) EMA places more weight on the most 

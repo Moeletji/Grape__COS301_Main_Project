@@ -1,6 +1,6 @@
 package strategiesUnitTests;
 
-import financialmarketsimulator.strategies.EMA;
+import financialmarketsimulator.indicators.EMA;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
