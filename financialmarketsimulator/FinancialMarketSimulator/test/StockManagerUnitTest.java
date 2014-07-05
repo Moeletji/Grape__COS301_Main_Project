@@ -1,10 +1,13 @@
 import financialmarketsimulator.exception.ItemNotFoundException;
+import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.BID;
 import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.OFFER;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.StockManager;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -282,13 +285,288 @@ public class StockManagerUnitTest {
 
     @Test
     /**
-     * @brief Tests if the stock manager can successfully edit the specified order
-     * and record that the order was modified at the time it was modifie.
+     * @brief Tests if the stock manager can successfully edit the price of a specified order
+     * and record that the order was modified at the time it was modified.
+     * @todo Test if edit history is recorded accurately
      */
-    public void editOrderTest() {
-        //marketManager = new StockManager();
+    public void editOrderPriceTest() {
+        //Assume that orders are accepted successfully.
+        
+        //************************************//
+        //*****Case that order is a bid*******//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order1 = new MarketEntryAttempt(50, 100, "Participant1", BID);
+        
+        try {
+            stockManager.acceptOrder(order1);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //edit the recently added oder "order1"
+        try {
+             stockManager.editOrder(order1.getOrderID(), 500, BID);
+         } catch (OrderHasNoValuesException ex) {
+             ex.printStackTrace();
+         } catch (CloneNotSupportedException ex) {
+             ex.printStackTrace();
+         }
+        
+        //Check if the order has been fully modified
+        MarketEntryAttemptBook orderList1 = stockManager.getOrderList();
+        
+        Boolean modified = false;
+        Vector<MarketEntryAttempt> offers1 = orderList1.getBids();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order1 == offer1)
+            {
+                //Check if modified
+                if(offer1.getPrice() == 500)
+                {
+                    modified = true;
+                    break;
+                }    
+            }
+        }
+        
+        assertEquals(modified, false);
+        
+        //************************************//
+        //****Case that order is an offer*****//
+        //************************************//
+        
+       stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order2 = new MarketEntryAttempt(50, 100, "Participant1", OFFER);
+        
+        try {
+            stockManager.acceptOrder(order2);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //edit the recently added oder "order1"
+        try {
+             stockManager.editOrder(order2.getOrderID(), 500, BID);
+         } catch (OrderHasNoValuesException ex) {
+             ex.printStackTrace();
+         } catch (CloneNotSupportedException ex) {
+             ex.printStackTrace();
+         }
+        
+        //Check if the order has been fully modified
+        MarketEntryAttemptBook orderList2 = stockManager.getOrderList();
+        
+        Boolean modified2 = false;
+        Vector<MarketEntryAttempt> offers2 = orderList2.getOffers();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order2 == offer1)
+            {
+                //Check if modified
+                if(offer1.getPrice() == 500)
+                {
+                    modified2 = true;
+                    break;
+                }    
+            }
+        }
+        
+        assertEquals(modified2, false);
+    }
+    
+    @Test
+    /**
+     * @brief Tests if the stock manager can successfully edit the shares of a specified order
+     * and record that the order was modified at the time it was modified.
+     * @todo Test if edit history is recorded accurately
+     */
+    public void editOrderSharesTest()
+    {
+        //Assume that orders are accepted successfully.
+        
+        //************************************//
+        //*****Case that order is a bid*******//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order1 = new MarketEntryAttempt(50, 100, "Participant1", BID);
+        
+        try {
+            stockManager.acceptOrder(order1);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //edit the recently added oder "order1"
+        try {
+             stockManager.editOrder(order1.getOrderID(), 500, BID);
+         } catch (OrderHasNoValuesException ex) {
+             ex.printStackTrace();
+         } catch (CloneNotSupportedException ex) {
+             ex.printStackTrace();
+         }
+        
+        //Check if the order has been fully modified
+        MarketEntryAttemptBook orderList1 = stockManager.getOrderList();
+        
+        Boolean modified = false;
+        Vector<MarketEntryAttempt> offers1 = orderList1.getBids();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order1 == offer1)
+            {
+                //Check if modified
+                if(offer1.getNumOfShares() == 500)
+                {
+                    modified = true;
+                    break;
+                }    
+            }
+        }
+        
+        assertEquals(modified, false);
+        
+        //************************************//
+        //****Case that order is an offer*****//
+        //************************************//
+        
+       stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order2 = new MarketEntryAttempt(50, 100, "Participant1", OFFER);
+        
+        try {
+            stockManager.acceptOrder(order2);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //edit the recently added oder "order1"
+        try {
+             stockManager.editOrder(order2.getOrderID(), 500, BID);
+         } catch (OrderHasNoValuesException ex) {
+             ex.printStackTrace();
+         } catch (CloneNotSupportedException ex) {
+             ex.printStackTrace();
+         }
+        
+        //Check if the order has been fully modified
+        MarketEntryAttemptBook orderList2 = stockManager.getOrderList();
+        
+        Boolean modified2 = false;
+        Vector<MarketEntryAttempt> offers2 = orderList2.getOffers();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order2 == offer1)
+            {
+                //Check if modified
+                if(offer1.getNumOfShares() == 500)
+                {
+                    modified2 = true;
+                    break;
+                }    
+            }
+        }
+        
+        assertEquals(modified2, false);
     }
 
+    @Test
+    /**
+     * @brief Tests if the stock manager can successfully edit the price and shares of a specified order
+     * and record that the order was modified at the time it was modified.
+     * @todo Test if edit history is recorded accurately
+     */
+    public void editOrderPriceAndSharesTest()
+    {
+        //Assume that orders are accepted successfully.
+        
+        //************************************//
+        //*****Case that order is a bid*******//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order1 = new MarketEntryAttempt(50, 100, "Participant1", BID);
+        
+        try {
+            stockManager.acceptOrder(order1);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //edit the recently added oder "order1"
+        try {
+             stockManager.editOrder(order1.getOrderID(), 60, 500, BID);
+         } catch (OrderHasNoValuesException ex) {
+             ex.printStackTrace();
+         } catch (CloneNotSupportedException ex) {
+             ex.printStackTrace();
+         }
+        
+        //Check if the order has been fully modified
+        MarketEntryAttemptBook orderList1 = stockManager.getOrderList();
+        
+        Boolean modified = false;
+        Vector<MarketEntryAttempt> offers1 = orderList1.getBids();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order1 == offer1)
+            {
+                //Check if modified
+                if(offer1.getPrice() == 60 && offer1.getNumOfShares() == 500)
+                {
+                    modified = true;
+                    break;
+                }    
+            }
+        }
+        
+        assertEquals(modified, false);
+        
+        //************************************//
+        //****Case that order is an offer*****//
+        //************************************//
+        
+       stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order2 = new MarketEntryAttempt(50, 100, "Participant1", OFFER);
+        
+        try {
+            stockManager.acceptOrder(order2);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //edit the recently added oder "order1"
+        try {
+             stockManager.editOrder(order2.getOrderID(), 60, 500, OFFER);;
+         } catch (OrderHasNoValuesException ex) {
+             ex.printStackTrace();
+         } catch (CloneNotSupportedException ex) {
+             ex.printStackTrace();
+         }
+        
+        //Check if the order has been fully modified
+        MarketEntryAttemptBook orderList2 = stockManager.getOrderList();
+        
+        Boolean modified2 = false;
+        Vector<MarketEntryAttempt> offers2 = orderList2.getOffers();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order2 == offer1)
+            {
+                //Check if modified
+                if(offer1.getPrice() == 60 && offer1.getNumOfShares() == 500)
+                {
+                    modified2 = true;
+                    break;
+                }    
+            }
+        }
+        
+        assertEquals(modified2, false);
+    }
+    
     @Test
     /**
      * @brief Tests if the stock manager can successfully return a snap shot of the market
