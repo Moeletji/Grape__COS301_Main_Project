@@ -2,6 +2,7 @@
 import financialmarketsimulator.market.MarketEntryAttempt;
 import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.BID;
 import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.OFFER;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -98,15 +99,30 @@ public class MarketEntryAttemptUnitTest {
      */
     public void hasNoSharesLeftTest()
     {
+        exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
+        exchange.setNumOfShares(0);
         
+        assertEquals(exchange.hasNoSharesLeft(), 0);
     }
     
     @Test
     /**
-     * @brief 
+     * @brief Tests if a market entry attempt object's attributes can be set to those of another
+     * or new attributes.
      */
     public void replaceWithTest()
     {
+        exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
+        String stamp = sdf.format(date);
+        exchange.replaceWith(60, 500, "Participant 2", date, stamp);
         
+        assertEquals(exchange.getPrice(),60,0);
+        assertEquals(exchange.getNumOfShares(), 500);
+        assertEquals(exchange.getParticipantName(), "Participant 2");
+        assertEquals(exchange.getDate(), date);
+        assertEquals(exchange.getTimeStampString(), stamp);
     }
+    
 }
