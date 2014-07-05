@@ -1,3 +1,4 @@
+
 import financialmarketsimulator.market.MarketStrategy;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -10,7 +11,6 @@ import org.junit.Test;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 public class MarketStrategyUnitTest {
 
     /**
@@ -28,7 +28,7 @@ public class MarketStrategyUnitTest {
     public void getNameTest() {
         String expectedName = "Test Strategy";
         marketStrategy = new MarketStrategy(expectedName);
-        
+
         assertEquals(expectedName, marketStrategy.getName());
     }
 

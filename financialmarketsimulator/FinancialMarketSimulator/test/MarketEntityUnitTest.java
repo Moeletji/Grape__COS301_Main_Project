@@ -1,3 +1,4 @@
+
 import financialmarketsimulator.market.MarketEntity;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
@@ -14,7 +15,6 @@ import org.junit.Test;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 public class MarketEntityUnitTest {
 
     /**
@@ -95,8 +95,8 @@ public class MarketEntityUnitTest {
      * @brief Tests if a strategy can be added to the marketEntity by observing
      * if the strategy has been added to the entity's array of strategies. If
      * the strategy already exists in the strategy array list, an exception
-     * should be thrown. This function also tests if the marketEntity strategy getters
-     * work as expected.
+     * should be thrown. This function also tests if the marketEntity strategy
+     * getters work as expected.
      */
     @Test
     public void addMarketStrategyTest() {
@@ -136,7 +136,8 @@ public class MarketEntityUnitTest {
      * set accordingly. The test also checks if the strategy being set as the
      * current strategy exists in the strategy array list before it is set. Else
      * the strategy cannot be set as the current strategy if it does not exist.
-     * This function also tests if the marketEntity strategy getters work as expected.
+     * This function also tests if the marketEntity strategy getters work as
+     * expected.
      */
     @Test
     public void setCurrentStrategyTest() {
@@ -175,14 +176,13 @@ public class MarketEntityUnitTest {
         //*******************************//
         //*Set added strategy as current*//
         //*******************************//
-        
         //No exception should be thrown in this try block
         try {
             marketEntity.setCurrentStrategy(expectedCurrentStrategy);
         } catch (NameNotFoundException ex) {
             ex.printStackTrace();
         }
-        
+
         //Check if the entity's returned strategy matches the excpeted strategy
         assertEquals(expectedCurrentStrategy, marketEntity.getCurrentStrategy().getName());
     }

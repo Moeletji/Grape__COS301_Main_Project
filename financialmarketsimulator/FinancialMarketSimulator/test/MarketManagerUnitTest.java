@@ -1,3 +1,4 @@
+
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.StockManager;
 import org.junit.After;
@@ -11,15 +12,14 @@ import org.junit.Test;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 public class MarketManagerUnitTest {
 
     public MarketManagerUnitTest() {
     }
-    
+
     /*!
-    * Test object. Used throughout the unit test.
-    */
+     * Test object. Used throughout the unit test.
+     */
     StockManager marketManager;
 
     @Test
@@ -35,7 +35,7 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo 
+     * @todo
      */
     public void acceptBidTest() {
         //marketManager = new StockManager();
