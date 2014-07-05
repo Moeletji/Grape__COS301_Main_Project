@@ -9,7 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- *
+ * @brief Test class for the MarketEntryAttempt class. All methods for the
+ * MarketEntryAttempt class are done in this class.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketEntryAttemptUnitTest {

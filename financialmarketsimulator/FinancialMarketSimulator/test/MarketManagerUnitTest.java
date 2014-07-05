@@ -9,7 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- *
+ * @brief Test class for the MarketManager class. All methods for the
+ * MarketManager are tested in this class.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketManagerUnitTest {

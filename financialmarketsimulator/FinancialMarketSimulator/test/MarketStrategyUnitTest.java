@@ -8,7 +8,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- *
+ * @brief Test class for the MarketStrategy class. All methods in the
+ * MarketStrategy class are tested in this class.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketStrategyUnitTest {
