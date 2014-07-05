@@ -428,4 +428,17 @@ public class MarketEntryAttemptBook {
     public synchronized double getVolatility(){
         return 0.0;
     }
+    
+    /**
+     * @brief Assess if the bid and offer stacks are empty or not.
+     * @return Returns true if both bid and offer stacks are empty and false if either  one of the
+     * bid or offer stacks is not empty.
+     */
+    public Boolean isEmpty()
+    {
+        if(bids.isEmpty() == true && offers.isEmpty() == true)
+            return true;
+        else
+            return false;
+    }
 }

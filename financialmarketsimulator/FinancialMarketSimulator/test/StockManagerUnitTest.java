@@ -135,10 +135,75 @@ public class StockManagerUnitTest {
      * required..
      */
     public void getOrderListTest() {
-        //marketManager = new StockManager();
-        MarketEntryAttempt expectedOutput = null;
-        MarketEntryAttempt actualOutput = null;
-        assertEquals(expectedOutput, actualOutput);
+        //************************************//
+        //****Case that orderList is empty****//
+        //************************************//
+        
+        stockManager = new StockManager();
+        MarketEntryAttemptBook orderList = new MarketEntryAttemptBook();
+        
+        assertEquals(stockManager.getOrderList().isEmpty(), true);
+        
+        //************************************//
+        //**Case that orderList is not empty**//
+        //************************************//
+        //Populate with a few offers before assessing getOrderList
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order1 = new MarketEntryAttempt(50, 100, "Participant1", BID);
+        MarketEntryAttempt order2 = new MarketEntryAttempt(60, 200, "Participant2", BID);
+        MarketEntryAttempt order3 = new MarketEntryAttempt(50, 100, "Participant3", OFFER);
+        MarketEntryAttempt order4 = new MarketEntryAttempt(60, 200, "Participant4", OFFER);
+        
+        try {
+            stockManager.acceptOrder(order1);
+            stockManager.acceptOrder(order2);
+            stockManager.acceptOrder(order3);
+            stockManager.acceptOrder(order4);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        MarketEntryAttemptBook orderList1 = stockManager.getOrderList();
+        
+        Boolean offer1Exists = false;
+        Boolean offer2Exists = false;
+        
+        //Test bids
+        Vector<MarketEntryAttempt> offers1 = orderList1.getBids();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order1 == offer1)
+            {
+                offer1Exists = true;
+            }
+            if(order2 == offer1)
+            {
+                offer2Exists = true;
+            }
+        }
+        
+        assertEquals(offer1Exists, true);
+        assertEquals(offer2Exists, true);
+        
+        //Test offers
+        offer1Exists = false;
+        offer2Exists = false;
+        
+        Vector<MarketEntryAttempt> offers2 = orderList1.getOffers();
+        for(MarketEntryAttempt offer1 : offers2 )
+        {
+            if(order3 == offer1)
+            {
+                offer1Exists = true;
+            }
+            if(order4 == offer1)
+            {
+                offer2Exists = true;
+            }
+        }
+        
+        assertEquals(offer1Exists, true);
+        assertEquals(offer2Exists, true);
     }
     
     @Test
