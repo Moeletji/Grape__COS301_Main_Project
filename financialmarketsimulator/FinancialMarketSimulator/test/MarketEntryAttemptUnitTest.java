@@ -22,7 +22,8 @@ public class MarketEntryAttemptUnitTest {
     }
 
     /**
-     * MarketEntryAttemp class test object. To be instantiated within each new test.
+     * MarketEntryAttemp class test object. To be instantiated within each new
+     * test.
      */
     MarketEntryAttempt exchange;
 
@@ -44,85 +45,83 @@ public class MarketEntryAttemptUnitTest {
         //test for timeStampNotDone
         // --timeStamp should only be off by mili or nano seconds yes?
     }
-    
+
     @Test
     /**
-     * @brief Tests if the market entry attempt side can be modified successfully.
+     * @brief Tests if the market entry attempt side can be modified
+     * successfully.
      */
-    public void setSideTest()
-    {
+    public void setSideTest() {
         exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
         exchange.setSide(OFFER);
-        
+
         assertEquals(exchange.getSide(), OFFER);
     }
-    
+
     @Test
     /**
-     * @brief Tests if the market entry attempt price can be modified successfully.
+     * @brief Tests if the market entry attempt price can be modified
+     * successfully.
      */
-    public void setPriceTest()
-    {
+    public void setPriceTest() {
         exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
         exchange.setPrice(60);
-        
+
         assertEquals(exchange.getPrice(), 60);
     }
-    
+
     @Test
     /**
-     * @brief Test if the market entry attempt number of shares cab be modified successfully.
+     * @brief Test if the market entry attempt number of shares cab be modified
+     * successfully.
      */
-    public void setNumSharesTest()
-    {
+    public void setNumSharesTest() {
         exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
         exchange.setNumOfShares(200);
-        
+
         assertEquals(exchange.getNumOfShares(), 200);
     }
-    
+
     @Test
     /**
-     * @brief Tests if the market entry attempts participant name can be modified successfully. 
+     * @brief Tests if the market entry attempts participant name can be
+     * modified successfully.
      */
-    public void setParticipantNameTest()
-    {
+    public void setParticipantNameTest() {
         exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
         exchange.setParticipantName("Partipant 2");
-        
+
         assertEquals(exchange.getParticipantName(), "Partipant 2");
     }
-    
+
     @Test
     /**
      * @brief
      */
-    public void hasNoSharesLeftTest()
-    {
+    public void hasNoSharesLeftTest() {
         exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
         exchange.setNumOfShares(0);
-        
+
         assertEquals(exchange.hasNoSharesLeft(), 0);
     }
-    
+
     @Test
     /**
-     * @brief Tests if a market entry attempt object's attributes can be set to those of another
-     * or new attributes.
+     * @brief Tests if a market entry attempt object's attributes can be set to
+     * those of another or new attributes.
      */
-    public void replaceWithTest()
-    {
+    public void replaceWithTest() {
         exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
         String stamp = sdf.format(date);
         exchange.replaceWith(60, 500, "Participant 2", date, stamp);
-        
-        assertEquals(exchange.getPrice(),60,0);
+
+        assertEquals(exchange.getPrice(), 60, 0);
         assertEquals(exchange.getNumOfShares(), 500);
         assertEquals(exchange.getParticipantName(), "Participant 2");
         assertEquals(exchange.getDate(), date);
         assertEquals(exchange.getTimeStampString(), stamp);
     }
-    
+
 }
