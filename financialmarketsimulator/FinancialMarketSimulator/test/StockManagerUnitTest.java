@@ -1,5 +1,7 @@
 
+import financialmarketsimulator.exception.ItemNotFoundException;
 import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.StockManager;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,11 +29,38 @@ public class StockManagerUnitTest {
     /**
      * @brief Tests if the stock manager object instantiates as expected
      */
-    public void instantiation() {
-        //marketManager = new StockManager();
-        String expectedOutput = "";
-        String actualOutput = "";
-        assertEquals(expectedOutput, actualOutput);
+    public void instantiation() throws ItemNotFoundException {
+        //*********************************//
+        //*************TEST 1**************//
+        //*********************************//
+        //Test the empty parameter constructor
+        
+        stockManager = new StockManager();
+        MarketEntryAttemptBook entryAttempBook1 = stockManager.getOrderList();
+        String stockName1 = stockManager.getStockName();
+        if(entryAttempBook1 == null)
+        {
+            //Throw exception
+            throw new ItemNotFoundException();
+        }
+        
+        assertEquals(stockName1, "");
+        
+        //*********************************//
+        //*************TEST 2**************//
+        //*********************************//
+        //Test the nameparameter contructor
+        
+        stockManager = new StockManager("TestStock");
+        MarketEntryAttemptBook entryAttempBook2 = stockManager.getOrderList();
+        String stockName2 = stockManager.getStockName();
+        if(entryAttempBook2 == null)
+        {
+            //Throw exception
+            throw new ItemNotFoundException();
+        }
+        
+        assertEquals(stockName2, "TestStock");
     }
 
     @Test
