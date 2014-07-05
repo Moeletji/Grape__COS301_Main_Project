@@ -18,6 +18,9 @@ public class EMAUnitTest {
     public EMAUnitTest() {
     }
 
+    /**
+     * EMA class test object. To be instantiated within each new test.
+     */
     EMA ema;
 
     /**
