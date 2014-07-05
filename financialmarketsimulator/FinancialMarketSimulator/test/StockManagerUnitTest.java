@@ -213,10 +213,71 @@ public class StockManagerUnitTest {
      * particular time it was removed.
      */
     public void removeOrderTest() {
-        //marketManager = new StockManager();
-        Boolean expectedOutput = true;
-        Boolean actualOutput = null;
-        //assertEquals(expectedOutput, actualOutput);
+        //Assume that orders are accepted successfully.
+        
+        //************************************//
+        //*****Case that order is a bid*******//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order1 = new MarketEntryAttempt(50, 100, "Participant1", BID);
+        
+        try {
+            stockManager.acceptOrder(order1);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //remove the recently added oder "order1"
+        stockManager.removeOrder(order1);
+        
+        //Check if the order has been fully removed
+        MarketEntryAttemptBook orderList1 = stockManager.getOrderList();
+        
+        Boolean removed = true;
+        Vector<MarketEntryAttempt> offers1 = orderList1.getBids();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order1 == offer1)
+            {
+                removed = false;
+                break;
+            }
+        }
+        
+        assertEquals(removed, true);
+        
+        //************************************//
+        //****Case that order is an offer*****//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order2 = new MarketEntryAttempt(50, 100, "Participant1", OFFER);
+        
+        try {
+            stockManager.acceptOrder(order2);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        //remove the recently added oder "order1"
+        stockManager.removeOrder(order2);
+        
+        //Check if the order has been fully removed
+        MarketEntryAttemptBook orderList2 = stockManager.getOrderList();
+        
+        Boolean removed2 = true;
+        Vector<MarketEntryAttempt> offers2 = orderList2.getBids();
+        for(MarketEntryAttempt offer2 : offers2 )
+        {
+            if(order2 == offer2)
+            {
+                removed2 = false;
+                break;
+            }
+        }
+        
+        assertEquals(removed2, true);
     }
 
     @Test
