@@ -24,6 +24,16 @@ public class MarketStrategyUnitTest {
 
     @Test
     /**
+     * @brief Test if the object can be successfully instantiated.
+     */
+    public void instantiationTest()
+    {
+        marketStrategy = new MarketStrategy("TestStrategy1");
+        assertEquals(marketStrategy.getName(), "TestStrategy1");
+    }
+    
+    @Test
+    /**
      * @brief Tests if the getName method returns the expected strategy name
      */
     public void getNameTest() {

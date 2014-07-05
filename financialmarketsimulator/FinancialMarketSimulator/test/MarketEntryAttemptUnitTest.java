@@ -1,5 +1,7 @@
 
 import financialmarketsimulator.market.MarketEntryAttempt;
+import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.BID;
+import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.OFFER;
 import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,16 +25,16 @@ public class MarketEntryAttemptUnitTest {
      */
     MarketEntryAttempt exchange;
 
+    @Test
     /*
      * @brief Tests if the Market Entry object can be instantiated successfully.
      */
-    @Test
     public void instantiation() {
         final double DELTA = 1e-20;
         double price = 0.0;
         int numShares = 0;
         String name = "";
-        exchange = new MarketEntryAttempt(price, numShares, name, MarketEntryAttempt.SIDE.BID);
+        exchange = new MarketEntryAttempt(price, numShares, name, BID);
 
         assertEquals(price, exchange.getPrice(), DELTA);
         assertEquals(numShares, exchange.getNumOfShares());
@@ -40,5 +42,71 @@ public class MarketEntryAttemptUnitTest {
         assertEquals(new Date().toString(), exchange.getTimeStampString());
         //test for timeStampNotDone
         // --timeStamp should only be off by mili or nano seconds yes?
+    }
+    
+    @Test
+    /**
+     * @brief Tests if the market entry attempt side can be modified successfully.
+     */
+    public void setSideTest()
+    {
+        exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
+        exchange.setSide(OFFER);
+        
+        assertEquals(exchange.getSide(), OFFER);
+    }
+    
+    @Test
+    /**
+     * @brief Tests if the market entry attempt price can be modified successfully.
+     */
+    public void setPriceTest()
+    {
+        exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
+        exchange.setPrice(60);
+        
+        assertEquals(exchange.getPrice(), 60);
+    }
+    
+    @Test
+    /**
+     * @brief Test if the market entry attempt number of shares cab be modified successfully.
+     */
+    public void setNumSharesTest()
+    {
+        exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
+        exchange.setNumOfShares(200);
+        
+        assertEquals(exchange.getNumOfShares(), 200);
+    }
+    
+    @Test
+    /**
+     * @brief Tests if the market entry attempts participant name can be modified successfully. 
+     */
+    public void setParticipantNameTest()
+    {
+        exchange = new MarketEntryAttempt(50, 100, "Participant 1", BID);
+        exchange.setParticipantName("Partipant 2");
+        
+        assertEquals(exchange.getParticipantName(), "Partipant 2");
+    }
+    
+    @Test
+    /**
+     * @brief
+     */
+    public void hasNoSharesLeftTest()
+    {
+        
+    }
+    
+    @Test
+    /**
+     * @brief 
+     */
+    public void replaceWithTest()
+    {
+        
     }
 }
