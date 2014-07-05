@@ -1,8 +1,13 @@
 
 import financialmarketsimulator.exception.ItemNotFoundException;
 import financialmarketsimulator.market.MarketEntryAttempt;
+import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.BID;
+import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.OFFER;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.StockManager;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -65,47 +70,88 @@ public class StockManagerUnitTest {
 
     @Test
     /**
-     * @brief Tests if the stock manager can successfully accept and record a bid 
+     * @brief Tests if the stock manager can successfully accept and record an order 
      * that has been made.
+     * @todo Check if the order history has been recorded.
      */
-    public void acceptBidTest() {
+    public void acceptOrderTest() {
+        
+        //************************************//
+        //*****Case that order is a bid*******//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock1");
+        MarketEntryAttempt order1 = new MarketEntryAttempt(50, 100, "Participant1", BID);
+        
+        try {
+            stockManager.acceptOrder(order1);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        MarketEntryAttemptBook orderList1 = stockManager.getOrderList();
+        
+        Boolean exists1 = false;
+        Vector<MarketEntryAttempt> offers1 = orderList1.getBids();
+        for(MarketEntryAttempt offer1 : offers1 )
+        {
+            if(order1 == offer1)
+            {
+                exists1 = true;
+                break;
+            }
+        }
+        
+        assertEquals(exists1, true);
+        
+        //************************************//
+        //****Case that order is an offer*****//
+        //************************************//
+        
+        stockManager = new StockManager("TestStock2");
+        MarketEntryAttempt order2 = new MarketEntryAttempt(50, 100, "Participant2", OFFER);
+        
+        try {
+            stockManager.acceptOrder(order2);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        
+        MarketEntryAttemptBook orderList2 = stockManager.getOrderList();
+        
+        Boolean exists2 = false;
+        Vector<MarketEntryAttempt> offers2 = orderList2.getOffers();
+        for(MarketEntryAttempt offer2 : offers2 )
+        {
+            if(order2 == offer2)
+            {
+                exists2 = true;
+                break;
+            }
+        }
+        
+        assertEquals(exists2, true);
+    }
+
+    @Test
+    /**
+     * @brief Tests if the stock manager can successfully return the correct order list when 
+     * required..
+     */
+    public void getOrderListTest() {
         //marketManager = new StockManager();
         MarketEntryAttempt expectedOutput = null;
         MarketEntryAttempt actualOutput = null;
         assertEquals(expectedOutput, actualOutput);
     }
-
+    
     @Test
     /**
-     * @brief Tests if the stock manager can successfully accept and record an offer
-     * that has been made.
-     */
-    public void acceptOfferTest() {
-        //marketManager = new StockManager();
-        MarketEntryAttempt expectedOutput = null;
-        MarketEntryAttempt actualOutput = null;
-        assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    /**
-     * @brief Tests if the stock manager can successfully remove a bid that was made and
-     * successfully record that the bid was removed at the time it was removed.
-     */
-    public void removeBidTest() {
-        //marketManager = new StockManager();
-        Boolean expectedOutput = true;
-        Boolean actualOutput = null;
-        //assertEquals(expectedOutput, actualOutput);
-    }
-
-    @Test
-    /**
-     * @brief Tests of the stock manager can successfully remove an offer that was made
-     * and if the manager can successfully record the offer as being removed at the
+     * @brief Tests of the stock manager can successfully remove an order that was made
+     * and if the manager can successfully record the order as being removed at the
      * particular time it was removed.
      */
-    public void removeOfferTest() {
+    public void removeOrderTest() {
         //marketManager = new StockManager();
         Boolean expectedOutput = true;
         Boolean actualOutput = null;
@@ -114,18 +160,19 @@ public class StockManagerUnitTest {
 
     @Test
     /**
-     * @brief Tests if the stock manager can successfully update the matching engine.
+     * @brief Tests if the stock manager can successfully edit the specified order
+     * and record that the order was modified at the time it was modifie.
      */
-    public void updateEngineTest() {
+    public void editOrderTest() {
         //marketManager = new StockManager();
     }
 
     @Test
     /**
-     * @brief Tests if the stock manager can successfully update the relevant market participants
-     * or entities.
+     * @brief Tests if the stock manager can successfully return a snap shot of the market
+     * at the particular moment.
      */
-    public void updateEntitiesTest() {
+    public void getMarketSnapShotTest() {
         //marketManager = new StockManager();
     }
 }
