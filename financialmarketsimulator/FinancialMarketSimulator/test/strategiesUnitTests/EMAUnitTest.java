@@ -9,7 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- *
+ * @brief Test class for the EMA class. All methods in the EMA class are tested
+ * in this class.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class EMAUnitTest {
