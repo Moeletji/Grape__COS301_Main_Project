@@ -24,7 +24,7 @@ public class MarketStrategyUnitTest {
 
     @Test
     /**
-     * @todo Tests if the getName method returns the expected strategy name
+     * @brief Tests if the getName method returns the expected strategy name
      */
     public void getNameTest() {
         String expectedName = "Test Strategy";
@@ -35,21 +35,21 @@ public class MarketStrategyUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if an offer can be made successfully.
      */
     public void makeOfferTest() {
     }
 
     @Test
     /**
-     * @todo
+     * @brief Tests if a bid can be made successfully.
      */
     public void makeBidTest() {
     }
 
     @Test
     /**
-     * @todo
+     * @brief Tests if a bid can be retracted/withdrawn successfully.
      */
     public void retractBidTest() {
 
@@ -57,7 +57,7 @@ public class MarketStrategyUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if an offer can be retracted/withdrawn successfully.
      */
     public void retractOfferTest() {
 
@@ -65,7 +65,7 @@ public class MarketStrategyUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if a strategy can be set successfully. 
      */
     public void setStrategyTest() {
 
@@ -73,7 +73,8 @@ public class MarketStrategyUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if a market entry attempt, i.e. an offer or a bid, can be made 
+     * successfully
      */
     public void searchMarketEntryAttempt() {
     }

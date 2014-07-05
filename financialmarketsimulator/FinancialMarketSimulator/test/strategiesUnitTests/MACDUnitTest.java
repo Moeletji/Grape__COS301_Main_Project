@@ -9,8 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @brief Test class for the MACD class. All methods in the MACD class are tested
- * in this class.
+ * @brief Test class for the MACD class. All methods in the MACD class are
+ * tested in this class.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MACDUnitTest {

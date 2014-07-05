@@ -25,10 +25,6 @@ public class MarketEntityUnitTest {
 
     public MarketEntityUnitTest() {
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
     /**
      * @brief This method tests if the marketEntity object is instantiated
      * properly by checking to see if the returned object attributes match those

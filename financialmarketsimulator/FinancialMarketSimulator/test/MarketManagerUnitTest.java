@@ -25,7 +25,7 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * Tests if the MarketManager object instantiates as expected
+     * @brief Tests if the MarketManager object instantiates as expected
      */
     public void instantiation() {
         //marketManager = new StockManager();
@@ -36,7 +36,8 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if the market manager can successfully accept and record a bid 
+     * that has been made.
      */
     public void acceptBidTest() {
         //marketManager = new StockManager();
@@ -47,7 +48,8 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if the market manager can successfully accept and record an offer
+     * that has been made.
      */
     public void acceptOfferTest() {
         //marketManager = new StockManager();
@@ -58,7 +60,8 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if the market manager can successfully remove a bid that was made and
+     * successfully record that the bid was removed at the time it was removed.
      */
     public void removeBidTest() {
         //marketManager = new StockManager();
@@ -69,7 +72,9 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests of the market manager can successfully remove an offer that was made
+     * and if the manager can successfully record the offer as being removed at the
+     * particular time it was removed.
      */
     public void removeOfferTest() {
         //marketManager = new StockManager();
@@ -80,7 +85,7 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if the market manager can successfully update the matching engine.
      */
     public void updateEngineTest() {
         //marketManager = new StockManager();
@@ -88,7 +93,8 @@ public class MarketManagerUnitTest {
 
     @Test
     /**
-     * @todo
+     * @brief Tests if the market manager can successfully update the relevant market participants
+     * or entities.
      */
     public void updateEntitiesTest() {
         //marketManager = new StockManager();

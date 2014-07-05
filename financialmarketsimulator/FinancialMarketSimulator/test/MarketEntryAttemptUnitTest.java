@@ -18,15 +18,13 @@ public class MarketEntryAttemptUnitTest {
     public MarketEntryAttemptUnitTest() {
     }
 
-    //Test Object
+    /**
+     * MarketEntryAttemp class test object. To be instantiated within each new test.
+     */
     MarketEntryAttempt exchange;
 
     /*
-     * Function  : constuctor
-     * Input     : 
-     * Process   : 
-     * Output    : 
-     * Speed     : 
+     * @brief Tests if the Market Entry object can be instantiated successfully.
      */
     @Test
     public void instantiation() {
