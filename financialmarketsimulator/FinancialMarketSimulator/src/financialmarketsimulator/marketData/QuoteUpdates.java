@@ -41,52 +41,56 @@ public final class QuoteUpdates {
      * @brief number of orders at market offer price
      */
     private int offerOrders;
-    
-    public QuoteUpdates(){
+
+    public QuoteUpdates() {
         this.time = new Date();
     }
+
     /**
      * Constructor used when a quote of the entire stock
+     *
      * @param manager manager of a stock
      */
-    public QuoteUpdates(StockManager manager){
+    public QuoteUpdates(StockManager manager) {
         this();
-        
+
         this.setStockName(manager.getStockName());
-        
+
         this.setBidPrice(manager.getOrderList().getHighestBidPrice());
         this.setOfferPrice(manager.getOrderList().getLowestOfferPrice());
-        
+
         this.setBidShares(manager.getOrderList().getTotalSharesForHighestBidPrice());
         this.setOfferShares(manager.getOrderList().getTotalSharesForLowestOfferPrice());
-        
+
         this.setBidOrders(manager.getOrderList().getBidOrders());
         this.setOfferOrders(manager.getOrderList().getOfferOrders());
     }
-    
+
     /**
      * Constructor used when a quote of the stock, with specified price orders
+     *
      * @param manager manager of a stock
      * @param bidPrice
      * @param offerPrice
      */
-    public QuoteUpdates(StockManager manager, double bidPrice, double offerPrice){
+    public QuoteUpdates(StockManager manager, double bidPrice, double offerPrice) {
         this();
-        
+
         this.setStockName(manager.getStockName());
-        
+
         this.setBidPrice(manager.getOrderList().getHighestBidPrice());
         this.setOfferPrice(manager.getOrderList().getLowestOfferPrice());
-        
+
         this.setBidShares(manager.getOrderList().getTotalSharesForHighestBidPrice());
         this.setOfferShares(manager.getOrderList().getTotalSharesForLowestOfferPrice());
-        
+
         this.setBidOrders(manager.getOrderList().getBidOrders(bidPrice));
         this.setOfferOrders(manager.getOrderList().getOfferOrders(offerPrice));
     }
-    
+
     /**
      * Constructor used when a quote of the stock, with all specified values
+     *
      * @param stockName
      * @param bidPrice
      * @param offerPrice
@@ -95,46 +99,46 @@ public final class QuoteUpdates {
      * @param bidPriceOrders
      * @param offerPriceOrders
      */
-    public QuoteUpdates(String stockName, double bidPrice, double offerPrice, int bidShares, int offerShares, int bidPriceOrders, int offerPriceOrders){
+    public QuoteUpdates(String stockName, double bidPrice, double offerPrice, int bidShares, int offerShares, int bidPriceOrders, int offerPriceOrders) {
         this();
-        
+
         this.setStockName(stockName);
-        
+
         this.setBidPrice(bidPrice);
         this.setOfferPrice(offerPrice);
-        
+
         this.setBidShares(bidShares);
         this.setOfferShares(offerShares);
-        
+
         this.setBidOrders(bidPriceOrders);
         this.setOfferOrders(offerPriceOrders);
     }
-    
+
     /**
      * Constructor used when a quote of the stock without price orders
+     *
      * @param stockName
      * @param bidPrice
      * @param offerPrice
      * @param bidShares
      * @param offerShares
      */
-    public QuoteUpdates(String stockName, double bidPrice, double offerPrice, int bidShares, int offerShares){
+    public QuoteUpdates(String stockName, double bidPrice, double offerPrice, int bidShares, int offerShares) {
         this();
-        
+
         this.setStockName(stockName);
-        
+
         this.setBidPrice(bidPrice);
         this.setOfferPrice(offerPrice);
-        
+
         this.setBidShares(bidShares);
         this.setOfferShares(offerShares);
-        
+
         this.setBidOrders(0);
         this.setOfferOrders(0);
     }
 
     /* Getters and Setters*/
-    
     public Date getTime() {
         return time;
     }

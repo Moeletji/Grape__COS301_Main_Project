@@ -16,15 +16,15 @@ public class MarketStrategy {
 
     /**
      * @todo make an offer
-     * @return 
+     * @return
      */
     public MarketEntryAttempt makeOffer() {
         return null;
     }
-    
+
     /**
      * @todo make a bid
-     * @return 
+     * @return
      */
     public MarketEntryAttempt makeBid() {
         return null;

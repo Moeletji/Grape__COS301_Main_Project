@@ -27,7 +27,7 @@ public final class DepthUpdates {
     public DepthUpdates() {
         time = new Date();
     }
-    
+
     public DepthUpdates(String stockName, String orderID, int numberOfShares, String upDate) {
         this();
 

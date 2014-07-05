@@ -1,7 +1,7 @@
 package financialmarketsimulator.indicators;
 
 /**
- * @brief EMA(Exponential Moving Average) EMA places more weight on the most 
+ * @brief EMA(Exponential Moving Average) EMA places more weight on the most
  * recent closing price and less weight on the other prices(closing past prices)
  * and will be used to calculate other technical indicators.
  * @author Grape <cos301.mainproject.grape@gmail.com>
@@ -20,10 +20,10 @@ public class EMA {
      * Todays closing price
      */
     private double currentPrice;
-    
+
     /**
      * @brief Constructor for the EMA class
-     * @param numDays 
+     * @param numDays
      */
     public EMA(int numDays) {
         numOfDays = numDays;
@@ -32,17 +32,16 @@ public class EMA {
 
     @SuppressWarnings("UnusedAssignment")
     public double calculateEMA() {
-        
+
         if ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMA <= 0)) {
             return 0.0;
         }
-        
+
         double k = 2 / (numOfDays + 1);
         return ((currentPrice * k) + (previousEMA * (1 - k)));
     }
-    
-    public int getNumberOfDays()
-    {
+
+    public int getNumberOfDays() {
         return numOfDays;
     }
 }

@@ -11,8 +11,11 @@ import java.util.UUID;
 public class MarketEntryAttempt implements Cloneable {
 
     //Static variables declaration
-    public static enum SIDE {BID, OFFER}
-    
+    public static enum SIDE {
+
+        BID, OFFER
+    }
+
     /**
      * @brief stores which side of the order it is
      */
@@ -53,7 +56,7 @@ public class MarketEntryAttempt implements Cloneable {
      */
     public MarketEntryAttempt(double price, int numShares, String name, SIDE side) {
         this();
-        this.price = Math.round(price*20)/20.0;
+        this.price = Math.round(price * 20) / 20.0;
         this.numOfShares = numShares;
         this.participantName = name;
         this.side = side;
@@ -65,26 +68,25 @@ public class MarketEntryAttempt implements Cloneable {
         SimpleDateFormat sdf = new SimpleDateFormat("E yyyy.MM.dd hh:mm:ss a zzz");
         this.timeStamp = sdf.format(date);
     }
-    
+
     /**
-     * 
+     *
      * @return Object cloned
-     * @throws CloneNotSupportedException 
+     * @throws CloneNotSupportedException
      */
     @Override
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-    
+
     /**
-     * 
-     * @return The side the order is on(BID or OFFER) 
+     *
+     * @return The side the order is on(BID or OFFER)
      */
-    public SIDE getSide()
-    {
+    public SIDE getSide() {
         return side;
     }
+
     /**
      * @return Double value for the price of the entry attempt, i.e. bid or
      * offer
@@ -123,20 +125,19 @@ public class MarketEntryAttempt implements Cloneable {
     public String getTimeStampString() {
         return this.timeStamp;
     }
-    
-    public String getOrderID(){
+
+    public String getOrderID() {
         return orderID.toString();
     }
-    
+
     /**
      * @brief Sets the side the order is on(i.e. a bid or an offer)
-     * @param side 
+     * @param side
      */
-    public void setSide(SIDE _side)
-    {
+    public void setSide(SIDE _side) {
         this.side = _side;
     }
-    
+
     /**
      * @todo Sets the price of the shares for entry attempt, i.e. sets the price
      * of shares being offered or bid.
@@ -168,7 +169,7 @@ public class MarketEntryAttempt implements Cloneable {
     }
 
     /**
-     * @param price 
+     * @param price
      * @param numShares
      * @param name
      * @param newDate

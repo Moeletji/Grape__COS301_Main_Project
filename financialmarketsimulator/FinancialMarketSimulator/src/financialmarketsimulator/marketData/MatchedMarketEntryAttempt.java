@@ -21,13 +21,11 @@ public class MatchedMarketEntryAttempt {
         if ((_offer.getSide() == MarketEntryAttempt.SIDE.OFFER) && (_bid.getSide() == MarketEntryAttempt.SIDE.BID)) {
             offer = _offer;
             bid = _bid;
-        }
-        else
-        {
+        } else {
             offer = _bid;
             bid = _offer;
         }
-       
+
         dateIssued = new Date();
     }
 
@@ -36,15 +34,14 @@ public class MatchedMarketEntryAttempt {
     }
 
     public int getQuantity() {
-        return (offer.getNumOfShares() <= bid.getNumOfShares())? offer.getNumOfShares():bid.getNumOfShares();
+        return (offer.getNumOfShares() <= bid.getNumOfShares()) ? offer.getNumOfShares() : bid.getNumOfShares();
     }
 
     public String getDateIssued() {
         return dateIssued.toString();
     }
-    
-    public String getID()
-    {
+
+    public String getID() {
         return id;
     }
 }

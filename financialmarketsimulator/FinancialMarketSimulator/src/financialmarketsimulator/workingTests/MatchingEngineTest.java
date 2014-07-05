@@ -20,8 +20,7 @@ public class MatchingEngineTest {
         System.out.printf("         Bids                  Offers          %n");
         System.out.printf("--------------------------------------------%n");
         int i = 0;
-        if(book.getBids().equals(null) || book.getOffers().equals(null))
-        {
+        if (book.getBids().equals(null) || book.getOffers().equals(null)) {
             throw new ItemNotFoundException();
         }
         while (i < Math.max(book.getBids().size(), book.getOffers().size())) {
@@ -86,13 +85,13 @@ public class MatchingEngineTest {
         MarketEntryAttempt order12 = new MarketEntryAttempt(-1.7678, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         facebookStockManager.acceptOrder(order12);
         showBook(facebookStockManager.getOrderList());
-        
+
         //Test whether orders are removed correctly
         System.out.println("\n\n");
         System.out.println("***************************************Test 2***************************************");
-        
+
         StockManager yahooManager = new StockManager();
-        
+
         order1 = new MarketEntryAttempt(40.01, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
         order2 = new MarketEntryAttempt(40.00, 2000, "Jonny Bravo", MarketEntryAttempt.SIDE.OFFER);
@@ -117,7 +116,7 @@ public class MatchingEngineTest {
         yahooManager.acceptOrder(order11);
         order12 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order12);
-        
+
         showBook(yahooManager.getOrderList());
         yahooManager.removeOrder(order1);
         showBook(yahooManager.getOrderList());
@@ -126,12 +125,11 @@ public class MatchingEngineTest {
         showBook(yahooManager.getOrderList());
         yahooManager.removeOrder(order10.getOrderID(), order10.getSide());
         showBook(yahooManager.getOrderList());
-        
-        
+
         //Test whether orders are edited and updated correctly
         System.out.println("\n\n");
         System.out.println("***************************************Test 3***************************************");
-        
+
         order1 = new MarketEntryAttempt(40.01, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
         order2 = new MarketEntryAttempt(40.00, 2000, "Jonny Bravo", MarketEntryAttempt.SIDE.OFFER);
@@ -156,18 +154,18 @@ public class MatchingEngineTest {
         yahooManager.acceptOrder(order11);
         order12 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         yahooManager.acceptOrder(order12);
-        
+
         showBook(yahooManager.getOrderList());
         yahooManager.editOrder(order1.getOrderID(), 10000000, 500000, order1.getSide());
         showBook(yahooManager.getOrderList());
         yahooManager.editOrder(order11.getOrderID(), order11.getPrice(), 500000, order11.getSide());
         showBook(yahooManager.getOrderList());
-        
-         //Test whether orders are matched correctly
+
+        //Test whether orders are matched correctly
         System.out.println("***************************************Test 4***************************************");
-        
+
         StockManager googleManager = new StockManager();
-        
+
         showBook(googleManager.getOrderList());
         MarketEntryAttempt order13 = new MarketEntryAttempt(34.50, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         googleManager.acceptOrder(order13);
@@ -205,39 +203,38 @@ public class MatchingEngineTest {
         MarketEntryAttempt order24 = new MarketEntryAttempt(34.56, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
         googleManager.acceptOrder(order24);
         showBook(googleManager.getOrderList());
-        
+
         Vector<MatchedMarketEntryAttempt> testTrades = googleManager.getOrderList().getMatchedOrders();
-        
-        for(int i=0; i<testTrades.size();i++)
-        {
+
+        for (int i = 0; i < testTrades.size(); i++) {
             System.out.println();
-            System.out.println("Trade #" + i+1);
+            System.out.println("Trade #" + i + 1);
             System.out.println("Trade ID: " + testTrades.get(i).getID());
             System.out.println("Trade Time: " + testTrades.get(i).getDateIssued());
             System.out.println("Trade Price: " + testTrades.get(i).getPrice());
             System.out.println("Trade Quantity: " + testTrades.get(i).getQuantity());
             System.out.println();
         }
-        
+
         //Test whether numbers are rounded to decimal places
         /*System.out.println("\n\n");
-        System.out.println("***************************************Test 4***************************************");
-        double number = 56.563423234;
-        double answer;
+         System.out.println("***************************************Test 4***************************************");
+         double number = 56.563423234;
+         double answer;
         
-        StockManager man = new StockManager();
+         StockManager man = new StockManager();
         
-        answer = man.getOrderList().roundNumber(number);
-        System.out.println("Expected value: 56.56 \n Actual Value: " + answer + "\n");
+         answer = man.getOrderList().roundNumber(number);
+         System.out.println("Expected value: 56.56 \n Actual Value: " + answer + "\n");
         
-        answer = man.getOrderList().roundNumber(number, 4);
-        System.out.println("Expected value: 56.5634 \n Actual Value: " + answer + "\n");
+         answer = man.getOrderList().roundNumber(number, 4);
+         System.out.println("Expected value: 56.5634 \n Actual Value: " + answer + "\n");
         
-        number = 56;
-        answer = man.getOrderList().roundNumber(number);
-        System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");
+         number = 56;
+         answer = man.getOrderList().roundNumber(number);
+         System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");
         
-        answer = man.getOrderList().roundNumber(number, 3);
-        System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");*/
+         answer = man.getOrderList().roundNumber(number, 3);
+         System.out.println("Expected value: 56.0 \n Actual Value: " + answer + "\n");*/
     }
 }
