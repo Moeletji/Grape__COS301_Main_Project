@@ -1,4 +1,3 @@
-
 import financialmarketsimulator.exception.ItemNotFoundException;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.BID;
@@ -6,8 +5,6 @@ import static financialmarketsimulator.market.MarketEntryAttempt.SIDE.OFFER;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.StockManager;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -16,13 +13,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @brief Test class for the StockManager class. All methods for the
- * StockManager are tested in this class.
+ *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class StockManagerUnitTest {
-
-    public StockManagerUnitTest() {
+    
+     public StockManagerUnitTest() {
     }
 
     /**
