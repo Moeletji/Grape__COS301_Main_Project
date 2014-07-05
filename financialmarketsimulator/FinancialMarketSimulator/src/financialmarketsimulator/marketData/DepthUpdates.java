@@ -4,7 +4,7 @@ import financialmarketsimulator.market.MarketEntryAttempt;
 import java.util.Date;
 
 /**
- *
+ * @brief
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public final class DepthUpdates {

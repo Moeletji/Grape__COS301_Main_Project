@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Vector;
 
 /**
- *
+ * @brief 
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MatchedMarketEntryAttemptUpdate {

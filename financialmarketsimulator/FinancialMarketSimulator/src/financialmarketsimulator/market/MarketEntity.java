@@ -5,7 +5,9 @@ import financialmarketsimulator.exception.NameNotFoundException;
 import java.util.ArrayList;
 
 /**
- *
+ * @brief The super class from which each market entity or market participant will
+ * inherit from. Each entity will have a market name, an entity ID, an entity type 
+ * and a list of their strategies and the current strategy they are using.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketEntity {

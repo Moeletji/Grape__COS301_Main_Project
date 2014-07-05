@@ -3,7 +3,8 @@ package financialmarketsimulator.market;
 import financialmarketsimulator.exception.ItemNotFoundException;
 
 /**
- *
+ * @brief The super market strategy class from which each concrete market strategy 
+ * used by each participant will inherit from.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketStrategy {

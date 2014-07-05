@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * @brief An acknowledgement for a trade that has occured
+ * @brief An acknowledgement for a trade that has occured.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MatchedMarketEntryAttempt {

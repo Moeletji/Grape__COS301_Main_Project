@@ -9,7 +9,7 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
 /**
- *
+ * @brief Matching engine test class.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MatchingEngineTest {

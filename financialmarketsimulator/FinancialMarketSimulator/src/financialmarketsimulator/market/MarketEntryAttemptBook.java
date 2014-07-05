@@ -5,7 +5,7 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
 /**
- * @Brief order book of all bids and offers
+ * @Brief Order book housing all bids and offers made
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketEntryAttemptBook {

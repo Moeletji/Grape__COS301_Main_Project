@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- *
+ * @brief The super class from which each market entry attempt, i.e. each bid or
+ * offer made, will inherit from.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketEntryAttempt implements Cloneable {
