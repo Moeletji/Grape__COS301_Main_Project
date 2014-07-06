@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * @brief
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public final class DepthUpdates {
@@ -42,7 +42,7 @@ public final class DepthUpdates {
         time = new Date();
         
     }
-    
+
     public DepthUpdates(String stockName, String orderID, int numberOfShares, String upDate) {
         this();
 

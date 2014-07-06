@@ -4,7 +4,8 @@ import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 
 /**
- *
+ * @brief The StockManager class is the super class from which each concrete
+ * stock/security manager will inherit.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class StockManager {
