@@ -419,4 +419,13 @@ public class MarketEntryAttemptBook {
 
         return count;
     }
+    
+    /**
+     * @todo calculate the volatility of the stock using standard deviation
+     * @brief calculate the volatility of the stock
+     * @return the volatility of the market
+     */
+    public synchronized double getVolatility(){
+        return 0.0;
+    }
 }
