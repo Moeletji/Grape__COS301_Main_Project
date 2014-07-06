@@ -2,6 +2,9 @@ package financialmarketsimulator.marketData;
 
 import financialmarketsimulator.market.MarketEntryAttempt;
 import java.util.Date;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,9 +26,21 @@ public final class DepthUpdates {
     private int numberOfShares;
 
     private String updateType;
+    
+    public static void main(String[] args) {
+        try {
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:3306;FinancialMarketSimulatorHistoricalData", "root", "");
+            Statement statement = con.createStatement();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DepthUpdates.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public DepthUpdates() {
+        
         time = new Date();
+        
     }
     
     public DepthUpdates(String stockName, String orderID, int numberOfShares, String upDate) {
