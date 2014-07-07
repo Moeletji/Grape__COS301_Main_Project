@@ -13,6 +13,9 @@ public class ADX {
     private double downMove;
     private double posDM;
     private double negDM;
+    private double posDI;
+    private double negDI;
+    private double averageTrueRange;
     private final int numberOfDays = 14;
 
     public ADX() {
@@ -27,6 +30,9 @@ public class ADX {
         double posDI = 0.0;
         double negDI = 0.0;
         EMA emaValue = new EMA(numberOfDays);
+        
+        //upMove = TodaysHigh - YesterdaysHigh
+        //downMove = YesterdaysLow - TodaysLow
 
         if (upMove > downMove && upMove > 0) {
             posDM = upMove;
@@ -44,6 +50,8 @@ public class ADX {
         //Must complete from here down
         //**************************
         //Calculation of the Average True Range
+        //averageTrueRange = 
+        
         adxValue = 0.0;
 
         return adxValue;
