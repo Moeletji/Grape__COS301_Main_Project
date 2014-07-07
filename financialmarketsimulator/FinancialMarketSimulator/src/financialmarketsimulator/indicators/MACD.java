@@ -21,11 +21,16 @@ public class MACD {
         
     }
 
-    public double calculateMACD() {
+    public double calculateMACDValue() {
         EMA longEMA = new EMA(LONG_DAY);
         EMA shortEMA = new EMA(SHORT_DAY);
         currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
         return currentMACDValue;
+    }
+    
+    public double calculateSignalValue()
+    {
+        return 0.0;
     }
 
     public double getCurrentMACDValue() {
