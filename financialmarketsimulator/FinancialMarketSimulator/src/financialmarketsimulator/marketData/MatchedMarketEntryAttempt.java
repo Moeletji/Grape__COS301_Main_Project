@@ -14,11 +14,25 @@ public class MatchedMarketEntryAttempt {
 
     private final MarketEntryAttempt offer;
     private final MarketEntryAttempt bid;
+    private final int numShares;
+    private final double price;
     private final String id;
     private final Date dateIssued;
     private final SimpleDateFormat sdf;
     private final String date;
 
+    public MatchedMarketEntryAttempt(String _id, Date _dateIssued, int _numShares, double _price)
+    {
+        offer = null;
+        bid = null;
+        id = _id;
+        dateIssued = _dateIssued;
+        sdf = new SimpleDateFormat("YYYY.MM.DD HH:MM:SS");
+        date = sdf.format(dateIssued);
+        price = _price;
+        numShares = _numShares;
+    }
+    
     public MatchedMarketEntryAttempt(MarketEntryAttempt _offer, MarketEntryAttempt _bid) {
         id = UUID.randomUUID().toString();
         if ((_offer.getSide() == MarketEntryAttempt.SIDE.OFFER) && (_bid.getSide() == MarketEntryAttempt.SIDE.BID)) {
@@ -32,14 +46,16 @@ public class MatchedMarketEntryAttempt {
         dateIssued = new Date();
         sdf = new SimpleDateFormat("YYYY.MM.DD HH:MM:SS");
         date = sdf.format(dateIssued);
+        numShares = (offer.getNumOfShares() <= bid.getNumOfShares()) ? offer.getNumOfShares() : bid.getNumOfShares();
+        price = offer.getPrice();
     }
 
     public double getPrice() {
-        return offer.getPrice();
+        return price;
     }
 
     public int getQuantity() {
-        return (offer.getNumOfShares() <= bid.getNumOfShares()) ? offer.getNumOfShares() : bid.getNumOfShares();
+        return numShares;
     }
 
     public Date getDateIssued() {
