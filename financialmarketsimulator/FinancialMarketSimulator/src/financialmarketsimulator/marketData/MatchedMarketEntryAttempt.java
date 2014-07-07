@@ -44,4 +44,14 @@ public class MatchedMarketEntryAttempt {
     public String getID() {
         return id;
     }
+    
+    public String getOffererName()
+    {
+        return offer.getParticipantName();
+    }
+    
+    public String getBidderName()
+    {
+        return bid.getParticipantName();
+    }
 }
