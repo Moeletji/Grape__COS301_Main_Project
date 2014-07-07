@@ -2,6 +2,7 @@ package financialmarketsimulator.marketData;
 
 import financialmarketsimulator.market.MarketEntryAttempt;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ public class MatchedMarketEntryAttempt {
     private final MarketEntryAttempt bid;
     private final String id;
     private final Date dateIssued;
+    private final SimpleDateFormat sdf;
+    private final String date;
 
     public MatchedMarketEntryAttempt(MarketEntryAttempt _offer, MarketEntryAttempt _bid) {
         id = UUID.randomUUID().toString();
@@ -27,6 +30,8 @@ public class MatchedMarketEntryAttempt {
         }
 
         dateIssued = new Date();
+        sdf = new SimpleDateFormat("YYYY.MM.DD HH:MM:SS");
+        date = sdf.format(dateIssued);
     }
 
     public double getPrice() {
@@ -37,8 +42,13 @@ public class MatchedMarketEntryAttempt {
         return (offer.getNumOfShares() <= bid.getNumOfShares()) ? offer.getNumOfShares() : bid.getNumOfShares();
     }
 
-    public String getDateIssued() {
-        return dateIssued.toString();
+    public Date getDateIssued() {
+        return dateIssued;
+    }
+    
+    public String getDateIssuedToString()
+    {
+        return date;
     }
 
     public String getID() {
