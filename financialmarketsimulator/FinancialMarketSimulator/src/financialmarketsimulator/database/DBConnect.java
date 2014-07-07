@@ -1,5 +1,6 @@
 package financialmarketsimulator.database;
 
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.sql.*;
 
 /**
@@ -25,12 +26,25 @@ public class DBConnect {
    
    public void getData()
    {
+       
+   }
+   
+   /**
+    * @brief Stores the trade information in the database from the trade object passed
+    * through as parameter
+    * @param trade MatcheedMarketEntryAttempt object housing trade information
+    */
+   public void recordTrade(MatchedMarketEntryAttempt trade)
+   {
        try{
            /**
-            * Query is the actual query string
+            * query_ is the actual query string
             */
-           String query = "select * FROM "; //Add table name after FROM
-           rs = st.executeQuery(query);
+           //String query1 = "select * FROM trade_data";
+           String date;
+           String query1 = "INSERT INTO trade_data (Date,Volume,Price,Offeror, Bidder) "
+                   + "VALUES("++","+trade.getQuantity()+","+trade.getPrice()+","+",")";
+           rs = st.executeQuery(query1);
            
            while(rs.next())
            {

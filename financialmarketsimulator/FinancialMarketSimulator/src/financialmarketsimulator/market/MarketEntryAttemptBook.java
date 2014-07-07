@@ -1,5 +1,6 @@
 package financialmarketsimulator.market;
 
+import financialmarketsimulator.database.DBConnect;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
@@ -29,6 +30,11 @@ public class MarketEntryAttemptBook {
      * @brief Name of the stock stored as a string
      */
     private String stockName;
+    
+    /**
+     * @brief Database connection object through which all database communication occurs
+     */
+    private DBConnect db;
 
     /**
      *
@@ -101,15 +107,24 @@ public class MarketEntryAttemptBook {
                     removeOrder(topOrder);
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
+                    //Code to place match data in database
+                    db = new DBConnect();
+                    db.recordTrade(newTrade);
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
+                    //Code to place match data in database
+                    db = new DBConnect();
+                    db.recordTrade(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                 } else //if (newOrder.getQuantity() < topOrder.getQuantity())
                 {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
+                    //Code to place match data in database
+                    db = new DBConnect();
+                    db.recordTrade(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                 }
             }
