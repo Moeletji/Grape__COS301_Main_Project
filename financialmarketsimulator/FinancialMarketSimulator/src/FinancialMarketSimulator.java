@@ -1,5 +1,4 @@
 
-import financialmarketsimulator.database.DBConnect;
 import financialmarketsimulator.market.StockManager;
 
 /**
@@ -10,8 +9,6 @@ public class FinancialMarketSimulator {
 
     public static void main(String[] args) {
         StockManager manager = new StockManager();
-        DBConnect con = new DBConnect();
-        con.getData();
     }
 
 }
