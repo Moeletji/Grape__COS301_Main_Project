@@ -15,7 +15,7 @@ public class EMA {
     /**
      * The previous EMA value that was calculated
      */
-    private double previousEMA;
+    private double previousEMAValue;
     /**
      * Todays closing price
      */
@@ -27,21 +27,41 @@ public class EMA {
      */
     public EMA(int numDays) {
         numOfDays = numDays;
-        previousEMA = new SMA(numOfDays).calculateSMA();
+        //previousEMAValue = new SMA(numOfDays).calculateSMA();
     }
 
     @SuppressWarnings("UnusedAssignment")
     public double calculateEMA() {
 
-        if ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMA <= 0)) {
+        if ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMAValue <= 0)) {
             return 0.0;
         }
 
         double k = 2 / (numOfDays + 1);
-        return ((currentPrice * k) + (previousEMA * (1 - k)));
+        return ((currentPrice * k) + (previousEMAValue * (1 - k)));
     }
 
     public int getNumberOfDays() {
         return numOfDays;
+    }
+    
+    public void setPreviousEMAValue(double previous)
+    {
+        previousEMAValue = previous;
+    }
+    
+    public void setCurrentPrice(double current)
+    {
+        currentPrice = current;
+    }
+    
+    public double getPreviousEMAValue()
+    {
+        return previousEMAValue;
+    }
+    
+    public double getCurrentPrice()
+    {
+        return currentPrice;
     }
 }

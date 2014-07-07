@@ -34,7 +34,9 @@ public class EMAUnitTest {
         double previousEMA = 0.0;
 
         ema = new EMA(numberOfDays);
-
+        ema.setPreviousEMAValue(previousEMA);
+        ema.setCurrentPrice(closingPrice);
+        
         double ans = ema.calculateEMA();
         assertEquals(expectedEMA, ans, 0.0000001);
 
@@ -42,8 +44,10 @@ public class EMAUnitTest {
         closingPrice = 50.0;
         previousEMA = 1.0;
 
-        ema = new EMA(numberOfDays);
-
+        EMA ema = new EMA(numberOfDays);
+        ema.setPreviousEMAValue(previousEMA);
+        ema.setCurrentPrice(closingPrice);
+        
         double k = 2 / (numberOfDays - 1);
         expectedEMA = (k * closingPrice) + (previousEMA * (1 - k));
         ans = ema.calculateEMA();

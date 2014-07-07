@@ -10,11 +10,15 @@ public class MACD {
 
     private double currentMACDValue;
     private double previousMACDValue;
-    final int LONG_DAY = 26;
-    final int SHORT_DAY = 12;
+    private final int LONG_DAY = 26;
+    private final int SHORT_DAY = 12;
+    private final int AVE_DAY = 9;
+    
+    private double signalValue;
 
     public MACD() {
-        currentMACDValue = previousMACDValue;
+        //currentMACDValue = previousMACDValue;
+        
     }
 
     public double calculateMACD() {
@@ -31,4 +35,25 @@ public class MACD {
     public double getPreviousMACDValue() {
         return previousMACDValue;
     }
+    
+    public void setCurrentMACDValue(double curr)
+    {
+        currentMACDValue = curr;
+    }
+    
+    public void setPreviousMACDValue(double prev)
+    {
+        previousMACDValue = prev;
+    }
+    
+    public void setSignalValue(double signal)
+    {
+        signalValue = signal;
+    }
+    
+    public double getSignaValue()
+    {
+        return signalValue;
+    }
+            
 }
