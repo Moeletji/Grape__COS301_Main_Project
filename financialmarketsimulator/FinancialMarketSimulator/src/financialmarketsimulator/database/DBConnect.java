@@ -31,6 +31,10 @@ public class DBConnect {
         }
     }
 
+    public void getData() {
+
+    }
+
     /**
      * @brief Stores the trade information in the database from the trade object
      * passed through as parameter
