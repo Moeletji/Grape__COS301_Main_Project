@@ -1,6 +1,8 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+
 /**
  *
  * @brief
@@ -15,11 +17,13 @@ public class StochasticOscillators {
     private int upperBound;
     private double k;
     private double d;
+    private int period;
     
     public StochasticOscillators()
     {
         lowerBound = 20;
         upperBound = 80;
+        period = 3;
     }
     
     public StochasticOscillators(int _lowerBound, int _upperBound)
@@ -28,13 +32,20 @@ public class StochasticOscillators {
         upperBound = _upperBound;
     }
     
-    public double calculateK()
+    public double calculateK(MarketEntryAttemptBook book)
+    {
+        double highestHigh = 0;
+        double lowestLow = 0;
+        return (currentPrice - lowestLow)/(highestHigh - lowestLow);
+    }
+    
+    public double calculateD()
     {
         return 0.0;
     }
     
-    public double calculayeD()
+    public void setPeriod(int _period)
     {
-        return 0.0;
+        period = _period;
     }
 }

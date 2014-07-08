@@ -310,7 +310,26 @@ public class MarketEntryAttemptBook {
     public synchronized Vector<MatchedMarketEntryAttempt> getMatchedOrders() {
         return matchedOrders;
     }
-
+    
+    public synchronized double getHighestTradePrice(int period)
+    {
+        if (period < 0)
+            return 0.0;//an exception must be thrown here
+        int length = matchedOrders.size();
+        double highest = matchedOrders.get(length-2).getPrice();
+        int range = (length -1)-period;
+        
+        /*for (int i = length -1;i ; i--)
+        {
+            if (matchedOrders == null || matchedOrders.get(i) == null)
+        }*/
+        return 0.0;
+    }
+    
+    public synchronized double getLowesttTradePrice(int period)
+    {
+        return 0.0;
+    }
     /**
      * @brief get the highest bid price
      * @return highest bid price
