@@ -23,6 +23,12 @@ public class SMA {
         previousSMAValue = sum / numOfDays;
         return sum / numOfDays;
     }
+    
+    public double calculateSMA(double total) {
+        double sum = total;
+        previousSMAValue = sum / numOfDays;
+        return sum / numOfDays;
+    }
 
     public double getPreviousSMAValue() {
         return previousSMAValue;

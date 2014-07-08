@@ -28,6 +28,14 @@ public class MACD {
         return currentMACDValue;
     }
     
+    public double calculateMACDValue(EMA _short, EMA _long)
+    {
+        EMA longEMA = _long;
+        EMA shortEMA = _short;
+        currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
+        return currentMACDValue;
+    }
+    
     public double calculateSignalValue()
     {
         return 0.0;
