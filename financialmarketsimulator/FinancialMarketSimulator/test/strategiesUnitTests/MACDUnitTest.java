@@ -57,8 +57,12 @@ public class MACDUnitTest {
     @Test
     public void testEntryPoint()
     {
+        macd = new MACD();
+        
         double prevMacd = -0.5;
+        double currMacd = 1.5;
         macd.setPreviousMACDValue(prevMacd);
+        macd.setCurrentMACDValue(currMacd);
         
         boolean expected = true;
         boolean answer = (macd.getCurrentMACDValue()> 0 && macd.getPreviousMACDValue()<0)?true:false;
@@ -79,10 +83,12 @@ public class MACDUnitTest {
     @Test
     public void testExitPoint()
     {
+        macd = new MACD();
+        
         double prevMacd = 1.2;
         double currMacd = -0.5;
         macd.setPreviousMACDValue(prevMacd);
-        macd.setCurrentMACDValue(prevMacd);
+        macd.setCurrentMACDValue(currMacd);
         
         boolean expected = true;
         boolean answer = (macd.getCurrentMACDValue() < 0 && macd.getPreviousMACDValue()>0)?true:false;

@@ -13,6 +13,8 @@ public class SMA {
     private int numOfDays;
 
     private double previousSMAValue = 0;
+    
+    private double currentSmaValue;
 
     public SMA(int numDays) {
         numOfDays = numDays;
@@ -20,8 +22,8 @@ public class SMA {
 
     public double calculateSMA() {
         double sum = 0.0;
-        previousSMAValue = sum / numOfDays;
-        return sum / numOfDays;
+        currentSmaValue = sum / numOfDays;
+        return sum / currentSmaValue;
     }
     
     public double calculateSMA(double total) {
@@ -33,4 +35,11 @@ public class SMA {
     public double getPreviousSMAValue() {
         return previousSMAValue;
     }
+    
+    public double calculateSD()
+    { 
+        //Math.sqrt((x-currentSmaValue)*(x-currentSmaValue));
+        return 0.0;
+    }
+            
 }
