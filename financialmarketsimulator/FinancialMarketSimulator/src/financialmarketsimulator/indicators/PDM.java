@@ -20,7 +20,8 @@ public class PDM {
     }
 
     /**
-     * @brief Sets the current value of the Positive Directional Movement
+     * @brief Sets the current value of the Positive Directional Movement. Also 
+     * sets the previous value to the old current.
      * @param val The new value for the current Positive Directional Movement
      */
     public void setCurrValue(double val) {
