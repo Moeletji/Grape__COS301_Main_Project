@@ -17,8 +17,8 @@ public class RSI {
     
     //Variables housing current and previous closing values
     
-    private double currentClose;
-    private double previousClose;
+    private final double currentClose;
+    private final double previousClose;
     private double currentUpClose;
     private double currentDownClose;
     private double previousUpClose;
@@ -27,10 +27,14 @@ public class RSI {
     /**
      * @param _currentUpClose The current up close value
      * @param _currentDownClose The current down close value
+     * @param _currentClose The current close
+     * @param _previousClose The previous close
      */
-    public RSI(double _currentUpClose, double _currentDownClose) {
+    public RSI(double _currentUpClose, double _currentDownClose, double _currentClose, double _previousClose) {
         currentUpClose = _currentUpClose;
         currentDownClose = _currentDownClose;
+        currentClose = _currentClose;
+        previousClose = _previousClose;
     }
 
     /**
