@@ -10,9 +10,27 @@ public class RSI {
      * Variable housing RSI value
      */
     private double RSIValue;
+    /**
+     * Variable housing RS value
+     */
     private double relativeStrength;
-
-    public RSI() {
+    
+    //Variables housing current and previous closing values
+    
+    private double currentClose;
+    private double previousClose;
+    private double currentUpClose;
+    private double currentDownClose;
+    private double previousUpClose;
+    private double previousDownClose;
+    
+    /**
+     * @param _currentUpClose The current up close value
+     * @param _currentDownClose The current down close value
+     */
+    public RSI(double _currentUpClose, double _currentDownClose) {
+        currentUpClose = _currentUpClose;
+        currentDownClose = _currentDownClose;
     }
 
     /**
@@ -30,7 +48,20 @@ public class RSI {
      * @todo Calculate Relative Strength.
      */
     public double calculateRS() {
-        relativeStrength = 0;
+        EMA emaUp = new EMA(14);
+        EMA emaDown = new EMA(14);
+        
+        previousUpClose = currentUpClose;
+        previousDownClose = currentDownClose;
+        currentUpClose = (currentClose > previousClose) ? currentClose-previousClose : 0;
+        currentDownClose = (currentClose < previousClose) ? previousClose-currentClose : 0;
+        
+        emaUp.setCurrentPrice(currentUpClose);
+        emaUp.setPreviousEMAValue(previousUpClose);
+        emaDown.setCurrentPrice(currentDownClose);
+        emaDown.setPreviousEMAValue(previousDownClose);
+        
+        relativeStrength = emaUp.calculateEMA()/emaDown.calculateEMA();
         return relativeStrength;
     }
 }
