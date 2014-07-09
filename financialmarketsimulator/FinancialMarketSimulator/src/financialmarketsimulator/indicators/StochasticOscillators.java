@@ -6,48 +6,112 @@ import java.util.ArrayList;
 
 /**
  *
- * @brief
+ * @brief Formula for %K and %D respectively:
+ *      %K = (current close - lowest low)/(highest high - lowest low)*100
+ *      %D = 3-day SMA of %K
  */
 public class StochasticOscillators {
+    /**
+     * @brief The last traded price
+     */
     private double currentPrice;
+    
+    /**
+     * @brief 
+     */
     private double low;
     private double high;
+    
+    /**
+     * @brief The normal value used to calculate %D
+     */
     private final int NUM_DAYS = 3;
+    
+    /**
+     * @brief The SMA is used in the calculation of %D 
+     */
     private SMA sma;
+    
+    /**
+     * @brief The lower bound on %K and %D to determine is an instrument is 
+     * oversold(undervalue)
+     */
     private int lowerBound;
+    
+    /**
+     * @brief The upper bound on %K and %D to determine is an instrument is 
+     * overbought(overvalued)
+     */
     private int upperBound;
+    
+    /**
+     * @brief Value to store %K
+     */
     private double k;
+    
+    /**
+     * @brief Value to store %D
+     */
     private double d;
-    private int period;
+
+    /**
+     * @brief Stores the %K values calculated that will be used in calculations
+     */
     private ArrayList<Double> kValues;
     
-    public StochasticOscillators()
+    /**
+     * @brief The number of days/trades to be considered when getting the 
+     * highest high and lowest low
+     */
+    private int period = 14;
+    
+    /**
+     * @brief An object with all the MarketEntryAttempts(including 
+     * MatchedMarketEntryAttempt objects) and functions to be used in 
+     * calculation of %K and %D.
+     */
+    private MarketEntryAttemptBook book;
+    
+    /**
+     * 
+     * @param _book 
+     */
+    public StochasticOscillators(MarketEntryAttemptBook _book)
     {
         lowerBound = 20;
         upperBound = 80;
-        period = 14;
         kValues = new ArrayList<Double>();
+        this.book = _book;
     }
     
-    public StochasticOscillators(int _lowerBound, int _upperBound)
+    /**
+     * 
+     * @param _lowerBound
+     * @param _upperBound
+     * @param _book 
+     */
+    public StochasticOscillators(int _lowerBound, int _upperBound,MarketEntryAttemptBook _book)
     {
         lowerBound = _lowerBound;
         upperBound = _upperBound;
         kValues = new ArrayList<Double>();
+        this.book = _book;
     }
     
-    public double calculateK(MarketEntryAttemptBook book)
+    public double calculateK()
     {
         double highestHigh = book.getHighestTradePrice(period);
         double lowestLow = book.getLowestTradePrice(period);
-        kValues.add((currentPrice - lowestLow)/(highestHigh - lowestLow));
-        return (currentPrice - lowestLow)/(highestHigh - lowestLow);
+        k = (currentPrice - lowestLow)/(highestHigh - lowestLow)*100;
+        kValues.add(k);
+        return k;
     }
     
     public double calculateD()
     {
         if (kValues.size() == 0 || kValues.size() < NUM_DAYS)
             return 0.0;//exception to be added
+        
         SMA sma = new SMA(NUM_DAYS);
         double total =0;
         for (int i = kValues.size()-1-NUM_DAYS; i<kValues.size();i++ )
@@ -55,11 +119,27 @@ public class StochasticOscillators {
             total += kValues.get(i);
         }
         
-        return sma.calculateSMA(total);
+        d = sma.calculateSMA(total);
+        return d;
+    }
+    
+    public double getD()
+    {
+        return d;
+    }
+    
+    public double getK()
+    {
+        return k;
     }
     
     public void setPeriod(int _period)
     {
-        period = _period;
+        this.period = _period;
+    }
+    
+    public int getPeriod()
+    {
+        return period;
     }
 }
