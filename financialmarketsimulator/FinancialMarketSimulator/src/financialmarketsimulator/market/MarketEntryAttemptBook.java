@@ -313,22 +313,48 @@ public class MarketEntryAttemptBook {
     
     public synchronized double getHighestTradePrice(int period)
     {
-        if (period < 0)
+        if (period <= 0 || matchedOrders.size() <=0)
             return 0.0;//an exception must be thrown here
         int length = matchedOrders.size();
-        double highest = matchedOrders.get(length-2).getPrice();
-        int range = (length -1)-period;
+        int range = ((length -2)-period<0)?(length -2)-period:0;
+        double highest = matchedOrders.get(range).getPrice();
         
-        /*for (int i = length -1;i ; i--)
+        for (int i = range;i<length ; i++)
         {
             if (matchedOrders == null || matchedOrders.get(i) == null)
-        }*/
-        return 0.0;
+            {
+                break;
+            }
+            
+            if (matchedOrders.get(i).getPrice() > highest)
+            {
+                highest = matchedOrders.get(i).getPrice(); 
+            }
+        }
+        return highest;
     }
     
-    public synchronized double getLowesttTradePrice(int period)
+    public synchronized double getLowestTradePrice(int period)
     {
-        return 0.0;
+        if (period <= 0 || matchedOrders.size() <=0)
+            return 0.0;//an exception must be thrown here
+        int length = matchedOrders.size();
+        int range = ((length -2)-period<0)?(length -2)-period:0;
+        double lowest = matchedOrders.get(range).getPrice();
+        
+        for (int i = range;i<length ; i++)
+        {
+            if (matchedOrders == null || matchedOrders.get(i) == null)
+            {
+                break;
+            }
+            
+            if (matchedOrders.get(i).getPrice() < lowest)
+            {
+                lowest = matchedOrders.get(i).getPrice(); 
+            }
+        }
+        return lowest; 
     }
     /**
      * @brief get the highest bid price
