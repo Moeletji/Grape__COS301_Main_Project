@@ -24,24 +24,22 @@ public class Volatility {
     public Volatility(int _period,MarketEntryAttemptBook _data )
     {
         this.period = _period;
-        sma = new SMA(_period);
         this.data = _data;
-        
+        sma = new SMA(period, this.data);
     }
           
     public double getMean()
     {
-        //edit SMA class
         mean = sma.calculateSMA();
         return mean;
     }
     
     public double calculateSD()
     {
-        if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period+1)
+        if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period)
             return 0.0;
         
-        int range = data.getMatchedOrders().size()-1-period;
+        int range = data.getMatchedOrders().size()-period;
         int length = data.getMatchedOrders().size()-1;
         double variance = 0;
         Vector<MatchedMarketEntryAttempt> temp = data.getMatchedOrders();

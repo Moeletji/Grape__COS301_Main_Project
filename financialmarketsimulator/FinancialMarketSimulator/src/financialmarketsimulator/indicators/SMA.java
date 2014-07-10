@@ -42,9 +42,18 @@ public class SMA {
     }
 
     public double calculateSMA() {
+        if (book.getMatchedOrders().size() < numOfDays)
+            return 0.0;
+        
         double sum = 0.0;
+        int range = book.getMatchedOrders().size() - numOfDays;
+        for (int i= range; i<book.getMatchedOrders().size();i++ )
+        {
+            sum += book.getMatchedOrders().get(i).getPrice();
+        }
+        
         currentSmaValue = sum / numOfDays;
-        return sum / currentSmaValue;
+        return currentSmaValue;
     }
     
     public double calculateSMA(double total) {
@@ -55,12 +64,5 @@ public class SMA {
 
     public double getPreviousSMAValue() {
         return previousSMAValue;
-    }
-    
-    public double calculateSD()
-    { 
-        //Math.sqrt((x-currentSmaValue)*(x-currentSmaValue));
-        return 0.0;
-    }
-            
+    }      
 }

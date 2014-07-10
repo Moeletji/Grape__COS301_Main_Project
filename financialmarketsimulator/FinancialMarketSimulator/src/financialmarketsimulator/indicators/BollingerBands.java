@@ -39,7 +39,8 @@ public class BollingerBands {
     
     public double getSD()
     {
-        standDev = (sma.calculateSD()>0)?sma.calculateSD():standDev;
+        //fix
+        //standDev = (sma.calculateSD()>0)?sma.calculateSD():standDev;
         return standDev;
     }
     public double calculateUpperBand()
