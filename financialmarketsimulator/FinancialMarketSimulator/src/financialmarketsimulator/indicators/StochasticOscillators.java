@@ -112,7 +112,7 @@ public class StochasticOscillators {
         if (kValues.size() == 0 || kValues.size() < NUM_DAYS)
             return 0.0;//exception to be added
         
-        SMA sma = new SMA(NUM_DAYS);
+        SMA sma = new SMA(NUM_DAYS, book);
         double total =0;
         for (int i = kValues.size()-1-NUM_DAYS; i<kValues.size();i++ )
         {
