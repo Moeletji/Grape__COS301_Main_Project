@@ -6,6 +6,7 @@ import financialmarketsimulator.market.MarketEntryAttemptBook;
 /**
  *
  * @brief
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class BollingerBands {
     
@@ -46,10 +47,10 @@ public class BollingerBands {
         return middleBand;
     }
     
-    public double getCurrentPrice()
+    /*public double getCurrentPrice()
     {
         return 0.0;
-    }
+    }*/
     
     public void calculateSMA()
     {
@@ -73,12 +74,14 @@ public class BollingerBands {
     
     public double calculateUpperBand()
     {
-        return getSMA() + (factor * getSD());
+        upperBand = getSMA() + (factor * getSD());
+        return upperBand;
     }
     
     public double calculateLowerBand()
     {
-        return getSMA() - (factor * getSD());
+        lowerBand = getSMA() - (factor * getSD());
+        return lowerBand;
     }
     
     public int getFactor()

@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * @brief Formula for %K and %D respectively:
  *      %K = (current close - lowest low)/(highest high - lowest low)*100
  *      %D = 3-day SMA of %K
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class StochasticOscillators {
     /**

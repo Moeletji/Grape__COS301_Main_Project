@@ -4,6 +4,7 @@ package strategiesUnitTests;
 /**
  *
  * @author Moeletji
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
 
