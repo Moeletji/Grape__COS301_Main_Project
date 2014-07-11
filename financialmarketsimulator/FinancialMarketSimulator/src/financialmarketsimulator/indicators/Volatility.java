@@ -36,8 +36,8 @@ public class Volatility {
     
     public double calculateSD()
     {
-        if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period)
-            return 0.0;
+        //if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period)
+        //    return 0.0;
         
         int range = data.getMatchedOrders().size()-period;
         int length = data.getMatchedOrders().size()-1;
@@ -48,7 +48,8 @@ public class Volatility {
         {
             variance += ((temp.get(i).getPrice() - getMean())*(temp.get(i).getPrice() - getMean()));
         }
-        sd = Math.sqrt(variance/period);
+        double num = variance/period;
+        sd = Math.sqrt(num);
         return sd;
     }
     

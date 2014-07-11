@@ -14,16 +14,8 @@ import org.junit.Test;
 
 
 public class VolatilityUnitTest {
-    
-    /**
-     * @param args the command line arguments
-     */
-    /*public static void main(String[] args) {
-        VolatilityUnitTest v = new VolatilityUnitTest();
-        v.testCalculateSD();
-    }*/
- 
-    public VolatilityUnitTest()
+  
+   public VolatilityUnitTest()
     {
         
     }
@@ -51,17 +43,15 @@ public class VolatilityUnitTest {
             temp2.setNumOfShares(i+1);
             data.placeOrder(temp2);
         }
-        /*System.out.print(data.getMatchedOrders().size());
-        System.out.print(data.getOffers().size());
-        System.out.print(data.getBids().size());*/
+        
         int num_days = 10;
         
         Volatility sd = new Volatility(num_days, data);
         
-        double expectedAns = 0.24;
+        double expectedAns = 0.23;
         
         double ans = sd.calculateSD();
         
-        assertEquals(expectedAns, ans, 0.00001);
+        assertEquals(expectedAns, ans, 0.01);
     }
 }

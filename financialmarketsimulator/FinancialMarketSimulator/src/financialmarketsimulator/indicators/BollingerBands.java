@@ -1,30 +1,38 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+
 /**
  *
  * @brief
  */
 public class BollingerBands {
     
-    private SMA sma;
+    private Volatility sd;
     private double upperBand;
     private double lowerBand;
     private double standDev;
     private final int NUM_DAYS = 20;
     private final int DEFAULT_FACTOR = 2;
-    private int factor;
+    private  int factor;
+    private MarketEntryAttemptBook data;
+    private SMA sma;
     
-    public BollingerBands()
+    public BollingerBands(MarketEntryAttemptBook _data)
     {
-        sma = new SMA(NUM_DAYS);
+        this.data = _data;
+        this.sma = new SMA(DEFAULT_FACTOR);
+        sd = new Volatility(NUM_DAYS, this.data);
         factor = DEFAULT_FACTOR;
     }
     
-    public BollingerBands(int _factor)
+    public BollingerBands(int _factor,MarketEntryAttemptBook _data)
     {
-        sma = new SMA(NUM_DAYS);
-        int factor = (_factor >0)?_factor:DEFAULT_FACTOR;
+        this.data = _data;
+        this.sma = new SMA(DEFAULT_FACTOR);
+        sd = new Volatility(NUM_DAYS, this.data);
+        factor = (_factor >0)?_factor:DEFAULT_FACTOR;
     }
     
     public double getSMA()
@@ -39,8 +47,7 @@ public class BollingerBands {
     
     public double getSD()
     {
-        //fix
-        //standDev = (sma.calculateSD()>0)?sma.calculateSD():standDev;
+        standDev = sd.calculateSD();
         return standDev;
     }
     public double calculateUpperBand()
