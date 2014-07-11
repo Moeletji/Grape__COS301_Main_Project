@@ -13,11 +13,17 @@ public class BollingerBands {
     private double upperBand;
     private double lowerBand;
     private double standDev;
+    private double middleBand;
     private final int NUM_DAYS = 20;
     private final int DEFAULT_FACTOR = 2;
     private  int factor;
     private MarketEntryAttemptBook data;
     private SMA sma;
+    
+    public BollingerBands()
+    {
+        factor = DEFAULT_FACTOR;
+    }
     
     public BollingerBands(MarketEntryAttemptBook _data)
     {
@@ -37,7 +43,7 @@ public class BollingerBands {
     
     public double getSMA()
     {
-        return sma.calculateSMA();
+        return middleBand;
     }
     
     public double getCurrentPrice()
@@ -45,11 +51,26 @@ public class BollingerBands {
         return 0.0;
     }
     
+    public void calculateSMA()
+    {
+       middleBand = sma.calculateSMA();
+    }
+    
+    public void calculateSD()
+    {
+       standDev = sd.calculateSD(); 
+    }
+    
     public double getSD()
     {
-        standDev = sd.calculateSD();
         return standDev;
     }
+    
+    public void setSMA(double _sma)
+    {
+        this.middleBand = _sma;
+    }
+    
     public double calculateUpperBand()
     {
         return getSMA() + (factor * getSD());
