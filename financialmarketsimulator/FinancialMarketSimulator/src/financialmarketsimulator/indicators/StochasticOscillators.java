@@ -181,4 +181,9 @@ public class StochasticOscillators {
     {
         return period;
     }
+    
+    public int getNumDays()
+    {
+        return this.NUM_DAYS;
+    }
 }
