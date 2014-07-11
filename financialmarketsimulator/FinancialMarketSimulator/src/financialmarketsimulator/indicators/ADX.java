@@ -55,18 +55,22 @@ public class ADX {
   }*/
     
     
-    
-    
-    
-    
-    /*private double currentADX;
+    private double currentADX;
     private double previousADX;
     
     public ADX()
     {
     }
     
-    public double calulateADX()
+    /**
+     * @brief Calculates and returns the average directional movement value
+     * @param currPDM The current positive directional movement value
+     * @param currNDM The current negative directional movement value
+     * @param prevPDM The previous positive directional movement value
+     * @param prevNDM The previous negative directional movement value
+     * @return Returns the current ADX value
+     */
+    public double calulateADX(double currPDM, double currNDM, double prevPDM, double prevNDM)
     {
         previousADX = currentADX;
         EMA ema = new EMA(14);
@@ -75,9 +79,13 @@ public class ADX {
         double currVal;
         double prevVal;
         
-        //Set current and previous PDM and NDM values
-        //pdm.setCurrValue(); //This values are zero at the moment
-        //ndm.setCurrValue(); //This values are zero at the moment
+        //Set previous PDM and NDM values through current setter
+        pdm.setCurrValue(prevPDM);
+        ndm.setCurrValue(prevNDM);
+        
+        //Set current PDM and NDM values
+        pdm.setCurrValue(currPDM); 
+        ndm.setCurrValue(currNDM); 
         
         //Set values.
         currVal = abs(pdm.getCurrValue() - ndm.getCurrValue())/abs(pdm.getCurrValue() + ndm.getCurrValue());
@@ -89,5 +97,5 @@ public class ADX {
         //Calculate ADX value
         currentADX = (100 * ema.calculateEMA()); 
         return currentADX;
-    }*/
+    }
 }
