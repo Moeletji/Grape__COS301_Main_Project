@@ -2,7 +2,9 @@ package strategiesUnitTests;
 
 import financialmarketsimulator.indicators.ADX;
 import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.indicators.NDI;
 import financialmarketsimulator.indicators.NDM;
+import financialmarketsimulator.indicators.PDI;
 import financialmarketsimulator.indicators.PDM;
 import static java.lang.Math.abs;
 import org.junit.After;
@@ -36,35 +38,42 @@ public class ADXUnitTest {
     {
         double expectedResult;
         double observedResult;
-        double currentPDMValue = 0.31;
-        double previousPDMValue = 0.25;
-        double currentNDMValue = 0.33;
-        double previousNDMValue = 0.24;
+        double todaysHigh = 0.41;
+        double todaysLow = 0.15;
+        double prevClosing = 0.28;
+        double prevPDI = 0.15;
+        double prevNDI = 0.26;
+        double currPDM = 0.20;
+        double currNDM = 0.18;
+        double prevPDM = 0.18;
+        double prevNDM = 0.15;
         
         //**************************************
         //Calculations for expected results
         //**************************************
-        EMA ema = new EMA(14); //Over 14 days period
-        PDM pdm = new PDM();
-        NDM ndm = new NDM();
+        EMA ema = new EMA(14);
+        PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
+        NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
+        double currVal;
+        double prevVal;
         
-        //Setting previous values through current setter
-        pdm.setCurrValue(previousPDMValue);
-        ndm.setCurrValue(previousNDMValue);
+        pdi.setPreviousValue(prevPDI);
+        ndi.setPreviousValue(prevNDI);
         
-        //Setting actual current values
-        pdm.setCurrValue(currentPDMValue);
-        ndm.setCurrValue(currentNDMValue);
+        //Set values.
+        currVal = abs(pdi.calculatePDI(currPDM, prevPDM) - ndi.calculateNDI(currNDM, prevNDM))/abs(pdi.calculatePDI(currPDM, prevPDM) + ndi.calculateNDI(currNDM, prevNDM));
+        prevVal = abs(pdi.getPrevValue() - ndi.getPrevValue())/abs(pdi.getPrevValue() + ndi.getPrevValue());
         
-        ema.setCurrentPrice(abs(pdm.getCurrValue() - ndm.getCurrValue())/abs(pdm.getCurrValue() + ndm.getCurrValue()));
-        ema.setPreviousEMAValue(abs(pdm.getPrevValue() - pdm.getPrevValue())/abs(pdm.getPrevValue() + ndm.getPrevValue()));
+        ema.setCurrentPrice(currVal);
+        ema.setPreviousEMAValue(prevVal);
         
         expectedResult = (100 * ema.calculateEMA());
         
         //**************************************
         //Calculations for actual observed results
         //**************************************
-        observedResult = adx.calulateADX(currentPDMValue, currentNDMValue, previousPDMValue, previousNDMValue);
+        adx = new ADX(todaysHigh, todaysLow, prevClosing);
+        observedResult = adx.calulateADX(prevPDI, prevNDI, currPDM, currNDM, prevPDM, prevNDM);
         
         assertEquals(expectedResult, observedResult, 0);
     }

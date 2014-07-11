@@ -57,39 +57,42 @@ public class ADX {
     
     private double currentADX;
     private double previousADX;
+    private double todaysHigh;
+    private double todaysLow;
+    private double prevClosing;
     
-    public ADX()
+    public ADX(double _high, double _low, double _closing)
     {
+        todaysHigh = _high;
+        todaysLow = _low;
+        prevClosing = _closing;
     }
     
     /**
      * @brief Calculates and returns the average directional movement value
+     * @param prevPDI The previous positive directional indicator value
+     * @param prevNDI The previous negative directional indicator value
      * @param currPDM The current positive directional movement value
      * @param currNDM The current negative directional movement value
      * @param prevPDM The previous positive directional movement value
      * @param prevNDM The previous negative directional movement value
      * @return Returns the current ADX value
      */
-    public double calulateADX(double currPDM, double currNDM, double prevPDM, double prevNDM)
+    public double calulateADX(double prevPDI, double prevNDI, double currPDM, double currNDM, double prevPDM, double prevNDM)
     {
         previousADX = currentADX;
         EMA ema = new EMA(14);
-        PDM pdm = new PDM();
-        NDM ndm = new NDM();
+        PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
+        NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
         double currVal;
         double prevVal;
         
-        //Set previous PDM and NDM values through current setter
-        pdm.setCurrValue(prevPDM);
-        ndm.setCurrValue(prevNDM);
-        
-        //Set current PDM and NDM values
-        pdm.setCurrValue(currPDM); 
-        ndm.setCurrValue(currNDM); 
+        pdi.setPreviousValue(prevPDI);
+        ndi.setPreviousValue(prevNDI);
         
         //Set values.
-        currVal = abs(pdm.getCurrValue() - ndm.getCurrValue())/abs(pdm.getCurrValue() + ndm.getCurrValue());
-        prevVal = abs(pdm.getPrevValue() - pdm.getPrevValue())/abs(pdm.getPrevValue() + ndm.getPrevValue());
+        currVal = abs(pdi.calculatePDI(currPDM, prevPDM) - ndi.calculateNDI(currNDM, prevNDM))/abs(pdi.calculatePDI(currPDM, prevPDM) + ndi.calculateNDI(currNDM, prevNDM));
+        prevVal = abs(pdi.getPrevValue() - ndi.getPrevValue())/abs(pdi.getPrevValue() + ndi.getPrevValue());
         
         ema.setCurrentPrice(currVal);
         ema.setPreviousEMAValue(prevVal);

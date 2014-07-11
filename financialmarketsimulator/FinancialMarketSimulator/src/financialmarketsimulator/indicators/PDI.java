@@ -40,14 +40,27 @@ public class PDI {
         prevClosing = _prevClosing;
     }
 
-    public double calculatePDI() {
+    /**
+     * 
+     * @param _currPDM The current positive directional movement
+     * @param _prevPDM The previous positive directional movement
+     * @return Returns the current positive directional indicator
+     */
+    public double calculatePDI(double _currPDM, double _prevPDM) {
         EMA ema = new EMA(14);
         ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
-        ema.setCurrentPrice(currValue);
-        ema.setPreviousEMAValue(prevValue);
-        prevValue = currValue;
+        
+        ema.setCurrentPrice(_currPDM);
+        ema.setPreviousEMAValue(_prevPDM);
+        
+        //prevValue = currValue;
         currValue = (100 * ema.calculateEMA() / atr.calculateATR());
         return currValue;
+    }
+    
+    public void setPreviousValue(double _prev)
+    {
+        prevValue = _prev;
     }
 
     public double getPrevValue() {

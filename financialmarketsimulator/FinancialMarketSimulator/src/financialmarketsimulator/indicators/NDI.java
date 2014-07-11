@@ -40,16 +40,30 @@ public class NDI {
         prevClosing = _prevClosing;
     }
 
-    public double calculateNDI() {
+    /**
+     * 
+     * @param _currNDM The current negative directional movement value
+     * @param _prevNDM The previous negative directional movement value
+     * @return Returns the current negative directional indicator
+     */
+    public double calculateNDI(double _currNDM, double _prevNDM) {
         EMA ema = new EMA(14);
         ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
-        ema.setCurrentPrice(currValue);
-        ema.setPreviousEMAValue(prevValue);
-        prevValue = currValue;
+        
+        ema.setCurrentPrice(_currNDM);
+        ema.setPreviousEMAValue(_prevNDM);
+        
+        //prevValue = currValue;
         currValue = (100 * ema.calculateEMA() / atr.calculateATR());
         return currValue;
+        
     }
-
+    
+    public void setPreviousValue(double _prev)
+    {
+        prevValue = _prev;
+    }
+    
     public double getPrevValue() {
         return prevValue;
     }
