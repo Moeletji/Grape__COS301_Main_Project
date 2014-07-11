@@ -46,6 +46,11 @@ public class ATR {
         currentTrueRange = max(max(val1,val2),val3);
     }
     
+    public void setPreviousATR(double prev)
+    {
+        previousATR = prev;
+    }
+    
     public void setCurrentHight(double val)
     {
         currentHigh = val;
