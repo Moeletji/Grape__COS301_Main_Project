@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+
 /**
  * @brief MACD(Moving Average Convergence Divergence). This is a technical
  * indicator which is used to measure momentum of a particular stock to indicate
@@ -21,14 +23,14 @@ public class MACD {
         
     }
 
-    public double calculateMACDValue() {
+    public double calculateMACDValue() throws NotEnoughDataException {
         EMA longEMA = new EMA(LONG_DAY);
         EMA shortEMA = new EMA(SHORT_DAY);
         currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
         return currentMACDValue;
     }
     
-    public double calculateMACDValue(EMA _short, EMA _long)
+    public double calculateMACDValue(EMA _short, EMA _long) throws NotEnoughDataException
     {
         EMA longEMA = _long;
         EMA shortEMA = _short;

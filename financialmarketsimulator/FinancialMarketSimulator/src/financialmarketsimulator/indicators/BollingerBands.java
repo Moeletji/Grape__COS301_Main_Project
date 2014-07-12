@@ -1,6 +1,7 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
@@ -52,12 +53,12 @@ public class BollingerBands {
         return 0.0;
     }*/
     
-    public void calculateSMA()
+    public void calculateSMA() throws NotEnoughDataException
     {
        middleBand = sma.calculateSMA();
     }
     
-    public void calculateSD()
+    public void calculateSD() throws NotEnoughDataException
     {
        standDev = sd.calculateSD(); 
     }

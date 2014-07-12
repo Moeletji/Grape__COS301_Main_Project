@@ -2,6 +2,7 @@ package financialmarketsimulator.indicators;
 
 //Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
@@ -28,13 +29,13 @@ public class Volatility {
         sma = new SMA(period, this.data);
     }
           
-    public double getMean()
+    public double getMean() throws NotEnoughDataException
     {
         mean = sma.calculateSMA();
         return mean;
     }
     
-    public double calculateSD()
+    public double calculateSD() throws NotEnoughDataException
     {
         //if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period)
         //    return 0.0;

@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+
 /**
  *
  * @brief Negative Directional Indicator
@@ -46,7 +48,7 @@ public class NDI {
      * @param _prevNDM The previous negative directional movement value
      * @return Returns the current negative directional indicator
      */
-    public double calculateNDI(double _currNDM, double _prevNDM) {
+    public double calculateNDI(double _currNDM, double _prevNDM) throws NotEnoughDataException {
         EMA ema = new EMA(14);
         ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
         

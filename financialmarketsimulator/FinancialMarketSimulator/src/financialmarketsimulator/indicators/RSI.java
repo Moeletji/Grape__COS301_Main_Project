@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+
 
 /**
  *
@@ -42,7 +44,7 @@ public class RSI {
      * @brief Calculates and returns the RSI value
      * @return Double value representing the RSI value
      */
-    public double calculateRSI() {
+    public double calculateRSI() throws NotEnoughDataException {
         RSIValue = 100 - (100 / (1 + calculateRS()));
         return RSIValue;
     }
@@ -52,7 +54,7 @@ public class RSI {
      * @return Double value representing the relative strength value.
      * @todo Calculate Relative Strength.
      */
-    public double calculateRS() {
+    public double calculateRS() throws NotEnoughDataException {
         EMA emaUp = new EMA(14);
         EMA emaDown = new EMA(14);
         

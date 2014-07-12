@@ -1,6 +1,7 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import java.util.ArrayList;
 
@@ -123,10 +124,10 @@ public class StochasticOscillators {
         return k;
     }
     
-    public double calculateD()
+    public double calculateD() throws NotEnoughDataException
     {
         if (kValues.size() == 0 || kValues.size() < NUM_DAYS)
-            return 0.0;//exception to be added
+            throw new NotEnoughDataException();
         
         SMA sma = new SMA(NUM_DAYS);
         double total =0;

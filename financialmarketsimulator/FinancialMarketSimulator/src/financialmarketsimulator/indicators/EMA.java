@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+
 /**
  * @brief EMA(Exponential Moving Average) EMA places more weight on the most
  * recent closing price and less weight on the other prices(closing past prices)
@@ -31,10 +33,10 @@ public class EMA {
     }
 
     @SuppressWarnings("UnusedAssignment")
-    public double calculateEMA() {
+    public double calculateEMA() throws NotEnoughDataException {
 
         if ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMAValue <= 0)) {
-            return 0.0;
+            throw new NotEnoughDataException();
         }
 
         double k = 2 / (numOfDays + 1);

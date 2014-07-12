@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+
 /**
  *
  * @brief Positive Directional Indicator
@@ -46,7 +48,7 @@ public class PDI {
      * @param _prevPDM The previous positive directional movement
      * @return Returns the current positive directional indicator
      */
-    public double calculatePDI(double _currPDM, double _prevPDM) {
+    public double calculatePDI(double _currPDM, double _prevPDM) throws NotEnoughDataException {
         EMA ema = new EMA(14);
         ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
         

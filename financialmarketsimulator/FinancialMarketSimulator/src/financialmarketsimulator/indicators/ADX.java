@@ -3,6 +3,7 @@ package financialmarketsimulator.indicators;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
+import financialmarketsimulator.exception.NotEnoughDataException;
 import static java.lang.Math.abs;
 
 /**
@@ -78,7 +79,7 @@ public class ADX {
      * @param prevNDM The previous negative directional movement value
      * @return Returns the current ADX value
      */
-    public double calulateADX(double prevPDI, double prevNDI, double currPDM, double currNDM, double prevPDM, double prevNDM)
+    public double calulateADX(double prevPDI, double prevNDI, double currPDM, double currNDM, double prevPDM, double prevNDM) throws NotEnoughDataException
     {
         previousADX = currentADX;
         EMA ema = new EMA(14);

@@ -1,5 +1,6 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
@@ -41,9 +42,9 @@ public class SMA {
         this.book = _book;
     }
 
-    public double calculateSMA() {
+    public double calculateSMA() throws NotEnoughDataException {
         if (book.getMatchedOrders().size() < numOfDays)
-            return 0.0;
+            throw new NotEnoughDataException();
         
         double sum = 0.0;
         int range = book.getMatchedOrders().size() - numOfDays;
