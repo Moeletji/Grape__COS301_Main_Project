@@ -1,6 +1,7 @@
 
 package strategiesUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ATR;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.NDI;
@@ -45,7 +46,7 @@ public class NDIUnitTest {
      * 
      */
     @Test
-    public void calculateNDITest()
+    public void calculateNDITest() throws NotEnoughDataException
     {
         double todaysHigh = 0.47;
         double todaysLow = 0.30;

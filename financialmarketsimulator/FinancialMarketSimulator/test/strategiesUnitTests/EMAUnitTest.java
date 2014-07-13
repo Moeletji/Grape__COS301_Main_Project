@@ -1,5 +1,6 @@
 package strategiesUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,7 +28,7 @@ public class EMAUnitTest {
      * @brief Test to see that the calculate EMA returns the expected values
      */
     @Test
-    public void testCalculateEMA() {
+    public void testCalculateEMA() throws NotEnoughDataException {
         double expectedEMA = 0.0;
         int numberOfDays = 0;
         double closingPrice = 0.0;
