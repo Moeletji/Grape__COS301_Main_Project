@@ -5,8 +5,8 @@ import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 
 /**
- *
- * @brief
+ * @brief Elliot wave pattern
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class elliotWave {
     

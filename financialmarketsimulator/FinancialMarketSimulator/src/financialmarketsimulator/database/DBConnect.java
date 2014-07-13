@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- *
- *
+ * @brief This class is used to connect to a database for recording the market data
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+
 public class DBConnect {
 
     private Connection con;
