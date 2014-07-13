@@ -1,6 +1,7 @@
 
 package strategiesUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ATR;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.PDI;
@@ -45,7 +46,7 @@ public class PDIUnitTest {
      * 
      */
     @Test
-    public void calculatePDITest()
+    public void calculatePDITest() throws NotEnoughDataException
     {
         double todaysHigh = 0.47;
         double todaysLow = 0.30;
