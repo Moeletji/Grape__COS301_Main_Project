@@ -1,6 +1,7 @@
 // Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
 package strategiesUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.StochasticOscillators;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -68,7 +69,7 @@ public class StochasticOscillatorUnitTest {
     }
     
     @Test
-    public void testCalculateD()
+    public void testCalculateD() throws NotEnoughDataException
     {
         double expectedAns = 0;
         //calcuate Average of kValues

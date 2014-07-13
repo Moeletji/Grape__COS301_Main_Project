@@ -1,6 +1,7 @@
 
 package strategiesUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.RSI;
 import org.junit.After;
@@ -41,7 +42,7 @@ public class RSIUnitTest {
      * @brief Tests the calculateRSI function.
      */
     @Test
-    public void calculateRSITest()
+    public void calculateRSITest() throws NotEnoughDataException
     {
         double currentUpClose = 0.49;
         double currentDownClose = 0.44; 
