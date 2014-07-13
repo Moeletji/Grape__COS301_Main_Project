@@ -1,6 +1,5 @@
 package strategiesUnitTests;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.MACD;
 import static org.junit.Assert.*;
@@ -26,7 +25,7 @@ public class MACDUnitTest {
      * @todo
      */
     @Test
-    public void testMACD() throws NotEnoughDataException
+    public void testMACD()
     {
         int _long = 26;
         int _short = 12;

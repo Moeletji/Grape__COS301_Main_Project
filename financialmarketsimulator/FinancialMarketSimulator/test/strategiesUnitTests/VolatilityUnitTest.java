@@ -1,6 +1,6 @@
+//Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
 package strategiesUnitTests;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.Volatility;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
@@ -23,7 +23,7 @@ public class VolatilityUnitTest {
     MarketEntryAttemptBook data;
     
     @Test
-    public void testCalculateSD() throws NotEnoughDataException
+    public void testCalculateSD()
     {
         double []prices = {53.73,53.87,53.85,53.88,54.08,54.14,54.50,54.30,54.40,54.16};
         

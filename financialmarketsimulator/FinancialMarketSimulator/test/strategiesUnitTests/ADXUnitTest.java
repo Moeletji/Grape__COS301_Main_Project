@@ -1,6 +1,5 @@
 package strategiesUnitTests;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ADX;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.NDI;
@@ -33,7 +32,7 @@ public class ADXUnitTest {
      * @brief Tests the calculateADX function.
      */
     @Test
-    public void calculateADXTest() throws NotEnoughDataException
+    public void calculateADXTest()
     {
         double expectedResult;
         double observedResult;
