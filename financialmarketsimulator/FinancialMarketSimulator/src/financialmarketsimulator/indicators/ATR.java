@@ -4,8 +4,8 @@ package financialmarketsimulator.indicators;
 import static java.lang.Math.*;
 
 /**
- *
- * @brief Average True Range
+ * @brief This class calculates the Average True Range
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class ATR {
     private double previousATR;

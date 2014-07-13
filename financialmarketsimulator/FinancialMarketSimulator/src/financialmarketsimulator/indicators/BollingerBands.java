@@ -6,7 +6,7 @@ import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
  *
- * @brief
+ * @brief This clas uses the Bollinger Brands pattern 
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class BollingerBands {

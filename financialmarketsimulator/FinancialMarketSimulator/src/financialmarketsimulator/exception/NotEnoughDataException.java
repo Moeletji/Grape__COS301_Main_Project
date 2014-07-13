@@ -2,10 +2,9 @@
 package financialmarketsimulator.exception;
 
 /**
- *
- * @author Moeletji
+ * @brief This class handles when an exception is thrown regarding the lack of data being parsed.
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 
 public class NotEnoughDataException extends Exception {
     

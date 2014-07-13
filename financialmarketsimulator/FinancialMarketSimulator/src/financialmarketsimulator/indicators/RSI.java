@@ -2,10 +2,9 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 
-
 /**
- *
  * @brief Relative Strength Index
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class RSI {
 

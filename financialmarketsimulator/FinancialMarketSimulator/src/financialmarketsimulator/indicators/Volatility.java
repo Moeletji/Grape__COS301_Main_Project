@@ -1,7 +1,5 @@
 package financialmarketsimulator.indicators;
 
-//Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
-
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
@@ -9,10 +7,9 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
 /**
- *
- * @author Moeletji
+ * @brief Class used to calculate the volatility of a Market
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 
 public class Volatility {
     

@@ -3,9 +3,10 @@ package financialmarketsimulator.indicators;
 import financialmarketsimulator.exception.NotEnoughDataException;
 
 /**
- *
  * @brief Negative Directional Indicator
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+
 public class NDI {
 
     /**

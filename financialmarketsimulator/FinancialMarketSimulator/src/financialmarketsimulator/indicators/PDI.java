@@ -4,7 +4,12 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 
 /**
  *
+ * 
+ */
+
+/**
  * @brief Positive Directional Indicator
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class PDI {
 

@@ -1,8 +1,8 @@
 package financialmarketsimulator.indicators;
 
 /**
- *
  * @brief Positive Directional Movement
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class PDM {
 
