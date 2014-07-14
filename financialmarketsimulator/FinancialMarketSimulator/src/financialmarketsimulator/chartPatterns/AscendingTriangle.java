@@ -3,7 +3,8 @@ package financialmarketsimulator.chartPatterns;
 
 /**
  *
- * @brief
+ * @brief This class provides an algorithm to identify the Ascending Triangle Chart
+ * Pattern within a price movement.
  */
 public class AscendingTriangle {
     

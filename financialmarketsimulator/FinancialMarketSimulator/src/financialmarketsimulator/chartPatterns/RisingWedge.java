@@ -3,7 +3,8 @@ package financialmarketsimulator.chartPatterns;
 
 /**
  *
- * @brief
+ * @brief This class provides an algorithm for identifying the Rising Wedge
+ * Chart Pattern within a price movement.
  */
 public class RisingWedge {
     
