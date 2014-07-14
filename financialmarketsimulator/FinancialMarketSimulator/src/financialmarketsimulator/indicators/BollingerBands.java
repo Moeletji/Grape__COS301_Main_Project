@@ -73,15 +73,35 @@ public class BollingerBands {
         this.middleBand = _sma;
     }
     
-    public double calculateUpperBand()
+    public double calculateUpperBand() throws NotEnoughDataException
     {
-        upperBand = getSMA() + (factor * getSD());
+        double mean;
+        if (this.getSMA() > 0)
+        {
+            mean = this.getSMA();
+        }
+        else
+        {
+            throw new NotEnoughDataException();
+        }
+        
+        upperBand = mean + (factor * getSD());
         return upperBand;
     }
     
-    public double calculateLowerBand()
+    public double calculateLowerBand() throws NotEnoughDataException
     {
-        lowerBand = getSMA() - (factor * getSD());
+        double mean;
+        if (this.getSMA() > 0)
+        {
+            mean = this.getSMA();
+        }
+        else
+        {
+            throw new NotEnoughDataException();
+        }
+        
+        lowerBand = mean - (factor * getSD());
         return lowerBand;
     }
     

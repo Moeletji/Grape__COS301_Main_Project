@@ -34,8 +34,8 @@ public class Volatility {
     
     public double calculateSD() throws NotEnoughDataException
     {
-        //if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period)
-        //    return 0.0;
+        if (period <=0 || data.isEmpty() || data.getMatchedOrders().size()<period)
+            throw new NotEnoughDataException();
         
         int range = data.getMatchedOrders().size()-period;
         int length = data.getMatchedOrders().size()-1;

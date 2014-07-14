@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *      %D = 3-day SMA of %K
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class StochasticOscillators {
+public class StochasticOscillator {
     /**
      * The last traded price
      */
@@ -78,7 +78,7 @@ public class StochasticOscillators {
      */
     private MarketEntryAttemptBook book;
     
-    public StochasticOscillators()
+    public StochasticOscillator()
     {
         lowerBound = 20;
         upperBound = 80;
@@ -89,7 +89,7 @@ public class StochasticOscillators {
      * 
      * @param _book 
      */
-    public StochasticOscillators(MarketEntryAttemptBook _book)
+    public StochasticOscillator(MarketEntryAttemptBook _book)
     {
         lowerBound = 20;
         upperBound = 80;
@@ -103,7 +103,7 @@ public class StochasticOscillators {
      * @param _upperBound
      * @param _book 
      */
-    public StochasticOscillators(int _lowerBound, int _upperBound,MarketEntryAttemptBook _book)
+    public StochasticOscillator(int _lowerBound, int _upperBound,MarketEntryAttemptBook _book)
     {
         lowerBound = _lowerBound;
         upperBound = _upperBound;
@@ -120,23 +120,24 @@ public class StochasticOscillators {
         }
         
         k = (currentPrice - lowestLow)/(highestHigh - lowestLow)*100;
-        kValues.add(k);
+        setKValues(k);
         return k;
     }
     
     public double calculateD() throws NotEnoughDataException
     {
-        if (kValues.size() == 0 || kValues.size() < NUM_DAYS)
+        if (kValues.isEmpty() || kValues.size() < NUM_DAYS)
             throw new NotEnoughDataException();
-        
-        SMA sma = new SMA(NUM_DAYS);
+
         double total =0;
-        for (int i = kValues.size()-1-NUM_DAYS; i<kValues.size();i++ )
+        int start = (kValues.size()==3)?0:kValues.size()-NUM_DAYS;
+        
+        for (int i = start; i<kValues.size();i++ )
         {
             total += kValues.get(i);
         }
-        
-        d = sma.calculateSMA(total);
+ 
+        d = total/NUM_DAYS;
         return d;
     }
     
@@ -157,7 +158,7 @@ public class StochasticOscillators {
     
     public void setKValues(double _kValue)
     {
-        kValues.add(k);
+        kValues.add(_kValue);
     }
     
     public void setLowestLow(double low)
