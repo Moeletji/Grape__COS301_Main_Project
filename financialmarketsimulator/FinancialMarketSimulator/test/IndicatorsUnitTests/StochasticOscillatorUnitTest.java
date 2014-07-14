@@ -1,8 +1,8 @@
-// Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
+
 package IndicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.indicators.StochasticOscillators;
+import financialmarketsimulator.indicators.StochasticOscillator;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -16,13 +16,13 @@ import org.junit.Test;
 
 public class StochasticOscillatorUnitTest {
     
-    StochasticOscillators so;
+    StochasticOscillator so;
     ArrayList<Double> prevKValues;
     double errorBound = 0.00001;
     
     public StochasticOscillatorUnitTest()
     {
-        so = new StochasticOscillators();
+        so = new StochasticOscillator();
         prevKValues = new ArrayList<Double>();
     }
     
