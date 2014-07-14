@@ -1,10 +1,8 @@
-package indicatorsUnitTests;
+package IndicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.MACD;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -24,15 +22,7 @@ public class MACDUnitTest {
      */
     MACD macd;
     
-    @Test(expected=NotEnoughDataException.class)
-    public void testForNoData() throws NotEnoughDataException
-    {
-        macd = new MACD();
-        macd.calculateMACDValue();
-    }
-    
     /**
-     * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @todo
      */
     @Test
@@ -40,7 +30,6 @@ public class MACDUnitTest {
     {
         int _long = 26;
         int _short = 12;
-        double errorBound = 0.0000001;
         
         EMA shortEma = new EMA(_short); 
         EMA longEma = new EMA(_long);
@@ -60,7 +49,7 @@ public class MACDUnitTest {
         macd = new MACD();
         double answer = macd.calculateMACDValue(shortEma, longEma);
         
-        assertEquals(expectedMACD, answer, errorBound);
+        assertEquals(expectedMACD, answer, 0.0000001);
     }
     
     /**

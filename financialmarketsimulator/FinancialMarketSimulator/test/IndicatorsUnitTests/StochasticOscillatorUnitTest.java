@@ -1,8 +1,8 @@
 // Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
-package indicatorsUnitTests;
+package IndicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.indicators.StochasticOscillator;
+import financialmarketsimulator.indicators.StochasticOscillators;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -16,21 +16,14 @@ import org.junit.Test;
 
 public class StochasticOscillatorUnitTest {
     
-    StochasticOscillator so;
+    StochasticOscillators so;
     ArrayList<Double> prevKValues;
     double errorBound = 0.00001;
     
     public StochasticOscillatorUnitTest()
     {
-        so = new StochasticOscillator();
+        so = new StochasticOscillators();
         prevKValues = new ArrayList<Double>();
-    }
-    
-    @Test(expected=NullPointerException.class)
-    public void testForNoData() throws NotEnoughDataException, NullPointerException
-    {
-        so.calculateK();
-        so.calculateD();
     }
     
     @Test
@@ -52,44 +45,37 @@ public class StochasticOscillatorUnitTest {
         //expected answer
         double expectedAns = (current-low)/(high-low)*100;
         
+        assertEquals(expectedAns, ans, errorBound);
+        
         //add to ArrayList to be used for later tests
         prevKValues.add(ans);
-        
-        assertEquals(expectedAns, ans, errorBound);
         
         //Repeated test to be used in testing the calculation of %D 
         current = 127.18;
         so.setCurrentPrice(current);
         ans = so.calculateK();
         expectedAns = (current-low)/(high-low)*100;
-        prevKValues.add(ans);
         assertEquals(expectedAns, ans, errorBound);
+        prevKValues.add(ans);
         
         //Repeated test to be used in testing the calculation of %D
         current = 128.01;
         so.setCurrentPrice(current);
         ans = so.calculateK();
         expectedAns = (current-low)/(high-low)*100;
-        prevKValues.add(ans);
         assertEquals(expectedAns, ans, errorBound);
-    }
-    
-    @Test
-    public void testKValuesLength()
-    {
-        int expected = 3;
-        int ans = so.getKValues().size();
+        prevKValues.add(ans);
         
-        assertEquals(expected,ans);
     }
     
     @Test
     public void testCalculateD() throws NotEnoughDataException
     {
         double expectedAns = 0;
-        for (Double prevKValue : prevKValues) {
-            so.setKValues(prevKValue);
-            expectedAns += prevKValue;
+        //calcuate Average of kValues
+        for (int i = 0; i<prevKValues.size();i++)
+        {
+            expectedAns += prevKValues.get(i);
         }
         //the expected %D
         expectedAns = expectedAns/so.getNumDays();

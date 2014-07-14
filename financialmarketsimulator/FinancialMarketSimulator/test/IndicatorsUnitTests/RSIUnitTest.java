@@ -1,5 +1,5 @@
 
-package indicatorsUnitTests;
+package IndicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
