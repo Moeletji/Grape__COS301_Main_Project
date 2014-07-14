@@ -22,6 +22,7 @@ public class MovingAverageEnvelope {
 
     //closing price
     private double closingPrice;
+    
     private ArrayList<Double> pastSMAValues;
     private ArrayList<Double> pastEMAValues;
 
@@ -40,21 +41,42 @@ public class MovingAverageEnvelope {
         else throw new NotEnoughDataException();
     }
     
+    /**
+     * 
+     * @param percentage the value to determine the size of the envelope
+     * @return the upper envelope value
+     * @throws NotEnoughDataException 
+     */
     private double calculateSMAUpperEvelope(double percentage) throws NotEnoughDataException
     {
-        return getSMA()+ (getSMA()*percentage/100);
+        return getSMA() + (getSMA()*percentage/100);
     }
     
+    /**
+     * 
+     * @param percentage the value to determine the size of the envelope
+     * @return the lower envelope value
+     * @throws NotEnoughDataException 
+     */
     private double calculateSMALowerEvelope(double percentage) throws NotEnoughDataException
     {
-        return getSMA()+ (getSMA()*percentage/100);
+        return getSMA() - (getSMA()*percentage/100);
     }
     
+    /**
+     * @brief calculate the simple moving average using the sma object
+     * @return the simple moving average
+     * @throws NotEnoughDataException 
+     */
     private double getSMA() throws NotEnoughDataException
     {
         return sma.calculateSMA();
     }
-
+    
+    /**
+     * @brief generate a market event depending on whether the instrument is
+     * oversold/overbought
+     */
     public void generateMarketEntryAttempt()
     {
         
@@ -62,11 +84,13 @@ public class MovingAverageEnvelope {
     
     public void setClosingPrice(double closing)
     {
+        //this.closingPrice = book.getMatchedOrders().lastElement().getPrice();
         this.closingPrice = closing;
     }
     
     public double getClosingPrice()
     {
+        //return book.getMatchedOrders().lastElement().getPrice();
         return closingPrice;
     }
 }
