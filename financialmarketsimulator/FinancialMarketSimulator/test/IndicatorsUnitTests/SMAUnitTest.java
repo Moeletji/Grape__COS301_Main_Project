@@ -1,5 +1,6 @@
 package IndicatorsUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.SMA;
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -18,21 +19,26 @@ public class SMAUnitTest {
      * SMA class test object used. To be instantiated within each unit test.
      */
     SMA sma;
-    
+
+    @Test(expected = NullPointerException.class)
+    public void testForNoData() throws NotEnoughDataException, NullPointerException {
+        sma = new SMA(0);
+        sma.calculateSMA();
+    }
+
     /**
      * @todo
      */
     @Test
-    public void testSMA()
-    {
+    public void testSMA() {
         double total = 4000.0;
         int numDays = 14;
-        
-        double expected = total/numDays;
-        
+
+        double expected = total / numDays;
+
         sma = new SMA(numDays);
         double answer = sma.calculateSMA(total);
-        
+
         assertEquals(expected, answer, 0.000001);
     }
 }

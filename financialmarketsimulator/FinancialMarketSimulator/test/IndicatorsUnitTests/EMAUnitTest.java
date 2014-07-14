@@ -24,7 +24,14 @@ public class EMAUnitTest {
      */
     EMA ema;
 
+    @Test(expected = NotEnoughDataException.class)
+    public void testForNoData() throws NotEnoughDataException {
+        ema = new EMA(0);
+        ema.calculateEMA();
+    }
+
     /**
+     * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @brief Test to see that the calculate EMA returns the expected values
      */
     @Test
@@ -33,14 +40,8 @@ public class EMAUnitTest {
         int numberOfDays = 0;
         double closingPrice = 0.0;
         double previousEMA = 0.0;
-
-        ema = new EMA(numberOfDays);
-        ema.setPreviousEMAValue(previousEMA);
-        ema.setCurrentPrice(closingPrice);
+        double ans = 0.0;
         
-        double ans = ema.calculateEMA();
-        assertEquals(expectedEMA, ans, 0.0000001);
-
         numberOfDays = 9;
         closingPrice = 50.0;
         previousEMA = 1.0;
@@ -48,7 +49,7 @@ public class EMAUnitTest {
         EMA ema = new EMA(numberOfDays);
         ema.setPreviousEMAValue(previousEMA);
         ema.setCurrentPrice(closingPrice);
-        
+
         double k = 2 / (numberOfDays - 1);
         expectedEMA = (k * closingPrice) + (previousEMA * (1 - k));
         ans = ema.calculateEMA();
