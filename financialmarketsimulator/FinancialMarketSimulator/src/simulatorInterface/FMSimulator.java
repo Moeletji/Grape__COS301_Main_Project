@@ -38,56 +38,56 @@ public class FMSimulator extends javax.swing.JFrame {
         label6 = new java.awt.Label();
         label7 = new java.awt.Label();
         jPanel7 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        btnBid = new javax.swing.JButton();
+        txtNumShares = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox();
+        cbxStocks = new javax.swing.JComboBox();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox();
-        jButton6 = new javax.swing.JButton();
+        cbxMarketType = new javax.swing.JComboBox();
+        btnOffer = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtMarketEntityID = new javax.swing.JTextField();
         label8 = new java.awt.Label();
         jPanel8 = new javax.swing.JPanel();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        btnMarketQuote = new javax.swing.JButton();
+        btnMarketDepth = new javax.swing.JButton();
+        btnMarketMatchedAttempt = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton11 = new javax.swing.JButton();
-        jTextField7 = new javax.swing.JTextField();
+        txtUpdateClosePrice = new javax.swing.JTextField();
         jButton12 = new javax.swing.JButton();
-        jTextField8 = new javax.swing.JTextField();
+        txtUpdateIndex = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtStockName = new javax.swing.JTextField();
+        txtBasePrice = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtPriceVarianceBP = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        txtStandardDeviation = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        txtStandardFactor = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        txtMinInterval = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField14 = new javax.swing.JTextField();
+        txtMaxInterval = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField15 = new javax.swing.JTextField();
+        txtLength = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jSpinner2 = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        cbxMinNumberOfShares = new javax.swing.JSpinner();
+        cbxMaxNumberOfShares = new javax.swing.JSpinner();
+        btnCreate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnStop = new javax.swing.JButton();
+        btnStart = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -192,67 +192,77 @@ public class FMSimulator extends javax.swing.JFrame {
         label7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         label7.setText("Matched");
 
-        jPanel7.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel7.setBackground(new java.awt.Color(51, 51, 51));
         jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton5.setBackground(new java.awt.Color(0, 204, 204));
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton5.setText("Bid");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnBid.setBackground(new java.awt.Color(0, 204, 204));
+        btnBid.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnBid.setText("Bid");
+        btnBid.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBidMouseClicked(evt);
+            }
+        });
+        btnBid.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnBidActionPerformed(evt);
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txtNumShares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                txtNumSharesActionPerformed(evt);
             }
         });
-        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNumShares.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField5KeyTyped(evt);
+                txtNumSharesKeyTyped(evt);
             }
         });
 
         jLabel9.setText("Stock ");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxStocks.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel10.setText("Shares");
 
         jLabel11.setText("Price");
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        txtPrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                txtPriceActionPerformed(evt);
             }
         });
-        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField6KeyTyped(evt);
+                txtPriceKeyTyped(evt);
             }
         });
 
         jLabel12.setText("Type");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MARKET", "LIMIT" }));
-        jComboBox6.setToolTipText("select a market type");
+        cbxMarketType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MARKET", "LIMIT" }));
+        cbxMarketType.setToolTipText("select a market type");
 
-        jButton6.setBackground(new java.awt.Color(0, 204, 204));
-        jButton6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton6.setText("Offer");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnOffer.setBackground(new java.awt.Color(0, 204, 204));
+        btnOffer.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnOffer.setText("Offer");
+        btnOffer.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOfferMouseClicked(evt);
+            }
+        });
+        btnOffer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnOfferActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Market Entity ID");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtMarketEntityID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtMarketEntityIDActionPerformed(evt);
             }
         });
 
@@ -267,19 +277,19 @@ public class FMSimulator extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10)
                         .addComponent(jLabel12)
-                        .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbxStocks, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBid, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnOffer, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel11)
                     .addComponent(jLabel2)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                        .addComponent(txtMarketEntityID, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNumShares, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)))
+                        .addComponent(cbxMarketType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -288,65 +298,65 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbxStocks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMarketEntityID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addGap(2, 2, 2)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNumShares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbxMarketType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
+                    .addComponent(btnBid)
+                    .addComponent(btnOffer))
                 .addGap(25, 25, 25))
         );
 
         label8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         label8.setText("Bids");
 
-        jPanel8.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel8.setBackground(new java.awt.Color(51, 51, 51));
         jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton8.setBackground(new java.awt.Color(0, 255, 0));
-        jButton8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton8.setText("Market Quote");
+        btnMarketQuote.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketQuote.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketQuote.setText("Market Quote");
 
-        jButton9.setBackground(new java.awt.Color(0, 255, 0));
-        jButton9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton9.setText("Market Depth");
+        btnMarketDepth.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketDepth.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketDepth.setText("Market Depth");
 
-        jButton10.setBackground(new java.awt.Color(0, 255, 0));
-        jButton10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton10.setText("Market Matched Attempt");
+        btnMarketMatchedAttempt.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketMatchedAttempt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketMatchedAttempt.setText("Market Matched Attempt");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnMarketMatchedAttempt, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+            .addComponent(btnMarketDepth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnMarketQuote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jButton8)
+                .addComponent(btnMarketQuote)
                 .addGap(18, 18, 18)
-                .addComponent(jButton9)
+                .addComponent(btnMarketDepth)
                 .addGap(18, 18, 18)
-                .addComponent(jButton10)
+                .addComponent(btnMarketMatchedAttempt)
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -363,16 +373,16 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1572, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(1430, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -414,12 +424,12 @@ public class FMSimulator extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1198, Short.MAX_VALUE)
+            .addGap(0, 1177, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 13, Short.MAX_VALUE)
+                    .addGap(0, 3, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 14, Short.MAX_VALUE)))
+                    .addGap(0, 3, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Order List", jPanel2);
@@ -427,16 +437,36 @@ public class FMSimulator extends javax.swing.JFrame {
         jButton11.setBackground(new java.awt.Color(51, 255, 51));
         jButton11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton11.setText("Update Close Price");
+        jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton11MouseClicked(evt);
+            }
+        });
 
-        jTextField7.setBackground(new java.awt.Color(204, 255, 204));
-        jTextField7.setToolTipText("enter value");
+        txtUpdateClosePrice.setBackground(new java.awt.Color(204, 255, 204));
+        txtUpdateClosePrice.setToolTipText("enter value");
+        txtUpdateClosePrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUpdateClosePriceKeyTyped(evt);
+            }
+        });
 
         jButton12.setBackground(new java.awt.Color(51, 255, 51));
         jButton12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton12.setText("Update Index");
+        jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton12MouseClicked(evt);
+            }
+        });
 
-        jTextField8.setBackground(new java.awt.Color(204, 255, 204));
-        jTextField8.setToolTipText("enter value");
+        txtUpdateIndex.setBackground(new java.awt.Color(204, 255, 204));
+        txtUpdateIndex.setToolTipText("enter value");
+        txtUpdateIndex.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUpdateIndexKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -445,8 +475,8 @@ public class FMSimulator extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUpdateClosePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtUpdateIndex, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton11)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(2548, Short.MAX_VALUE))
@@ -455,14 +485,14 @@ public class FMSimulator extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUpdateClosePrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton11)
                 .addGap(40, 40, 40)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtUpdateIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton12)
-                .addContainerGap(1049, Short.MAX_VALUE))
+                .addContainerGap(1028, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Exchange Data", jPanel3);
@@ -497,136 +527,149 @@ public class FMSimulator extends javax.swing.JFrame {
         jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel1.setForeground(new java.awt.Color(0, 204, 255));
         jLabel1.setText("Stock");
 
-        jTextField1.setBackground(new java.awt.Color(153, 255, 153));
+        txtStockName.setBackground(new java.awt.Color(153, 255, 255));
+        txtStockName.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
 
-        jTextField3.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField3.setText("68.2");
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtBasePrice.setBackground(new java.awt.Color(153, 255, 255));
+        txtBasePrice.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtBasePrice.setText("68.2");
+        txtBasePrice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField3KeyTyped(evt);
+                txtBasePriceKeyTyped(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel3.setForeground(new java.awt.Color(0, 204, 255));
         jLabel3.setText("Base Price");
 
-        jTextField4.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField4.setText("1000");
-        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPriceVarianceBP.setBackground(new java.awt.Color(153, 255, 255));
+        txtPriceVarianceBP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtPriceVarianceBP.setText("1000");
+        txtPriceVarianceBP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField4KeyTyped(evt);
+                txtPriceVarianceBPKeyTyped(evt);
             }
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel4.setForeground(new java.awt.Color(0, 204, 255));
         jLabel4.setText("Price Variance BP");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel5.setForeground(new java.awt.Color(0, 204, 255));
         jLabel5.setText("Min no. of Shares");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel6.setForeground(new java.awt.Color(0, 204, 255));
         jLabel6.setText("Max no. of Shares");
 
-        jTextField11.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField11.setText("1");
-        jTextField11.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtStandardDeviation.setBackground(new java.awt.Color(153, 255, 255));
+        txtStandardDeviation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtStandardDeviation.setText("1");
+        txtStandardDeviation.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField11KeyTyped(evt);
+                txtStandardDeviationKeyTyped(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel7.setForeground(new java.awt.Color(0, 204, 255));
         jLabel7.setText("Standard Deviation");
 
-        jTextField12.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField12.setText("1");
-        jTextField12.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtStandardFactor.setBackground(new java.awt.Color(153, 255, 255));
+        txtStandardFactor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtStandardFactor.setText("1");
+        txtStandardFactor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField12KeyTyped(evt);
+                txtStandardFactorKeyTyped(evt);
             }
         });
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel8.setForeground(new java.awt.Color(0, 204, 255));
         jLabel8.setText("Standard Factor");
 
-        jTextField13.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField13.setText("500");
-        jTextField13.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMinInterval.setBackground(new java.awt.Color(153, 255, 255));
+        txtMinInterval.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtMinInterval.setText("500");
+        txtMinInterval.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField13KeyTyped(evt);
+                txtMinIntervalKeyTyped(evt);
             }
         });
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel13.setForeground(new java.awt.Color(0, 204, 255));
         jLabel13.setText("Minimum Interval");
 
-        jTextField14.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField14.setText("2000");
-        jTextField14.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMaxInterval.setBackground(new java.awt.Color(153, 255, 255));
+        txtMaxInterval.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtMaxInterval.setText("2000");
+        txtMaxInterval.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField14KeyTyped(evt);
+                txtMaxIntervalKeyTyped(evt);
             }
         });
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel14.setForeground(new java.awt.Color(0, 204, 255));
         jLabel14.setText("Maximum Interval");
 
-        jTextField15.setBackground(new java.awt.Color(153, 255, 153));
-        jTextField15.setText("60");
-        jTextField15.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtLength.setBackground(new java.awt.Color(153, 255, 255));
+        txtLength.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        txtLength.setText("60");
+        txtLength.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField15KeyTyped(evt);
+                txtLengthKeyTyped(evt);
             }
         });
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(51, 255, 51));
+        jLabel15.setForeground(new java.awt.Color(0, 204, 255));
         jLabel15.setText("Length");
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1000, 0, 1000000000, 100));
-        jSpinner1.setBorder(null);
-        jSpinner1.addKeyListener(new java.awt.event.KeyAdapter() {
+        cbxMinNumberOfShares.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cbxMinNumberOfShares.setModel(new javax.swing.SpinnerNumberModel(1000, 0, 1000000000, 100));
+        cbxMinNumberOfShares.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jSpinner1KeyTyped(evt);
+                cbxMinNumberOfSharesKeyTyped(evt);
             }
         });
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(1000, 0, 1000000000, 100));
-        jSpinner2.setBorder(null);
-        jSpinner2.addKeyListener(new java.awt.event.KeyAdapter() {
+        cbxMaxNumberOfShares.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cbxMaxNumberOfShares.setModel(new javax.swing.SpinnerNumberModel(1000, 0, 1000000000, 100));
+        cbxMaxNumberOfShares.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jSpinner2KeyTyped(evt);
+                cbxMaxNumberOfSharesKeyTyped(evt);
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(204, 255, 204));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setText("Create");
+        btnCreate.setBackground(new java.awt.Color(204, 255, 204));
+        btnCreate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnCreate.setText("Create");
+        btnCreate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCreateMouseClicked(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 204));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setText("Delete");
+        btnDelete.setBackground(new java.awt.Color(255, 204, 204));
+        btnDelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnDelete.setText("Delete");
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 51));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setText("Stop");
-        jButton3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnStop.setBackground(new java.awt.Color(255, 0, 51));
+        btnStop.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnStop.setText("Stop");
+        btnStop.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton4.setBackground(new java.awt.Color(0, 204, 0));
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton4.setText("Start");
-        jButton4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnStart.setBackground(new java.awt.Color(0, 204, 0));
+        btnStart.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnStart.setText("Start");
+        btnStart.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -637,42 +680,52 @@ public class FMSimulator extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbxMinNumberOfShares, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtStockName, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBasePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtPriceVarianceBP, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)))
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel8)
-                                .addComponent(jLabel13)
-                                .addComponent(jLabel14)
-                                .addComponent(jLabel15)
-                                .addComponent(jTextField11)
-                                .addComponent(jTextField12)
-                                .addComponent(jTextField13)
-                                .addComponent(jTextField14)
-                                .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cbxMaxNumberOfShares, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6))
+                                        .addComponent(jLabel15)
+                                        .addComponent(txtLength, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(txtStandardDeviation, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(txtStandardFactor, javax.swing.GroupLayout.Alignment.TRAILING))))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel13)
+                            .addComponent(txtMinInterval))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtMaxInterval, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(88, 88, 88)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(btnCreate))
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -682,49 +735,53 @@ public class FMSimulator extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtStandardDeviation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStockName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
+                    .addComponent(txtStandardFactor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBasePrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMinInterval, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtMaxInterval, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxMaxNumberOfShares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxMinNumberOfShares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPriceVarianceBP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35)
+                .addComponent(btnCreate)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDelete)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(210, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -744,8 +801,8 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 645, Short.MAX_VALUE))
-                .addContainerGap(542, Short.MAX_VALUE))
+                    .addComponent(jScrollPane7))
+                .addContainerGap(515, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Market Simulator", jPanel1);
@@ -766,113 +823,252 @@ public class FMSimulator extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnBidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnBidActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void txtNumSharesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumSharesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_txtNumSharesActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_txtPriceActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnOfferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnOfferActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtMarketEntityIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarketEntityIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtMarketEntityIDActionPerformed
 
-    private void jTextField15KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField15KeyTyped
+    private void txtLengthKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLengthKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField15KeyTyped
+    }//GEN-LAST:event_txtLengthKeyTyped
 
-    private void jTextField11KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField11KeyTyped
+    private void txtStandardDeviationKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStandardDeviationKeyTyped
+        char c = evt.getKeyChar();
+        if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD && c != KeyEvent.VK_MINUS) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtStandardDeviationKeyTyped
+
+    private void txtBasePriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBasePriceKeyTyped
+        char c = evt.getKeyChar();
+        if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD && c != KeyEvent.VK_MINUS) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtBasePriceKeyTyped
+
+    private void txtStandardFactorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStandardFactorKeyTyped
+        char c = evt.getKeyChar();
+        if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD && c != KeyEvent.VK_MINUS) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtStandardFactorKeyTyped
+
+    private void txtPriceVarianceBPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceVarianceBPKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField11KeyTyped
+    }//GEN-LAST:event_txtPriceVarianceBPKeyTyped
 
-    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
-        char c = evt.getKeyChar();
-        if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_jTextField3KeyTyped
-
-    private void jTextField12KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField12KeyTyped
-        char c = evt.getKeyChar();
-        if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_jTextField12KeyTyped
-
-    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
-        char c = evt.getKeyChar();
-        if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_jTextField4KeyTyped
-
-    private void jTextField13KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField13KeyTyped
+    private void txtMinIntervalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinIntervalKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField13KeyTyped
+    }//GEN-LAST:event_txtMinIntervalKeyTyped
 
-    private void jTextField14KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField14KeyTyped
+    private void txtMaxIntervalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaxIntervalKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField14KeyTyped
+    }//GEN-LAST:event_txtMaxIntervalKeyTyped
 
-    private void jSpinner1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSpinner1KeyTyped
+    private void cbxMinNumberOfSharesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxMinNumberOfSharesKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jSpinner1KeyTyped
+    }//GEN-LAST:event_cbxMinNumberOfSharesKeyTyped
 
-    private void jSpinner2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSpinner2KeyTyped
+    private void cbxMaxNumberOfSharesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxMaxNumberOfSharesKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jSpinner2KeyTyped
+    }//GEN-LAST:event_cbxMaxNumberOfSharesKeyTyped
 
-    private void jTextField5KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyTyped
+    private void txtNumSharesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumSharesKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE) || (Character.isWhitespace(c))) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField5KeyTyped
+    }//GEN-LAST:event_txtNumSharesKeyTyped
 
-    private void jTextField6KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyTyped
+    private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
             getToolkit().beep();
             evt.consume();
         }
-    }//GEN-LAST:event_jTextField6KeyTyped
+    }//GEN-LAST:event_txtPriceKeyTyped
+
+    private void btnBidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBidMouseClicked
+        String id = txtMarketEntityID.getText();
+        String stockName = cbxStocks.getSelectedItem().toString();
+        String marketType = cbxMarketType.getSelectedItem().toString();
+
+        String ns = txtNumShares.getText();
+        String p = txtPrice.getText();
+
+        if (p.equals("") || ns.equals("") || id.equals("")) {
+            MessageBox.infoBox("Please fill in all fields", "Bid not accepted");
+            return;
+        }
+
+        if (!Number.isDouble(p) || !Number.isInteger(ns)) {
+            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Bid not accepted");
+            return;
+        }
+
+        int numOfShares = Integer.parseInt(txtNumShares.getText());
+        double price = Double.parseDouble(txtPrice.getText());
+
+        if (numOfShares <= 0 || price <= 0) {
+            MessageBox.infoBox("Please use only positive values", "Bid not accepted");
+            return;
+        }
+
+        String side = "bid";
+
+        MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
+
+        //Make an bid here with the interface object
+    }//GEN-LAST:event_btnBidMouseClicked
+
+    private void btnOfferMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferMouseClicked
+        String id = txtMarketEntityID.getText();
+        String stockName = cbxStocks.getSelectedItem().toString();
+        String marketType = cbxMarketType.getSelectedItem().toString();
+
+        String ns = txtNumShares.getText();
+        String p = txtPrice.getText();
+
+        if (p.equals("") || ns.equals("") || id.equals("")) {
+            MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
+            return;
+        }
+
+        if (!Number.isDouble(p) || !Number.isInteger(ns)) {
+            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Offer not accepted");
+            return;
+        }
+
+        int numOfShares = Integer.parseInt(txtNumShares.getText());
+        double price = Double.parseDouble(txtPrice.getText());
+
+        if (numOfShares <= 0 || price <= 0) {
+            MessageBox.infoBox("Please use only positive values", "Offer not accepted");
+            return;
+        }
+
+        String side = "offer";
+
+        MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
+
+        //Make an offer here with the interface object
+    }//GEN-LAST:event_btnOfferMouseClicked
+
+    private void jButton11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseClicked
+        double closePrice = Double.parseDouble(txtUpdateClosePrice.getText());
+
+        //do something with the close price 
+    }//GEN-LAST:event_jButton11MouseClicked
+
+    private void jButton12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseClicked
+        double index = Double.parseDouble(txtUpdateIndex.getText());
+
+        //do something with the index
+    }//GEN-LAST:event_jButton12MouseClicked
+
+    private void txtUpdateClosePriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUpdateClosePriceKeyTyped
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE) || (Character.isWhitespace(c))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtUpdateClosePriceKeyTyped
+
+    private void txtUpdateIndexKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUpdateIndexKeyTyped
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE) || (Character.isWhitespace(c))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtUpdateIndexKeyTyped
+
+    private void btnCreateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCreateMouseClicked
+        String stock = txtStockName.getText();
+        String standardDeviation = txtStandardDeviation.getText();
+        String basePrice = txtBasePrice.getText();
+        String standardFactor = txtStandardFactor.getText();
+        String minimumInterval = txtMinInterval.getText();
+        String maximumInterval = txtMaxInterval.getText();
+        String minNoOfShares = cbxMinNumberOfShares.getValue().toString();
+        String maxNoOfShares = cbxMaxNumberOfShares.getValue().toString();
+        String priceVarianceBP = txtPriceVarianceBP.getText();
+        String length = txtLength.getText();
+
+        if (stock.equals("") || standardDeviation.equals("") || basePrice.equals("") || standardFactor.equals("") || minimumInterval.equals("") || maximumInterval.equals("") || minNoOfShares.equals("") || maxNoOfShares.equals("") || priceVarianceBP.equals("") || length.equals("")) {
+            MessageBox.infoBox("Please ensure all fields are not empty.", "Empty field");
+            return;
+        }
+
+        if (!Number.isDouble(standardDeviation) || !Number.isDouble(basePrice) || !Number.isDouble(standardFactor) || !Number.isInteger(minimumInterval) || !Number.isInteger(maximumInterval) || !Number.isInteger(maxNoOfShares) || !Number.isInteger(minNoOfShares) || !Number.isDouble(priceVarianceBP) || !Number.isInteger(length)) {
+            MessageBox.infoBox("Please ensure all fields have the correct number format.", "Incorrect Number Format");
+            return;
+        }
+
+        double stdDev = Double.parseDouble(standardDeviation);
+        double bp = Double.parseDouble(basePrice);
+        double sf = Double.parseDouble(standardFactor);
+        double minI = Integer.parseInt(minimumInterval);
+        double maxI = Integer.parseInt(maximumInterval);
+        double minShares = Integer.parseInt(minNoOfShares);
+        double maxShares = Integer.parseInt(maxNoOfShares);
+        double pvbp = Double.parseDouble(priceVarianceBP);
+        double len = Integer.parseInt(length);
+
+        if (len < 0 || minShares <= 0 || maxShares <= 0 || minI <= 0 || maxI <= 0 || pvbp < 0) {
+            MessageBox.infoBox("Some fields may not have negative values.", "Negative Value Detected");
+            return;
+        }
+
+        if ((minShares > maxShares) || (minI > maxI)) {
+            MessageBox.infoBox("All maximum values should be greater than minimum values.", "Size inconsistency");
+            return;
+        }
+
+        //do something with the data
+    }//GEN-LAST:event_btnCreateMouseClicked
 
     /**
      * @param args the command line arguments
@@ -912,19 +1108,21 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JTable Offers2;
     private javax.swing.JTable Offers4;
     private javax.swing.JTable Offers5;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
+    private javax.swing.JButton btnBid;
+    private javax.swing.JButton btnCreate;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnMarketDepth;
+    private javax.swing.JButton btnMarketMatchedAttempt;
+    private javax.swing.JButton btnMarketQuote;
+    private javax.swing.JButton btnOffer;
+    private javax.swing.JButton btnStart;
+    private javax.swing.JButton btnStop;
+    private javax.swing.JComboBox cbxMarketType;
+    private javax.swing.JSpinner cbxMaxNumberOfShares;
+    private javax.swing.JSpinner cbxMinNumberOfShares;
+    private javax.swing.JComboBox cbxStocks;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox jComboBox5;
-    private javax.swing.JComboBox jComboBox6;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -952,26 +1150,24 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField15;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private java.awt.Label label4;
     private java.awt.Label label6;
     private java.awt.Label label7;
     private java.awt.Label label8;
+    private javax.swing.JTextField txtBasePrice;
+    private javax.swing.JTextField txtLength;
+    private javax.swing.JTextField txtMarketEntityID;
+    private javax.swing.JTextField txtMaxInterval;
+    private javax.swing.JTextField txtMinInterval;
+    private javax.swing.JTextField txtNumShares;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtPriceVarianceBP;
+    private javax.swing.JTextField txtStandardDeviation;
+    private javax.swing.JTextField txtStandardFactor;
+    private javax.swing.JTextField txtStockName;
+    private javax.swing.JTextField txtUpdateClosePrice;
+    private javax.swing.JTextField txtUpdateIndex;
     // End of variables declaration//GEN-END:variables
 }
