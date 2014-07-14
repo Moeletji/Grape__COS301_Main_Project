@@ -1,4 +1,4 @@
-package strategiesUnitTests;
+package indicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
@@ -23,6 +23,13 @@ public class EMAUnitTest {
      * EMA class test object. To be instantiated within each new test.
      */
     EMA ema;
+    
+    @Test(expected=NotEnoughDataException.class)
+    public void testForNoData() throws NotEnoughDataException
+    {
+        ema = new EMA(0);
+        ema.calculateEMA();
+    }
 
     /**
      * @brief Test to see that the calculate EMA returns the expected values
@@ -33,13 +40,14 @@ public class EMAUnitTest {
         int numberOfDays = 0;
         double closingPrice = 0.0;
         double previousEMA = 0.0;
+        double ans = 0.0;
 
-        ema = new EMA(numberOfDays);
+        /*ema = new EMA(numberOfDays);
         ema.setPreviousEMAValue(previousEMA);
         ema.setCurrentPrice(closingPrice);
         
-        double ans = ema.calculateEMA();
-        assertEquals(expectedEMA, ans, 0.0000001);
+        ans = ema.calculateEMA();
+        assertEquals(expectedEMA, ans, 0.0000001);*/
 
         numberOfDays = 9;
         closingPrice = 50.0;

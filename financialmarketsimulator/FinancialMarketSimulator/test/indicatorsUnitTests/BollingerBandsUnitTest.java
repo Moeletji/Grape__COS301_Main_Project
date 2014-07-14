@@ -1,7 +1,9 @@
 // Error reading included file Templates/Classes/Templates/Licenses/license-Financial Market Simulator Licence.txt
-package strategiesUnitTests;
+package indicatorsUnitTests;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.BollingerBands;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -19,8 +21,16 @@ public class BollingerBandsUnitTest {
         bbands = new BollingerBands();
     }
     
+    @Test(expected=NotEnoughDataException.class)
+    public void testForNoData() throws NotEnoughDataException
+    {
+        bbands = new BollingerBands();
+        bbands.calculateLowerBand();
+        bbands.calculateUpperBand();
+    }
+    
     @Test
-    public void testBollingerBandsCalculation()
+    public void testBollingerBandsCalculation() throws NotEnoughDataException
     {
         //values to be used in the test
         double mean = 88.71;

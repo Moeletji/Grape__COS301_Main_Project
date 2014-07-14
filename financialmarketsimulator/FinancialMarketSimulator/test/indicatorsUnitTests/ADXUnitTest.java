@@ -1,4 +1,4 @@
-package strategiesUnitTests;
+package indicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ADX;

@@ -1,10 +1,10 @@
 
-package strategiesUnitTests;
+package indicatorsUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ATR;
 import financialmarketsimulator.indicators.EMA;
-import financialmarketsimulator.indicators.PDI;
+import financialmarketsimulator.indicators.NDI;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -14,16 +14,16 @@ import org.junit.Test;
 
 /**
  *
- * @brief PDI class unit test
+ * @brief NDI class unit tests
  */
-public class PDIUnitTest {
+public class NDIUnitTest {
     
     /**
-     * PDI object used throughout the unit tests.
+     * NDI object used throughout the unit tests.
      */
-    PDI pdi;
+    NDI ndi;
     
-    public PDIUnitTest() {
+    public NDIUnitTest() {
     }
     
     @BeforeClass
@@ -46,13 +46,13 @@ public class PDIUnitTest {
      * 
      */
     @Test
-    public void calculatePDITest() throws NotEnoughDataException
+    public void calculateNDITest() throws NotEnoughDataException
     {
         double todaysHigh = 0.47;
         double todaysLow = 0.30;
         double previousClosing = 0.33;
-        double currentPDM = 0.29;
-        double previiousPDM = 0.31;
+        double currentNDM = 0.29;
+        double previiousNDM = 0.31;
         double expectedResult;
         double observedResult;
         
@@ -62,16 +62,16 @@ public class PDIUnitTest {
         EMA ema = new EMA(14);
         ATR atr = new ATR(todaysHigh, todaysLow, previousClosing);
         
-        ema.setCurrentPrice(currentPDM);
-        ema.setPreviousEMAValue(previiousPDM);
+        ema.setCurrentPrice(currentNDM);
+        ema.setPreviousEMAValue(previiousNDM);
         
         expectedResult = (100 * ema.calculateEMA() / atr.calculateATR());
         
         //***********************
         // Observed result calculation
         //***********************
-        pdi = new PDI(todaysHigh, todaysLow, previousClosing);
-        observedResult = pdi.calculatePDI(currentPDM, previiousPDM);
+        ndi = new NDI(todaysHigh, todaysLow, previousClosing);
+        observedResult = ndi.calculateNDI(currentNDM, previiousNDM);
         
         assertEquals(expectedResult, observedResult, 0);
     }
