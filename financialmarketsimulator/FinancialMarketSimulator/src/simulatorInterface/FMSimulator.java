@@ -1,18 +1,41 @@
 package simulatorInterface;
 
+import financialmarketsimulator.exception.StockAlreadyExistsException;
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.awt.event.KeyEvent;
+import java.util.Stack;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import sun.security.x509.AttributeNameEnumeration;
 
 /**
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class FMSimulator extends javax.swing.JFrame {
 
+    private FinancialMarketStockExchange fmse = new FinancialMarketStockExchange();
+    private Object [][] bids;
+    private Object [][] offers;
+    private Object [][] matched;
     /**
      * Creates new form FMSimulator
      */
     public FMSimulator() {
         initComponents();
+        String [] rowNames = {"Market Entity", "Shares", "Price"};
+        bids =  new Object[0][3];
+        offers =  new Object[0][3];
+        matched =  new Object[0][3];
+        
+        OffersTableTest.setModel(new DefaultTableModel(bids, rowNames));
+        BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
+        MatchedTableTest.setModel(new DefaultTableModel(matched, rowNames));
     }
 
     /**
@@ -88,6 +111,36 @@ public class FMSimulator extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnStop = new javax.swing.JButton();
         btnStart = new javax.swing.JButton();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        BidsTableTest = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        MatchedTableTest = new javax.swing.JTable();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        OffersTableTest = new javax.swing.JTable();
+        label5 = new java.awt.Label();
+        label9 = new java.awt.Label();
+        label10 = new java.awt.Label();
+        jPanel10 = new javax.swing.JPanel();
+        btnBidTest = new javax.swing.JButton();
+        txtNumShares1 = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        cbxStocks1 = new javax.swing.JComboBox();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        txtPrice1 = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        cbxMarketType1 = new javax.swing.JComboBox();
+        btnOfferTest = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        txtMarketEntityID1 = new javax.swing.JTextField();
+        label11 = new java.awt.Label();
+        jPanel11 = new javax.swing.JPanel();
+        btnMarketQuote1 = new javax.swing.JButton();
+        btnMarketDepth1 = new javax.swing.JButton();
+        btnMarketMatchedAttempt1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -424,12 +477,12 @@ public class FMSimulator extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1177, Short.MAX_VALUE)
+            .addGap(0, 1199, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 3, Short.MAX_VALUE)
+                    .addGap(0, 14, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 3, Short.MAX_VALUE)))
+                    .addGap(0, 14, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Order List", jPanel2);
@@ -492,7 +545,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addComponent(txtUpdateIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton12)
-                .addContainerGap(1028, Short.MAX_VALUE))
+                .addContainerGap(1050, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Exchange Data", jPanel3);
@@ -802,10 +855,343 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane7))
-                .addContainerGap(515, Short.MAX_VALUE))
+                .addContainerGap(537, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Market Simulator", jPanel1);
+
+        jTabbedPane2.setBackground(new java.awt.Color(204, 255, 255));
+        jTabbedPane2.setName("Financial Market Simulator"); // NOI18N
+
+        BidsTableTest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Market Entity", "Shares", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        BidsTableTest.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(BidsTableTest);
+
+        MatchedTableTest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Market Entity", "Shares", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        MatchedTableTest.getTableHeader().setReorderingAllowed(false);
+        jScrollPane8.setViewportView(MatchedTableTest);
+
+        OffersTableTest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Market Entity", "Shares", "Price"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        OffersTableTest.getTableHeader().setReorderingAllowed(false);
+        jScrollPane9.setViewportView(OffersTableTest);
+
+        label5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label5.setText("Market Attempt");
+
+        label9.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label9.setText("Offers");
+
+        label10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label10.setText("Matched");
+
+        jPanel10.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel10.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btnBidTest.setBackground(new java.awt.Color(0, 204, 204));
+        btnBidTest.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnBidTest.setText("Bid");
+        btnBidTest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBidTestMouseClicked(evt);
+            }
+        });
+        btnBidTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBidTestActionPerformed(evt);
+            }
+        });
+
+        txtNumShares1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNumShares1ActionPerformed(evt);
+            }
+        });
+        txtNumShares1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNumShares1KeyTyped(evt);
+            }
+        });
+
+        jLabel16.setText("Stock ");
+
+        cbxStocks1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FBK", "ANG", "YHO", "GGL", "GMS", "BMW", "ONX", " " }));
+
+        jLabel17.setText("Shares");
+
+        jLabel18.setText("Price");
+
+        txtPrice1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrice1ActionPerformed(evt);
+            }
+        });
+        txtPrice1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrice1KeyTyped(evt);
+            }
+        });
+
+        jLabel19.setText("Type");
+
+        cbxMarketType1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MARKET", "LIMIT" }));
+        cbxMarketType1.setToolTipText("select a market type");
+
+        btnOfferTest.setBackground(new java.awt.Color(0, 204, 204));
+        btnOfferTest.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btnOfferTest.setText("Offer");
+        btnOfferTest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOfferTestMouseClicked(evt);
+            }
+        });
+        btnOfferTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOfferTestActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("Market Entity ID");
+
+        txtMarketEntityID1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMarketEntityID1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel17)
+                        .addComponent(jLabel19)
+                        .addComponent(cbxStocks1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                            .addComponent(btnBidTest, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                            .addComponent(btnOfferTest, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel20)
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtMarketEntityID1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNumShares1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(cbxMarketType1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPrice1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxStocks1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtMarketEntityID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel17)
+                .addGap(2, 2, 2)
+                .addComponent(txtNumShares1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(txtPrice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxMarketType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBidTest)
+                    .addComponent(btnOfferTest))
+                .addGap(25, 25, 25))
+        );
+
+        label11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label11.setText("Bids");
+
+        jPanel11.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        btnMarketQuote1.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketQuote1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketQuote1.setText("Market Quote");
+
+        btnMarketDepth1.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketDepth1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketDepth1.setText("Market Depth");
+
+        btnMarketMatchedAttempt1.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketMatchedAttempt1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketMatchedAttempt1.setText("Market Matched Attempt");
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnMarketMatchedAttempt1, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+            .addComponent(btnMarketDepth1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnMarketQuote1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(btnMarketQuote1)
+                .addGap(18, 18, 18)
+                .addComponent(btnMarketDepth1)
+                .addGap(18, 18, 18)
+                .addComponent(btnMarketMatchedAttempt1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(1430, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane8))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(label5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(label9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane9)))
+                .addGap(576, 576, 576))
+        );
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 2721, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1171, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane2.addTab("Order List", jPanel6);
+
+        jTabbedPane1.addTab("Matching Engine Test", jTabbedPane2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1070,6 +1456,129 @@ public class FMSimulator extends javax.swing.JFrame {
         //do something with the data
     }//GEN-LAST:event_btnCreateMouseClicked
 
+    private void btnBidTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBidTestMouseClicked
+        String id = txtMarketEntityID1.getText();
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        String marketType = cbxMarketType1.getSelectedItem().toString();
+
+        String ns = txtNumShares1.getText();
+        String p = txtPrice1.getText();
+
+        if (p.equals("") || ns.equals("") || id.equals("")) {
+            MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
+            return;
+        }
+
+        if (!Number.isDouble(p) || !Number.isInteger(ns)) {
+            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Offer not accepted");
+            return;
+        }
+
+        int numOfShares = Integer.parseInt(txtNumShares1.getText());
+        double price = Double.parseDouble(txtPrice1.getText());
+
+        if (numOfShares <= 0 || price <= 0) {
+            MessageBox.infoBox("Please use only positive values", "Offer not accepted");
+            return;
+        }
+
+        String side = "bid";
+
+        MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
+
+        MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, side.equals("bid") ? MarketEntryAttempt.SIDE.BID : MarketEntryAttempt.SIDE.OFFER);
+        
+        try{
+            if(!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)){
+                    MessageBox.infoBox("Item could not be place", "Market Attempt Entry Failed");
+            }
+        }catch (InterruptedException ex) {
+            Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            
+            Vector bids = fmse.getOrderBook(stockName).getBids();
+            Vector offers = fmse.getOrderBook(stockName).getOffers();
+            Vector matched = fmse.getOrderBook(stockName).getMatchedOrders();
+            
+            Object [][] bidsElements = new Object[bids.size()+1][3];
+            Object [][] offerElements = new Object[offers.size()+1][3];
+            Object [][] matchedElements = new Object[matched.size()+1][3];
+            
+            
+            for(int i = 0; i < bids.size(); i++){
+                Vector tmpVec =  new Vector();
+                MarketEntryAttempt attempt = (MarketEntryAttempt)bids.elementAt(i);
+                //bidsElements = 
+            }
+            
+            Object [] columnNames = {"Market Entity", "Shares", "Price"};
+            BidsTableTest = new JTable();
+            
+        }
+        //Make an offer here with the interface object
+    }//GEN-LAST:event_btnBidTestMouseClicked
+
+    private void btnBidTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidTestActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBidTestActionPerformed
+
+    private void txtNumShares1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumShares1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumShares1ActionPerformed
+
+    private void txtNumShares1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumShares1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNumShares1KeyTyped
+
+    private void txtPrice1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrice1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrice1ActionPerformed
+
+    private void txtPrice1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrice1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrice1KeyTyped
+
+    private void btnOfferTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferTestMouseClicked
+        String id = txtMarketEntityID1.getText();
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        String marketType = cbxMarketType1.getSelectedItem().toString();
+
+        String ns = txtNumShares1.getText();
+        String p = txtPrice1.getText();
+
+        if (p.equals("") || ns.equals("") || id.equals("")) {
+            MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
+            return;
+        }
+
+        if (!Number.isDouble(p) || !Number.isInteger(ns)) {
+            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Offer not accepted");
+            return;
+        }
+
+        int numOfShares = Integer.parseInt(txtNumShares1.getText());
+        double price = Double.parseDouble(txtPrice1.getText());
+
+        if (numOfShares <= 0 || price <= 0) {
+            MessageBox.infoBox("Please use only positive values", "Offer not accepted");
+            return;
+        }
+
+        String side = "offer";
+
+        MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
+
+        //Make an offer here with the interface object
+    }//GEN-LAST:event_btnOfferTestMouseClicked
+
+    private void btnOfferTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferTestActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOfferTestActionPerformed
+
+    private void txtMarketEntityID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarketEntityID1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMarketEntityID1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1105,22 +1614,32 @@ public class FMSimulator extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable BidsTableTest;
+    private javax.swing.JTable MatchedTableTest;
     private javax.swing.JTable Offers2;
     private javax.swing.JTable Offers4;
     private javax.swing.JTable Offers5;
+    private javax.swing.JTable OffersTableTest;
     private javax.swing.JButton btnBid;
+    private javax.swing.JButton btnBidTest;
     private javax.swing.JButton btnCreate;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnMarketDepth;
+    private javax.swing.JButton btnMarketDepth1;
     private javax.swing.JButton btnMarketMatchedAttempt;
+    private javax.swing.JButton btnMarketMatchedAttempt1;
     private javax.swing.JButton btnMarketQuote;
+    private javax.swing.JButton btnMarketQuote1;
     private javax.swing.JButton btnOffer;
+    private javax.swing.JButton btnOfferTest;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStop;
     private javax.swing.JComboBox cbxMarketType;
+    private javax.swing.JComboBox cbxMarketType1;
     private javax.swing.JSpinner cbxMaxNumberOfShares;
     private javax.swing.JSpinner cbxMinNumberOfShares;
     private javax.swing.JComboBox cbxStocks;
+    private javax.swing.JComboBox cbxStocks1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JFrame jFrame1;
@@ -1131,7 +1650,12 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1140,29 +1664,44 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private java.awt.Label label10;
+    private java.awt.Label label11;
     private java.awt.Label label4;
+    private java.awt.Label label5;
     private java.awt.Label label6;
     private java.awt.Label label7;
     private java.awt.Label label8;
+    private java.awt.Label label9;
     private javax.swing.JTextField txtBasePrice;
     private javax.swing.JTextField txtLength;
     private javax.swing.JTextField txtMarketEntityID;
+    private javax.swing.JTextField txtMarketEntityID1;
     private javax.swing.JTextField txtMaxInterval;
     private javax.swing.JTextField txtMinInterval;
     private javax.swing.JTextField txtNumShares;
+    private javax.swing.JTextField txtNumShares1;
     private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtPrice1;
     private javax.swing.JTextField txtPriceVarianceBP;
     private javax.swing.JTextField txtStandardDeviation;
     private javax.swing.JTextField txtStandardFactor;

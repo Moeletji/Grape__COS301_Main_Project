@@ -45,12 +45,13 @@ public class StockManager {
      * accepted
      * @throws InterruptedException
      */
-    public void acceptOrder(MarketEntryAttempt order) throws InterruptedException {
+    public boolean acceptOrder(MarketEntryAttempt order) throws InterruptedException {
         if (order.getPrice() == 0 || order.getNumOfShares() == 0) {
-            return;
+            return false;
         }
 
         orderList.placeOrder(order);
+        return true;
     }
 
     /**
