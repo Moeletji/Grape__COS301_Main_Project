@@ -1505,44 +1505,36 @@ public class FMSimulator extends javax.swing.JFrame {
             }
             
             String [] cols = {"Market Entity", "Shares", "Price"};
-            Vector colNames = new Vector();
-            colNames.addElement(Arrays.asList(cols));
             
-            Vector rows = new Vector();
+            Object [][] tmpBids =  new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
-                Vector aRow = new Vector();
                 MarketEntryAttempt attempt = (MarketEntryAttempt)bidsVec.elementAt(i);
-                aRow.add(attempt.getParticipantName());
-                aRow.add(attempt.getNumOfShares());
-                aRow.add(attempt.getPrice());
-                rows.add(aRow);
+                tmpBids[i][0] = attempt.getParticipantName();
+                tmpBids[i][1] = attempt.getNumOfShares();
+                tmpBids[i][2] = attempt.getPrice();
+                
             }
-            BidsTableTest.setModel(new DefaultTableModel(rows, colNames));
+            BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
             
-            rows = new Vector();
+            
+            Object [][] tmpOffers =  new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
-                Vector aRow = new Vector();
                 MarketEntryAttempt attempt = (MarketEntryAttempt)offersVec.elementAt(i);
-                aRow.add(attempt.getParticipantName());
-                aRow.add(attempt.getNumOfShares());
-                aRow.add(attempt.getPrice());
-                rows.add(aRow);
-            }
-            OffersTableTest.setModel(new DefaultTableModel(rows, colNames));
+                tmpOffers[i][0] = attempt.getParticipantName();
+                tmpOffers[i][1] = attempt.getNumOfShares();
+                tmpOffers[i][2] = attempt.getPrice();
+            } 
+            OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
             
             cols[2] = "Date";
-            colNames = new Vector();
-            colNames.addElement(Arrays.asList(cols));
-            rows = new Vector();
+            Object [][] tmpMatched =  new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
-                Vector aRow = new Vector();
                 MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matchedVec.elementAt(i);
-                aRow.add(attempt.getDateIssuedToString());
-                aRow.add(attempt.getQuantity());
-                aRow.add(attempt.getPrice());
-                rows.add(aRow);
-            }
-            MatchedTableTest.setModel(new DefaultTableModel(rows, colNames));
+                tmpMatched[i][0] = attempt.getDateIssued();
+                tmpMatched[i][1] = attempt.getQuantity();
+                tmpMatched[i][2] = attempt.getPrice();
+            } 
+            MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
     }//GEN-LAST:event_btnBidTestMouseClicked
 
@@ -1602,7 +1594,7 @@ public class FMSimulator extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
+            
             Vector bidsVec = fmse.getOrderBook(stockName).getBids();
             Vector offersVec = fmse.getOrderBook(stockName).getOffers();
             Vector matchedVec = fmse.getOrderBook(stockName).getMatchedOrders();
@@ -1613,44 +1605,36 @@ public class FMSimulator extends javax.swing.JFrame {
             }
 
             String [] cols = {"Market Entity", "Shares", "Price"};
-            Vector colNames = new Vector();
-            colNames.addElement(Arrays.asList(cols));
             
-            Vector rows = new Vector();
+            Object [][] tmpBids =  new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
-                Vector aRow = new Vector();
                 MarketEntryAttempt attempt = (MarketEntryAttempt)bidsVec.elementAt(i);
-                aRow.add(attempt.getParticipantName());
-                aRow.add(attempt.getNumOfShares());
-                aRow.add(attempt.getPrice());;
-                rows.add(aRow);
+                tmpBids[i][0] = attempt.getParticipantName();
+                tmpBids[i][1] = attempt.getNumOfShares();
+                tmpBids[i][2] = attempt.getPrice();
+                
             }
-            BidsTableTest.setModel(new DefaultTableModel(rows, colNames));
+            BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
             
-            rows = new Vector();
+            
+            Object [][] tmpOffers =  new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
-                Vector aRow = new Vector();
                 MarketEntryAttempt attempt = (MarketEntryAttempt)offersVec.elementAt(i);
-                aRow.add(attempt.getParticipantName());
-                aRow.add(attempt.getNumOfShares());
-                aRow.add(attempt.getPrice());
-                rows.add(aRow);
-            }
-            OffersTableTest.setModel(new DefaultTableModel(rows, colNames));
+                tmpOffers[i][0] = attempt.getParticipantName();
+                tmpOffers[i][1] = attempt.getNumOfShares();
+                tmpOffers[i][2] = attempt.getPrice();
+            } 
+            OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
             
             cols[2] = "Date";
-            colNames = new Vector();
-            colNames.addElement(Arrays.asList(cols));
-            rows = new Vector();
+            Object [][] tmpMatched =  new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
-                Vector aRow = new Vector();
                 MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matchedVec.elementAt(i);
-                aRow.add(attempt.getDateIssuedToString());
-                aRow.add(attempt.getQuantity());
-                aRow.add(attempt.getPrice());
-                rows.add(aRow);
-            }
-            MatchedTableTest.setModel(new DefaultTableModel(rows, colNames));
+                tmpMatched[i][0] = attempt.getDateIssued();
+                tmpMatched[i][1] = attempt.getQuantity();
+                tmpMatched[i][2] = attempt.getPrice();
+            } 
+            MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
     }//GEN-LAST:event_btnOfferTestMouseClicked
 
