@@ -148,11 +148,12 @@ public class MarketEntryAttemptBook {
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
-                } else //if (newOrder.getQuantity() < topOrder.getQuantity())
+                } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares())
                 {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
+                    hasMoreShares = false;
                 }
             }
         }
