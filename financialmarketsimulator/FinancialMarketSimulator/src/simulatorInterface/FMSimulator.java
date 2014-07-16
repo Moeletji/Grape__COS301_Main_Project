@@ -5,6 +5,7 @@ import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -20,19 +21,20 @@ import sun.security.x509.AttributeNameEnumeration;
 public class FMSimulator extends javax.swing.JFrame {
 
     private FinancialMarketStockExchange fmse = new FinancialMarketStockExchange();
-    private Object [][] bids;
-    private Object [][] offers;
-    private Object [][] matched;
+    private Object[][] bids;
+    private Object[][] offers;
+    private Object[][] matched;
+
     /**
      * Creates new form FMSimulator
      */
     public FMSimulator() {
         initComponents();
-        String [] rowNames = {"Market Entity", "Shares", "Price"};
-        bids =  new Object[0][3];
-        offers =  new Object[0][3];
-        matched =  new Object[0][3];
-        
+        String[] rowNames = {"Market Entity", "Shares", "Price"};
+        bids = new Object[0][3];
+        offers = new Object[0][3];
+        matched = new Object[0][3];
+
         OffersTableTest.setModel(new DefaultTableModel(bids, rowNames));
         BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
         MatchedTableTest.setModel(new DefaultTableModel(matched, rowNames));
@@ -1482,40 +1484,66 @@ public class FMSimulator extends javax.swing.JFrame {
             return;
         }
 
-        String side = "bid";
+        MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, MarketEntryAttempt.SIDE.BID);
 
-        MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
-
-        MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, side.equals("bid") ? MarketEntryAttempt.SIDE.BID : MarketEntryAttempt.SIDE.OFFER);
-        
-        try{
-            if(!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)){
-                    MessageBox.infoBox("Item could not be place", "Market Attempt Entry Failed");
+        try {
+            if (!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)) {
+                MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+                return;
             }
-        }catch (InterruptedException ex) {
+        } catch (InterruptedException ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{
-            
-            Vector bids = fmse.getOrderBook(stockName).getBids();
-            Vector offers = fmse.getOrderBook(stockName).getOffers();
-            Vector matched = fmse.getOrderBook(stockName).getMatchedOrders();
-            
-            Object [][] bidsElements = new Object[bids.size()+1][3];
-            Object [][] offerElements = new Object[offers.size()+1][3];
-            Object [][] matchedElements = new Object[matched.size()+1][3];
-            
-            
-            for(int i = 0; i < bids.size(); i++){
-                Vector tmpVec =  new Vector();
-                MarketEntryAttempt attempt = (MarketEntryAttempt)bids.elementAt(i);
-                //bidsElements = 
+        } finally {
+
+            Vector bidsVec = fmse.getOrderBook(stockName).getBids();
+            Vector offersVec = fmse.getOrderBook(stockName).getOffers();
+            Vector matchedVec = fmse.getOrderBook(stockName).getMatchedOrders();
+
+            if(bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)){
+                MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+                return;
             }
             
-            Object [] columnNames = {"Market Entity", "Shares", "Price"};
-            BidsTableTest = new JTable();
+            String [] cols = {"Market Entity", "Shares", "Price"};
+            Vector colNames = new Vector();
+            colNames.addElement(Arrays.asList(cols));
             
+            Vector rows = new Vector();
+            for (int i = 0; i < bidsVec.size(); i++) {
+                Vector aRow = new Vector();
+                MarketEntryAttempt attempt = (MarketEntryAttempt)bidsVec.elementAt(i);
+                aRow.add(attempt.getParticipantName());
+                aRow.add(attempt.getNumOfShares());
+                aRow.add(attempt.getPrice());
+                rows.add(aRow);
+            }
+            BidsTableTest.setModel(new DefaultTableModel(rows, colNames));
+            
+            rows = new Vector();
+            for (int i = 0; i < offersVec.size(); i++) {
+                Vector aRow = new Vector();
+                MarketEntryAttempt attempt = (MarketEntryAttempt)offersVec.elementAt(i);
+                aRow.add(attempt.getParticipantName());
+                aRow.add(attempt.getNumOfShares());
+                aRow.add(attempt.getPrice());
+                rows.add(aRow);
+            }
+            OffersTableTest.setModel(new DefaultTableModel(rows, colNames));
+            
+            cols[2] = "Date";
+            colNames = new Vector();
+            colNames.addElement(Arrays.asList(cols));
+            rows = new Vector();
+            for (int i = 0; i < matchedVec.size(); i++) {
+                Vector aRow = new Vector();
+                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matchedVec.elementAt(i);
+                aRow.add(attempt.getDateIssuedToString());
+                aRow.add(attempt.getQuantity());
+                aRow.add(attempt.getPrice());
+                rows.add(aRow);
+            }
+            MatchedTableTest.setModel(new DefaultTableModel(rows, colNames));
         }
-        //Make an offer here with the interface object
     }//GEN-LAST:event_btnBidTestMouseClicked
 
     private void btnBidTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidTestActionPerformed
@@ -1564,11 +1592,66 @@ public class FMSimulator extends javax.swing.JFrame {
             return;
         }
 
-        String side = "offer";
+        MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, MarketEntryAttempt.SIDE.OFFER);
 
-        MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
+        try {
+            if (!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)) {
+                MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+                return;
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
 
-        //Make an offer here with the interface object
+            Vector bidsVec = fmse.getOrderBook(stockName).getBids();
+            Vector offersVec = fmse.getOrderBook(stockName).getOffers();
+            Vector matchedVec = fmse.getOrderBook(stockName).getMatchedOrders();
+            
+            if(bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)){
+                MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+                return;
+            }
+
+            String [] cols = {"Market Entity", "Shares", "Price"};
+            Vector colNames = new Vector();
+            colNames.addElement(Arrays.asList(cols));
+            
+            Vector rows = new Vector();
+            for (int i = 0; i < bidsVec.size(); i++) {
+                Vector aRow = new Vector();
+                MarketEntryAttempt attempt = (MarketEntryAttempt)bidsVec.elementAt(i);
+                aRow.add(attempt.getParticipantName());
+                aRow.add(attempt.getNumOfShares());
+                aRow.add(attempt.getPrice());;
+                rows.add(aRow);
+            }
+            BidsTableTest.setModel(new DefaultTableModel(rows, colNames));
+            
+            rows = new Vector();
+            for (int i = 0; i < offersVec.size(); i++) {
+                Vector aRow = new Vector();
+                MarketEntryAttempt attempt = (MarketEntryAttempt)offersVec.elementAt(i);
+                aRow.add(attempt.getParticipantName());
+                aRow.add(attempt.getNumOfShares());
+                aRow.add(attempt.getPrice());
+                rows.add(aRow);
+            }
+            OffersTableTest.setModel(new DefaultTableModel(rows, colNames));
+            
+            cols[2] = "Date";
+            colNames = new Vector();
+            colNames.addElement(Arrays.asList(cols));
+            rows = new Vector();
+            for (int i = 0; i < matchedVec.size(); i++) {
+                Vector aRow = new Vector();
+                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matchedVec.elementAt(i);
+                aRow.add(attempt.getDateIssuedToString());
+                aRow.add(attempt.getQuantity());
+                aRow.add(attempt.getPrice());
+                rows.add(aRow);
+            }
+            MatchedTableTest.setModel(new DefaultTableModel(rows, colNames));
+        }
     }//GEN-LAST:event_btnOfferTestMouseClicked
 
     private void btnOfferTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferTestActionPerformed
@@ -1710,3 +1793,5 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JTextField txtUpdateIndex;
     // End of variables declaration//GEN-END:variables
 }
+
+
