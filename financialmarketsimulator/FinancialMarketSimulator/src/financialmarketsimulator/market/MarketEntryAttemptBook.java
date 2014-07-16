@@ -98,7 +98,7 @@ public class MarketEntryAttemptBook {
             //if theres no match
             if ((orderSide == MarketEntryAttempt.SIDE.BID && newOrder.getPrice() < topOrder.getPrice())
                     || (orderSide == MarketEntryAttempt.SIDE.OFFER && newOrder.getPrice() > topOrder.getPrice())) {
-                return;
+                break;
             }//if there is a match 
             else if ((orderSide == MarketEntryAttempt.SIDE.BID && newOrder.getPrice() >= topOrder.getPrice())
                     || (orderSide == MarketEntryAttempt.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice())) {
