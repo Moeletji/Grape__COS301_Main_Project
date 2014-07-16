@@ -121,15 +121,15 @@ public class MovingAverageEnvelope {
         
         if (this.getClosingPrice() == this.calculateSMALowerEvelope())
         {
-            if (this.getPreviousClosingPrice() > this.getClosingPrice())
+            /*if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {
                 //sell
                 book.placeOrder(new MarketEntryAttempt());
             }
-            else if (this.getPreviousClosingPrice() < this.getClosingPrice())
+            else*/ if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {
                 //buy
-                book.placeOrder(new MarketEntryAttempt());
+                book.placeOrder(new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID));
             }
         }
         else if (this.getClosingPrice() == this.calculateSMAUpperEvelope())
@@ -137,13 +137,13 @@ public class MovingAverageEnvelope {
             if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {
                 //sell
-                book.placeOrder(new MarketEntryAttempt());
+                book.placeOrder(new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.OFFER));
             }
-            else if (this.getPreviousClosingPrice() < this.getClosingPrice())
+            /*else if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {
                 //sell
                 book.placeOrder(new MarketEntryAttempt());
-            }
+            }*/
         }
 
     }

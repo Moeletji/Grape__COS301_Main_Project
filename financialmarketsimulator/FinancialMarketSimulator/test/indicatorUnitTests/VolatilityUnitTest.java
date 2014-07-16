@@ -1,5 +1,5 @@
 
-package indicatorsUnitTests;
+package indicatorUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.Volatility;

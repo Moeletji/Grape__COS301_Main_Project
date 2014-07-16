@@ -1,4 +1,4 @@
-package indicatorsUnitTests;
+package indicatorUnitTests;
 
 import financialmarketsimulator.indicators.ATR;
 import org.junit.After;
