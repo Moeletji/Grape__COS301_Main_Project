@@ -3,8 +3,9 @@ package financialmarketsimulator.strategies;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
+import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  *
@@ -12,19 +13,26 @@ import java.util.ArrayList;
  */
 public class MovingAverageEnvelope {
 
+    public static enum STRATEGY_TYPE {
+
+        SHORT_TERM, MEDIUM_TERM, LONG_TERM
+    }
     //percent values for the envelope
     private final double short_term = 2.5;
-    private final double medium_term = 5;
-    private final double long_term = 10;
+    private final double medium_term = 5.0;
+    private final double long_term = 10.0;
 
+    private double percentage;
     //preiod for moving average
     private int num_days = 10;
+    
+    private STRATEGY_TYPE type;
 
     //closing price
     private double closingPrice;
     
-    private ArrayList<Double> pastSMAValues;
-    private ArrayList<Double> pastEMAValues;
+    private Vector<Double> pastSMAValues;
+    private Vector<Double> pastEMAValues;
 
     private EMA ema;
     private SMA sma;
@@ -37,6 +45,33 @@ public class MovingAverageEnvelope {
             this.book = _book;
             //ema = new EMA(num_days);
             sma = new SMA(num_days, book);
+            pastSMAValues = new Vector<Double>();
+            type = MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM;
+            percentage = this.medium_term;
+        }
+        else throw new NotEnoughDataException();
+    }
+    
+    public MovingAverageEnvelope(MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
+        if (_book != null)
+        {
+            this.book = _book;
+            //ema = new EMA(num_days);
+            sma = new SMA(num_days, book);
+            pastSMAValues = new Vector<Double>();
+            
+            switch (_type)
+            {
+                case SHORT_TERM : percentage = short_term;
+                                  break;
+                case MEDIUM_TERM : percentage = medium_term;
+                                  break;
+                case LONG_TERM : percentage = long_term;
+                                  break;
+                default: percentage = medium_term;
+                        break;      
+            }
+            
         }
         else throw new NotEnoughDataException();
     }
@@ -47,7 +82,7 @@ public class MovingAverageEnvelope {
      * @return the upper envelope value
      * @throws NotEnoughDataException 
      */
-    private double calculateSMAUpperEvelope(double percentage) throws NotEnoughDataException
+    private double calculateSMAUpperEvelope() throws NotEnoughDataException
     {
         return getSMA() + (getSMA()*percentage/100);
     }
@@ -58,7 +93,7 @@ public class MovingAverageEnvelope {
      * @return the lower envelope value
      * @throws NotEnoughDataException 
      */
-    private double calculateSMALowerEvelope(double percentage) throws NotEnoughDataException
+    private double calculateSMALowerEvelope()throws NotEnoughDataException
     {
         return getSMA() - (getSMA()*percentage/100);
     }
@@ -70,18 +105,54 @@ public class MovingAverageEnvelope {
      */
     private double getSMA() throws NotEnoughDataException
     {
-        return sma.calculateSMA();
+        pastSMAValues.add(sma.calculateSMA());
+        return pastSMAValues.lastElement();
     }
     
     /**
+     * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @brief generate a market event depending on whether the instrument is
      * oversold/overbought
      */
-    public void generateMarketEntryAttempt()
+    public void generateMarketEntryAttempt() throws NotEnoughDataException
     {
+        if (pastSMAValues.isEmpty())
+            throw new NotEnoughDataException();
         
+        if (this.getClosingPrice() == this.calculateSMALowerEvelope())
+        {
+            if (this.getPreviousClosingPrice() > this.getClosingPrice())
+            {
+                //sell
+                book.placeOrder(new MarketEntryAttempt());
+            }
+            else if (this.getPreviousClosingPrice() < this.getClosingPrice())
+            {
+                //buy
+                book.placeOrder(new MarketEntryAttempt());
+            }
+        }
+        else if (this.getClosingPrice() == this.calculateSMAUpperEvelope())
+        {
+            if (this.getPreviousClosingPrice() > this.getClosingPrice())
+            {
+                //sell
+                book.placeOrder(new MarketEntryAttempt());
+            }
+            else if (this.getPreviousClosingPrice() < this.getClosingPrice())
+            {
+                //sell
+                book.placeOrder(new MarketEntryAttempt());
+            }
+        }
+
     }
     
+    public double getPreviousClosingPrice()
+    {
+        int size = pastSMAValues.size();
+        return (pastSMAValues.isEmpty()?0.0:(pastSMAValues.size() >1)?pastSMAValues.get(size-2):pastSMAValues.lastElement());
+    }
     public void setClosingPrice(double closing)
     {
         //this.closingPrice = book.getMatchedOrders().lastElement().getPrice();
@@ -92,5 +163,15 @@ public class MovingAverageEnvelope {
     {
         //return book.getMatchedOrders().lastElement().getPrice();
         return closingPrice;
+    }
+    
+    public double getPercentage()
+    {
+        return this.percentage;
+    }
+    
+    public STRATEGY_TYPE getType()
+    {
+        return this.type;
     }
 }
