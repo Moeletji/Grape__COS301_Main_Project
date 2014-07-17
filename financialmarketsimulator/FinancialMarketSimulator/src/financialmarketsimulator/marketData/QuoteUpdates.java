@@ -4,8 +4,7 @@ import financialmarketsimulator.market.StockManager;
 import java.util.Date;
 
 /**
- * @brief
- * @author Grape <cos301.mainproject.grape@gmail.com>
+ * @brief @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public final class QuoteUpdates {
 
@@ -201,5 +200,17 @@ public final class QuoteUpdates {
 
     public void setOfferOrders(int offerOrders) {
         this.offerOrders = offerOrders;
+    }
+
+    @Override
+    public String toString() {
+        return "Date: " + time + "\n"
+                + "Stock name: " + stockName + "\n"
+                + "Bid Price: " + bidPrice + "\n"
+                + "Bid Shares: " + bidShares + "\n"
+                + "Offer Price: " + offerPrice + "\n"
+                + "Offer Shares " + offerShares + "\n"
+                + "Bid Orders: " + bidOrders + "\n"
+                + "Offer Orders: " + offerOrders + "\n";
     }
 }

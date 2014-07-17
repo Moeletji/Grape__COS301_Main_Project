@@ -4,6 +4,8 @@ import financialmarketsimulator.exception.StockAlreadyExistsException;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
+import financialmarketsimulator.marketData.QuoteUpdates;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.Stack;
@@ -1097,14 +1099,29 @@ public class FMSimulator extends javax.swing.JFrame {
         btnMarketQuote1.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketQuote1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnMarketQuote1.setText("Market Quote");
+        btnMarketQuote1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMarketQuote1MouseClicked(evt);
+            }
+        });
 
         btnMarketDepth1.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketDepth1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnMarketDepth1.setText("Market Depth");
+        btnMarketDepth1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMarketDepth1MouseClicked(evt);
+            }
+        });
 
         btnMarketMatchedAttempt1.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketMatchedAttempt1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnMarketMatchedAttempt1.setText("Market Matched Attempt");
+        btnMarketMatchedAttempt1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMarketMatchedAttempt1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1701,6 +1718,29 @@ public class FMSimulator extends javax.swing.JFrame {
         }
         MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
     }//GEN-LAST:event_cbxStocks1ItemStateChanged
+
+    private void btnMarketQuote1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketQuote1MouseClicked
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        
+        QuoteUpdates quote = new QuoteUpdates(fmse.getStockManager(stockName));
+        
+        MessageBox.infoBox(quote.toString(), "Market Quote");
+    }//GEN-LAST:event_btnMarketQuote1MouseClicked
+
+    private void btnMarketDepth1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketDepth1MouseClicked
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        
+        //DepthUpdates quote = new DepthUpdates(fmse.getStockManager(stockName));
+        
+       // MessageBox.infoBox(quote.toString(), "Market Depth");
+    }//GEN-LAST:event_btnMarketDepth1MouseClicked
+
+    private void btnMarketMatchedAttempt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1MouseClicked
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        
+        MatchedMarketEntryAttemptUpdate update = new MatchedMarketEntryAttemptUpdate(fmse.getOrderBook(stockName).getMatchedOrders());
+        MessageBox.infoBox(update.toString(), "Matched Market Entry Attempts");
+    }//GEN-LAST:event_btnMarketMatchedAttempt1MouseClicked
 
     /**
      * @param args the command line arguments

@@ -1754,6 +1754,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Market Quote"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnMarketQuote1MouseClicked"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnMarketDepth1">
                           <Properties>
@@ -1765,6 +1768,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Market Depth"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnMarketDepth1MouseClicked"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnMarketMatchedAttempt1">
                           <Properties>
@@ -1776,6 +1782,9 @@
                             </Property>
                             <Property name="text" type="java.lang.String" value="Market Matched Attempt"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnMarketMatchedAttempt1MouseClicked"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>

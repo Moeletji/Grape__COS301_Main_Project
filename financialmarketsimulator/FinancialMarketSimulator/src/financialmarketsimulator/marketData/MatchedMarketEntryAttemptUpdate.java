@@ -58,4 +58,18 @@ public class MatchedMarketEntryAttemptUpdate {
     public String getDateGenerated() {
         return dateGenerated.toString();
     }
+    @Override
+    public String toString(){
+        String trades = "";
+        
+        for(int i = 0; i < tradesData.size(); i++){
+            MatchedMarketEntryAttempt matched =  tradesData.elementAt(i);
+            trades += "ID: " + matched.getID() + "\n\r" +
+                      "Date Issued: " + matched.getDateIssuedToString() + "\n\r" +
+                      "Price: " + matched.getPrice() + "\n\r" +
+                    "Number of Shares: " + matched.getQuantity() + "\n\n\r";
+        }
+        
+        return "Date Generated: " + dateGenerated.toString() + "\n\n\r" + "Matched Trades \n\n\r" + trades;
+    }
 }
