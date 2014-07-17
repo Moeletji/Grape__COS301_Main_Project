@@ -37,6 +37,7 @@ public class FMSimulator extends javax.swing.JFrame {
 
         OffersTableTest.setModel(new DefaultTableModel(bids, rowNames));
         BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
+        rowNames[0] = "Date";
         MatchedTableTest.setModel(new DefaultTableModel(matched, rowNames));
     }
 
@@ -191,7 +192,7 @@ public class FMSimulator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Market Entity", "Shares", "Price"
+                "Date", "Shares", "Price"
             }
         ) {
             Class[] types = new Class [] {
@@ -896,7 +897,7 @@ public class FMSimulator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Market Entity", "Shares", "Price"
+                "Date", "Shares", "Price"
             }
         ) {
             Class[] types = new Class [] {
@@ -1477,7 +1478,7 @@ public class FMSimulator extends javax.swing.JFrame {
         }
 
         if (!Number.isDouble(p) || !Number.isInteger(ns)) {
-            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Offer not accepted");
+            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Bid not accepted");
             return;
         }
 
@@ -1485,7 +1486,7 @@ public class FMSimulator extends javax.swing.JFrame {
         double price = Double.parseDouble(txtPrice1.getText());
 
         if (numOfShares <= 0 || price <= 0) {
-            MessageBox.infoBox("Please use only positive values", "Offer not accepted");
+            MessageBox.infoBox("Please use only positive values", "Bid not accepted");
             return;
         }
 
@@ -1533,7 +1534,7 @@ public class FMSimulator extends javax.swing.JFrame {
             }
             OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
 
-            cols[2] = "Date";
+            cols[0] = "Date";
             Object[][] tmpMatched = new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
                 MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matchedVec.elementAt(i);
@@ -1635,7 +1636,7 @@ public class FMSimulator extends javax.swing.JFrame {
             }
             OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
 
-            cols[2] = "Date";
+            cols[0] = "Date";
             Object[][] tmpMatched = new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
                 MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matchedVec.elementAt(i);
