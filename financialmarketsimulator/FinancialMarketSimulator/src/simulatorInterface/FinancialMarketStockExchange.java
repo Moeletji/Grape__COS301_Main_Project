@@ -49,4 +49,13 @@ public class FinancialMarketStockExchange {
         }
         return null;
     }
+    
+    public StockManager getStockManager(String stockName){
+        for(StockManager stockManager : stockManagers){
+            if(stockManager.getStockName().equals(stockName)){
+                return stockManager;
+            }
+        }
+        return null;
+    }
 }

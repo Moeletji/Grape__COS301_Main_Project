@@ -7,8 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @brief
- * @author Grape <cos301.mainproject.grape@gmail.com>
+ * @brief @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public final class DepthUpdates {
 
@@ -16,31 +15,29 @@ public final class DepthUpdates {
 
         NEW, UPDATE, ENTER, DELETE
     }
-
     private String stockName;
-
     private Date time;
-
     private String orderID;
-
     private int numberOfShares;
-
     private String updateType;
-    
+
     public static void main(String[] args) {
         try {
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:3306;FinancialMarketSimulatorHistoricalData", "root", "");
             Statement statement = con.createStatement();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DepthUpdates.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public DepthUpdates() {
-        
+        stockName = "";
         time = new Date();
-        
+        orderID = "";
+        numberOfShares = 0;
+        updateType = "";
+
     }
 
     public DepthUpdates(String stockName, String orderID, int numberOfShares, String upDate) {
@@ -136,4 +133,12 @@ public final class DepthUpdates {
         this.updateType = updateType;
     }
 
+    @Override
+    public String toString() {
+        return "Stock Name: " + stockName + "\n"
+                + "Date Time: " + time + "\n"
+                + "Order ID: " + orderID + "\n"
+                + "Number of Shares: " + numberOfShares + "\n"
+                + "Update Type: " + updateType + "\n";
+    }
 }
