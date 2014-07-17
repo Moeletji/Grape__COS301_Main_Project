@@ -265,7 +265,7 @@ public class MatchingEngineTest {
         showBook(seniorManager.getOrderList());
         
         order8 = new MarketEntryAttempt(10.00, 100, "Tim West", MarketEntryAttempt.SIDE.OFFER);
-        BGPManager.acceptOrder(order8);
+        seniorManager.acceptOrder(order8);
         showBook(seniorManager.getOrderList());
         //Test whether numbers are rounded to decimal places
         /*System.out.println("\n\n");
