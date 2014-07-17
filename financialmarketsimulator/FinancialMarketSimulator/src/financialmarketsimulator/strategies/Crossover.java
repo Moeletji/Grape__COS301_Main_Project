@@ -95,14 +95,14 @@ public class Crossover {
     /**
      * The number of days over which the strategy is observed
      */
-    private final int numDays;
+    private int numDays;
 
     /**
      * Houses the SMA and EMA closing values over the past numDays days.
      * DayClosingAverages specifies the particular day and the closing SMA and
      * EMA values for that day.
      */
-    @SuppressWarnings("UseOfObsoleteCollectionType")
+    @SuppressWarnings({"UseOfObsoleteCollectionType", "FieldMayBeFinal"})
     private Vector<DayClosingAverages> closingAverages;
 
     /**
@@ -120,7 +120,8 @@ public class Crossover {
     public Crossover(int _numDays) {
         numDays = _numDays;
         crossoverPoints = null;
-
+        graph = null;
+        
         //TODO : Populate with objects housing closing EMA and SMA values over the
         //specidies previous numDays days.
         closingAverages = new Vector<DayClosingAverages>();
@@ -213,10 +214,14 @@ public class Crossover {
 
         //Creating the chart
         graph = ChartFactory.createLineChart("Crosover over " + numDays + "Days", "Date", "Price", (CategoryDataset) dataset, PlotOrientation.VERTICAL, true, true, false);
-
-        ChartFrame frame = new ChartFrame("Basic Line Chart", graph);
+        ChartFrame frame = new ChartFrame("Crossover Graph", graph);
         frame.setVisible(true);
         frame.setSize(1000, 650);
+    }
+    
+    public void setNumberOfDays(int _numDays)
+    {
+        this.numDays = _numDays;
     }
 
     /**
