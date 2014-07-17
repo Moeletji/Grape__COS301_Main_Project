@@ -1104,6 +1104,11 @@ public class FMSimulator extends javax.swing.JFrame {
                 btnMarketQuote1MouseClicked(evt);
             }
         });
+        btnMarketQuote1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarketQuote1ActionPerformed(evt);
+            }
+        });
 
         btnMarketDepth1.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketDepth1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1113,6 +1118,11 @@ public class FMSimulator extends javax.swing.JFrame {
                 btnMarketDepth1MouseClicked(evt);
             }
         });
+        btnMarketDepth1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarketDepth1ActionPerformed(evt);
+            }
+        });
 
         btnMarketMatchedAttempt1.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketMatchedAttempt1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1120,6 +1130,11 @@ public class FMSimulator extends javax.swing.JFrame {
         btnMarketMatchedAttempt1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnMarketMatchedAttempt1MouseClicked(evt);
+            }
+        });
+        btnMarketMatchedAttempt1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarketMatchedAttempt1ActionPerformed(evt);
             }
         });
 
@@ -1482,6 +1497,10 @@ public class FMSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateMouseClicked
 
     private void btnBidTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBidTestMouseClicked
+        
+    }//GEN-LAST:event_btnBidTestMouseClicked
+
+    private void btnBidTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidTestActionPerformed
         String id = txtMarketEntityID1.getText();
         String stockName = cbxStocks1.getSelectedItem().toString();
         String marketType = cbxMarketType1.getSelectedItem().toString();
@@ -1561,10 +1580,6 @@ public class FMSimulator extends javax.swing.JFrame {
             }
             MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
-    }//GEN-LAST:event_btnBidTestMouseClicked
-
-    private void btnBidTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidTestActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnBidTestActionPerformed
 
     private void txtNumShares1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumShares1ActionPerformed
@@ -1584,6 +1599,10 @@ public class FMSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrice1KeyTyped
 
     private void btnOfferTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferTestMouseClicked
+        
+    }//GEN-LAST:event_btnOfferTestMouseClicked
+
+    private void btnOfferTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferTestActionPerformed
         String id = txtMarketEntityID1.getText();
         String stockName = cbxStocks1.getSelectedItem().toString();
         String marketType = cbxMarketType1.getSelectedItem().toString();
@@ -1663,10 +1682,6 @@ public class FMSimulator extends javax.swing.JFrame {
             }
             MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
-    }//GEN-LAST:event_btnOfferTestMouseClicked
-
-    private void btnOfferTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferTestActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnOfferTestActionPerformed
 
     private void txtMarketEntityID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarketEntityID1ActionPerformed
@@ -1728,19 +1743,31 @@ public class FMSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMarketQuote1MouseClicked
 
     private void btnMarketDepth1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketDepth1MouseClicked
+        
+    }//GEN-LAST:event_btnMarketDepth1MouseClicked
+
+    private void btnMarketMatchedAttempt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1MouseClicked
+        
+    }//GEN-LAST:event_btnMarketMatchedAttempt1MouseClicked
+
+    private void btnMarketQuote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketQuote1ActionPerformed
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        
+        MatchedMarketEntryAttemptUpdate update = new MatchedMarketEntryAttemptUpdate(fmse.getOrderBook(stockName).getMatchedOrders());
+        MessageBox.infoBox(update.toString(), "Matched Market Entry Attempts");
+    }//GEN-LAST:event_btnMarketQuote1ActionPerformed
+
+    private void btnMarketDepth1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketDepth1ActionPerformed
         String stockName = cbxStocks1.getSelectedItem().toString();
         
         //DepthUpdates quote = new DepthUpdates(fmse.getStockManager(stockName));
         
        // MessageBox.infoBox(quote.toString(), "Market Depth");
-    }//GEN-LAST:event_btnMarketDepth1MouseClicked
+    }//GEN-LAST:event_btnMarketDepth1ActionPerformed
 
-    private void btnMarketMatchedAttempt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1MouseClicked
-        String stockName = cbxStocks1.getSelectedItem().toString();
-        
-        MatchedMarketEntryAttemptUpdate update = new MatchedMarketEntryAttemptUpdate(fmse.getOrderBook(stockName).getMatchedOrders());
-        MessageBox.infoBox(update.toString(), "Matched Market Entry Attempts");
-    }//GEN-LAST:event_btnMarketMatchedAttempt1MouseClicked
+    private void btnMarketMatchedAttempt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMarketMatchedAttempt1ActionPerformed
 
     /**
      * @param args the command line arguments
