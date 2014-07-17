@@ -242,6 +242,31 @@ public class MatchingEngineTest {
         BGPManager.acceptOrder(order8);
         showBook(BGPManager.getOrderList());
         
+        //Test whether orders are removed correctly
+        System.out.println("\n\n");
+        System.out.println("***************************************Test 6***************************************");
+
+        StockManager seniorManager = new StockManager();
+
+        order1 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order1);
+        order2 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order2);
+        order3 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order3);
+        order4 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order4);
+        order5 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order5);
+        order6 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order6);
+        order7 = new MarketEntryAttempt(10.00, 1500, "Daniel Smith", MarketEntryAttempt.SIDE.BID);
+        seniorManager.acceptOrder(order7);
+        showBook(seniorManager.getOrderList());
+        
+        order8 = new MarketEntryAttempt(10.00, 100, "Tim West", MarketEntryAttempt.SIDE.OFFER);
+        BGPManager.acceptOrder(order8);
+        showBook(seniorManager.getOrderList());
         //Test whether numbers are rounded to decimal places
         /*System.out.println("\n\n");
          System.out.println("***************************************Test 4***************************************");

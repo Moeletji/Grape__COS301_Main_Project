@@ -15,29 +15,33 @@ public class MarketEntryAttemptBook {
      * @brief list of offers
      */
     Vector<MarketEntryAttempt> offers;
-
     /**
      * @brief list of bids
      */
     Vector<MarketEntryAttempt> bids;
-
     /**
      * @brief list of all trades that occurred within the stock
      */
     Vector<MatchedMarketEntryAttempt> matchedOrders;
-
     /**
      * @brief Name of the stock stored as a string
      */
     private String stockName;
-    
     /**
-     * @brief Database connection object through which all database communication occurs
+     * @brief Database connection object through which all database
+     * communication occurs
      */
     private DBConnect db;
-
     /**
-     *
+     * @brief the time to wait before synchronizing with database
+     */
+    private final long timePeriod;
+    /**
+     * @brief previous time to synchronize with db
+     */
+    private long pastTime;
+    /**
+     * @brief constructor for MarketEntryAttemptBook
      * @param _stock
      */
     public MarketEntryAttemptBook(String _stock) {
@@ -45,11 +49,43 @@ public class MarketEntryAttemptBook {
         stockName = _stock;
     }
 
+    /**
+     * @brief constructor for MarketEntryAttemptBook
+     * @param timePeriod time before synchronizing with db
+     * @param stockName
+     */
+    public MarketEntryAttemptBook(long timePeriod, String stockName) {
+        this.stockName = stockName;
+        bids = new Vector<MarketEntryAttempt>();
+        offers = new Vector<MarketEntryAttempt>();
+        matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.timePeriod = 10;
+        pastTime = System.currentTimeMillis();
+    }
+
+    /**
+     * @brief constructor for MarketEntryAttemptBook
+     * @param timePeriod time before synchronizing with db
+     */
+    public MarketEntryAttemptBook(long timePeriod) {
+        stockName = "";
+        bids = new Vector<MarketEntryAttempt>();
+        offers = new Vector<MarketEntryAttempt>();
+        matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.timePeriod = 10;
+        pastTime = System.currentTimeMillis();
+    }
+
+    /**
+     * @brief constructor for MarketEntryAttemptBook
+     */
     public MarketEntryAttemptBook() {
         stockName = "";
         bids = new Vector<MarketEntryAttempt>();
         offers = new Vector<MarketEntryAttempt>();
         matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        timePeriod = 10;
+        pastTime = System.currentTimeMillis();
     }
 
     /**
@@ -107,24 +143,15 @@ public class MarketEntryAttemptBook {
                     removeOrder(topOrder);
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
-                    //Code to place match data in database
-                    db = new DBConnect();
-                    db.recordTrade(newTrade);
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
-                    //Code to place match data in database
-                    db = new DBConnect();
-                    db.recordTrade(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                 } else //if (newOrder.getQuantity() < topOrder.getQuantity())
                 {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     matchedOrders.add(newTrade);
-                    //Code to place match data in database
-                    db = new DBConnect();
-                    db.recordTrade(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                 }
             }
@@ -133,6 +160,30 @@ public class MarketEntryAttemptBook {
         //if there are still more shares then add the order to the list
         if (hasMoreShares) {
             addOrderToList(newOrder);
+        }
+        
+        //After elapsed time, sync with database
+        syncDb();
+
+    }
+    /**
+     * @brief synchronize data with database
+     */
+    public void syncDb(){
+        long test = System.currentTimeMillis();
+        if (test >= (pastTime + timePeriod * 1000)) { //multiply by 1000 to get milliseconds
+           long dbSyncTime = pastTime;
+           pastTime = test;
+           
+            //db = new DBConnect();
+            
+           //Sync only matches that are not already in database
+            for(int i = 0; i < matchedOrders.size(); i++){
+                MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt)matchedOrders.elementAt(i);
+                if(matched.getDateIssued().getTime() >= dbSyncTime){
+                    //db.recordTrade(matched);
+                }
+            }
         }
     }
 
@@ -310,52 +361,47 @@ public class MarketEntryAttemptBook {
     public synchronized Vector<MatchedMarketEntryAttempt> getMatchedOrders() {
         return matchedOrders;
     }
-    
-    public synchronized double getHighestTradePrice(int period)
-    {
-        if (period <= 0 || matchedOrders.size() <=0)
+
+    public synchronized double getHighestTradePrice(int period) {
+        if (period <= 0 || matchedOrders.size() <= 0) {
             return 0.0;//an exception must be thrown here
+        }
         int length = matchedOrders.size();
-        int range = ((length -2)-period<0)?(length -2)-period:0;
+        int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
         double highest = matchedOrders.get(range).getPrice();
-        
-        for (int i = range;i<length ; i++)
-        {
-            if (matchedOrders == null || matchedOrders.get(i) == null)
-            {
+
+        for (int i = range; i < length; i++) {
+            if (matchedOrders == null || matchedOrders.get(i) == null) {
                 break;
             }
-            
-            if (matchedOrders.get(i).getPrice() > highest)
-            {
-                highest = matchedOrders.get(i).getPrice(); 
+
+            if (matchedOrders.get(i).getPrice() > highest) {
+                highest = matchedOrders.get(i).getPrice();
             }
         }
         return highest;
     }
-    
-    public synchronized double getLowestTradePrice(int period)
-    {
-        if (period <= 0 || matchedOrders.size() <=0)
+
+    public synchronized double getLowestTradePrice(int period) {
+        if (period <= 0 || matchedOrders.size() <= 0) {
             return 0.0;//an exception must be thrown here
+        }
         int length = matchedOrders.size();
-        int range = ((length -2)-period<0)?(length -2)-period:0;
+        int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
         double lowest = matchedOrders.get(range).getPrice();
-        
-        for (int i = range;i<length ; i++)
-        {
-            if (matchedOrders == null || matchedOrders.get(i) == null)
-            {
+
+        for (int i = range; i < length; i++) {
+            if (matchedOrders == null || matchedOrders.get(i) == null) {
                 break;
             }
-            
-            if (matchedOrders.get(i).getPrice() < lowest)
-            {
-                lowest = matchedOrders.get(i).getPrice(); 
+
+            if (matchedOrders.get(i).getPrice() < lowest) {
+                lowest = matchedOrders.get(i).getPrice();
             }
         }
-        return lowest; 
+        return lowest;
     }
+
     /**
      * @brief get the highest bid price
      * @return highest bid price
@@ -479,26 +525,26 @@ public class MarketEntryAttemptBook {
 
         return count;
     }
-    
+
     /**
      * @todo calculate the volatility of the stock using standard deviation
      * @brief calculate the volatility of the stock
      * @return the volatility of the market
      */
-    public synchronized double getVolatility(){
+    public synchronized double getVolatility() {
         return 0.0;
     }
-    
+
     /**
      * @brief Assess if the bid and offer stacks are empty or not.
-     * @return Returns true if both bid and offer stacks are empty and false if either  one of the
-     * bid or offer stacks is not empty.
+     * @return Returns true if both bid and offer stacks are empty and false if
+     * either one of the bid or offer stacks is not empty.
      */
-    public Boolean isEmpty()
-    {
-        if(bids.isEmpty() == true && offers.isEmpty() == true)
+    public Boolean isEmpty() {
+        if (bids.isEmpty() == true && offers.isEmpty() == true) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }

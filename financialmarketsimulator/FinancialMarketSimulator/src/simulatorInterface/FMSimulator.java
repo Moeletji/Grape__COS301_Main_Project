@@ -983,6 +983,11 @@ public class FMSimulator extends javax.swing.JFrame {
         jLabel16.setText("Stock ");
 
         cbxStocks1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "FBK", "ANG", "YHO", "GGL", "GMS", "BMW", "ONX", " " }));
+        cbxStocks1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxStocks1ItemStateChanged(evt);
+            }
+        });
 
         jLabel17.setText("Shares");
 
@@ -1495,45 +1500,47 @@ public class FMSimulator extends javax.swing.JFrame {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
-            Vector bidsVec = fmse.getOrderBook(stockName).getBids();
-            Vector offersVec = fmse.getOrderBook(stockName).getOffers();
-            Vector matchedVec = fmse.getOrderBook(stockName).getMatchedOrders();
+            MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
 
-            if(bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)){
+            Vector bidsVec = book.getBids();
+            Vector offersVec = book.getOffers();
+            Vector matchedVec = book.getMatchedOrders();
+
+            if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
                 MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
                 return;
             }
-            
-            String [] cols = {"Market Entity", "Shares", "Price"};
-            
-            Object [][] tmpBids =  new Object[bidsVec.size()][3];
+
+            String[] cols = {"Market Entity", "Shares", "Price"};
+
+            Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
-                MarketEntryAttempt attempt = (MarketEntryAttempt)bidsVec.elementAt(i);
+                MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
                 tmpBids[i][0] = attempt.getParticipantName();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
-                
+
             }
             BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
-            
-            
-            Object [][] tmpOffers =  new Object[offersVec.size()][3];
+
+
+            Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
-                MarketEntryAttempt attempt = (MarketEntryAttempt)offersVec.elementAt(i);
+                MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
                 tmpOffers[i][0] = attempt.getParticipantName();
                 tmpOffers[i][1] = attempt.getNumOfShares();
                 tmpOffers[i][2] = attempt.getPrice();
-            } 
+            }
             OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
-            
+
             cols[2] = "Date";
-            Object [][] tmpMatched =  new Object[matchedVec.size()][3];
+            Object[][] tmpMatched = new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
-                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matchedVec.elementAt(i);
+                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matchedVec.elementAt(i);
                 tmpMatched[i][0] = attempt.getDateIssued();
                 tmpMatched[i][1] = attempt.getQuantity();
                 tmpMatched[i][2] = attempt.getPrice();
-            } 
+            }
             MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
     }//GEN-LAST:event_btnBidTestMouseClicked
@@ -1594,46 +1601,48 @@ public class FMSimulator extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            
-            Vector bidsVec = fmse.getOrderBook(stockName).getBids();
-            Vector offersVec = fmse.getOrderBook(stockName).getOffers();
-            Vector matchedVec = fmse.getOrderBook(stockName).getMatchedOrders();
-            
-            if(bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)){
+
+            MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
+
+            Vector bidsVec = book.getBids();
+            Vector offersVec = book.getOffers();
+            Vector matchedVec = book.getMatchedOrders();
+
+            if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
                 MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
                 return;
             }
 
-            String [] cols = {"Market Entity", "Shares", "Price"};
-            
-            Object [][] tmpBids =  new Object[bidsVec.size()][3];
+            String[] cols = {"Market Entity", "Shares", "Price"};
+
+            Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
-                MarketEntryAttempt attempt = (MarketEntryAttempt)bidsVec.elementAt(i);
+                MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
                 tmpBids[i][0] = attempt.getParticipantName();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
-                
+
             }
             BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
-            
-            
-            Object [][] tmpOffers =  new Object[offersVec.size()][3];
+
+
+            Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
-                MarketEntryAttempt attempt = (MarketEntryAttempt)offersVec.elementAt(i);
+                MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
                 tmpOffers[i][0] = attempt.getParticipantName();
                 tmpOffers[i][1] = attempt.getNumOfShares();
                 tmpOffers[i][2] = attempt.getPrice();
-            } 
+            }
             OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
-            
+
             cols[2] = "Date";
-            Object [][] tmpMatched =  new Object[matchedVec.size()][3];
+            Object[][] tmpMatched = new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
-                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matchedVec.elementAt(i);
+                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matchedVec.elementAt(i);
                 tmpMatched[i][0] = attempt.getDateIssued();
                 tmpMatched[i][1] = attempt.getQuantity();
                 tmpMatched[i][2] = attempt.getPrice();
-            } 
+            }
             MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
     }//GEN-LAST:event_btnOfferTestMouseClicked
@@ -1645,6 +1654,52 @@ public class FMSimulator extends javax.swing.JFrame {
     private void txtMarketEntityID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarketEntityID1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarketEntityID1ActionPerformed
+
+    private void cbxStocks1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxStocks1ItemStateChanged
+        String stockName = cbxStocks1.getSelectedItem().toString();
+        MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
+
+        Vector bidsVec = book.getBids();
+        Vector offersVec = book.getOffers();
+        Vector matchedVec = book.getMatchedOrders();
+
+        if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
+            MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+            return;
+        }
+
+        String[] cols = {"Market Entity", "Shares", "Price"};
+
+        Object[][] tmpBids = new Object[bidsVec.size()][3];
+        for (int i = 0; i < bidsVec.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
+            tmpBids[i][0] = attempt.getParticipantName();
+            tmpBids[i][1] = attempt.getNumOfShares();
+            tmpBids[i][2] = attempt.getPrice();
+
+        }
+        BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
+
+
+        Object[][] tmpOffers = new Object[offersVec.size()][3];
+        for (int i = 0; i < offersVec.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
+            tmpOffers[i][0] = attempt.getParticipantName();
+            tmpOffers[i][1] = attempt.getNumOfShares();
+            tmpOffers[i][2] = attempt.getPrice();
+        }
+        OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
+
+        cols[2] = "Date";
+        Object[][] tmpMatched = new Object[matchedVec.size()][3];
+        for (int i = 0; i < matchedVec.size(); i++) {
+            MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matchedVec.elementAt(i);
+            tmpMatched[i][0] = attempt.getDateIssued();
+            tmpMatched[i][1] = attempt.getQuantity();
+            tmpMatched[i][2] = attempt.getPrice();
+        }
+        MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
+    }//GEN-LAST:event_cbxStocks1ItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -1777,5 +1832,3 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JTextField txtUpdateIndex;
     // End of variables declaration//GEN-END:variables
 }
-
-
