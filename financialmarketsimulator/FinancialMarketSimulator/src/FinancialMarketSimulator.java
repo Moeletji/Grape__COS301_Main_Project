@@ -26,7 +26,6 @@ public class FinancialMarketSimulator {
         for(StockManager manager : managers){
             exchange.addStockManager(manager);
         }
-        
     }
 
 }
