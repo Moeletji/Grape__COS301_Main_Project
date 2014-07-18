@@ -2,26 +2,59 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
- * @brief The super class from which each market entity or market participant will
- * inherit from. Each entity will have a market name, an entity ID, an entity type 
- * and a list of their strategies and the current strategy they are using.
+ * @brief The super class from which each market entity or market participant
+ * will inherit from. Each entity will have a market name, an entity ID, an
+ * entity type and a list of their strategies and the current strategy they are
+ * using.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MarketEntity {
+public class MarketEntity extends Thread {
 
-    //Name of the entity
+    /**
+     * @brief name of the entity
+     */
     private String marketName;
-    //Entity id
+    /**
+     * @brief entity ID
+     */
     private String entityID;
-    //Type of entity
+    /**
+     * @brief type of entity
+     */
     private String type;
-    //Current stratgy used by market to trade
+    /**
+     * @brief market exchange
+     */
+    private MarketExchange exchange;
+    /**
+     * @brief current strategy used by market entity to trade
+     */
     private MarketStrategy currentStrategy;
-    //List of all strategies enity uses to trade
+    /**
+     * @brief list of all trade strategies used by the market entity to trade
+     */
     private ArrayList<MarketStrategy> strategies;
+    /**
+     * @brief If the entity is trading with a specfic stock
+     */
+    private boolean started;
+    /**
+     * @brief pauses an entity from trading
+     */
+    private boolean paused;
+    /**
+     * @brief stops an entity from trading
+     */
+    private boolean stop;
+    /**
+     * @brief name of the stock the Market Entity is trading in
+     */
+    private final String stock;
 
     /**
      * @brief Constructing a MarketEnity object with parameters
@@ -29,13 +62,18 @@ public class MarketEntity {
      * @param entityID id of the entity
      * @param type the type of the entity
      */
-    public MarketEntity(String marketName, String entityID, String type) {
+    public MarketEntity(String marketName, String entityID, String type, MarketExchange exchange, String stock) {
         this.marketName = marketName;
         this.entityID = entityID;
         this.type = type;
+        this.exchange = exchange;
+        this.stock = stock;
+        this.started = false;
+        this.paused = false;
+        this.stop = false;
 
         //Initialise trading strategies
-        strategies = new ArrayList<>();
+        this.strategies = new ArrayList<>();
     }
 
     /**
@@ -50,8 +88,8 @@ public class MarketEntity {
      * @brief get the entity id
      * @return the id of the entity
      */
-    public String getID() {
-        return this.entityID;
+    public String getEntityID() {
+        return entityID;
     }
 
     /**
@@ -127,4 +165,50 @@ public class MarketEntity {
         }
         throw new NameNotFoundException();
     }
+
+    public void run() {
+        //Get the book for the stock entity is tradin in
+        MarketEntryAttemptBook book = exchange.getBook(stock);
+        
+        while (true) {
+            try {
+                synchronized (this) {
+                    while (paused) {
+                        wait();
+                    }
+                }
+            } catch (InterruptedException exception) {
+                exception.printStackTrace();
+            }
+            
+            if(stop)
+                break;
+            
+            //************************************************************************
+            //This is where you trade ... 
+            //*************************************************************************
+        }
+    }
+
+    synchronized public void start() {
+        if (!started) {
+            started = true;
+            super.start();
+        }
+
+        if (paused) {
+            notify();
+            paused = false;
+            return;
+        }
+    }
+
+    synchronized public void pause() {
+        paused = true;
+    }
+    
+    synchronized public void terminateTrading() {
+        stop = true;
+    }
+
 }

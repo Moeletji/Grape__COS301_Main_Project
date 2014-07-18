@@ -320,6 +320,20 @@ public class MarketEntryAttemptBook {
 
         return null;
     }
+    
+    private MarketEntryAttempt searchForOrder(MarketEntryAttempt attempt) {
+        Vector<MarketEntryAttempt> orders = (attempt.side == MarketEntryAttempt.SIDE.BID ? bids : offers);
+
+        for (int i = 0; i < orders.size(); i++) {
+            MarketEntryAttempt order = orders.get(i);
+            if (order.getOrderID().equals(attempt.getOrderID())) {
+                return orders.get(i);
+            }
+        }
+
+        return null;
+    }
+    
 
     public synchronized MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE _side) {
         Vector<MarketEntryAttempt> orders = (_side == MarketEntryAttempt.SIDE.BID ? bids : offers);

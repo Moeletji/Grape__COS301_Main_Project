@@ -1766,7 +1766,9 @@ public class FMSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMarketDepth1ActionPerformed
 
     private void btnMarketMatchedAttempt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1ActionPerformed
-        // TODO add your handling code here:
+        String stock = cbxStocks1.getSelectedItem().toString();
+        
+        //fmse.getStockManager(stock).getMarketSnapShot();
     }//GEN-LAST:event_btnMarketMatchedAttempt1ActionPerformed
 
     /**
