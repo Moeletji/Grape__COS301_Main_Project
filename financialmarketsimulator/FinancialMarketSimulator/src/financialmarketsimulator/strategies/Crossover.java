@@ -1,7 +1,5 @@
 package financialmarketsimulator.strategies;
 
-import static financialmarketsimulator.strategies.Crossover.HigherAverage.ema;
-import static financialmarketsimulator.strategies.Crossover.HigherAverage.sma;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -16,9 +14,11 @@ import org.jfree.data.time.TimeSeriesCollection;
 
 /**
  *
- * @brief Crossover strategy
+ * @brief Abstract Crossover Strategy class as there can be different kinds of
+ * crossover strategies. Can be implemented by MovingAverage Crossover,
+ * PriceVsEma Crossover and PriceVsSma Crossover.
  */
-public class Crossover {
+public abstract class Crossover {
 
     /**
      * @brief Class used to house the details of a crossover event.
@@ -26,17 +26,17 @@ public class Crossover {
     public class CrossoverDetails {
 
         /**
-         * The difference between the SMA and EMA values immediately before the
+         * The difference between the two indicator values immediately before the
          * crossover event
          */
         private final Double previousDifference;
         /**
-         * The difference between the SMA and EMA values immediately after the
+         * The difference between the two indicator values immediately after the
          * crossover event
          */
         private final Double currentDifference;
         /**
-         * The average on top after the crossover event, either SMA or EMA.
+         * The indicator or price on top, post the crossover.
          */
         private final HigherAverage currentHigh;
 
@@ -65,134 +65,78 @@ public class Crossover {
     public class DayClosingAverages {
 
         private final Date date;
-        private final Double sma;
-        private final Double ema;
+        private final Double indicator1;
+        private final Double indicator2;
 
-        public DayClosingAverages(Date _date, Double _sma, Double _ema) {
+        public DayClosingAverages(Date _date, Double _indicator1, Double _indicator2) {
             date = _date;
-            sma = _sma;
-            ema = _ema;
+            indicator1 = _indicator1;
+            indicator2 = _indicator2;
         }
 
         public Date getDate() {
             return this.date;
         }
 
-        public Double getSMA() {
-            return this.sma;
+        public Double getIndicator1() {
+            return this.indicator1;
         }
 
-        public Double getEMA() {
-            return this.ema;
+        public Double getIndicator2() {
+            return this.indicator2;
         }
     }
 
     public static enum HigherAverage {
 
-        sma, ema
+        sma, ema, price
     }
 
     /**
      * The number of days over which the strategy is observed
      */
-    private int numDays;
+    protected int numDays;
     
-    private HigherAverage currentHigh;
+    
+    protected final String ind1;
+    protected final String ind2;
+
+    protected HigherAverage currentHigh;
 
     /**
-     * Houses the SMA and EMA closing values over the past numDays days.
-     * DayClosingAverages specifies the particular day and the closing SMA and
-     * EMA values for that day.
+     * Houses the two indicator closing values over the past numDays days.
+     * DayClosingAverages specifies the particular day and the closing values for that day.
      */
     @SuppressWarnings({"UseOfObsoleteCollectionType", "FieldMayBeFinal"})
-    private Vector<DayClosingAverages> closingAverages;
+    protected Vector<DayClosingAverages> closingAverages;
 
     /**
      * Stores the crossover points as the exact dates and times when the
      * crossover occur. Date specifies the particular day and CrossoverDetails
      * specifies the crossover details on that day
      */
-    private LinkedHashMap<Date, CrossoverDetails> crossoverPoints;
+    protected LinkedHashMap<Date, CrossoverDetails> crossoverPoints;
 
     /**
      * Houses the latest crossover graph
      */
-    private JFreeChart graph;
+    protected JFreeChart graph;
 
-    public Crossover(int _numDays) {
-        numDays = _numDays;
-        crossoverPoints = null;
-        graph = null;
-        currentHigh = null;
-        
-        //TODO : Populate with objects housing closing EMA and SMA values over the
-        //specidies previous numDays days.
-        closingAverages = new Vector<DayClosingAverages>();
+    public Crossover(int _numDays, String _line1, String _line2) {
+        this.numDays = _numDays;
+        this.crossoverPoints = null;
+        this.graph = null;
+        this.currentHigh = null;
+        this.ind1 = _line1;
+        this.ind2 = _line2;
     }
 
-    public void determineCrossoverPoints() {
-        
-        //Determine which of the SMA or EMA had a higher starting value.
-        
-        //Consider the consequent values until non equal values are observed
-        //Using while loop for performance sake where EMA and SMA values are equivalent
-        int j = 0; //Start from the first SMA and EMA values
-        while (j < numDays) {
-            if (closingAverages.get(j).getEMA() > closingAverages.get(j).getSMA()) {
-                currentHigh = ema;
-                break;
-            } else if (closingAverages.get(j).getEMA() < closingAverages.get(j).getSMA()) {
-                currentHigh = sma;
-                break;
-            }
-            //If the EMA and SMA values where equivalent continue with search until non-equivalent values observed.
-            j++;
-        }
-
-        //If all past SMA and EMA values are equal over the specified time, then 
-        //set crossoverPoints to null and quit from the function. Else continue.
-        if (currentHigh == null) {
-            crossoverPoints = null;
-            return;
-        }
-
-        crossoverPoints = new LinkedHashMap<Date, CrossoverDetails>();
-        CrossoverDetails cod;
-
-        for (int i = 1; i < numDays; i++) {
-            //Iterate through all past SMA and EMA values over the past numDays
-            //days and record any crossover dates.
-
-            //Case that SMA had the higher previous value.
-            if (currentHigh.equals(sma)) {
-                //If a crossover occured
-                if (closingAverages.get(i).getSMA() < closingAverages.get(i).getEMA()) {
-                    currentHigh = ema;
-
-                    //Record crossover date and values
-                    cod = new CrossoverDetails((closingAverages.get(i - 1).getSMA() - closingAverages.get(i - 1).getEMA()),
-                            (closingAverages.get(i).getSMA() - closingAverages.get(i).getEMA()),
-                            currentHigh);
-
-                    crossoverPoints.put(closingAverages.get(i).getDate(), cod);
-                }
-            } else //Case that EMA had the higher previous value.
-            if (currentHigh.equals(ema)) {
-                //If a crossover occured
-                if (closingAverages.get(i).getEMA() < closingAverages.get(i).getSMA()) {
-                    currentHigh = sma;
-
-                    //Record crossover date and values
-                    cod = new CrossoverDetails((closingAverages.get(i - 1).getEMA() - closingAverages.get(i - 1).getSMA()),
-                            (closingAverages.get(i).getEMA() - closingAverages.get(i).getSMA()),
-                            currentHigh);
-
-                    crossoverPoints.put(closingAverages.get(i).getDate(), cod);
-                }
-            }
-        }
-        //At this point all the cross over points are recorded in crossoverPoints LinkedHashMap
-    }
+    /**
+     * @brief Determines when crossovers events took place in the past numDays days and
+     * stores the crossover events information in CrossoverDetails objects and 
+     * the crossoverPoints vector.
+     */
+    public abstract void determineCrossoverPoints();
 
     /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.
@@ -202,12 +146,12 @@ public class Crossover {
         //Determine crossover points before drawing graph.
         determineCrossoverPoints();
 
-        TimeSeries emaSeries = new TimeSeries("EMA");
-        TimeSeries smaSeries = new TimeSeries("SMA");
+        TimeSeries emaSeries = new TimeSeries(ind1);
+        TimeSeries smaSeries = new TimeSeries(ind2);
 
         for (DayClosingAverages closingAverage : closingAverages) {
-            emaSeries.add(new Day(closingAverage.getDate()), closingAverage.getEMA());
-            smaSeries.add(new Day(closingAverage.getDate()), closingAverage.getSMA());
+            emaSeries.add(new Day(closingAverage.getDate()), closingAverage.getIndicator1());
+            smaSeries.add(new Day(closingAverage.getDate()), closingAverage.getIndicator2());
         }
 
         TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -221,21 +165,21 @@ public class Crossover {
         frame.setVisible(true);
         frame.setSize(1000, 650);
     }
-    
-    public void setNumberOfDays(int _numDays)
-    {
+
+    /**
+     * @brief Sets the number of days over which the strategy is observed.
+     * @param _numDays The number of days over which the strategy is observed
+     */
+    public void setNumberOfDays(int _numDays) {
         this.numDays = _numDays;
     }
 
-    public String getCurrentHight()
-    {
-        if(this.currentHigh == sma)
-            return "sma";
-        else if(this.currentHigh == ema)
-            return "ema";
-        else return null;
-    }
-    
+    /**
+     * 
+     * @return Returns the current higher indicator/price
+     */
+    public abstract String getCurrentHight();
+
     /**
      *
      * @return Returns a HashMap of crossover events.
