@@ -1,5 +1,5 @@
 
-import financialmarketsimulator.market.MarketEntity;
+import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
@@ -21,7 +21,7 @@ public class MarketEntityUnitTest {
     /**
      * Market Entity test object used throughout the unit tests.
      */
-    MarketEntity marketEntity;
+    MarketParticipant marketEntity;
 
     public MarketEntityUnitTest() {
     }
@@ -36,7 +36,7 @@ public class MarketEntityUnitTest {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "e012345";
         String expectedEntityType = "investor";
-        marketEntity = new MarketEntity(expectedEntityName, expectedEntityID, expectedEntityType);
+        marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType);
 
         String observedEntityName = marketEntity.getMarketName();
         String observedEntityID = marketEntity.getID();
@@ -56,7 +56,7 @@ public class MarketEntityUnitTest {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "";
         String expectedEntityType = "";
-        marketEntity = new MarketEntity(expectedEntityName, expectedEntityID, expectedEntityType);
+        marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType);
 
         String obeservedEntityName = marketEntity.getMarketName();
         assertEquals(expectedEntityName, obeservedEntityName);
@@ -69,7 +69,7 @@ public class MarketEntityUnitTest {
         String expectedEntityName = "";
         String expectedEntityID = "e012345";
         String expectedEntityType = "";
-        marketEntity = new MarketEntity(expectedEntityName, expectedEntityID, expectedEntityType);
+        marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType);
 
         String obeservedEntityID = marketEntity.getID();
         assertEquals(expectedEntityID, obeservedEntityID);
@@ -82,7 +82,7 @@ public class MarketEntityUnitTest {
         String expectedEntityName = "";
         String expectedEntityID = "";
         String expectedEntityType = "investor";
-        marketEntity = new MarketEntity(expectedEntityName, expectedEntityID, expectedEntityType);
+        marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType);
 
         String obeservedEntityType = marketEntity.getType();
         assertEquals(expectedEntityType, obeservedEntityType);
@@ -100,7 +100,7 @@ public class MarketEntityUnitTest {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "e012345";
         String expectedEntityType = "investor";
-        marketEntity = new MarketEntity(expectedEntityName, expectedEntityID, expectedEntityType);
+        marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType);
 
         String expectedStrategyName = "testStrategy";
         Boolean expectedStrategyFound = false;
@@ -141,7 +141,7 @@ public class MarketEntityUnitTest {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "e012345";
         String expectedEntityType = "investor";
-        marketEntity = new MarketEntity(expectedEntityName, expectedEntityID, expectedEntityType);
+        marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType);
 
         //**********************//
         //*Add strategy to list*//

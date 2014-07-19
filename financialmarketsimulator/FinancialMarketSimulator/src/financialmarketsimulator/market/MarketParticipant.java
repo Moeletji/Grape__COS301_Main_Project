@@ -13,7 +13,7 @@ import java.util.Random;
  * using.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MarketEntity extends Thread {
+public class MarketParticipant extends Thread {
 
     /**
      * @brief name of the entity
@@ -62,7 +62,7 @@ public class MarketEntity extends Thread {
      * @param entityID id of the entity
      * @param type the type of the entity
      */
-    public MarketEntity(String marketName, String entityID, String type, MarketExchange exchange, String stock) {
+    public MarketParticipant(String marketName, String entityID, String type, MarketExchange exchange, String stock) {
         this.marketName = marketName;
         this.entityID = entityID;
         this.type = type;
@@ -186,9 +186,35 @@ public class MarketEntity extends Thread {
                 break;
             
             synchronized(book){
+                
+                
                 //************************************************************************
-            //This is where you trade ... 
-            //*************************************************************************
+                //This is where you trade ... 
+                //*************************************************************************
+                
+                //REMOVE ALL CODE IN THIS BLOCK THIS IS JUST USED TO TEST IF IT WORKS
+                //Uncomment line below and add trade functionality inside trade method
+                //trade();
+                int min = 0;
+                int max = 100;
+                
+                int maxShares = 10000;
+                int minShares = 500;
+                
+                boolean flag;
+                
+                flag = new Random().nextBoolean();
+                
+                MarketEntryAttempt.SIDE side;
+                
+                if(flag)
+                    side = MarketEntryAttempt.SIDE.BID;
+                else
+                    side = MarketEntryAttempt.SIDE.OFFER;
+                
+                //MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), marketName, side);
+                MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, marketName, side);
+                book.placeOrder(newAttempt);
             }
         }
     }
@@ -212,6 +238,10 @@ public class MarketEntity extends Thread {
     
     synchronized public void terminateTrading() {
         stop = true;
+    }
+    
+    public void trade(){
+        
     }
 
 }

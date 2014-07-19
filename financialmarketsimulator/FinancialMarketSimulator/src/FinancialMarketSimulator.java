@@ -1,9 +1,11 @@
 
-import financialmarketsimulator.market.MarketEntity;
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.StockManager;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 /**
  * @brief Main project execution class
@@ -30,20 +32,329 @@ public class FinancialMarketSimulator {
         }
         
         //10 entities
-        //let's only trade investec stocks
+        //let's only trade investec stocks for now
         
-        MarketEntity entity1 = new MarketEntity("BGP Holdings", "BGPLTD", "Investor", exchange, names[0]);
-        MarketEntity entity2 = new MarketEntity("Steinhoff", "STH", "Investor", exchange, names[0]);
-        MarketEntity entity3 = new MarketEntity("Boshoff", "BGPLTD", "Investor", exchange, names[0]);
-        MarketEntity entity4 = new MarketEntity("MiguelGroup", "MMG", "Investor", exchange, names[0]);
-        MarketEntity entity5 = new MarketEntity("SunBlue", "SBINC", "Investor", exchange, names[0]);
-        MarketEntity entity6 = new MarketEntity("Rising Holdings", "RHSS", "Investor", exchange, names[0]);
-        MarketEntity entity7 = new MarketEntity("JJK", "JJK", "Investor", exchange, names[0]);
-        MarketEntity entity8 = new MarketEntity("FacTue", "FTT", "Investor", exchange, names[0]);
-        MarketEntity entity9 = new MarketEntity("KellyKelly", "KKG", "Investor", exchange, names[0]);
-        MarketEntity entity10 = new MarketEntity("Unique Holdings", "UHINC", "Investor", exchange, names[0]);
+        MarketParticipant entity1 = new MarketParticipant("BGP Holdings", "BGPLTD", "Investor", exchange, names[0]);
+        MarketParticipant entity2 = new MarketParticipant("Steinhoff", "STH", "Investor", exchange, names[0]);
+        MarketParticipant entity3 = new MarketParticipant("Boshoff", "BGPLTD", "Investor", exchange, names[0]);
+        MarketParticipant entity4 = new MarketParticipant("MiguelGroup", "MMG", "Investor", exchange, names[0]);
+        MarketParticipant entity5 = new MarketParticipant("SunBlue", "SBINC", "Investor", exchange, names[0]);
+        MarketParticipant entity6 = new MarketParticipant("Rising Holdings", "RHSS", "Investor", exchange, names[0]);
+        MarketParticipant entity7 = new MarketParticipant("JJK", "JJK", "Investor", exchange, names[0]);
+        MarketParticipant entity8 = new MarketParticipant("FacTue", "FTT", "Investor", exchange, names[0]);
+        MarketParticipant entity9 = new MarketParticipant("KellyKelly", "KKG", "Investor", exchange, names[0]);
+        MarketParticipant entity10 = new MarketParticipant("Unique Holdings", "UHINC", "Investor", exchange, names[0]);
         
         
+        Vector offers = exchange.getBook("INV").getOffers();
+        Vector bids = exchange.getBook("INV").getBids();
+        Vector matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity1.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity2.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+       
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity3.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity4.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity5.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity6.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity7.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity8.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity9.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        entity10.start();
+        
+        offers = exchange.getBook("INV").getOffers();
+        bids = exchange.getBook("INV").getBids();
+        matched = exchange.getBook("INV").getMatchedOrders();
+        
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n*****************");
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n***********************");
+        
+        for(int i = 0; i < matched.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)matched.get(i);
+            System.out.println(attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+        
+        System.out.println("\n\n****************************");
+        
+        
+        entity1.terminateTrading();
+        entity2.terminateTrading();
+        entity3.terminateTrading();
+        entity4.terminateTrading();
+        entity5.terminateTrading();
+        entity6.terminateTrading();
+        entity7.terminateTrading();
+        entity8.terminateTrading();
+        entity9.terminateTrading();
+        entity10.terminateTrading();
+      
     }
 
 }
