@@ -96,6 +96,8 @@ public class Crossover {
      * The number of days over which the strategy is observed
      */
     private int numDays;
+    
+    private HigherAverage currentHigh;
 
     /**
      * Houses the SMA and EMA closing values over the past numDays days.
@@ -121,6 +123,7 @@ public class Crossover {
         numDays = _numDays;
         crossoverPoints = null;
         graph = null;
+        currentHigh = null;
         
         //TODO : Populate with objects housing closing EMA and SMA values over the
         //specidies previous numDays days.
@@ -128,18 +131,18 @@ public class Crossover {
     }
 
     public void determineCrossoverPoints() {
+        
         //Determine which of the SMA or EMA had a higher starting value.
-        HigherAverage previousHigherValue = null;
-
+        
         //Consider the consequent values until non equal values are observed
         //Using while loop for performance sake where EMA and SMA values are equivalent
         int j = 0; //Start from the first SMA and EMA values
         while (j < numDays) {
             if (closingAverages.get(j).getEMA() > closingAverages.get(j).getSMA()) {
-                previousHigherValue = ema;
+                currentHigh = ema;
                 break;
             } else if (closingAverages.get(j).getEMA() < closingAverages.get(j).getSMA()) {
-                previousHigherValue = sma;
+                currentHigh = sma;
                 break;
             }
             //If the EMA and SMA values where equivalent continue with search until non-equivalent values observed.
@@ -148,7 +151,7 @@ public class Crossover {
 
         //If all past SMA and EMA values are equal over the specified time, then 
         //set crossoverPoints to null and quit from the function. Else continue.
-        if (previousHigherValue == null) {
+        if (currentHigh == null) {
             crossoverPoints = null;
             return;
         }
@@ -161,28 +164,28 @@ public class Crossover {
             //days and record any crossover dates.
 
             //Case that SMA had the higher previous value.
-            if (previousHigherValue.equals(sma)) {
+            if (currentHigh.equals(sma)) {
                 //If a crossover occured
                 if (closingAverages.get(i).getSMA() < closingAverages.get(i).getEMA()) {
-                    previousHigherValue = ema;
+                    currentHigh = ema;
 
                     //Record crossover date and values
                     cod = new CrossoverDetails((closingAverages.get(i - 1).getSMA() - closingAverages.get(i - 1).getEMA()),
                             (closingAverages.get(i).getSMA() - closingAverages.get(i).getEMA()),
-                            previousHigherValue);
+                            currentHigh);
 
                     crossoverPoints.put(closingAverages.get(i).getDate(), cod);
                 }
             } else //Case that EMA had the higher previous value.
-            if (previousHigherValue.equals(ema)) {
+            if (currentHigh.equals(ema)) {
                 //If a crossover occured
                 if (closingAverages.get(i).getEMA() < closingAverages.get(i).getSMA()) {
-                    previousHigherValue = sma;
+                    currentHigh = sma;
 
                     //Record crossover date and values
                     cod = new CrossoverDetails((closingAverages.get(i - 1).getEMA() - closingAverages.get(i - 1).getSMA()),
                             (closingAverages.get(i).getEMA() - closingAverages.get(i).getSMA()),
-                            previousHigherValue);
+                            currentHigh);
 
                     crossoverPoints.put(closingAverages.get(i).getDate(), cod);
                 }
@@ -224,6 +227,15 @@ public class Crossover {
         this.numDays = _numDays;
     }
 
+    public String getCurrentHight()
+    {
+        if(this.currentHigh == sma)
+            return "sma";
+        else if(this.currentHigh == ema)
+            return "ema";
+        else return null;
+    }
+    
     /**
      *
      * @return Returns a HashMap of crossover events.
