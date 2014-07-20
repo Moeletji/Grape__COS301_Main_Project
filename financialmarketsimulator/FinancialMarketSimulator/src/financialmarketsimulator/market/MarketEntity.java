@@ -168,6 +168,7 @@ public class MarketEntity extends Thread {
 
     public void run() {
         //Get the book for the stock entity is tradin in
+        //You may add additional fields here if you require more 
         MarketEntryAttemptBook book = exchange.getBook(stock);
         
         while (true) {
@@ -184,9 +185,11 @@ public class MarketEntity extends Thread {
             if(stop)
                 break;
             
-            //************************************************************************
+            synchronized(book){
+                //************************************************************************
             //This is where you trade ... 
             //*************************************************************************
+            }
         }
     }
 

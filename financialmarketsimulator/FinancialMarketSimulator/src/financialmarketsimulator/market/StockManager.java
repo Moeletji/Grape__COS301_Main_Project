@@ -15,23 +15,23 @@ public class StockManager {
     //An order book of all the orders accepted
     private final MarketEntryAttemptBook orderList;
     private MatchedMarketEntryAttemptUpdate marketSnapShot;
-
+            
     /**
-     * MarketManager Constructor
+     * @brief MarketManager Constructor
      */
-    public StockManager() {
-        this.orderList = new MarketEntryAttemptBook();
-        this.stockName = "";
+    public StockManager(String stockName, long timePeriod, int totalNumberOfShares) {
+        this.orderList = new MarketEntryAttemptBook(stockName,timePeriod,totalNumberOfShares);
+        this.stockName = stockName;
     }
-
+    
     /**
-     * MarketManager Constructor
+     * @brief MarketManager Constructor
      *
      * @param sName Name of the stock
      */
     public StockManager(String sName) {
-        this();
         this.stockName = sName;
+        this.orderList = new MarketEntryAttemptBook(stockName, 10, 1000);
     }
 
     public String getStockName() {

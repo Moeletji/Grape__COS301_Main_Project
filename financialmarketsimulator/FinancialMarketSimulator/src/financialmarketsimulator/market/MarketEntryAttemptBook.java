@@ -35,18 +35,33 @@ public class MarketEntryAttemptBook {
     /**
      * @brief the time to wait before synchronizing with database
      */
-    private final long timePeriod;
+    private long timePeriod;
     /**
      * @brief previous time to synchronize with db
      */
     private long pastTime;
     /**
+     * @brief last trade price
+     */
+    private double lastTradePrice;
+    /**
+     * @brief total number of shares the stock holds
+     */
+    private int totalNumberOfShares;
+
+    public MarketEntryAttemptBook(String stockName, long timePeriod, int totalNumberOfShares) {
+        this();
+        this.timePeriod = timePeriod;
+        this.totalNumberOfShares = totalNumberOfShares;
+        this.stockName = stockName;
+    }
+    /**
      * @brief constructor for MarketEntryAttemptBook
      * @param _stock
      */
-    public MarketEntryAttemptBook(String _stock) {
+    public MarketEntryAttemptBook(String stockName) {
         this();
-        stockName = _stock;
+        this.stockName = stockName;
     }
 
     /**
@@ -56,11 +71,12 @@ public class MarketEntryAttemptBook {
      */
     public MarketEntryAttemptBook(long timePeriod, String stockName) {
         this.stockName = stockName;
-        bids = new Vector<MarketEntryAttempt>();
-        offers = new Vector<MarketEntryAttempt>();
-        matchedOrders = new Vector<MatchedMarketEntryAttempt>();
-        this.timePeriod = 10;
-        pastTime = System.currentTimeMillis();
+        this.totalNumberOfShares = 0;
+        this.bids = new Vector<MarketEntryAttempt>();
+        this.offers = new Vector<MarketEntryAttempt>();
+        this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.timePeriod = timePeriod;
+        this.pastTime = System.currentTimeMillis();
     }
 
     /**
@@ -68,24 +84,26 @@ public class MarketEntryAttemptBook {
      * @param timePeriod time before synchronizing with db
      */
     public MarketEntryAttemptBook(long timePeriod) {
-        stockName = "";
-        bids = new Vector<MarketEntryAttempt>();
-        offers = new Vector<MarketEntryAttempt>();
-        matchedOrders = new Vector<MatchedMarketEntryAttempt>();
-        this.timePeriod = 10;
-        pastTime = System.currentTimeMillis();
+        this.stockName = "";
+        this.totalNumberOfShares = 1000;
+        this.bids = new Vector<MarketEntryAttempt>();
+        this.offers = new Vector<MarketEntryAttempt>();
+        this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.timePeriod = timePeriod;
+        this.pastTime = System.currentTimeMillis();
     }
 
     /**
      * @brief constructor for MarketEntryAttemptBook
      */
     public MarketEntryAttemptBook() {
-        stockName = "";
-        bids = new Vector<MarketEntryAttempt>();
-        offers = new Vector<MarketEntryAttempt>();
-        matchedOrders = new Vector<MatchedMarketEntryAttempt>();
-        timePeriod = 10;
-        pastTime = System.currentTimeMillis();
+        this.stockName = "";
+        this.totalNumberOfShares = 0;
+        this.bids = new Vector<MarketEntryAttempt>();
+        this.offers = new Vector<MarketEntryAttempt>();
+        this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.timePeriod = 10;
+        this.pastTime = System.currentTimeMillis();
     }
 
     /**
@@ -561,5 +579,21 @@ public class MarketEntryAttemptBook {
         } else {
             return false;
         }
+    }
+
+    public double getLastTradePrice() {
+        return lastTradePrice;
+    }
+
+    public void setLastTradePrice(double lastTradePrice) {
+        this.lastTradePrice = lastTradePrice;
+    }
+
+    public int getTotalNumberOfShares() {
+        return totalNumberOfShares;
+    }
+
+    public void setTotalNumberOfShares(int totalNumberOfShares) {
+        this.totalNumberOfShares = totalNumberOfShares;
     }
 }
