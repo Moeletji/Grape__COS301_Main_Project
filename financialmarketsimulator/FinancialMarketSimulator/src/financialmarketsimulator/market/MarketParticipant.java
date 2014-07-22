@@ -243,5 +243,4 @@ public class MarketParticipant extends Thread {
     public void trade(){
         
     }
-
 }

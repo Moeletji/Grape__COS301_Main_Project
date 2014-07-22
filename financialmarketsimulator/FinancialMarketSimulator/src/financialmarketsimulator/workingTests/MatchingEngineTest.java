@@ -90,7 +90,7 @@ public class MatchingEngineTest {
         System.out.println("\n\n");
         System.out.println("***************************************Test 2***************************************");
 
-        StockManager yahooManager = new StockManager();
+        StockManager yahooManager = new StockManager("YHO");
 
         order1 = new MarketEntryAttempt(40.01, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
         yahooManager.acceptOrder(order1);
@@ -164,7 +164,7 @@ public class MatchingEngineTest {
         //Test whether orders are matched correctly
         System.out.println("***************************************Test 4***************************************");
 
-        StockManager googleManager = new StockManager();
+        StockManager googleManager = new StockManager("GGL");
 
         showBook(googleManager.getOrderList());
         MarketEntryAttempt order13 = new MarketEntryAttempt(34.50, 2000, "Daniel Smith", MarketEntryAttempt.SIDE.OFFER);
@@ -220,7 +220,7 @@ public class MatchingEngineTest {
         System.out.println("\n\n");
         System.out.println("***************************************Test 5***************************************");
 
-        StockManager BGPManager = new StockManager();
+        StockManager BGPManager = new StockManager("BGP");
 
         order1 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
         BGPManager.acceptOrder(order1);
@@ -246,7 +246,7 @@ public class MatchingEngineTest {
         System.out.println("\n\n");
         System.out.println("***************************************Test 6***************************************");
 
-        StockManager seniorManager = new StockManager();
+        StockManager seniorManager = new StockManager("SNR");
 
         order1 = new MarketEntryAttempt(10.00, 1500, "Jimmy West", MarketEntryAttempt.SIDE.BID);
         seniorManager.acceptOrder(order1);

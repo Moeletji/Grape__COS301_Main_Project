@@ -41,7 +41,7 @@ public class StockManagerUnitTest {
         //*********************************//
         //Test the empty parameter constructor
 
-        stockManager = new StockManager();
+        stockManager = new StockManager("TMP");
         MarketEntryAttemptBook entryAttempBook1 = stockManager.getOrderList();
         String stockName1 = stockManager.getStockName();
         if (entryAttempBook1 == null) {
@@ -135,7 +135,7 @@ public class StockManagerUnitTest {
         //****Case that orderList is empty****//
         //************************************//
 
-        stockManager = new StockManager();
+        stockManager = new StockManager("TMP1");
         MarketEntryAttemptBook orderList = new MarketEntryAttemptBook();
 
         assertEquals(stockManager.getOrderList().isEmpty(), true);
