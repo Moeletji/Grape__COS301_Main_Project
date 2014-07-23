@@ -5,6 +5,7 @@ import financialmarketsimulator.exception.NameNotFoundException;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 /**
  * @brief The super class from which each market entity or market participant
@@ -167,12 +168,16 @@ public class MarketParticipant extends Thread {
     }
 
     public void run() {
+
         //Get the book for the stock entity is tradin in
         //You may add additional fields here if you require more 
         MarketEntryAttemptBook book = exchange.getBook(stock);
-        
-        //while (true) {
-        for(int i = 0; i < 1; i++){
+
+
+        System.out.println("Stock name: " + stock);
+
+        while (true) {
+        //for (int i = 0; i < 1; i++) {
             try {
                 synchronized (this) {
                     while (paused) {
@@ -182,48 +187,58 @@ public class MarketParticipant extends Thread {
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }
-            
-            if(stop)
-                break;
-            
-            synchronized(book){
-                
-                
-                //************************************************************************
-                //This is where you trade ... 
-                //*************************************************************************
-                
-                //REMOVE ALL CODE IN THIS BLOCK THIS IS JUST USED TO TEST IF IT WORKS
+
+            synchronized (this) {
+                if (stop) {
+                    break;
+                }
+            }
+
+
+            //************************************************************************
+            //This is where you trade ... 
+            //*************************************************************************
+
+            //REMOVE ALL CODE IN THIS BLOCK THIS IS JUST USED TO TEST IF IT WORKS
+
+            int min = 0;
+            int max = 100;
+
+            int maxShares = 10000;
+            int minShares = 500;
+
+
+            int flag = new Random().nextInt(11);
+
+            MarketEntryAttempt.SIDE side;
+
+            if (flag > 5) {
+                side = MarketEntryAttempt.SIDE.BID;
+            } else {
+                side = MarketEntryAttempt.SIDE.OFFER;
+            }
+
+            synchronized (this) {
+
                 //Uncomment line below and add trade functionality inside trade method
                 //trade();
-                int min = 0;
-                int max = 100;
-                
-                int maxShares = 10000;
-                int minShares = 500;
-                
-                boolean flag;
-                
-                flag = new Random().nextBoolean();
-                
-                MarketEntryAttempt.SIDE side;
-                
-                if(flag)
-                    side = MarketEntryAttempt.SIDE.BID;
-                else
-                    side = MarketEntryAttempt.SIDE.OFFER;
-                
+
                 //MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), marketName, side);
                 MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, marketName, side);
                 book.placeOrder(newAttempt);
+
+                System.out.println(this.entityID + " has placed an order");
+
             }
         }
     }
 
     synchronized public void start() {
+        System.out.println(this.entityID + " Thread has started");
+        
         if (!started) {
             started = true;
-            super.start();
+            super.start();    
         }
 
         if (paused) {
@@ -236,12 +251,11 @@ public class MarketParticipant extends Thread {
     synchronized public void pause() {
         paused = true;
     }
-    
+
     synchronized public void terminateTrading() {
         stop = true;
     }
-    
-    public void trade(){
-        
+
+    public void trade() {
     }
 }
