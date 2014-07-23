@@ -17,17 +17,13 @@ import java.util.Vector;
 public class MarketParticipant extends Thread {
 
     /**
-     * @brief name of the entity
+     * @brief name of the market participant
      */
-    private String marketName;
+    private String participantName;
     /**
-     * @brief entity ID
+     * @brief participant ID
      */
-    private String entityID;
-    /**
-     * @brief type of entity
-     */
-    private String type;
+    private String participantID;
     /**
      * @brief market exchange
      */
@@ -59,14 +55,13 @@ public class MarketParticipant extends Thread {
 
     /**
      * @brief Constructing a MarketEnity object with parameters
-     * @param marketName name of the entity
-     * @param entityID id of the entity
+     * @param participantName name of the entity
+     * @param participantID id of the entity
      * @param type the type of the entity
      */
-    public MarketParticipant(String marketName, String entityID, String type, MarketExchange exchange, String stock) {
-        this.marketName = marketName;
-        this.entityID = entityID;
-        this.type = type;
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) {
+        this.participantName = participantName;
+        this.participantID = participantID;
         this.exchange = exchange;
         this.stock = stock;
         this.started = false;
@@ -81,24 +76,16 @@ public class MarketParticipant extends Thread {
      * @brief get the entity name
      * @return the name of the entity
      */
-    public String getMarketName() {
-        return this.marketName;
+    public String getParticipantName() {
+        return this.participantName;
     }
 
     /**
      * @brief get the entity id
      * @return the id of the entity
      */
-    public String getEntityID() {
-        return entityID;
-    }
-
-    /**
-     * @brief get the entity type
-     * @return the type of the entity
-     */
-    public String getType() {
-        return this.type;
+    public String getParticipantID() {
+        return participantID;
     }
 
     /**
@@ -120,22 +107,15 @@ public class MarketParticipant extends Thread {
     /**
      * @brief set the entity name
      */
-    public void setMarketName(String marketName) {
-        this.marketName = marketName;
+    public void setParticipantName(String participantName) {
+        this.participantName = participantName;
     }
 
     /**
      * @brief set the entity id
      */
     public void setID(String ID) {
-        this.entityID = ID;
-    }
-
-    /**
-     * @brief set the entity type
-     */
-    public void setType(String type) {
-        this.type = type;
+        this.participantID = ID;
     }
 
     /**
@@ -223,18 +203,18 @@ public class MarketParticipant extends Thread {
                 //Uncomment line below and add trade functionality inside trade method
                 //trade();
 
-                //MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), marketName, side);
-                MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, marketName, side);
+                //MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), participantName, side);
+                MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, participantName, side);
                 book.placeOrder(newAttempt);
 
-                System.out.println(this.entityID + " has placed an order");
+                System.out.println(this.participantID + " has placed an order");
 
             }
         }
     }
 
     synchronized public void start() {
-        System.out.println(this.entityID + " Thread has started");
+        System.out.println(this.participantID + " Thread has started");
         
         if (!started) {
             started = true;

@@ -38,8 +38,8 @@ public class MarketEntityUnitTest {
         String expectedEntityType = "investor";
         marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType,  null, "TMP");
 
-        String observedEntityName = marketEntity.getMarketName();
-        String observedEntityID = marketEntity.getEntityID();
+        String observedEntityName = marketEntity.getParticipantName();
+        String observedEntityID = marketEntity.getParticipantID();
         String observedEntityType = marketEntity.getType();
 
         //Checks if the expecetd outputs match the observed outputs.
@@ -58,7 +58,7 @@ public class MarketEntityUnitTest {
         String expectedEntityType = "";
         marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType,  null, "TMP");
 
-        String obeservedEntityName = marketEntity.getMarketName();
+        String obeservedEntityName = marketEntity.getParticipantName();
         assertEquals(expectedEntityName, obeservedEntityName);
     }
 
@@ -71,7 +71,7 @@ public class MarketEntityUnitTest {
         String expectedEntityType = "";
         marketEntity = new MarketParticipant(expectedEntityName, expectedEntityID, expectedEntityType,  null, "TMP");
 
-        String obeservedEntityID = marketEntity.getEntityID();
+        String obeservedEntityID = marketEntity.getParticipantID();
         assertEquals(expectedEntityID, obeservedEntityID);
     }
 

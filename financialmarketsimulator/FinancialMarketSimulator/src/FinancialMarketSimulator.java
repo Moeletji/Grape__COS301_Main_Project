@@ -47,26 +47,63 @@ public class FinancialMarketSimulator {
         MarketParticipant entity10 = new MarketParticipant("Unique Holdings", "UHINC", "Investor", exchange, names[0]);
 
         entity1.start();
-        entity2.start();
-        entity3.start();
-        entity4.start();
-        entity5.start();
-        entity6.start();
-        entity7.start();
-        entity8.start();
 
         try {
-            entity1.join();
-            entity2.join();
-            entity3.join();
-            entity4.join();
-            entity5.join();
-            entity6.join();
-            entity7.join();
-            entity8.join();
+            entity1.join(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
+        entity2.start();
+        
+        try {
+            entity1.join(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        entity3.start();
+        
+        try {
+            entity1.join(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        entity4.start();
+        
+        try {
+            entity1.join(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        entity5.start();
+        
+        try {
+            entity1.join(600);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        entity6.start();
+        
+        try {
+            entity1.join(700);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        entity7.start();
+        
+        try {
+            entity1.join(800);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        entity8.start();
+       
 
         Vector offers = exchange.getBook("INV").getOffers();
         Vector bids = exchange.getBook("INV").getBids();
