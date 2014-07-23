@@ -171,7 +171,8 @@ public class MarketParticipant extends Thread {
         //You may add additional fields here if you require more 
         MarketEntryAttemptBook book = exchange.getBook(stock);
         
-        while (true) {
+        //while (true) {
+        for(int i = 0; i < 1; i++){
             try {
                 synchronized (this) {
                     while (paused) {
