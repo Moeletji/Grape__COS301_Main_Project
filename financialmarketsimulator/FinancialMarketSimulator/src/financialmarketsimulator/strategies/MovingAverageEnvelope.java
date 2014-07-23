@@ -103,18 +103,19 @@ public class MovingAverageEnvelope {
      * @return the simple moving average
      * @throws NotEnoughDataException 
      */
-    private double getSMA() throws NotEnoughDataException
+    public double getSMA() throws NotEnoughDataException
     {
         pastSMAValues.add(sma.calculateSMA());
         return pastSMAValues.lastElement();
     }
     
     /**
+     * @return The market entry attempt generated
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @brief generate a market event depending on whether the instrument is
      * oversold/overbought
      */
-    public void generateMarketEntryAttempt() throws NotEnoughDataException
+    public MarketEntryAttempt generateMarketEntryAttempt() throws NotEnoughDataException
     {
         if (pastSMAValues.isEmpty())
             throw new NotEnoughDataException();
@@ -129,7 +130,9 @@ public class MovingAverageEnvelope {
             else*/ if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {
                 //buy
-                book.placeOrder(new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID));
+                MarketEntryAttempt buy = new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID);
+                book.placeOrder(buy);
+                return buy;
             }
         }
         else if (this.getClosingPrice() == this.calculateSMAUpperEvelope())
@@ -137,7 +140,9 @@ public class MovingAverageEnvelope {
             if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {
                 //sell
-                book.placeOrder(new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.OFFER));
+                MarketEntryAttempt sell = new MarketEntryAttempt(999,999,"", MarketEntryAttempt.SIDE.OFFER);
+                book.placeOrder(sell);
+                return sell;
             }
             /*else if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {
@@ -145,7 +150,7 @@ public class MovingAverageEnvelope {
                 book.placeOrder(new MarketEntryAttempt());
             }*/
         }
-
+        return null;
     }
     
     public double getPreviousClosingPrice()
