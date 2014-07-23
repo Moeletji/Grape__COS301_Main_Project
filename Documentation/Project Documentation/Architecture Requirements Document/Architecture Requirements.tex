@@ -51,6 +51,8 @@
 		Date & Name & Reason & Version \\
 		14/05/2014 & Madimetja & Creation & 0.0 \\
 		20/05/2014 & Daniel & Editing and formatting & 0.0 \\
+		16/05/2014 & Madimetja & Updated Requirements & 0.1 \\
+		17/05/2014 & Moeletji & Editing and formatting & 0.1 \\
 		~ & ~ & ~ & ~ \\
 	\end{tabular}
 	
@@ -63,14 +65,14 @@
 	\section{Access channel requirements}
 	The system will be accessible by human users through the following front-end channels:
 	\begin{itemize}
-	\item From a web browser through a rich web interface. The system will be accessible through the more recent versions of any of the major used browsers, including Google Chrome, Mozilla Firefox, Microsoft Internet Explorer and Apple Safari.
+	\item From a stand-alone Java application interface. The system will be accessible from any desktop or laptop once the appication is installed on the device.
 	\end{itemize}
-	Other systems may be able to access the services offered by this system through either SOAP-based or RESTful web services
 	
 	\section{Quality Requirements}
 		\subsection{Security}
 		\begin{itemize}
-		\item Communication of sensitive information with the system should occur over the Secure Hypertext Transfer Protocol.
+		\item Entity integrity should be maintained. No entity should be able to see sensitive information, particularly strategies, from another entity.
+		\item Only system administrators may modify the system behavior.
 		\end{itemize}
 		\subsection{Auditability}
 		\begin{itemize}
@@ -95,6 +97,7 @@
 		\subsection{Scalability}
 		\begin{itemize}
 		\item If need be, the system should allow for independent entities operating from independent machines to participate in the market.
+		\item The system should allow for concurrent trading.
 		\end{itemize}
 		\subsection{Performance}
 		\begin{itemize}
@@ -103,13 +106,10 @@
 	\section{Integration Requirements}
 	The system is self-contained and there is no need for integration with other external systems or components.
 	\section{Architectural Constraints}
-	The system should be built using either of the following technologies:
 	\begin{itemize}
-	\item Java Enterprise Edition
-	\item C++
-	\item .NET
+	\item The system is to be built using the Java programming language and relevant Java concepts and libraries.
+	\item In order to minimize cost and complexity, the system can be developed to run and operate on a single machine. 
 	\end{itemize}
-	In order to minimize cost and complexity, the system can be developed to run and operate on a single machine. 
 		
 	\newpage				    
 	\section{Glossary}				    			    			    		
