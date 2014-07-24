@@ -793,23 +793,33 @@
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnStart" alignment="0" min="-2" pref="97" max="-2" attributes="0"/>
-                                      <Component id="btnCreate" min="-2" pref="97" max="-2" attributes="0"/>
-                                      <Component id="cbxAddStrategy" min="-2" pref="97" max="-2" attributes="0"/>
-                                      <Component id="btnAddStrategy" min="-2" pref="97" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnSelectStrategy" alignment="1" pref="0" max="32767" attributes="0"/>
-                                      <Component id="cbxSelectStrategy" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="btnStart" alignment="0" min="-2" pref="97" max="-2" attributes="0"/>
+                                              <Component id="btnCreate" min="-2" pref="97" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="cbxAddStrategy" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="btnAddStrategy" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="btnStop" min="-2" pref="107" max="-2" attributes="0"/>
                                               <Component id="btnDelete" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
+                                      <Component id="cbxSelectStrategy" alignment="1" min="-2" pref="119" max="-2" attributes="0"/>
+                                      <Component id="btnSelectStrategy" alignment="1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">

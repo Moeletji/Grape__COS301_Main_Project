@@ -2,10 +2,12 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
-import static java.lang.Thread.sleep;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @brief The super class from which each market entity or market participant
@@ -52,18 +54,52 @@ public class MarketParticipant extends Thread {
      * @brief name of the stock the Market Entity is trading in
      */
     private final String stock;
+    
+    /**
+     * @brief Order book used by participant
+     */
+     StockManager stockManager;
+     /**
+     * @brief Class encapsulating all the variants to be used by the class
+     */
+    private Variants variants;
 
     /**
      * @brief Constructing a MarketEnity object with parameters
      * @param participantName name of the entity
      * @param participantID id of the entity
      * @param type the type of the entity
+     * @param stock name of the stock
      */
     public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
         this.stock = stock;
+        this.started = false;
+        this.paused = false;
+        this.stop = false;
+
+        //Initialise trading strategies
+        this.strategies = new ArrayList<>();
+        
+        //Get the OrderList book for the stock 
+        this.stockManager = exchange.getStocksManagers().get(this.stock);
+    }
+    
+    /**
+     * @param exchange
+     * @param stock
+     * @brief Constructing a MarketEnity object with parameters
+     * @param participantName name of the entity
+     * @param participantID id of the entity
+     */
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants) {
+        this.participantName = participantName;
+        this.participantID = participantID;
+        this.exchange = exchange;
+        this.stock = stock;
+        this.variants = variants;
         this.started = false;
         this.paused = false;
         this.stop = false;
@@ -149,15 +185,10 @@ public class MarketParticipant extends Thread {
 
     public void run() {
 
-        //Get the book for the stock entity is tradin in
-        //You may add additional fields here if you require more 
-        MarketEntryAttemptBook book = exchange.getBook(stock);
-
-
         System.out.println("Stock name: " + stock);
 
-        while (true) {
-        //for (int i = 0; i < 1; i++) {
+        //while (true) {
+            for (int i = 0; i < 3; i++) {
             try {
                 synchronized (this) {
                     while (paused) {
@@ -182,9 +213,9 @@ public class MarketParticipant extends Thread {
             //REMOVE ALL CODE IN THIS BLOCK THIS IS JUST USED TO TEST IF IT WORKS
 
             int min = 0;
-            int max = 100;
+            int max = 5;
 
-            int maxShares = 10000;
+            int maxShares = 1000;
             int minShares = 500;
 
 
@@ -203,22 +234,27 @@ public class MarketParticipant extends Thread {
                 //Uncomment line below and add trade functionality inside trade method
                 //trade();
 
-                //MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), participantName, side);
-                MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, participantName, side);
-                book.placeOrder(newAttempt);
+                MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), participantName, side);
+                //MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, participantName, side);
+                
+                try {
+                    stockManager.acceptOrder(newAttempt);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-                System.out.println(this.participantID + " has placed an order");
-
+                this.print();
             }
         }
     }
 
+    @Override
     synchronized public void start() {
         System.out.println(this.participantID + " Thread has started");
-        
+
         if (!started) {
             started = true;
-            super.start();    
+            super.start();
         }
 
         if (paused) {
@@ -237,5 +273,44 @@ public class MarketParticipant extends Thread {
     }
 
     public void trade() {
+    }
+
+    public void update(StockManager Updatedmanager) {
+        exchange.updateManager(stock, Updatedmanager);
+    }
+    
+    public void print(){
+        Vector offers = exchange.getBook(this.stock).getOffers();
+        Vector bids = exchange.getBook(this.stock).getBids();
+        Vector matched = exchange.getBook(this.stock).getMatchedOrders();
+
+        for (int i = 0; i < offers.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) offers.get(i);
+            System.out.println("Offers " + attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+
+        System.out.println("\n\n*****************");
+
+        for (int i = 0; i < bids.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) bids.get(i);
+            System.out.println("Bids " + attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+
+        System.out.println("\n\n***********************");
+
+        for (int i = 0; i < matched.size(); i++) {
+            MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matched.get(i);
+            System.out.println("Matched " + attempt.getQuantity() + "  " + attempt.getPrice() + "\n");
+        }
+
+        System.out.println("\n\n****************************\n****************************");
+    }
+
+    public Variants getVariants() {
+        return variants;
+    }
+
+    public void setVariants(Variants variants) {
+        this.variants = variants;
     }
 }

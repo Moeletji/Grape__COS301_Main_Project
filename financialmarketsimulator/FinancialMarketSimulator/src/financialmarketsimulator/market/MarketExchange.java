@@ -1,6 +1,5 @@
 package financialmarketsimulator.market;
 
-import com.sun.corba.se.spi.ior.MakeImmutable;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import java.util.Hashtable;
 import java.util.Map;
@@ -12,6 +11,7 @@ import java.util.Map;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class MarketExchange {
+
     /**
      * @brief singleton instance
      */
@@ -20,6 +20,7 @@ public class MarketExchange {
      * @brief name of the Stock Market Exchange
      */
     private String name;
+
     /**
      * @brief returns the name of the Stock Market Exchange
      * @return name of the stock market exchange
@@ -27,6 +28,7 @@ public class MarketExchange {
     public String getName() {
         return name;
     }
+
     /**
      * @brief Returns a Map of all StockManagers in the Exchange
      * @return Map of all StockManagers in Exchange
@@ -38,16 +40,18 @@ public class MarketExchange {
      * @brief List of all StockManagers in Exchange
      */
     private Map<String, StockManager> stocksManagers = new Hashtable();
+
     /**
      * @brief Constructor
-     * @param name name of the Stock Market Exchange 
+     * @param name name of the Stock Market Exchange
      */
     protected MarketExchange(String name) {
         this.name = name;
     }
+
     /**
      * @brief Get only instance of the object
-     * @param name name of the Stock Market Exchange 
+     * @param name name of the Stock Market Exchange
      */
     public static MarketExchange getInstance(String name) {
         if (instance == null) {
@@ -55,10 +59,12 @@ public class MarketExchange {
         }
         return instance;
     }
+
     /**
      * @brief add a new stock manager
      * @param stockManager stockmanager object to be added
-     * @return true if the stockmanager has been added and false if it wasn't successfully added
+     * @return true if the stockmanager has been added and false if it wasn't
+     * successfully added
      */
     public boolean addStockManager(StockManager stockManager) {
         String searchKey = stockManager.getStockName();
@@ -70,10 +76,12 @@ public class MarketExchange {
 
         return false;
     }
+
     /**
      * @brief remove a stock manager
      * @param stockManager stockmanager object to be removed
-     * @return true if the stockmanager has been removed and false if it wasn't successfully removed
+     * @return true if the stockmanager has been removed and false if it wasn't
+     * successfully removed
      */
     public boolean removeStockManager(StockManager stockManager) {
         String searchKey = stockManager.getStockName();
@@ -85,6 +93,7 @@ public class MarketExchange {
 
         return false;
     }
+
     /**
      * @brief Get the MarketEntryAttemptBook of a specific Stock
      * @param stockName name of the stock
@@ -93,6 +102,7 @@ public class MarketExchange {
     public MarketEntryAttemptBook getBook(String stockName) {
         return stocksManagers.get(stockName).getOrderList();
     }
+
     /**
      * @brief place an order on a specified stock
      * @param name name of the stock
@@ -107,6 +117,7 @@ public class MarketExchange {
 
         return false;
     }
+
     /**
      * @brief edit an existing order
      * @param name name of the stock
@@ -116,7 +127,7 @@ public class MarketExchange {
      * @return true if amended false if not amended
      * @throws InterruptedException
      * @throws OrderHasNoValuesException
-     * @throws CloneNotSupportedException 
+     * @throws CloneNotSupportedException
      */
     public boolean amendOrder(String name, MarketEntryAttempt attempt, double price, int numberShares) throws InterruptedException, OrderHasNoValuesException, CloneNotSupportedException {
         if (!stocksManagers.containsKey(name)) {
@@ -126,17 +137,27 @@ public class MarketExchange {
 
         return false;
     }
+
     /**
      * @brief cancel an order that has been placed
      * @param name of the order the stock
      * @param attempt MarketEntryAttempt to be canceled
      * @return true if canceled false if not canceled
      */
-    public boolean cancelOrder(String name, MarketEntryAttempt attempt){
+    public boolean cancelOrder(String name, MarketEntryAttempt attempt) {
         if (!stocksManagers.containsKey(name)) {
             stocksManagers.remove(name);
             return true;
         }
         return false;
+    }
+
+    /**
+     * @brief update the manager with latest values
+     * @param stockName name of the stock
+     * @param updatedStockManager new StockManager
+     */
+    public void updateManager(String stockName, StockManager updatedStockManager) {
+        stocksManagers.put(stockName, updatedStockManager);
     }
 }

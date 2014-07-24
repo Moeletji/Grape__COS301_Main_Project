@@ -2,6 +2,7 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
+import java.util.ArrayList;
 
 /**
  * @brief The StockManager class is the super class from which each concrete
@@ -14,7 +15,10 @@ public class StockManager {
     private String stockName;
     //An order book of all the orders accepted
     private final MarketEntryAttemptBook orderList;
+    //Snapshot of the market data
     private MatchedMarketEntryAttemptUpdate marketSnapShot;
+    //List of all MarketParticipants
+    private ArrayList<MarketParticipant> participants;
             
     /**
      * @brief MarketManager Constructor
@@ -22,6 +26,7 @@ public class StockManager {
     public StockManager(String stockName, long timePeriod, int totalNumberOfShares) {
         this.orderList = new MarketEntryAttemptBook(stockName,timePeriod,totalNumberOfShares);
         this.stockName = stockName;
+        this.participants = new ArrayList<MarketParticipant>();
     }
     
     /**
@@ -32,6 +37,7 @@ public class StockManager {
     public StockManager(String sName) {
         this.stockName = sName;
         this.orderList = new MarketEntryAttemptBook(stockName, 10, 1000);
+        this.participants = new ArrayList<MarketParticipant>();
     }
 
     public String getStockName() {
@@ -51,6 +57,7 @@ public class StockManager {
         }
 
         orderList.placeOrder(order);
+        this.Notify();
         return true;
     }
 
@@ -69,6 +76,7 @@ public class StockManager {
      * @return MarketEntryAttempt to be removed
      */
     public MarketEntryAttempt removeOrder(MarketEntryAttempt order) {
+        this.Notify();
         return orderList.removeOrder(order);
     }
 
@@ -80,6 +88,7 @@ public class StockManager {
      * @brief Acknowledgement of the bid being removed by the market manager
      */
     public MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE orderSide) {
+        this.Notify();
         return orderList.removeOrder(orderId, orderSide);
     }
 
@@ -93,6 +102,7 @@ public class StockManager {
      * @throws OrderHasNoValuesException
      */
     public void editOrder(String orderId, double price, int numberShares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
+        this.Notify();
         orderList.alterOrder(orderId, price, numberShares, side);
     }
 
@@ -106,6 +116,7 @@ public class StockManager {
      * @throws OrderHasNoValuesException
      */
     public void editOrder(String orderId, double price, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
+        this.Notify();
         orderList.alterOrder(orderId, price, side);
     }
 
@@ -119,10 +130,33 @@ public class StockManager {
      * @throws OrderHasNoValuesException
      */
     public void editOrder(String orderId, int numberShares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
+        this.Notify();
         orderList.alterOrder(orderId, numberShares, side);
     }
 
     public MatchedMarketEntryAttemptUpdate getMarketSnapShot() {
         return new MatchedMarketEntryAttemptUpdate(orderList.getMatchedOrders());
+    }
+    
+    /**
+     * @brief add MarketParticipant
+     * @param participant MarketParticipant to be added
+     */
+    public void attach(MarketParticipant participant){
+        participants.add(participant);
+    }
+    
+    /**
+     * @brief remove a MarketParticipant
+     * @param participant MarketParticipant to be removed
+     */
+    public void detach(MarketParticipant participant){
+        participants.remove(participant);
+    }
+    
+    public void Notify(){
+        for(MarketParticipant participant : participants){
+            participant.update(this);
+        }
     }
 }

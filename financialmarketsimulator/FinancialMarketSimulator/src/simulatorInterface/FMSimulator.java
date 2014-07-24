@@ -1,23 +1,23 @@
 package simulatorInterface;
 
+import com.sun.corba.se.spi.ior.MakeImmutable;
 import financialmarketsimulator.exception.StockAlreadyExistsException;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketParticipant;
+import financialmarketsimulator.market.Variants;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 import financialmarketsimulator.marketData.QuoteUpdates;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
-import java.util.Stack;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import sun.security.x509.AttributeNameEnumeration;
 
 /**
  * @author Grape <cos301.mainproject.grape@gmail.com>
@@ -34,6 +34,7 @@ public class FMSimulator extends javax.swing.JFrame {
     private MarketExchange exchange;
     
     private int counter;
+    
     /**
      * Creates new form FMSimulator
      */
@@ -41,7 +42,6 @@ public class FMSimulator extends javax.swing.JFrame {
         initComponents();
         
         this.counter = 0;
-        
         this.exchange = exchange;
         
         String[] rowNames = {"Market Entity", "Shares", "Price"};
@@ -845,20 +845,26 @@ public class FMSimulator extends javax.swing.JFrame {
                             .addComponent(txtParticipantName, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxAddStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddStrategy, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(64, 64, 64)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSelectStrategy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(cbxSelectStrategy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(50, 50, 50))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbxAddStrategy, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddStrategy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(39, 39, 39)))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnStop, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(cbxSelectStrategy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSelectStrategy, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1860,12 +1866,12 @@ public class FMSimulator extends javax.swing.JFrame {
         double stdDev = Double.parseDouble(standardDeviation);
         double bp = Double.parseDouble(basePrice);
         double sf = Double.parseDouble(standardFactor);
-        double minI = Integer.parseInt(minimumInterval);
-        double maxI = Integer.parseInt(maximumInterval);
-        double minShares = Integer.parseInt(minNoOfShares);
-        double maxShares = Integer.parseInt(maxNoOfShares);
+        int minI = Integer.parseInt(minimumInterval);
+        int maxI = Integer.parseInt(maximumInterval);
+        int minShares = Integer.parseInt(minNoOfShares);
+        int maxShares = Integer.parseInt(maxNoOfShares);
         double pvbp = Double.parseDouble(priceVarianceBP);
-        double len = Integer.parseInt(length);
+        int len = Integer.parseInt(length);
 
         if (len < 0 || minShares <= 0 || maxShares <= 0 || minI <= 0 || maxI <= 0 || pvbp < 0) {
             MessageBox.infoBox("Some fields may not have negative values.", "Negative Value Detected");
@@ -1877,7 +1883,21 @@ public class FMSimulator extends javax.swing.JFrame {
             return;
         }
 
-        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock);
+        Variants variants = new Variants(maxShares, minShares, minI, maxI, stdDev, sf, len, bp, pvbp);
+        
+        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
+        
+        if(exchange.getStocksManagers().get(stock).equals(null)){
+            
+        }
+        
+        exchange.getStocksManagers().get(stock).attach(participant);
+        
+        DefaultTableModel model = (DefaultTableModel) simulatorTable.getModel();
+        
+        model.addRow(new Object[]{counter, stock, bp, pvbp, minShares, maxShares, stdDev, sf, minI, maxI, len});
+        
+        counter++;
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnAddStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStrategyActionPerformed
