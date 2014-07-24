@@ -6,6 +6,7 @@ import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketParticipant;
+import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.market.Variants;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
@@ -157,6 +158,14 @@ public class FMSimulator extends javax.swing.JFrame {
         txtMarketParticipantID = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         txtParticipantName = new javax.swing.JTextField();
+        jPanel12 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        txtNameOfStock = new javax.swing.JTextField();
+        txtTotalNumberofShares = new javax.swing.JTextField();
+        txtPeriodSync = new javax.swing.JTextField();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -523,12 +532,12 @@ public class FMSimulator extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1235, Short.MAX_VALUE)
+            .addGap(0, 1201, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 32, Short.MAX_VALUE)
+                    .addGap(0, 15, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 32, Short.MAX_VALUE)))
+                    .addGap(0, 15, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Order List", jPanel2);
@@ -591,7 +600,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addComponent(txtUpdateIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton12)
-                .addContainerGap(1086, Short.MAX_VALUE))
+                .addContainerGap(1052, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Exchange Data", jPanel3);
@@ -969,12 +978,83 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane7))
-                .addContainerGap(573, Short.MAX_VALUE))
+                .addContainerGap(539, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Market Simulator", jPanel1);
 
-        jTabbedPane2.setBackground(new java.awt.Color(204, 255, 255));
+        jButton1.setBackground(new java.awt.Color(51, 255, 0));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setText("Add Stock Manager");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel23.setBackground(new java.awt.Color(0, 255, 102));
+        jLabel23.setText("Stock Name");
+
+        jLabel24.setBackground(new java.awt.Color(0, 255, 102));
+        jLabel24.setText("Total Number of Shares");
+
+        jLabel25.setBackground(new java.awt.Color(0, 255, 102));
+        jLabel25.setText("Time Period to sync with DB");
+
+        txtTotalNumberofShares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotalNumberofSharesActionPerformed(evt);
+            }
+        });
+
+        txtPeriodSync.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPeriodSyncActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtTotalNumberofShares, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtNameOfStock, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtPeriodSync))
+                    .addComponent(jButton1))
+                .addContainerGap(2534, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNameOfStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtTotalNumberofShares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel25)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPeriodSync, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(jButton1)
+                .addContainerGap(970, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Stock Management", jPanel12);
+
+        jTabbedPane2.setBackground(new java.awt.Color(51, 255, 102));
+        jTabbedPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTabbedPane2.setForeground(new java.awt.Color(255, 102, 102));
         jTabbedPane2.setName("Financial Market Simulator"); // NOI18N
 
         BidsTableTest.setModel(new javax.swing.table.DefaultTableModel(
@@ -1330,12 +1410,12 @@ public class FMSimulator extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1207, Short.MAX_VALUE)
+            .addGap(0, 1171, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel6Layout.createSequentialGroup()
-                    .addGap(0, 18, Short.MAX_VALUE)
+                    .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 18, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         jTabbedPane2.addTab("Order List", jPanel6);
@@ -1346,13 +1426,17 @@ public class FMSimulator extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 2726, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 2726, Short.MAX_VALUE)
+                .addGap(67, 67, 67))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -1887,8 +1971,9 @@ public class FMSimulator extends javax.swing.JFrame {
         
         MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
         
-        if(exchange.getStocksManagers().get(stock).equals(null)){
-            
+        if(exchange.hasNoStockManagers() || (!exchange.stockFound(stock))){
+            MessageBox.infoBox("Stock does not exist", "Stock Not Found");
+            return;
         }
         
         exchange.getStocksManagers().get(stock).attach(participant);
@@ -1911,6 +1996,40 @@ public class FMSimulator extends javax.swing.JFrame {
     private void txtParticipantNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtParticipantNameKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtParticipantNameKeyTyped
+
+    private void txtTotalNumberofSharesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalNumberofSharesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalNumberofSharesActionPerformed
+
+    private void txtPeriodSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPeriodSyncActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPeriodSyncActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        StockManager manager;
+        
+        String stockName = txtNameOfStock.getText();
+        String totalNumberofShares = txtTotalNumberofShares.getText();
+        String period = txtPeriodSync.getText();
+        
+        if(stockName.equals("")){
+            MessageBox.infoBox("Please enter stock name", "Stock Has No Name");
+            return;
+        }
+        
+        if(totalNumberofShares.equals("") || period.equals("")){
+            manager = new StockManager(stockName);
+            return;
+        }
+        
+        if(Number.isInteger(totalNumberofShares) && Number.isInteger(period))
+        {
+            manager = new StockManager(stockName, Integer.parseInt(totalNumberofShares), Integer.parseInt(period));
+            return;
+        }
+        
+        MessageBox.infoBox("Please ensure that all fields have the correct syntax", "Stock Not created");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1977,6 +2096,7 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JComboBox cbxSelectStrategy;
     private javax.swing.JComboBox cbxStocks;
     private javax.swing.JComboBox cbxStocks1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JFrame jFrame1;
@@ -1995,6 +2115,9 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2005,6 +2128,7 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2038,15 +2162,18 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JTextField txtMarketParticipantID;
     private javax.swing.JTextField txtMaxInterval;
     private javax.swing.JTextField txtMinInterval;
+    private javax.swing.JTextField txtNameOfStock;
     private javax.swing.JTextField txtNumShares;
     private javax.swing.JTextField txtNumShares1;
     private javax.swing.JTextField txtParticipantName;
+    private javax.swing.JTextField txtPeriodSync;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtPrice1;
     private javax.swing.JTextField txtPriceVarianceBP;
     private javax.swing.JTextField txtStandardDeviation;
     private javax.swing.JTextField txtStandardFactor;
     private javax.swing.JTextField txtStockName;
+    private javax.swing.JTextField txtTotalNumberofShares;
     private javax.swing.JTextField txtUpdateClosePrice;
     private javax.swing.JTextField txtUpdateIndex;
     // End of variables declaration//GEN-END:variables

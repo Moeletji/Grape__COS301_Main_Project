@@ -36,6 +36,24 @@ public class MarketExchange {
     public Map<String, StockManager> getStocksManagers() {
         return stocksManagers;
     }
+    
+    /**
+     * @brief indicates whether the Stock Market Exchange has any stock managers
+     * @return true if Stock Market Exchange has no stock managers otherwise it will return false
+     */
+    public boolean hasNoStockManagers(){
+        return stocksManagers.isEmpty();
+    }
+    
+    /**
+     * @brief indicates whether the Stock Market Exchange has that particular stock manager
+     * @param stockName name of the stock to be searched
+     * @return true if Stock Market Exchange has that particular stock manager otherwise it will return false
+     */
+    public boolean stockFound(String stockName){
+        return stocksManagers.containsKey(stockName);
+    }
+    
     /**
      * @brief List of all StockManagers in Exchange
      */
