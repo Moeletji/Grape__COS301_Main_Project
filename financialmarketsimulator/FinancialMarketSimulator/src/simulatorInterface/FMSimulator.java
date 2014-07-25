@@ -12,7 +12,9 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 import financialmarketsimulator.marketData.QuoteUpdates;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,18 +26,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class FMSimulator extends javax.swing.JFrame {
-
+    
     private FinancialMarketStockExchange fmse;
     private Object[][] bids;
     private Object[][] offers;
     private Object[][] matched;
-    
-    private Object [][] simulatorTableContent;
-
+    private Object[][] simulatorTableContent;
     private MarketExchange exchange;
-    
+    private ArrayList<MarketParticipant> participants;
     private int counter;
-    
+
     /**
      * Creates new form FMSimulator
      */
@@ -45,21 +45,23 @@ public class FMSimulator extends javax.swing.JFrame {
         this.counter = 0;
         this.exchange = exchange;
         
+        participants = new ArrayList<MarketParticipant>();
+        
         String[] rowNames = {"Market Entity", "Shares", "Price"};
         bids = new Object[0][3];
         offers = new Object[0][3];
         matched = new Object[0][3];
-
+        
         OffersTableTest.setModel(new DefaultTableModel(bids, rowNames));
         BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
         rowNames[0] = "Date";
         MatchedTableTest.setModel(new DefaultTableModel(matched, rowNames));
         
-        String [] rowNamesSimulator = {"No.", "Stock", "Base Price", "Price Variance", "Min no. Shares", "Max no. Shares", "STD Deviation", "STD Factor", "Min Interval", "Max Interval", "Length"};
+        String[] rowNamesSimulator = {"No.", "ID", "Stock", "Base Price", "Price Variance", "Min no. Shares", "Max no. Shares", "STD Deviation", "STD Factor", "Min Interval", "Max Interval", "Length"};
         simulatorTableContent = new Object[0][rowNamesSimulator.length];
         simulatorTable.setModel(new DefaultTableModel(simulatorTableContent, rowNamesSimulator));
     }
-    
+
     /**
      * Creates new form FMSimulator for testing
      */
@@ -70,7 +72,7 @@ public class FMSimulator extends javax.swing.JFrame {
         bids = new Object[0][3];
         offers = new Object[0][3];
         matched = new Object[0][3];
-
+        
         OffersTableTest.setModel(new DefaultTableModel(bids, rowNames));
         BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
         rowNames[0] = "Date";
@@ -166,6 +168,7 @@ public class FMSimulator extends javax.swing.JFrame {
         txtNameOfStock = new javax.swing.JTextField();
         txtTotalNumberofShares = new javax.swing.JTextField();
         txtPeriodSync = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -328,12 +331,15 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setForeground(new java.awt.Color(0, 255, 204));
         jLabel9.setText("Stock ");
 
         cbxStocks.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel10.setForeground(new java.awt.Color(0, 255, 204));
         jLabel10.setText("Shares");
 
+        jLabel11.setForeground(new java.awt.Color(0, 255, 204));
         jLabel11.setText("Price");
 
         txtPrice.addActionListener(new java.awt.event.ActionListener() {
@@ -347,6 +353,7 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setForeground(new java.awt.Color(0, 255, 204));
         jLabel12.setText("Type");
 
         cbxMarketType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MARKET", "LIMIT" }));
@@ -366,6 +373,7 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setForeground(new java.awt.Color(0, 255, 204));
         jLabel2.setText("Market Entity ID");
 
         txtMarketEntityID.addActionListener(new java.awt.event.ActionListener() {
@@ -758,16 +766,31 @@ public class FMSimulator extends javax.swing.JFrame {
         btnDelete.setBackground(new java.awt.Color(255, 204, 204));
         btnDelete.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnStop.setBackground(new java.awt.Color(255, 0, 51));
         btnStop.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnStop.setText("Stop");
         btnStop.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        btnStop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopActionPerformed(evt);
+            }
+        });
 
         btnStart.setBackground(new java.awt.Color(0, 204, 0));
         btnStart.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnStart.setText("Start");
         btnStart.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        btnStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartActionPerformed(evt);
+            }
+        });
 
         btnAddStrategy.setBackground(new java.awt.Color(255, 153, 204));
         btnAddStrategy.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -974,18 +997,21 @@ public class FMSimulator extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7))
-                .addContainerGap(539, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(530, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Market Simulator", jPanel1);
 
         jButton1.setBackground(new java.awt.Color(51, 255, 0));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Add Stock Manager");
+        jButton1.setText("Add Custom Stock Manager");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -1001,15 +1027,28 @@ public class FMSimulator extends javax.swing.JFrame {
         jLabel25.setBackground(new java.awt.Color(0, 255, 102));
         jLabel25.setText("Time Period to sync with DB");
 
+        txtNameOfStock.setBackground(new java.awt.Color(153, 255, 153));
+
+        txtTotalNumberofShares.setBackground(new java.awt.Color(153, 255, 153));
         txtTotalNumberofShares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTotalNumberofSharesActionPerformed(evt);
             }
         });
 
+        txtPeriodSync.setBackground(new java.awt.Color(153, 255, 153));
         txtPeriodSync.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPeriodSyncActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(0, 204, 204));
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton2.setText("Generate Simulator Stocks");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -1019,7 +1058,7 @@ public class FMSimulator extends javax.swing.JFrame {
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1027,8 +1066,9 @@ public class FMSimulator extends javax.swing.JFrame {
                         .addComponent(txtNameOfStock, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtPeriodSync))
-                    .addComponent(jButton1))
-                .addContainerGap(2534, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(2476, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1045,9 +1085,11 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addComponent(jLabel25)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPeriodSync, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(970, Short.MAX_VALUE))
+                .addGap(52, 52, 52)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(877, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Stock Management", jPanel12);
@@ -1445,23 +1487,23 @@ public class FMSimulator extends javax.swing.JFrame {
     private void btnBidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBidActionPerformed
-
+    
     private void txtNumSharesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumSharesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumSharesActionPerformed
-
+    
     private void txtPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPriceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPriceActionPerformed
-
+    
     private void btnOfferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnOfferActionPerformed
-
+    
     private void txtMarketEntityIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarketEntityIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarketEntityIDActionPerformed
-
+    
     private void txtLengthKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLengthKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1469,7 +1511,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtLengthKeyTyped
-
+    
     private void txtStandardDeviationKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStandardDeviationKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD && c != KeyEvent.VK_MINUS) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1477,7 +1519,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtStandardDeviationKeyTyped
-
+    
     private void txtBasePriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBasePriceKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD && c != KeyEvent.VK_MINUS) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1485,7 +1527,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtBasePriceKeyTyped
-
+    
     private void txtStandardFactorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStandardFactorKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD && c != KeyEvent.VK_MINUS) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1493,7 +1535,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtStandardFactorKeyTyped
-
+    
     private void txtPriceVarianceBPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceVarianceBPKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1501,7 +1543,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtPriceVarianceBPKeyTyped
-
+    
     private void txtMinIntervalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinIntervalKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1509,7 +1551,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtMinIntervalKeyTyped
-
+    
     private void txtMaxIntervalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaxIntervalKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1517,7 +1559,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtMaxIntervalKeyTyped
-
+    
     private void cbxMinNumberOfSharesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxMinNumberOfSharesKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1525,7 +1567,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_cbxMinNumberOfSharesKeyTyped
-
+    
     private void cbxMaxNumberOfSharesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbxMaxNumberOfSharesKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1533,7 +1575,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_cbxMaxNumberOfSharesKeyTyped
-
+    
     private void txtNumSharesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumSharesKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE) || (Character.isWhitespace(c))) {
@@ -1541,7 +1583,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtNumSharesKeyTyped
-
+    
     private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
         char c = evt.getKeyChar();
         if ((!(Character.isDigit(c)) && c != KeyEvent.VK_PERIOD) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)) {
@@ -1549,85 +1591,85 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtPriceKeyTyped
-
+    
     private void btnBidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBidMouseClicked
         String id = txtMarketEntityID.getText();
         String stockName = cbxStocks.getSelectedItem().toString();
         String marketType = cbxMarketType.getSelectedItem().toString();
-
+        
         String ns = txtNumShares.getText();
         String p = txtPrice.getText();
-
+        
         if (p.equals("") || ns.equals("") || id.equals("")) {
             MessageBox.infoBox("Please fill in all fields", "Bid not accepted");
             return;
         }
-
+        
         if (!Number.isDouble(p) || !Number.isInteger(ns)) {
             MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Bid not accepted");
             return;
         }
-
+        
         int numOfShares = Integer.parseInt(txtNumShares.getText());
         double price = Double.parseDouble(txtPrice.getText());
-
+        
         if (numOfShares <= 0 || price <= 0) {
             MessageBox.infoBox("Please use only positive values", "Bid not accepted");
             return;
         }
-
+        
         String side = "bid";
-
+        
         MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
 
         //Make an bid here with the interface object
     }//GEN-LAST:event_btnBidMouseClicked
-
+    
     private void btnOfferMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferMouseClicked
         String id = txtMarketEntityID.getText();
         String stockName = cbxStocks.getSelectedItem().toString();
         String marketType = cbxMarketType.getSelectedItem().toString();
-
+        
         String ns = txtNumShares.getText();
         String p = txtPrice.getText();
-
+        
         if (p.equals("") || ns.equals("") || id.equals("")) {
             MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
             return;
         }
-
+        
         if (!Number.isDouble(p) || !Number.isInteger(ns)) {
             MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Offer not accepted");
             return;
         }
-
+        
         int numOfShares = Integer.parseInt(txtNumShares.getText());
         double price = Double.parseDouble(txtPrice.getText());
-
+        
         if (numOfShares <= 0 || price <= 0) {
             MessageBox.infoBox("Please use only positive values", "Offer not accepted");
             return;
         }
-
+        
         String side = "offer";
-
+        
         MessageBox.infoBox(numOfShares + "\n" + price + "\n" + marketType + "\n" + stockName + "\n" + id + "\n" + side, "Checking if it works");
 
         //Make an offer here with the interface object
     }//GEN-LAST:event_btnOfferMouseClicked
-
+    
     private void jButton11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseClicked
         double closePrice = Double.parseDouble(txtUpdateClosePrice.getText());
 
         //do something with the close price 
     }//GEN-LAST:event_jButton11MouseClicked
-
+    
     private void jButton12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseClicked
         double index = Double.parseDouble(txtUpdateIndex.getText());
 
         //do something with the index
     }//GEN-LAST:event_jButton12MouseClicked
-
+    
     private void txtUpdateClosePriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUpdateClosePriceKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE) || (Character.isWhitespace(c))) {
@@ -1635,7 +1677,7 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtUpdateClosePriceKeyTyped
-
+    
     private void txtUpdateIndexKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUpdateIndexKeyTyped
         char c = evt.getKeyChar();
         if (!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE) || (Character.isWhitespace(c))) {
@@ -1643,43 +1685,41 @@ public class FMSimulator extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtUpdateIndexKeyTyped
-
+    
     private void btnCreateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCreateMouseClicked
-        
     }//GEN-LAST:event_btnCreateMouseClicked
-
+    
     private void btnBidTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBidTestMouseClicked
-        
     }//GEN-LAST:event_btnBidTestMouseClicked
-
+    
     private void btnBidTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidTestActionPerformed
         String id = txtMarketEntityID1.getText();
         String stockName = cbxStocks1.getSelectedItem().toString();
         String marketType = cbxMarketType1.getSelectedItem().toString();
-
+        
         String ns = txtNumShares1.getText();
         String p = txtPrice1.getText();
-
+        
         if (p.equals("") || ns.equals("") || id.equals("")) {
             MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
             return;
         }
-
+        
         if (!Number.isDouble(p) || !Number.isInteger(ns)) {
             MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Bid not accepted");
             return;
         }
-
+        
         int numOfShares = Integer.parseInt(txtNumShares1.getText());
         double price = Double.parseDouble(txtPrice1.getText());
-
+        
         if (numOfShares <= 0 || price <= 0) {
             MessageBox.infoBox("Please use only positive values", "Bid not accepted");
             return;
         }
-
+        
         MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, MarketEntryAttempt.SIDE.BID);
-
+        
         try {
             if (!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)) {
                 MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
@@ -1688,31 +1728,31 @@ public class FMSimulator extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
+            
             MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
-
+            
             Vector bidsVec = book.getBids();
             Vector offersVec = book.getOffers();
             Vector matchedVec = book.getMatchedOrders();
-
+            
             if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
                 MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
                 return;
             }
-
+            
             String[] cols = {"Market Entity", "Shares", "Price"};
-
+            
             Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
                 tmpBids[i][0] = attempt.getParticipantName();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
-
+                
             }
             BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
-
-
+            
+            
             Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
@@ -1721,7 +1761,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 tmpOffers[i][2] = attempt.getPrice();
             }
             OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
-
+            
             cols[0] = "Date";
             Object[][] tmpMatched = new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
@@ -1733,55 +1773,54 @@ public class FMSimulator extends javax.swing.JFrame {
             MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
     }//GEN-LAST:event_btnBidTestActionPerformed
-
+    
     private void txtNumShares1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumShares1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumShares1ActionPerformed
-
+    
     private void txtNumShares1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumShares1KeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNumShares1KeyTyped
-
+    
     private void txtPrice1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrice1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrice1ActionPerformed
-
+    
     private void txtPrice1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrice1KeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrice1KeyTyped
-
+    
     private void btnOfferTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferTestMouseClicked
-        
     }//GEN-LAST:event_btnOfferTestMouseClicked
-
+    
     private void btnOfferTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferTestActionPerformed
         String id = txtMarketEntityID1.getText();
         String stockName = cbxStocks1.getSelectedItem().toString();
         String marketType = cbxMarketType1.getSelectedItem().toString();
-
+        
         String ns = txtNumShares1.getText();
         String p = txtPrice1.getText();
-
+        
         if (p.equals("") || ns.equals("") || id.equals("")) {
             MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
             return;
         }
-
+        
         if (!Number.isDouble(p) || !Number.isInteger(ns)) {
             MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Offer not accepted");
             return;
         }
-
+        
         int numOfShares = Integer.parseInt(txtNumShares1.getText());
         double price = Double.parseDouble(txtPrice1.getText());
-
+        
         if (numOfShares <= 0 || price <= 0) {
             MessageBox.infoBox("Please use only positive values", "Offer not accepted");
             return;
         }
-
+        
         MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, MarketEntryAttempt.SIDE.OFFER);
-
+        
         try {
             if (!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)) {
                 MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
@@ -1790,31 +1829,31 @@ public class FMSimulator extends javax.swing.JFrame {
         } catch (InterruptedException ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
+            
             MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
-
+            
             Vector bidsVec = book.getBids();
             Vector offersVec = book.getOffers();
             Vector matchedVec = book.getMatchedOrders();
-
+            
             if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
                 MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
                 return;
             }
-
+            
             String[] cols = {"Market Entity", "Shares", "Price"};
-
+            
             Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
                 tmpBids[i][0] = attempt.getParticipantName();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
-
+                
             }
             BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
-
-
+            
+            
             Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
@@ -1823,7 +1862,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 tmpOffers[i][2] = attempt.getPrice();
             }
             OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
-
+            
             cols[0] = "Date";
             Object[][] tmpMatched = new Object[matchedVec.size()][3];
             for (int i = 0; i < matchedVec.size(); i++) {
@@ -1835,37 +1874,37 @@ public class FMSimulator extends javax.swing.JFrame {
             MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
         }
     }//GEN-LAST:event_btnOfferTestActionPerformed
-
+    
     private void txtMarketEntityID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMarketEntityID1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarketEntityID1ActionPerformed
-
+    
     private void cbxStocks1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxStocks1ItemStateChanged
         String stockName = cbxStocks1.getSelectedItem().toString();
         MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
-
+        
         Vector bidsVec = book.getBids();
         Vector offersVec = book.getOffers();
         Vector matchedVec = book.getMatchedOrders();
-
+        
         if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
             MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
             return;
         }
-
+        
         String[] cols = {"Market Entity", "Shares", "Price"};
-
+        
         Object[][] tmpBids = new Object[bidsVec.size()][3];
         for (int i = 0; i < bidsVec.size(); i++) {
             MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
             tmpBids[i][0] = attempt.getParticipantName();
             tmpBids[i][1] = attempt.getNumOfShares();
             tmpBids[i][2] = attempt.getPrice();
-
+            
         }
         BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
-
-
+        
+        
         Object[][] tmpOffers = new Object[offersVec.size()][3];
         for (int i = 0; i < offersVec.size(); i++) {
             MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
@@ -1874,7 +1913,7 @@ public class FMSimulator extends javax.swing.JFrame {
             tmpOffers[i][2] = attempt.getPrice();
         }
         OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
-
+        
         cols[2] = "Date";
         Object[][] tmpMatched = new Object[matchedVec.size()][3];
         for (int i = 0; i < matchedVec.size(); i++) {
@@ -1885,7 +1924,7 @@ public class FMSimulator extends javax.swing.JFrame {
         }
         MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
     }//GEN-LAST:event_cbxStocks1ItemStateChanged
-
+    
     private void btnMarketQuote1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketQuote1MouseClicked
         String stockName = cbxStocks1.getSelectedItem().toString();
         
@@ -1893,36 +1932,34 @@ public class FMSimulator extends javax.swing.JFrame {
         
         MessageBox.infoBox(quote.toString(), "Market Quote");
     }//GEN-LAST:event_btnMarketQuote1MouseClicked
-
+    
     private void btnMarketDepth1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketDepth1MouseClicked
-        
     }//GEN-LAST:event_btnMarketDepth1MouseClicked
-
+    
     private void btnMarketMatchedAttempt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1MouseClicked
-        
     }//GEN-LAST:event_btnMarketMatchedAttempt1MouseClicked
-
+    
     private void btnMarketQuote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketQuote1ActionPerformed
         String stockName = cbxStocks1.getSelectedItem().toString();
         
         MatchedMarketEntryAttemptUpdate update = new MatchedMarketEntryAttemptUpdate(fmse.getOrderBook(stockName).getMatchedOrders());
         MessageBox.infoBox(update.toString(), "Matched Market Entry Attempts");
     }//GEN-LAST:event_btnMarketQuote1ActionPerformed
-
+    
     private void btnMarketDepth1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketDepth1ActionPerformed
         String stockName = cbxStocks1.getSelectedItem().toString();
-        
-        //DepthUpdates quote = new DepthUpdates(fmse.getStockManager(stockName));
-        
-       // MessageBox.infoBox(quote.toString(), "Market Depth");
-    }//GEN-LAST:event_btnMarketDepth1ActionPerformed
 
+        //DepthUpdates quote = new DepthUpdates(fmse.getStockManager(stockName));
+
+        // MessageBox.infoBox(quote.toString(), "Market Depth");
+    }//GEN-LAST:event_btnMarketDepth1ActionPerformed
+    
     private void btnMarketMatchedAttempt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1ActionPerformed
         String stock = cbxStocks1.getSelectedItem().toString();
-        
+
         //fmse.getStockManager(stock).getMarketSnapShot();
     }//GEN-LAST:event_btnMarketMatchedAttempt1ActionPerformed
-
+    
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         String stock = txtStockName.getText();
         String standardDeviation = txtStandardDeviation.getText();
@@ -1936,17 +1973,17 @@ public class FMSimulator extends javax.swing.JFrame {
         String length = txtLength.getText();
         String id = txtMarketParticipantID.getText();
         String name = txtParticipantName.getText();
-
+        
         if (stock.equals("") || standardDeviation.equals("") || basePrice.equals("") || standardFactor.equals("") || minimumInterval.equals("") || maximumInterval.equals("") || minNoOfShares.equals("") || maxNoOfShares.equals("") || priceVarianceBP.equals("") || length.equals("") || id.equals("")) {
             MessageBox.infoBox("Please ensure all fields are not empty.", "Empty field");
             return;
         }
-
+        
         if (!Number.isDouble(standardDeviation) || !Number.isDouble(basePrice) || !Number.isDouble(standardFactor) || !Number.isInteger(minimumInterval) || !Number.isInteger(maximumInterval) || !Number.isInteger(maxNoOfShares) || !Number.isInteger(minNoOfShares) || !Number.isDouble(priceVarianceBP) || !Number.isInteger(length)) {
             MessageBox.infoBox("Please ensure all fields have the correct number format.", "Incorrect Number Format");
             return;
         }
-
+        
         double stdDev = Double.parseDouble(standardDeviation);
         double bp = Double.parseDouble(basePrice);
         double sf = Double.parseDouble(standardFactor);
@@ -1956,55 +1993,62 @@ public class FMSimulator extends javax.swing.JFrame {
         int maxShares = Integer.parseInt(maxNoOfShares);
         double pvbp = Double.parseDouble(priceVarianceBP);
         int len = Integer.parseInt(length);
-
+        
         if (len < 0 || minShares <= 0 || maxShares <= 0 || minI <= 0 || maxI <= 0 || pvbp < 0) {
             MessageBox.infoBox("Some fields may not have negative values.", "Negative Value Detected");
             return;
         }
-
+        
         if ((minShares > maxShares) || (minI > maxI)) {
             MessageBox.infoBox("All maximum values should be greater than minimum values.", "Size inconsistency");
             return;
         }
-
+        
         Variants variants = new Variants(maxShares, minShares, minI, maxI, stdDev, sf, len, bp, pvbp);
         
         MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
         
-        if(exchange.hasNoStockManagers() || (!exchange.stockFound(stock))){
+        if (exchange.hasNoStockManagers() || (!exchange.stockFound(stock))) {
             MessageBox.infoBox("Stock does not exist", "Stock Not Found");
             return;
         }
         
-        exchange.getStocksManagers().get(stock).attach(participant);
+        for (MarketParticipant part : participants) {
+            if (part.getParticipantID().equals(participant.getParticipantID())) {
+                MessageBox.infoBox("Market ID already exists", "Market Participant Not Created");
+                return;
+            }
+        }
+        
+        participants.add(participant);
         
         DefaultTableModel model = (DefaultTableModel) simulatorTable.getModel();
         
-        model.addRow(new Object[]{counter, stock, bp, pvbp, minShares, maxShares, stdDev, sf, minI, maxI, len});
+        model.addRow(new Object[]{counter, id, stock, bp, pvbp, minShares, maxShares, stdDev, sf, minI, maxI, len});
         
         counter++;
     }//GEN-LAST:event_btnCreateActionPerformed
-
+    
     private void btnAddStrategyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStrategyActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAddStrategyActionPerformed
-
+    
     private void txtMarketParticipantIDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMarketParticipantIDKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMarketParticipantIDKeyTyped
-
+    
     private void txtParticipantNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtParticipantNameKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtParticipantNameKeyTyped
-
+    
     private void txtTotalNumberofSharesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalNumberofSharesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalNumberofSharesActionPerformed
-
+    
     private void txtPeriodSyncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPeriodSyncActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPeriodSyncActionPerformed
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         StockManager manager;
         
@@ -2012,24 +2056,92 @@ public class FMSimulator extends javax.swing.JFrame {
         String totalNumberofShares = txtTotalNumberofShares.getText();
         String period = txtPeriodSync.getText();
         
-        if(stockName.equals("")){
+        txtNameOfStock.setText("");
+        txtTotalNumberofShares.setText("");
+        txtPeriodSync.setText("");
+        
+        if (stockName.equals("")) {
             MessageBox.infoBox("Please enter stock name", "Stock Has No Name");
             return;
         }
         
-        if(totalNumberofShares.equals("") || period.equals("")){
+        if (totalNumberofShares.equals("") || period.equals("")) {
             manager = new StockManager(stockName);
+            exchange.addStockManager(manager);
             return;
         }
         
-        if(Number.isInteger(totalNumberofShares) && Number.isInteger(period))
-        {
+        if (Number.isInteger(totalNumberofShares) && Number.isInteger(period)) {
             manager = new StockManager(stockName, Integer.parseInt(totalNumberofShares), Integer.parseInt(period));
+            exchange.addStockManager(manager);
             return;
         }
         
         MessageBox.infoBox("Please ensure that all fields have the correct syntax", "Stock Not created");
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        
+        int[] rows = simulatorTable.getSelectedRows();
+        
+        if (rows.length > 0) {
+            for (int i : rows) {
+                MarketParticipant part = participants.get(i);
+                if (part.isTrading()) {
+                    continue;
+                }
+                
+                StockManager manager = exchange.getStocksManagers().get(part.getStock());
+                manager.attach(part);
+                part.start();
+            }
+        } else {
+            MessageBox.infoBox("Select a row to start trading", "No Row Selected");
+        }
+        
+    }//GEN-LAST:event_btnStartActionPerformed
+    
+    private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
+        int[] rows = simulatorTable.getSelectedRows();
+        
+        if (rows.length > 0) {
+            for (int i : rows) {
+                MarketParticipant part = participants.get(i);
+                if (part.isTrading()) {
+                    part.pause();
+                }
+            }
+        } else {
+            MessageBox.infoBox("Select a row to start trading", "No Row Selected");
+        }
+    }//GEN-LAST:event_btnStopActionPerformed
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String[] names = {"INV", "IPSA", "LBH"};
+        
+        for (int i = 0; i < names.length; i++) {
+            exchange.addStockManager(new StockManager(names[i], 10, 1000 * (Math.abs(new Random().nextInt() % 10))));
+        }
+        
+        MessageBox.infoBox("Stocks Generated", "Ok");
+    }//GEN-LAST:event_jButton2ActionPerformed
+    
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int[] rows = simulatorTable.getSelectedRows();
+        
+        if (rows.length > 0) {
+            for (int i : rows) {
+                MarketParticipant part = participants.get(i);
+                if (part.isTrading()) {
+                    part.pause();
+                }
+                
+                participants.remove(i);
+            }
+        } else {
+            MessageBox.infoBox("Select a row to start trading", "No Row Selected");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2099,6 +2211,7 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
