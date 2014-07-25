@@ -1,7 +1,5 @@
 package simulatorInterface;
 
-import com.sun.corba.se.spi.ior.MakeImmutable;
-import financialmarketsimulator.exception.StockAlreadyExistsException;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
@@ -13,7 +11,6 @@ import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 import financialmarketsimulator.marketData.QuoteUpdates;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -91,16 +88,10 @@ public class FMSimulator extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        Offers2 = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        Offers4 = new javax.swing.JTable();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        Offers5 = new javax.swing.JTable();
-        label4 = new java.awt.Label();
-        label6 = new java.awt.Label();
-        label7 = new java.awt.Label();
+        jPanel8 = new javax.swing.JPanel();
+        btnMarketQuote = new javax.swing.JButton();
+        btnMarketDepth = new javax.swing.JButton();
+        btnMarketMatchedAttempt = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         btnBid = new javax.swing.JButton();
         txtNumShares = new javax.swing.JTextField();
@@ -114,11 +105,16 @@ public class FMSimulator extends javax.swing.JFrame {
         btnOffer = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtMarketEntityID = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lbxBidsList = new javax.swing.JList();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        lbxOffersList = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lbxMatchedList = new javax.swing.JList();
+        label7 = new java.awt.Label();
+        label6 = new java.awt.Label();
         label8 = new java.awt.Label();
-        jPanel8 = new javax.swing.JPanel();
-        btnMarketQuote = new javax.swing.JButton();
-        btnMarketDepth = new javax.swing.JButton();
-        btnMarketMatchedAttempt = new javax.swing.JButton();
+        label4 = new java.awt.Label();
         jPanel3 = new javax.swing.JPanel();
         jButton11 = new javax.swing.JButton();
         txtUpdateClosePrice = new javax.swing.JTextField();
@@ -216,92 +212,40 @@ public class FMSimulator extends javax.swing.JFrame {
         jTabbedPane1.setBackground(new java.awt.Color(204, 255, 255));
         jTabbedPane1.setName("Financial Market Simulator"); // NOI18N
 
-        Offers2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        jPanel8.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(0));
 
-            },
-            new String [] {
-                "Market Entity", "Shares", "Price"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+        btnMarketQuote.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketQuote.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketQuote.setText("Market Quote");
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
+        btnMarketDepth.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketDepth.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketDepth.setText("Market Depth");
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        Offers2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(Offers2);
+        btnMarketMatchedAttempt.setBackground(new java.awt.Color(0, 255, 0));
+        btnMarketMatchedAttempt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnMarketMatchedAttempt.setText("Market Matched Attempt");
 
-        Offers4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Date", "Shares", "Price"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        Offers4.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(Offers4);
-
-        Offers5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Market Entity", "Shares", "Price"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        Offers5.getTableHeader().setReorderingAllowed(false);
-        jScrollPane6.setViewportView(Offers5);
-
-        label4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        label4.setText("Market Attempt");
-
-        label6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        label6.setText("Offers");
-
-        label7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        label7.setText("Matched");
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnMarketMatchedAttempt, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+            .addComponent(btnMarketDepth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnMarketQuote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(btnMarketQuote)
+                .addGap(18, 18, 18)
+                .addComponent(btnMarketDepth)
+                .addGap(18, 18, 18)
+                .addComponent(btnMarketMatchedAttempt)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
 
         jPanel7.setBackground(new java.awt.Color(51, 51, 51));
         jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(0));
@@ -438,114 +382,97 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
+        lbxBidsList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { if (strings.length > 0)
+                return strings[i];
+                else
+                return null;
+            }
+        });
+        jScrollPane1.setViewportView(lbxBidsList);
+
+        lbxOffersList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { if(strings.length > 0)
+                return strings[i];
+                else
+                return null;
+            }
+        });
+        jScrollPane3.setViewportView(lbxOffersList);
+
+        lbxMatchedList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = {};
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { if(strings.length > 0)
+                return strings[i];
+                else
+                return null;}
+        });
+        jScrollPane2.setViewportView(lbxMatchedList);
+
+        label7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label7.setText("Matched");
+
+        label6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label6.setText("Offers");
+
         label8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         label8.setText("Bids");
 
-        jPanel8.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(0));
-
-        btnMarketQuote.setBackground(new java.awt.Color(0, 255, 0));
-        btnMarketQuote.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnMarketQuote.setText("Market Quote");
-
-        btnMarketDepth.setBackground(new java.awt.Color(0, 255, 0));
-        btnMarketDepth.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnMarketDepth.setText("Market Depth");
-
-        btnMarketMatchedAttempt.setBackground(new java.awt.Color(0, 255, 0));
-        btnMarketMatchedAttempt.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnMarketMatchedAttempt.setText("Market Matched Attempt");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnMarketMatchedAttempt, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-            .addComponent(btnMarketDepth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnMarketQuote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(btnMarketQuote)
-                .addGap(18, 18, 18)
-                .addComponent(btnMarketDepth)
-                .addGap(18, 18, 18)
-                .addComponent(btnMarketMatchedAttempt)
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(1430, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6)))
-                .addGap(576, 576, 576))
-        );
+        label4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        label4.setText("Market Attempt");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2721, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(1457, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1201, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 15, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 15, Short.MAX_VALUE)))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3))))
+                .addContainerGap(672, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Order List", jPanel2);
@@ -608,7 +535,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addComponent(txtUpdateIndex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton12)
-                .addContainerGap(1052, Short.MAX_VALUE))
+                .addContainerGap(1094, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Exchange Data", jPanel3);
@@ -1004,7 +931,7 @@ public class FMSimulator extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 651, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(530, Short.MAX_VALUE))
+                .addContainerGap(572, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Market Simulator", jPanel1);
@@ -1089,7 +1016,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(52, 52, 52)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(877, Short.MAX_VALUE))
+                .addContainerGap(919, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Stock Management", jPanel12);
@@ -1436,7 +1363,7 @@ public class FMSimulator extends javax.swing.JFrame {
                         .addComponent(label9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane9)))
-                .addGap(576, 576, 576))
+                .addGap(588, 588, 588))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -1452,12 +1379,12 @@ public class FMSimulator extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1171, Short.MAX_VALUE)
+            .addGap(0, 1213, Short.MAX_VALUE)
             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel6Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 15, Short.MAX_VALUE)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 15, Short.MAX_VALUE)))
         );
 
         jTabbedPane2.addTab("Order List", jPanel6);
@@ -2006,7 +1933,7 @@ public class FMSimulator extends javax.swing.JFrame {
         
         Variants variants = new Variants(maxShares, minShares, minI, maxI, stdDev, sf, len, bp, pvbp);
         
-        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
+        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants, lbxBidsList, lbxOffersList, lbxMatchedList);
         
         if (exchange.hasNoStockManagers() || (!exchange.stockFound(stock))) {
             MessageBox.infoBox("Stock does not exist", "Stock Not Found");
@@ -2180,9 +2107,6 @@ public class FMSimulator extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable BidsTableTest;
     private javax.swing.JTable MatchedTableTest;
-    private javax.swing.JTable Offers2;
-    private javax.swing.JTable Offers4;
-    private javax.swing.JTable Offers5;
     private javax.swing.JTable OffersTableTest;
     private javax.swing.JButton btnAddStrategy;
     private javax.swing.JButton btnBid;
@@ -2244,16 +2168,15 @@ public class FMSimulator extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
@@ -2267,6 +2190,9 @@ public class FMSimulator extends javax.swing.JFrame {
     private java.awt.Label label7;
     private java.awt.Label label8;
     private java.awt.Label label9;
+    private javax.swing.JList lbxBidsList;
+    private javax.swing.JList lbxMatchedList;
+    private javax.swing.JList lbxOffersList;
     private javax.swing.JTable simulatorTable;
     private javax.swing.JTextField txtBasePrice;
     private javax.swing.JTextField txtLength;

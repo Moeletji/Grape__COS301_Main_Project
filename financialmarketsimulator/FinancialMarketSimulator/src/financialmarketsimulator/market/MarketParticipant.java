@@ -1,5 +1,6 @@
 package financialmarketsimulator.market;
 
+import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
@@ -8,6 +9,8 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  * @brief The super class from which each market entity or market participant
@@ -62,6 +65,14 @@ public class MarketParticipant extends Thread {
      * @brief Class encapsulating all the variants to be used by the class
      */
     private Variants variants;
+    
+    /**
+     * Used for GUI
+     */
+    
+    JList bidsList; 
+    JList offersList; 
+    JList matchedList;
 
     /**
      * @brief Constructing a MarketEnity object with parameters
@@ -93,7 +104,7 @@ public class MarketParticipant extends Thread {
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants) {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, JList bidsList, JList offersList, JList matchedList) {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -102,6 +113,10 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
+        
+        this.bidsList = bidsList;
+        this.offersList = offersList;
+        this.matchedList = matchedList;
 
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
@@ -241,7 +256,13 @@ public class MarketParticipant extends Thread {
                 //MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, participantName, side);
 
                 try {
+                    
                     stockManager.acceptOrder(newAttempt);
+                   //DefaultListModel model = new DefaultListModel();
+                    
+                    //for(inti)
+                    
+                    //model.add();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -275,6 +296,7 @@ public class MarketParticipant extends Thread {
     }
 
     public void trade() {
+        
     }
 
     public void update(StockManager Updatedmanager) {
