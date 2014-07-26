@@ -1,5 +1,6 @@
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -18,7 +19,7 @@ import org.jfree.data.time.TimeSeriesCollection;
  * crossover strategies. Can be implemented by MovingAverage Crossover,
  * PriceVsEma Crossover and PriceVsSma Crossover.
  */
-public abstract class Crossover {
+public abstract class Crossover extends MarketStrategy{
 
     /**
      * @brief Class used to house the details of a crossover event.
