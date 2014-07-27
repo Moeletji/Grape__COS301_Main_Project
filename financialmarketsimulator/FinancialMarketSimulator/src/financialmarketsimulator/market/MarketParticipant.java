@@ -206,8 +206,8 @@ public class MarketParticipant extends Thread {
 
         System.out.println("Stock name: " + stock);
 
-        while (true) {
-            //for (int i = 0; i < 3; i++) {
+        //while (true) {
+            for (int l = 0; l < 1000; l++) {
             try {
                 synchronized (this) {
                     while (paused) {

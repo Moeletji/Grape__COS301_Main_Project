@@ -30,24 +30,20 @@ public class FMSimulator extends javax.swing.JFrame {
     private Object[][] bids;
     private Object[][] offers;
     private Object[][] matched;
-    
-    private Object [][] simulatorTableContent;
-
+    private Object[][] simulatorTableContent;
     private MarketExchange exchange;
-    
     private int counter;
-    
     private ArrayList<MarketParticipant> participants;
-    
+
     /**
      * Creates new form FMSimulator
      */
     public FMSimulator(MarketExchange exchange) {
         initComponents();
-        
+
         this.counter = 0;
         this.exchange = exchange;
-        
+
         String[] rowNames = {"Market Entity", "Shares", "Price"};
         bids = new Object[0][3];
         offers = new Object[0][3];
@@ -57,14 +53,14 @@ public class FMSimulator extends javax.swing.JFrame {
         BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
         rowNames[0] = "Date";
         MatchedTableTest.setModel(new DefaultTableModel(matched, rowNames));
-        
-        String [] rowNamesSimulator = {"No.", "Stock", "Base Price", "Price Variance", "Min no. Shares", "Max no. Shares", "STD Deviation", "STD Factor", "Min Interval", "Max Interval", "Length"};
+
+        String[] rowNamesSimulator = {"No.", "ID", "Stock", "Base Price", "Price Variance", "Min no. Shares", "Max no. Shares", "STD Deviation", "STD Factor", "Min Interval", "Max Interval", "Length"};
         simulatorTableContent = new Object[0][rowNamesSimulator.length];
         simulatorTable.setModel(new DefaultTableModel(simulatorTableContent, rowNamesSimulator));
-        
+
         participants = new ArrayList<>();
     }
-    
+
     /**
      * Creates new form FMSimulator for testing
      */
@@ -80,7 +76,7 @@ public class FMSimulator extends javax.swing.JFrame {
         BidsTableTest.setModel(new DefaultTableModel(offers, rowNames));
         rowNames[0] = "Date";
         MatchedTableTest.setModel(new DefaultTableModel(matched, rowNames));
-        
+
         participants = new ArrayList<>();
     }
 
@@ -1625,11 +1621,9 @@ public class FMSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUpdateIndexKeyTyped
 
     private void btnCreateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCreateMouseClicked
-        
     }//GEN-LAST:event_btnCreateMouseClicked
 
     private void btnBidTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBidTestMouseClicked
-        
     }//GEN-LAST:event_btnBidTestMouseClicked
 
     private void btnBidTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidTestActionPerformed
@@ -1731,7 +1725,6 @@ public class FMSimulator extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrice1KeyTyped
 
     private void btnOfferTestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOfferTestMouseClicked
-        
     }//GEN-LAST:event_btnOfferTestMouseClicked
 
     private void btnOfferTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfferTestActionPerformed
@@ -1868,38 +1861,36 @@ public class FMSimulator extends javax.swing.JFrame {
 
     private void btnMarketQuote1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketQuote1MouseClicked
         String stockName = cbxStocks1.getSelectedItem().toString();
-        
+
         QuoteUpdates quote = new QuoteUpdates(fmse.getStockManager(stockName));
-        
+
         MessageBox.infoBox(quote.toString(), "Market Quote");
     }//GEN-LAST:event_btnMarketQuote1MouseClicked
 
     private void btnMarketDepth1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketDepth1MouseClicked
-        
     }//GEN-LAST:event_btnMarketDepth1MouseClicked
 
     private void btnMarketMatchedAttempt1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1MouseClicked
-        
     }//GEN-LAST:event_btnMarketMatchedAttempt1MouseClicked
 
     private void btnMarketQuote1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketQuote1ActionPerformed
         String stockName = cbxStocks1.getSelectedItem().toString();
-        
+
         MatchedMarketEntryAttemptUpdate update = new MatchedMarketEntryAttemptUpdate(fmse.getOrderBook(stockName).getMatchedOrders());
         MessageBox.infoBox(update.toString(), "Matched Market Entry Attempts");
     }//GEN-LAST:event_btnMarketQuote1ActionPerformed
 
     private void btnMarketDepth1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketDepth1ActionPerformed
         String stockName = cbxStocks1.getSelectedItem().toString();
-        
+
         //DepthUpdates quote = new DepthUpdates(fmse.getStockManager(stockName));
-        
-       // MessageBox.infoBox(quote.toString(), "Market Depth");
+
+        // MessageBox.infoBox(quote.toString(), "Market Depth");
     }//GEN-LAST:event_btnMarketDepth1ActionPerformed
 
     private void btnMarketMatchedAttempt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarketMatchedAttempt1ActionPerformed
         String stock = cbxStocks1.getSelectedItem().toString();
-        
+
         //fmse.getStockManager(stock).getMarketSnapShot();
     }//GEN-LAST:event_btnMarketMatchedAttempt1ActionPerformed
 
@@ -1948,24 +1939,31 @@ public class FMSimulator extends javax.swing.JFrame {
         }
 
         Variants variants = new Variants(maxShares, minShares, minI, maxI, stdDev, sf, len, bp, pvbp);
-        
+
         //MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
         MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants, lbxBidsList, lbxOffersList, lbxMatchedList);
 
-        
-        if(exchange.hasNoStockManagers() || (!exchange.stockFound(stock))){
+
+        if (exchange.hasNoStockManagers() || (!exchange.stockFound(stock))) {
             MessageBox.infoBox("Stock does not exist", "Stock Not Found");
             return;
         }
-        
+
+
+        for (MarketParticipant part : participants) {
+            if (part.getParticipantID().equals(participant.getParticipantID())) {
+                MessageBox.infoBox("Market Participant ID already exists", "Participant Not Created");
+                return;
+            }
+        }
+
         participants.add(participant);
-        
         exchange.getStocksManagers().get(stock).attach(participant);
-        
+
         DefaultTableModel model = (DefaultTableModel) simulatorTable.getModel();
-        
-        model.addRow(new Object[]{counter, stock, bp, pvbp, minShares, maxShares, stdDev, sf, minI, maxI, len});
-        
+
+        model.addRow(new Object[]{counter, id, stock, bp, pvbp, minShares, maxShares, stdDev, sf, minI, maxI, len});
+
         counter++;
     }//GEN-LAST:event_btnCreateActionPerformed
 
@@ -1991,73 +1989,117 @@ public class FMSimulator extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         StockManager manager;
-        
+
         String stockName = txtNameOfStock.getText();
         String totalNumberofShares = txtTotalNumberofShares.getText();
         String period = txtPeriodSync.getText();
-        
-        if(stockName.equals("")){
+
+        if (stockName.equals("")) {
             MessageBox.infoBox("Please enter stock name", "Stock Has No Name");
             return;
         }
         
-        if(totalNumberofShares.equals("") || period.equals("")){
+        if(exchange.stockAlreadyExists(stockName)){
+            MessageBox.infoBox("Duplicate stock name found", "Stock Duplicate");
+            return;
+        }
+
+        if (totalNumberofShares.equals("") || period.equals("")) {
             manager = new StockManager(stockName);
+            exchange.addStockManager(manager);
             return;
         }
-        
-        if(Number.isInteger(totalNumberofShares) && Number.isInteger(period))
-        {
+
+        if (Number.isInteger(totalNumberofShares) && Number.isInteger(period)) {
             manager = new StockManager(stockName, Integer.parseInt(totalNumberofShares), Integer.parseInt(period));
+            exchange.addStockManager(manager);
             return;
         }
-        
+
         MessageBox.infoBox("Please ensure that all fields have the correct syntax", "Stock Not created");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
-        int [] rowIndex = simulatorTable.getSelectedRows();
+        int[] rowIndex = simulatorTable.getSelectedRows();
         
-        for(int i : rowIndex){
-            MarketParticipant part = participants.get(i);
-            if(part.hasStarted()){
-                continue;
+        if(rowIndex.length <= 0){
+            MessageBox.infoBox("Please select a row", "No Row Selected");
+            return;
+        }
+        
+        for (int i : rowIndex) {
+
+            String id = simulatorTable.getModel().getValueAt(i, 1).toString();
+
+            for (MarketParticipant part : participants) {
+                if (part.getParticipantID().equals(id)) {
+                    if (part.hasStarted()) {
+                        continue;
+                    }
+                    part.start();
+                }
             }
-            part.start();
         }
     }//GEN-LAST:event_btnStartActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int [] rowIndex = simulatorTable.getSelectedRows();
+        int[] rowIndex = simulatorTable.getSelectedRows();
         
-        for(int i : rowIndex){
-            MarketParticipant part = participants.get(i);
-            if(part.hasStarted()){
-                part.pause();
+        if(rowIndex.length <= 0){
+            MessageBox.infoBox("Please select a row", "No Row Selected");
+            return;
+        }
+        
+        for (int i : rowIndex) {
+
+            String id = simulatorTable.getModel().getValueAt(i, 1).toString();
+
+            for (MarketParticipant part : participants) {
+                if (part.getParticipantID().equals(id)) {
+                    if (part.hasStarted()) {
+                        part.pause();
+                    }
+
+                    participants.remove(part);
+                    DefaultTableModel model = (DefaultTableModel) simulatorTable.getModel();
+                    model.removeRow(i);
+                }
             }
-            participants.remove(part);
-            simulatorTable.remove(i);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
-        int [] rowIndex = simulatorTable.getSelectedRows();
+        int[] rowIndex = simulatorTable.getSelectedRows();
         
-        for(int i : rowIndex){
-            MarketParticipant part = participants.get(i);
-            if(part.hasStarted()){
-                part.pause();
+        if(rowIndex.length <= 0){
+            MessageBox.infoBox("Please select a row", "No Row Selected");
+            return;
+        }
+        
+        for (int i : rowIndex) {
+
+            String id = simulatorTable.getModel().getValueAt(i, 1).toString();
+
+            for (MarketParticipant part : participants) {
+                if (part.getParticipantID().equals(id)) {
+                    if (part.hasStarted()) {
+                        part.pause();
+                    }
+                }
             }
         }
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         String[] names = {"INV", "IPSA", "LBH"};
+        
+        exchange.clearStocks();
+        
+        String[] names = {"INV", "IPSA", "LBH", "ABSA", "SAL"};
 
         for (int i = 0; i < names.length; i++) {
             exchange.addStockManager(new StockManager(names[i], 10, 5000));
         }
-        
+
         MessageBox.infoBox("Stock generated", "OK");
     }//GEN-LAST:event_jButton2ActionPerformed
 
