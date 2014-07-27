@@ -28,6 +28,13 @@ public class MarketStrategy {
      */
     protected boolean sell;
 
+    /**
+     * Used to determine if the strategy should enter/exit the market. 
+     */
+    public static enum SIGNAL {
+
+        BUY, SELL
+    }
     
     public MarketStrategy() {
         this.name = "";
