@@ -91,6 +91,8 @@ public class MarketParticipant extends Thread {
 
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
+        
+        bidsList = offersList = matchedList = null;
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
@@ -257,11 +259,36 @@ public class MarketParticipant extends Thread {
                 try {
                     
                     stockManager.acceptOrder(newAttempt);
-                   //DefaultListModel model = new DefaultListModel();
                     
-                    //for(inti)
+                    DefaultListModel modelBids = new DefaultListModel();
+                    DefaultListModel modelOffers = new DefaultListModel();
+                    DefaultListModel modelMatched = new DefaultListModel();
                     
-                    //model.add();
+                    Vector offers = exchange.getBook(this.stock).getOffers();
+                    Vector bids = exchange.getBook(this.stock).getBids();
+                    Vector matched = exchange.getBook(this.stock).getMatchedOrders();
+                    
+                    for(int i = 0; i < bids.size(); i++){
+                        MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+                        modelBids.addElement(attempt.toString());
+                    }
+                    
+                    for(int i = 0; i < offers.size(); i++){
+                        MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+                        modelOffers.addElement(attempt.toString());
+                    }
+                    
+                    for(int i = 0; i < matched.size(); i++){
+                        MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matched.get(i);
+                        modelMatched.addElement(attempt.toString());
+                    }
+                    
+                    if((bidsList != null) && (offersList != null) && (matchedList != null)){
+                        bidsList.setModel(modelBids);
+                        offersList.setModel(modelOffers);
+                        matchedList.setModel(modelMatched);
+                    }
+                    
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -303,6 +330,7 @@ public class MarketParticipant extends Thread {
     }
 
     public void print() {
+        
         Vector offers = exchange.getBook(this.stock).getOffers();
         Vector bids = exchange.getBook(this.stock).getBids();
         Vector matched = exchange.getBook(this.stock).getMatchedOrders();
@@ -347,5 +375,9 @@ public class MarketParticipant extends Thread {
 
     public void setStock(String stock) {
         this.stock = stock;
+    }
+    
+    public boolean hasStarted(){
+        return started;
     }
 }
