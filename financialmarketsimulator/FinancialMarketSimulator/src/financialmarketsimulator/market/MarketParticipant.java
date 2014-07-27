@@ -1,6 +1,5 @@
 package financialmarketsimulator.market;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;

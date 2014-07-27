@@ -1969,7 +1969,9 @@ public class FMSimulator extends javax.swing.JFrame {
 
         Variants variants = new Variants(maxShares, minShares, minI, maxI, stdDev, sf, len, bp, pvbp);
         
-        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
+        //MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
+        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock);
+
         
         if(exchange.hasNoStockManagers() || (!exchange.stockFound(stock))){
             MessageBox.infoBox("Stock does not exist", "Stock Not Found");
