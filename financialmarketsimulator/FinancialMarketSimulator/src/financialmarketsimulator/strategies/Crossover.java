@@ -140,6 +140,24 @@ public abstract class Crossover extends MarketStrategy{
     public abstract void determineCrossoverPoints();
 
     /**
+     * @brief Sets the buy status to either true or false.
+     * @param bool The value to which buy should be set.
+     */
+    private void setBuy(boolean bool)
+    {
+        this.buy = bool;
+    }
+    
+    /**
+     * @brief Sets the sell status to either true or false.
+     * @param bool The value to which sell should be set.
+     */
+    private void setSell(boolean bool)
+    {
+        this.sell = bool;
+    }
+    
+    /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.
      * Graph is stored in the JFreeChart Graph variable
      */
