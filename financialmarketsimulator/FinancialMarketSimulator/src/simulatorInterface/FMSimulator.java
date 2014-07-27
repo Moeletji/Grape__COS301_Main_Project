@@ -301,7 +301,7 @@ public class FMSimulator extends javax.swing.JFrame {
         label7.setText("Matched");
 
         jPanel7.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnBid.setBackground(new java.awt.Color(0, 204, 204));
         btnBid.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -379,7 +379,8 @@ public class FMSimulator extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(txtMarketEntityID, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -392,9 +393,7 @@ public class FMSimulator extends javax.swing.JFrame {
                             .addComponent(btnOffer, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel11)
                     .addComponent(jLabel2)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtMarketEntityID, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtNumShares, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+                    .addComponent(txtNumShares, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(cbxMarketType, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)))
@@ -409,9 +408,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addComponent(cbxStocks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMarketEntityID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel10)
                 .addGap(2, 2, 2)
                 .addComponent(txtNumShares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -428,13 +425,17 @@ public class FMSimulator extends javax.swing.JFrame {
                     .addComponent(btnBid)
                     .addComponent(btnOffer))
                 .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtMarketEntityID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(268, 268, 268))
         );
 
         label8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         label8.setText("Bids");
 
         jPanel8.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        jPanel8.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnMarketQuote.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketQuote.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -452,7 +453,7 @@ public class FMSimulator extends javax.swing.JFrame {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnMarketMatchedAttempt, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+            .addComponent(btnMarketMatchedAttempt, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
             .addComponent(btnMarketDepth, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnMarketQuote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -523,7 +524,7 @@ public class FMSimulator extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 2721, Short.MAX_VALUE)
+            .addGap(0, 2828, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -605,7 +606,7 @@ public class FMSimulator extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Exchange Data", jPanel3);
 
-        simulatorTable.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        simulatorTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         simulatorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -617,7 +618,7 @@ public class FMSimulator extends javax.swing.JFrame {
         jScrollPane7.setViewportView(simulatorTable);
 
         jPanel5.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 204, 255));
@@ -762,12 +763,12 @@ public class FMSimulator extends javax.swing.JFrame {
         btnStop.setBackground(new java.awt.Color(255, 0, 51));
         btnStop.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnStop.setText("Stop");
-        btnStop.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        btnStop.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnStart.setBackground(new java.awt.Color(0, 204, 0));
         btnStart.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnStart.setText("Start");
-        btnStart.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        btnStart.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnAddStrategy.setBackground(new java.awt.Color(255, 153, 204));
         btnAddStrategy.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1145,7 +1146,7 @@ public class FMSimulator extends javax.swing.JFrame {
         label10.setText("Matched");
 
         jPanel10.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel10.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        jPanel10.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnBidTest.setBackground(new java.awt.Color(0, 204, 204));
         btnBidTest.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -1283,7 +1284,7 @@ public class FMSimulator extends javax.swing.JFrame {
         label11.setText("Bids");
 
         jPanel11.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(0));
+        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnMarketQuote1.setBackground(new java.awt.Color(0, 255, 0));
         btnMarketQuote1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N

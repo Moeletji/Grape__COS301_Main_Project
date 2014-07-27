@@ -93,7 +93,7 @@ public class ChartsExample {
 
         ChartsExample exam = new ChartsExample();
         exam.connectToDB();
-        //exam.populate(); //WAS USED FOR POPULATING DATA INTO THE DATABASE
+        exam.populate(); //WAS USED FOR POPULATING DATA INTO THE DATABASE
         exam.execute();
 
         //Creating the chart
