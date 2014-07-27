@@ -260,6 +260,7 @@ public class MarketParticipant extends Thread {
                     
                     stockManager.acceptOrder(newAttempt);
                     
+                    //Code used to update GUI
                     DefaultListModel modelBids = new DefaultListModel();
                     DefaultListModel modelOffers = new DefaultListModel();
                     DefaultListModel modelMatched = new DefaultListModel();
@@ -293,7 +294,7 @@ public class MarketParticipant extends Thread {
                     Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                this.print();
+                //this.print();
             }
         }
     }

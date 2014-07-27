@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -256,7 +257,11 @@ public class FMSimulator extends javax.swing.JFrame {
 
         jLabel9.setText("Stock ");
 
-        cbxStocks.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxStocks.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbxStocksItemStateChanged(evt);
+            }
+        });
 
         jLabel10.setText("Shares");
 
@@ -394,6 +399,7 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        lbxBidsList.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbxBidsList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = {};
             public int getSize() { return strings.length; }
@@ -401,6 +407,7 @@ public class FMSimulator extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(lbxBidsList);
 
+        lbxOffersList.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbxOffersList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { };
             public int getSize() { return strings.length; }
@@ -408,6 +415,7 @@ public class FMSimulator extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(lbxOffersList);
 
+        lbxMatchedList.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lbxMatchedList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { };
             public int getSize() { return strings.length; }
@@ -2007,12 +2015,14 @@ public class FMSimulator extends javax.swing.JFrame {
         if (totalNumberofShares.equals("") || period.equals("")) {
             manager = new StockManager(stockName);
             exchange.addStockManager(manager);
+            cbxStocks.addItem(stockName);
             return;
         }
 
         if (Number.isInteger(totalNumberofShares) && Number.isInteger(period)) {
             manager = new StockManager(stockName, Integer.parseInt(totalNumberofShares), Integer.parseInt(period));
             exchange.addStockManager(manager);
+            cbxStocks.addItem(stockName);
             return;
         }
 
@@ -2098,10 +2108,45 @@ public class FMSimulator extends javax.swing.JFrame {
 
         for (int i = 0; i < names.length; i++) {
             exchange.addStockManager(new StockManager(names[i], 10, 5000));
+            cbxStocks.addItem(names[i]);
         }
 
         MessageBox.infoBox("Stock generated", "OK");
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cbxStocksItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxStocksItemStateChanged
+        String stockName = cbxStocks.getSelectedItem().toString();
+        
+        //Code used to update GUI
+        DefaultListModel modelBids = new DefaultListModel();
+        DefaultListModel modelOffers = new DefaultListModel();
+        DefaultListModel modelMatched = new DefaultListModel();
+        
+        Vector offers = exchange.getBook(stockName).getOffers();
+        Vector bids = exchange.getBook(stockName).getBids();
+        Vector matched = exchange.getBook(stockName).getMatchedOrders();
+        
+        for(int i = 0; i < bids.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
+            modelBids.addElement(attempt.toString());
+        }
+
+        for(int i = 0; i < offers.size(); i++){
+            MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
+            modelOffers.addElement(attempt.toString());
+        }
+
+        for(int i = 0; i < matched.size(); i++){
+            MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matched.get(i);
+            modelMatched.addElement(attempt.toString());
+        }
+
+        if((lbxBidsList != null) && (lbxOffersList != null) && (lbxMatchedList != null)){
+            lbxBidsList.setModel(modelBids);
+            lbxOffersList.setModel(modelOffers);
+            lbxMatchedList.setModel(modelMatched);
+        }
+    }//GEN-LAST:event_cbxStocksItemStateChanged
 
     /**
      * @param args the command line arguments

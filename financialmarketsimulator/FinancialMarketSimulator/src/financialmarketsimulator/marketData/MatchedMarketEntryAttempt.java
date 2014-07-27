@@ -83,6 +83,6 @@ public class MatchedMarketEntryAttempt {
     
     @Override
     public String toString(){
-        return "Price: " + price + ", No. Shares: " + numShares + ", Market Participant: " + date;
+        return numShares + " @ " + price + "     " + date;
     }
 }

@@ -190,6 +190,6 @@ public class MarketEntryAttempt implements Cloneable {
     
     @Override
     public String toString(){
-        return "Price: " + price + ", No. Shares: " + numOfShares + ", Market Participant: " + getParticipantName();
+        return numOfShares + " @ " + price + ", " + participantName;
     }
 }
