@@ -19,11 +19,9 @@ public class FinancialMarketSimulator {
 
         ArrayList<StockManager> managers = new ArrayList();
 
-        String[] names = {"INV", "IPSA", "LBH", "ABSAB", "AIP", "ABL", "HWN", "ILV"};
+        String[] names = {"INV", "IPSA", "LBH"};
 
-        int size = 8;
-
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < names.length; i++) {
             exchange.addStockManager(new StockManager(names[i], 10, 1000 * (Math.abs(new Random().nextInt() % 10))));
         }
 

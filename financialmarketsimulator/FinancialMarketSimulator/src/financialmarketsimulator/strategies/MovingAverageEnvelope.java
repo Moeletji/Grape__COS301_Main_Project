@@ -5,13 +5,14 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketStrategy;
 import java.util.Vector;
 
 /**
  *
  * @brief Moving Average Envelope Strategy
  */
-public class MovingAverageEnvelope {
+public class MovingAverageEnvelope extends MarketStrategy{
 
     public static enum STRATEGY_TYPE {
 

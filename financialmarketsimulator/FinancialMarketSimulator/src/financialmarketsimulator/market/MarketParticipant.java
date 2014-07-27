@@ -1,5 +1,6 @@
 package financialmarketsimulator.market;
 
+import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
@@ -8,6 +9,8 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 
 /**
  * @brief The super class from which each market entity or market participant
@@ -53,16 +56,23 @@ public class MarketParticipant extends Thread {
     /**
      * @brief name of the stock the Market Entity is trading in
      */
-    private final String stock;
-    
+    private String stock;
     /**
      * @brief Order book used by participant
      */
-     StockManager stockManager;
-     /**
+    StockManager stockManager;
+    /**
      * @brief Class encapsulating all the variants to be used by the class
      */
     private Variants variants;
+    
+    /**
+     * Used for GUI
+     */
+    
+    JList bidsList; 
+    JList offersList; 
+    JList matchedList;
 
     /**
      * @brief Constructing a MarketEnity object with parameters
@@ -82,11 +92,11 @@ public class MarketParticipant extends Thread {
 
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
-        
+
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
     }
-    
+
     /**
      * @param exchange
      * @param stock
@@ -94,7 +104,7 @@ public class MarketParticipant extends Thread {
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants) {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, JList bidsList, JList offersList, JList matchedList) {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -103,9 +113,16 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
+        
+        this.bidsList = bidsList;
+        this.offersList = offersList;
+        this.matchedList = matchedList;
 
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
+
+        //Get the OrderList book for the stock 
+        this.stockManager = exchange.getStocksManagers().get(this.stock);
     }
 
     /**
@@ -183,12 +200,13 @@ public class MarketParticipant extends Thread {
         throw new NameNotFoundException();
     }
 
+    @Override
     public void run() {
 
         System.out.println("Stock name: " + stock);
 
-        //while (true) {
-            for (int i = 0; i < 3; i++) {
+        while (true) {
+            //for (int i = 0; i < 3; i++) {
             try {
                 synchronized (this) {
                     while (paused) {
@@ -234,11 +252,17 @@ public class MarketParticipant extends Thread {
                 //Uncomment line below and add trade functionality inside trade method
                 //trade();
 
-                MarketEntryAttempt newAttempt = new MarketEntryAttempt((double)(Math.random() * (max - min) + min), (int)(Math.random() * (maxShares - minShares) + minShares), participantName, side);
+                MarketEntryAttempt newAttempt = new MarketEntryAttempt((double) (Math.random() * (max - min) + min), (int) (Math.random() * (maxShares - minShares) + minShares), participantName, side);
                 //MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, participantName, side);
-                
+
                 try {
+                    
                     stockManager.acceptOrder(newAttempt);
+                   //DefaultListModel model = new DefaultListModel();
+                    
+                    //for(inti)
+                    
+                    //model.add();
                 } catch (InterruptedException ex) {
                     Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -260,7 +284,6 @@ public class MarketParticipant extends Thread {
         if (paused) {
             notify();
             paused = false;
-            return;
         }
     }
 
@@ -273,13 +296,14 @@ public class MarketParticipant extends Thread {
     }
 
     public void trade() {
+        
     }
 
     public void update(StockManager Updatedmanager) {
         exchange.updateManager(stock, Updatedmanager);
     }
-    
-    public void print(){
+
+    public void print() {
         Vector offers = exchange.getBook(this.stock).getOffers();
         Vector bids = exchange.getBook(this.stock).getBids();
         Vector matched = exchange.getBook(this.stock).getMatchedOrders();
@@ -306,11 +330,23 @@ public class MarketParticipant extends Thread {
         System.out.println("\n\n****************************\n****************************");
     }
 
+    public boolean isTrading() {
+        return this.started;
+    }
+
     public Variants getVariants() {
         return variants;
     }
 
     public void setVariants(Variants variants) {
         this.variants = variants;
+    }
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
     }
 }

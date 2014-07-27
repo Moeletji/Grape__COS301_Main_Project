@@ -1,5 +1,6 @@
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -18,7 +19,7 @@ import org.jfree.data.time.TimeSeriesCollection;
  * crossover strategies. Can be implemented by MovingAverage Crossover,
  * PriceVsEma Crossover and PriceVsSma Crossover.
  */
-public abstract class Crossover {
+public abstract class Crossover extends MarketStrategy{
 
     /**
      * @brief Class used to house the details of a crossover event.
@@ -138,6 +139,24 @@ public abstract class Crossover {
      */
     public abstract void determineCrossoverPoints();
 
+    /**
+     * @brief Sets the buy status to either true or false.
+     * @param bool The value to which buy should be set.
+     */
+    private void setBuy(boolean bool)
+    {
+        this.buy = bool;
+    }
+    
+    /**
+     * @brief Sets the sell status to either true or false.
+     * @param bool The value to which sell should be set.
+     */
+    private void setSell(boolean bool)
+    {
+        this.sell = bool;
+    }
+    
     /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.
      * Graph is stored in the JFreeChart Graph variable

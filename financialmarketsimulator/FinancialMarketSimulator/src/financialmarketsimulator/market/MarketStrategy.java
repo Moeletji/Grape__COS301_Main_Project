@@ -19,6 +19,14 @@ public class MarketStrategy {
     private int tradingLength;
     private int tradingMinInterval;
     private int tradingMaxInterval;
+    /**
+     * Used to determine if current period is buying period or not.
+     */
+    protected boolean buy;
+    /**
+     * Used to determine if current period is selling period or not.
+     */
+    protected boolean sell;
 
     
     public MarketStrategy() {
