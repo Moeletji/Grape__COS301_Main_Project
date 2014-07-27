@@ -187,4 +187,9 @@ public class MarketEntryAttempt implements Cloneable {
         this.date = newDate;
         this.timeStamp = stamp;
     }
+    
+    @Override
+    public String toString(){
+        return numOfShares + " @ " + price + ", " + participantName;
+    }
 }

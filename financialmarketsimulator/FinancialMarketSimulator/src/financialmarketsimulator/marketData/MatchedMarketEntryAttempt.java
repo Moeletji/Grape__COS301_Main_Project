@@ -80,4 +80,9 @@ public class MatchedMarketEntryAttempt {
     {
         return bid.getParticipantName();
     }
+    
+    @Override
+    public String toString(){
+        return numShares + " @ " + price + "     " + date;
+    }
 }

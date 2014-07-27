@@ -36,24 +36,26 @@ public class MarketExchange {
     public Map<String, StockManager> getStocksManagers() {
         return stocksManagers;
     }
-    
+
     /**
      * @brief indicates whether the Stock Market Exchange has any stock managers
-     * @return true if Stock Market Exchange has no stock managers otherwise it will return false
+     * @return true if Stock Market Exchange has no stock managers otherwise it
+     * will return false
      */
-    public boolean hasNoStockManagers(){
+    public boolean hasNoStockManagers() {
         return stocksManagers.isEmpty();
     }
-    
+
     /**
-     * @brief indicates whether the Stock Market Exchange has that particular stock manager
+     * @brief indicates whether the Stock Market Exchange has that particular
+     * stock manager
      * @param stockName name of the stock to be searched
-     * @return true if Stock Market Exchange has that particular stock manager otherwise it will return false
+     * @return true if Stock Market Exchange has that particular stock manager
+     * otherwise it will return false
      */
-    public boolean stockFound(String stockName){
+    public boolean stockFound(String stockName) {
         return stocksManagers.containsKey(stockName);
     }
-    
     /**
      * @brief List of all StockManagers in Exchange
      */
@@ -177,5 +179,23 @@ public class MarketExchange {
      */
     public void updateManager(String stockName, StockManager updatedStockManager) {
         stocksManagers.put(stockName, updatedStockManager);
+    }
+
+    public boolean stockAlreadyExists(String foundStockName) {
+
+        for (int i = 0; i < stocksManagers.size(); i++) {
+
+            StockManager manager = (StockManager) stocksManagers.get(foundStockName);
+
+            if (manager.getStockName().equals(foundStockName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public void clearStocks(){
+        stocksManagers.clear();
     }
 }
