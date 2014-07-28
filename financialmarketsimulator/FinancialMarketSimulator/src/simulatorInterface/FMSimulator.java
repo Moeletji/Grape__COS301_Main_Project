@@ -256,6 +256,8 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setBackground(new java.awt.Color(51, 255, 0));
+        jLabel9.setForeground(new java.awt.Color(51, 255, 51));
         jLabel9.setText("Stock ");
 
         cbxStocks.addItemListener(new java.awt.event.ItemListener() {
@@ -264,8 +266,12 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setBackground(new java.awt.Color(51, 255, 0));
+        jLabel10.setForeground(new java.awt.Color(51, 255, 51));
         jLabel10.setText("Shares");
 
+        jLabel11.setBackground(new java.awt.Color(51, 255, 0));
+        jLabel11.setForeground(new java.awt.Color(51, 255, 51));
         jLabel11.setText("Price");
 
         txtPrice.addActionListener(new java.awt.event.ActionListener() {
@@ -279,6 +285,8 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setBackground(new java.awt.Color(51, 255, 0));
+        jLabel12.setForeground(new java.awt.Color(51, 255, 51));
         jLabel12.setText("Type");
 
         cbxMarketType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MARKET", "LIMIT" }));
@@ -298,6 +306,8 @@ public class FMSimulator extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setBackground(new java.awt.Color(51, 255, 0));
+        jLabel2.setForeground(new java.awt.Color(51, 255, 51));
         jLabel2.setText("Market Entity ID");
 
         txtMarketEntityID.addActionListener(new java.awt.event.ActionListener() {
@@ -1004,11 +1014,10 @@ public class FMSimulator extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
-                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtTotalNumberofShares, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtNameOfStock, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPeriodSync))
+                    .addComponent(txtTotalNumberofShares)
+                    .addComponent(txtNameOfStock)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPeriodSync, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(2534, Short.MAX_VALUE))
@@ -1428,7 +1437,85 @@ public class FMSimulator extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBidActionPerformed
-        // TODO add your handling code here:
+        String id = txtMarketEntityID.getText();
+        String stockName = cbxStocks.getSelectedItem().toString();
+        String marketType = cbxMarketType.getSelectedItem().toString();
+
+        String ns = txtNumShares.getText();
+        String p = txtPrice.getText();
+
+        if (p.equals("") || ns.equals("") || id.equals("")) {
+            MessageBox.infoBox("Please fill in all fields", "Offer not accepted");
+            return;
+        }
+
+        if (!Number.isDouble(p) || !Number.isInteger(ns)) {
+            MessageBox.infoBox("Shares should be an integer and price a decimal value.", "Bid not accepted");
+            return;
+        }
+
+        int numOfShares = Integer.parseInt(txtNumShares.getText());
+        double price = Double.parseDouble(txtPrice.getText());
+
+        if (numOfShares <= 0 || price <= 0) {
+            MessageBox.infoBox("Please use only positive values", "Bid not accepted");
+            return;
+        }
+
+        MarketEntryAttempt marketEntryAttempt = new MarketEntryAttempt(price, numOfShares, id, MarketEntryAttempt.SIDE.BID);
+
+        try {
+            if (!fmse.placeMarketEntryAttempt(marketEntryAttempt, stockName)) {
+                MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+                return;
+            }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            MarketEntryAttemptBook book = fmse.getOrderBook(stockName);
+
+            Vector bidsVec = book.getBids();
+            Vector offersVec = book.getOffers();
+            Vector matchedVec = book.getMatchedOrders();
+
+            if (bidsVec.equals(null) || offersVec.equals(null) || matchedVec.equals(null)) {
+                MessageBox.infoBox("Market Entry Attempt could not be placed", "Market Attempt Entry Failed");
+                return;
+            }
+
+            String[] cols = {"Market Entity", "Shares", "Price"};
+
+            Object[][] tmpBids = new Object[bidsVec.size()][3];
+            for (int i = 0; i < bidsVec.size(); i++) {
+                MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
+                tmpBids[i][0] = attempt.getParticipantName();
+                tmpBids[i][1] = attempt.getNumOfShares();
+                tmpBids[i][2] = attempt.getPrice();
+
+            }
+            BidsTableTest.setModel(new DefaultTableModel(tmpBids, cols));
+
+
+            Object[][] tmpOffers = new Object[offersVec.size()][3];
+            for (int i = 0; i < offersVec.size(); i++) {
+                MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
+                tmpOffers[i][0] = attempt.getParticipantName();
+                tmpOffers[i][1] = attempt.getNumOfShares();
+                tmpOffers[i][2] = attempt.getPrice();
+            }
+            OffersTableTest.setModel(new DefaultTableModel(tmpOffers, cols));
+
+            cols[0] = "Date";
+            Object[][] tmpMatched = new Object[matchedVec.size()][3];
+            for (int i = 0; i < matchedVec.size(); i++) {
+                MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matchedVec.elementAt(i);
+                tmpMatched[i][0] = attempt.getDateIssued();
+                tmpMatched[i][1] = attempt.getQuantity();
+                tmpMatched[i][2] = attempt.getPrice();
+            }
+            MatchedTableTest.setModel(new DefaultTableModel(tmpMatched, cols));
+        }
     }//GEN-LAST:event_btnBidActionPerformed
 
     private void txtNumSharesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumSharesActionPerformed
