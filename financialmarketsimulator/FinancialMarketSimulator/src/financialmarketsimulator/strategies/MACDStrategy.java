@@ -37,12 +37,14 @@ public class MACDStrategy {
         if (prevMACDValues.lastElement() > 0 && currentValue < 0)
         {
             //buy
+            System.out.println("MACD Strategy: ENTER MARKET *********--------******* ");
             prevMACDValues.add(currentValue);
         }
         
         if (prevMACDValues.lastElement() < 0 && currentValue > 0)
         {
-           //sell 
+           //sell
+            System.out.println("MACD Strategy: EXIT MARKET +++++++++++--------++++++++ ");
             prevMACDValues.add(currentValue);
         }
     }

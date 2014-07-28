@@ -2,7 +2,9 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
+import financialmarketsimulator.strategies.MACDStrategy;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -72,7 +74,12 @@ public class MarketParticipant extends Thread {
     JList bidsList; 
     JList offersList; 
     JList matchedList;
-
+    
+    /**
+     * MACD Strategy testing
+     */
+    private MACDStrategy macdStrategy;
+    
     /**
      * @brief Constructing a MarketEnity object with parameters
      * @param participantName name of the entity
@@ -80,7 +87,7 @@ public class MarketParticipant extends Thread {
      * @param type the type of the entity
      * @param stock name of the stock
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) throws NotEnoughDataException {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -88,7 +95,7 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
-
+        
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
         
@@ -96,6 +103,7 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
+        macdStrategy = new MACDStrategy(this.stockManager.getOrderList());
     }
 
     /**
@@ -105,7 +113,7 @@ public class MarketParticipant extends Thread {
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, JList bidsList, JList offersList, JList matchedList) {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -124,6 +132,7 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
+        macdStrategy = new MACDStrategy(this.stockManager.getOrderList());
     }
 
     /**
@@ -284,6 +293,8 @@ public class MarketParticipant extends Thread {
                         modelMatched.addElement(attempt.toString());
                     }
                     
+                    macdStrategy.generateMarketEntryAttempt();
+                    
                     if((bidsList != null) && (offersList != null) && (matchedList != null)){
                         bidsList.setModel(modelBids);
                         offersList.setModel(modelOffers);
@@ -291,6 +302,8 @@ public class MarketParticipant extends Thread {
                     }
                     
                 } catch (InterruptedException ex) {
+                    Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NotEnoughDataException ex) {
                     Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
                 }
 

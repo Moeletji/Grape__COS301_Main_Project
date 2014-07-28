@@ -1,6 +1,7 @@
 package simulatorInterface;
 
 import com.sun.corba.se.spi.ior.MakeImmutable;
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.exception.StockAlreadyExistsException;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
@@ -1949,7 +1950,15 @@ public class FMSimulator extends javax.swing.JFrame {
         Variants variants = new Variants(maxShares, minShares, minI, maxI, stdDev, sf, len, bp, pvbp);
 
         //MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants);
-        MarketParticipant participant = new MarketParticipant(name, id, exchange, stock, variants, lbxBidsList, lbxOffersList, lbxMatchedList);
+        MarketParticipant participant = null;
+        
+        try {
+        
+            participant = new MarketParticipant(name, id, exchange, stock, variants, lbxBidsList, lbxOffersList, lbxMatchedList);
+        
+        } catch (NotEnoughDataException ex) {
+            Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
         if (exchange.hasNoStockManagers() || (!exchange.stockFound(stock))) {

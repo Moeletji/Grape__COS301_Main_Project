@@ -1,5 +1,6 @@
 
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.StockManager;
@@ -13,7 +14,7 @@ import java.util.Vector;
  */
 public class FinancialMarketSimulator {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NotEnoughDataException {
 
         MarketExchange exchange = MarketExchange.getInstance("JSE");
 
