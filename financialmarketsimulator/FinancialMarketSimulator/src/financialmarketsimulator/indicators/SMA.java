@@ -37,14 +37,15 @@ public class SMA {
         numOfDays = numDays;
     }
     
-    public SMA(int numDays, MarketEntryAttemptBook _book) {
+    public SMA(MarketEntryAttemptBook _book ,int numDays) {
         numOfDays = numDays;
         this.book = _book;
     }
 
+    @SuppressWarnings("empty-statement")
     public double calculateSMA() throws NotEnoughDataException {
-        if (book.getMatchedOrders().size() < numOfDays)
-            throw new NotEnoughDataException();
+        while (book.getMatchedOrders().size() < numOfDays){};
+            //throw new NotEnoughDataException();
         
         double sum = 0.0;
         int range = book.getMatchedOrders().size() - numOfDays;

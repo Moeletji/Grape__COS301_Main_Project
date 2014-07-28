@@ -45,7 +45,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
         {
             this.book = _book;
             //ema = new EMA(num_days);
-            sma = new SMA(num_days, book);
+            sma = new SMA(book, num_days);
             pastSMAValues = new Vector<Double>();
             type = MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM;
             percentage = this.medium_term;
@@ -58,7 +58,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
         {
             this.book = _book;
             //ema = new EMA(num_days);
-            sma = new SMA(num_days, book);
+            sma = new SMA(book, num_days);
             pastSMAValues = new Vector<Double>();
             
             switch (_type)

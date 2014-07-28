@@ -23,7 +23,7 @@ public class Volatility {
     {
         this.period = _period;
         this.data = _data;
-        sma = new SMA(period, this.data);
+        sma = new SMA(this.data, period);
     }
           
     public double getMean() throws NotEnoughDataException

@@ -1,6 +1,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
  * @brief EMA(Exponential Moving Average) EMA places more weight on the most
@@ -22,21 +23,32 @@ public class EMA {
      * Todays closing price
      */
     private double currentPrice;
+    /**
+     * Data with traded prices
+     */
+    private MarketEntryAttemptBook data;
 
+    public EMA(int numDays)
+    {
+        this.numOfDays = numDays;
+
+    }
+    
     /**
      * @brief Constructor for the EMA class
      * @param numDays
      */
-    public EMA(int numDays) {
-        numOfDays = numDays;
-        //previousEMAValue = new SMA(numOfDays).calculateSMA();
+    public EMA(MarketEntryAttemptBook _data, int numDays) throws NotEnoughDataException {
+        this.numOfDays = numDays;
+        this.data = _data;
+        previousEMAValue = new SMA(this.data,numOfDays).calculateSMA();
     }
 
     @SuppressWarnings("UnusedAssignment")
     public double calculateEMA() throws NotEnoughDataException {
 
-        if ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMAValue <= 0)) {
-            throw new NotEnoughDataException();
+        while ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMAValue <= 0)) {
+           // throw new NotEnoughDataException();
         }
 
         double k = 2 / (numOfDays + 1);

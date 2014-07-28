@@ -1,6 +1,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
  * @brief MACD(Moving Average Convergence Divergence). This is a technical
@@ -17,15 +18,22 @@ public class MACD {
     private final int AVE_DAY = 9;
     
     private double signalValue;
+    
+    private MarketEntryAttemptBook data;
 
     public MACD() {
         //currentMACDValue = previousMACDValue;
         
     }
 
+    public MACD(MarketEntryAttemptBook _data)
+    {
+        this.data = _data;
+    }
+    
     public double calculateMACDValue() throws NotEnoughDataException {
-        EMA longEMA = new EMA(LONG_DAY);
-        EMA shortEMA = new EMA(SHORT_DAY);
+        EMA longEMA = new EMA(this.data, LONG_DAY);
+        EMA shortEMA = new EMA(this.data, SHORT_DAY);
         currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
         return currentMACDValue;
     }
