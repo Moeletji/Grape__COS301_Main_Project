@@ -69,46 +69,24 @@
 	\end{itemize}
 	
 	\section{Quality Requirements}
-		\subsection{Security}
-		\begin{itemize}
-		\item Entity integrity should be maintained. No entity should be able to see sensitive information, particularly strategies, from another entity.
-		\item Only system administrators may modify the system behavior.
-		\end{itemize}
-		\subsection{Auditability}
-		\begin{itemize}
-		\item The system should provide mechanisms through which the activity of every entity/participant can be monitored. This information would include
-			\begin{itemize}
-			\item the action taken by the participant, 
-			\item the date and time the action was taken, 
-			\item the immediate impact the action had on the market,
-			\item the state of the participant before and after the action.
-			\end{itemize}
-		\end{itemize}
-		\subsection{Testability}
-		\begin{itemize}
-		\item Every service offered by the system should be testable against its pre and post condition.
-		\end{itemize}
 		\subsection{Usability}
 		\begin{itemize}
-		\item The system should be usable, in that the system should provide a fully functional matching engine.
-		\item Users in the financial/investment sector should be able to understand and use the system without any training or tutorial.
-		\item Most of the users excluding those in the financial/investment sector should be able to understand the system through the affordance that the system provides through its interface.
+		\item The system should be usable in that the architecture should provide the neccessary components to view and interact with the system.
 		\end{itemize}
 		\subsection{Scalability}
 		\begin{itemize}
-		\item If need be, the system should allow for independent entities operating from independent machines to participate in the market.
-		\item The system should allow for concurrent trading.
+		\item If need be, the system should allow for independent entities operating from independent machines to participate in the market. i.e. The system should allow for at least two (2) participants to partiipate in the market from separate machines.
+		\item The system should allow for concurrent trading between at least two (2) separate machines.
 		\end{itemize}
 		\subsection{Performance}
 		\begin{itemize}
-		\item Algorithmic performance as measured by profit and loss should take preference over absolute system performance. 
+		\item In the case that multiple physical machines are used, the architecture should allow offers and trades to be communicated to and from the matching engine via the network in under 50 milliseconds (1/20 of a second). 
 		\end{itemize}
 	\section{Integration Requirements}
 	The system is self-contained and there is no need for integration with other external systems or components.
 	\section{Architectural Constraints}
 	\begin{itemize}
-	\item The system is to be built using the Java programming language and relevant Java concepts and libraries.
-	\item In order to minimize cost and complexity, the system can be developed to run and operate on a single machine. 
+	\item In order to minimize cost and complexity, the system can be developed to run and operate on a single physical machine. 
 	\end{itemize}
 		
 	\newpage				    
