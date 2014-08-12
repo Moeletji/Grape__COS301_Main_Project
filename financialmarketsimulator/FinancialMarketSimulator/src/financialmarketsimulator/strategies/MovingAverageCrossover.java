@@ -1,5 +1,9 @@
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.indicators.SMA;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.ema;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.sma;
 import java.util.Date;
@@ -12,16 +16,28 @@ import java.util.Vector;
  */
 public class MovingAverageCrossover extends Crossover{
 
+    private final SMA smaObj;
+    private final EMA emaObj;
+    private final Vector<Double> closingEmas;
+    private final Vector<Double> closingSmas;
+    
     //indicator1 = EMA
     //indicator2 = SMA
     
     @SuppressWarnings("Convert2Diamond")
-    public MovingAverageCrossover(int _numDays) {
-       super(_numDays, "EMA", "SMA");
+    public MovingAverageCrossover(MarketEntryAttemptBook _data, int _numDays) throws NotEnoughDataException {
+       super(_data,_numDays, "EMA", "SMA");
+       emaObj = new EMA(this.data, numDays);
+       smaObj = new SMA(this.data, numDays);
+       closingEmas = new Vector<>();
+       closingSmas = new Vector<>();
        
-        //TODO : Populate with objects housing closing EMA and SMA values over the
-        //specidies previous numDays days.
+       closingEmas.add(emaObj.getPreviousEMAValue());
+       closingSmas.add(smaObj.getPreviousSMAValue());
+       
         this.closingAverages = new Vector<DayClosingAverages>();
+        DayClosingAverages dca = new DayClosingAverages(new Date() , emaObj.getPreviousEMAValue(), smaObj.getPreviousSMAValue());
+        
     }
 
     @Override
@@ -33,7 +49,7 @@ public class MovingAverageCrossover extends Crossover{
         //Consider the consequent values until non equal values are observed
         //Using while loop for performance sake where EMA and SMA values are equivalent
         int j = 0; //Start from the first SMA and EMA values
-        while (j < numDays) {
+        while (j < numDays && j < closingAverages.size()) {
             if (closingAverages.get(j).getIndicator1() > closingAverages.get(j).getIndicator2()) {
                 currentHigh = ema;
                 break;
@@ -88,6 +104,33 @@ public class MovingAverageCrossover extends Crossover{
             }
         }
         //At this point all the cross over points are recorded in crossoverPoints LinkedHashMap
+    }
+    
+    @Override
+    public void generateMarketEntryAttempt() throws NotEnoughDataException
+    {
+        closingEmas.add(emaObj.getPreviousEMAValue());
+        closingSmas.add(smaObj.getPreviousSMAValue());
+        
+        if(!closingEmas.isEmpty() && !closingSmas.isEmpty())
+        {
+            if( (closingEmas.lastElement() > closingSmas.lastElement()) && (emaObj.getCurrentPrice() < smaObj.getCurrentSMAValue()) )
+            {
+                //Generate Buy Signal
+                System.out.println("Moving Average Crossover : BUY SIGNAL.");
+                currentHigh = sma;
+            }
+            else if( (closingEmas.lastElement() < closingSmas.lastElement()) && (emaObj.getCurrentPrice() > smaObj.getCurrentSMAValue()) )
+            {
+                //Generate Sell Signal
+                System.out.println("Moving Average Crossover : SELL SIGNAL.");
+                currentHigh = ema;
+            }   
+        }
+        else
+        {
+            System.out.println("Not enough data for Moving Average Crossover.");
+        }
     }
 
     @Override

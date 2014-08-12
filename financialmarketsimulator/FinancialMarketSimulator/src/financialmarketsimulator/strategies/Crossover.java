@@ -1,5 +1,7 @@
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -101,6 +103,8 @@ public abstract class Crossover extends MarketStrategy{
     
     protected final String ind1;
     protected final String ind2;
+    
+    protected MarketEntryAttemptBook data;
 
     protected HigherAverage currentHigh;
 
@@ -123,13 +127,14 @@ public abstract class Crossover extends MarketStrategy{
      */
     protected JFreeChart graph;
 
-    public Crossover(int _numDays, String _line1, String _line2) {
+    public Crossover(MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
         this.numDays = _numDays;
         this.crossoverPoints = null;
         this.graph = null;
         this.currentHigh = null;
         this.ind1 = _line1;
         this.ind2 = _line2;
+        this.data = _data;
     }
 
     /**
@@ -156,6 +161,8 @@ public abstract class Crossover extends MarketStrategy{
     {
         this.sell = bool;
     }
+    
+    public abstract void generateMarketEntryAttempt() throws NotEnoughDataException;
     
     /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.
