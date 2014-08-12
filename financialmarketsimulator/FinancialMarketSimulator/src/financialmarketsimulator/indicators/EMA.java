@@ -31,7 +31,6 @@ public class EMA {
     public EMA(int numDays)
     {
         this.numOfDays = numDays;
-
     }
     
     /**
@@ -51,6 +50,21 @@ public class EMA {
            return 0.0;// throw new NotEnoughDataException();
         }
 
+        double k = 2 / (numOfDays + 1);
+        double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
+        //System.out.println("The current EMA: "+ currentEmaValue);
+        return currentEmaValue;
+    }
+    
+     public double calculateEMA(double prev, double current, int numDays) throws NotEnoughDataException {
+
+        if ((numDays <= 0) || (current == 0) || (prev == 0)) {
+           return 0.0;// throw new NotEnoughDataException();
+        }
+        currentPrice = current;
+        previousEMAValue = prev;
+        numOfDays = numDays;
+        
         double k = 2 / (numOfDays + 1);
         double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
         //System.out.println("The current EMA: "+ currentEmaValue);
