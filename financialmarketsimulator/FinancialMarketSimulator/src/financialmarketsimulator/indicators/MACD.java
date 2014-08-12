@@ -52,7 +52,8 @@ public class MACD {
     }
 
     public double getCurrentMACDValue() {
-        return data.getMatchedOrders().get(data.getMatchedOrders().size()-1).getPrice();//currentMACDValue;
+        return data.getMatchedOrders().get(data.getMatchedOrders().size()-1).getPrice();
+        //currentMACDValue;
     }
 
     public double getPreviousMACDValue() {

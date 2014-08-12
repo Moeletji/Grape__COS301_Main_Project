@@ -5,6 +5,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -37,15 +38,17 @@ public class MACDStrategy {
         if (prevMACDValues.lastElement() > 0 && currentValue < 0)
         {
             //buy
-            System.out.println("MACD Strategy: ENTER MARKET *********--------******* ");
+            System.out.println(new Date().toString() + " BUY");
             prevMACDValues.add(currentValue);
         }
-        
+        //else
         if (prevMACDValues.lastElement() < 0 && currentValue > 0)
         {
            //sell
-            System.out.println("MACD Strategy: EXIT MARKET +++++++++++--------++++++++ ");
+            System.out.println(new Date().toString() + " SELL");
             prevMACDValues.add(currentValue);
         }
+        prevMACDValues.add(currentValue);
+        //System.out.println("The current MACD value:" + currentValue);
     }
 }

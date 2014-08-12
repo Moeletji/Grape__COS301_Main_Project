@@ -47,12 +47,14 @@ public class EMA {
     @SuppressWarnings("UnusedAssignment")
     public double calculateEMA() throws NotEnoughDataException {
 
-        while ((numOfDays <= 0) || (currentPrice <= 0) || (previousEMAValue <= 0)) {
-           // throw new NotEnoughDataException();
+        if ((numOfDays <= 0) || (this.getCurrentPrice() <= 0)) {
+           return 0.0;// throw new NotEnoughDataException();
         }
 
         double k = 2 / (numOfDays + 1);
-        return ((currentPrice * k) + (previousEMAValue * (1 - k)));
+        double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
+        //System.out.println("The current EMA: "+ currentEmaValue);
+        return currentEmaValue;
     }
 
     public int getNumberOfDays() {
@@ -76,6 +78,6 @@ public class EMA {
     
     public double getCurrentPrice()
     {
-        return currentPrice;
+        return (data.getMatchedOrders().isEmpty())?0.0:data.getMatchedOrders().lastElement().getPrice();
     }
 }

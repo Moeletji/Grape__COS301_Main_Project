@@ -44,8 +44,8 @@ public class SMA {
 
     @SuppressWarnings("empty-statement")
     public double calculateSMA() throws NotEnoughDataException {
-        while (book.getMatchedOrders().size() < numOfDays){};
-            //throw new NotEnoughDataException();
+        if (book.getMatchedOrders().size() < numOfDays)
+            return 0.0;
         
         double sum = 0.0;
         int range = book.getMatchedOrders().size() - numOfDays;
