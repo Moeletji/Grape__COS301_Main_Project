@@ -25,6 +25,7 @@ public class MACDStrategy {
     public MACDStrategy(MarketEntryAttemptBook _data) throws NotEnoughDataException
     {
         this.data = _data;
+        prevMACDValues = new Vector<Double>();
         sma = new SMA(this.data, 12);
         macd = new MACD(this.data);
         macd.setPreviousMACDValue(sma.calculateSMA());
