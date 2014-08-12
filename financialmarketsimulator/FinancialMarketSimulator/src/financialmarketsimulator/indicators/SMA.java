@@ -66,5 +66,10 @@ public class SMA {
 
     public double getPreviousSMAValue() {
         return previousSMAValue;
-    }      
+    }  
+    
+    public double getCurrentSMAValue()
+    {
+        return currentSmaValue;
+    }
 }

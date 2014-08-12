@@ -1,8 +1,12 @@
 
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.ema;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.price;
+import static financialmarketsimulator.strategies.Crossover.HigherAverage.sma;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -14,15 +18,26 @@ import java.util.Vector;
  */
 public class PriceEmaCrossover extends Crossover{
     
+    private final EMA emaObj;
+    private final Vector<Double> closingEmas;
+    private final Vector<Double> closingStockPrice;
+    
     //indicator1 = Price
     //indicator2 = EMA
     
     @SuppressWarnings("Convert2Diamond")
-    public PriceEmaCrossover(int _numDays) {
-       super(_numDays, "Price", "EMA");
+    public PriceEmaCrossover(MarketEntryAttemptBook _data, int _numDays) throws NotEnoughDataException {
+       super(_data, _numDays, "Price", "EMA");
+       emaObj = new EMA(this.data, _numDays);
+       
+       closingEmas = new Vector<>();
+       closingStockPrice = new Vector<>();
        
         //TODO : Populate with objects housing closing Price and EMA values over the
         //specidies previous numDays days.
+       closingEmas.add(emaObj.getPreviousEMAValue());
+       closingStockPrice.add(_data.getHighestTradePrice(numDays));
+       
         this.closingAverages = new Vector<Crossover.DayClosingAverages>();
     }
 
@@ -90,6 +105,33 @@ public class PriceEmaCrossover extends Crossover{
             }
         }
         //At this point all the cross over points are recorded in crossoverPoints LinkedHashMap
+    }
+    
+    @Override
+    public void generateMarketEntryAttempt() throws NotEnoughDataException
+    {
+        closingEmas.add(emaObj.getPreviousEMAValue());
+        closingStockPrice.add(data.getHighestTradePrice(numDays));
+        
+        if(!closingEmas.isEmpty() && !closingStockPrice.isEmpty())
+        {
+            if( (closingEmas.lastElement() > closingStockPrice.lastElement()) && (emaObj.getCurrentPrice() < data.getHighestTradePrice(numDays)) )
+            {
+                //Generate Buy Signal
+                System.out.println("Price Ema Crossover : BUY SIGNAL.");
+                currentHigh = price;
+            }
+            else if( (closingEmas.lastElement() < closingStockPrice.lastElement()) && (emaObj.getCurrentPrice() > data.getHighestTradePrice(numDays)) )
+            {
+                //Generate Sell Signal
+                System.out.println("Price Ema Crossover : SELL SIGNAL.");
+                currentHigh = ema;
+            }   
+        }
+        else
+        {
+            System.out.println("Not enough data for Moving Average Crossover.");
+        }
     }
 
     @Override
