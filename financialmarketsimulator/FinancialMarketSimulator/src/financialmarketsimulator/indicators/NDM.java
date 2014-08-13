@@ -27,6 +27,11 @@ public class NDM {
         prevValue = currValue;
         currValue = val;
     }
+    
+    public void setPrevValue(int prev)
+    {
+        this.prevValue = prev;
+    }
 
     /**
      * @brief Returns the previous value of the Negative Directional Movement

@@ -73,4 +73,19 @@ public class PDI {
     public double getPrevValue() {
         return prevValue;
     }
+    
+    public void setTodaysHigh(int high)
+    {
+        this.todaysHigh = high;
+    }
+    
+    public void setTodaysLow(int low)
+    {
+        this.todaysLow = low;
+    }
+    
+    public void setPrevClosing(int preC)
+    {
+        this.prevClosing = preC;
+    }
 }

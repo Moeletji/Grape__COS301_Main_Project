@@ -102,4 +102,9 @@ public class ADX {
         currentADX = (100 * ema.calculateEMA()); 
         return currentADX;
     }
+    
+    public double getADX()
+    {
+        return this.currentADX;
+    }
 }

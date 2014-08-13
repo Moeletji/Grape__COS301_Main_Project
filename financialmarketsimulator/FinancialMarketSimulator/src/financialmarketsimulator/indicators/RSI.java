@@ -70,4 +70,14 @@ public class RSI {
         relativeStrength = emaUp.calculateEMA()/emaDown.calculateEMA();
         return relativeStrength;
     }
+    
+    public double getRSI()
+    {
+        return this.RSIValue;
+    }
+    
+    public double getRS()
+    {
+        return this.relativeStrength;
+    }
 }
