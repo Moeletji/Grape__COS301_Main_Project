@@ -1,6 +1,7 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static java.lang.Math.*;
 
 /**
@@ -10,19 +11,29 @@ import static java.lang.Math.*;
 public class ATR {
     private double previousATR;
     private double currentATR;
-    private final double numDays;
+    private final int numDays;
     private double currentTrueRange;
     private double currentHigh;
     private double currentLow;
     private double previousClosing;
+    private final MarketEntryAttemptBook book;
     
-    public ATR(double currHigh, double currLow, double prevClosing)
+    public ATR(MarketEntryAttemptBook _book, int _numDays)
+    {
+        book = _book;
+        if(_numDays <= 0) numDays = 14; else numDays = _numDays;
+        currentHigh = book.getHighestTradePrice(numDays);
+        currentLow = book.getLowestTradePrice(numDays);
+        previousClosing = book.getLastTradePrice(); //Might need to be changed
+    }
+    
+    /*public ATR(double currHigh, double currLow, double prevClosing)
     {
         numDays = 14;
         currentHigh = currHigh;
         currentLow = currLow;
         previousClosing = prevClosing;
-    }
+    }*/
     
     public double calculateATR()
     {

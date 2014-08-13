@@ -1,6 +1,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
  * @brief Negative Directional Indicator
@@ -29,19 +30,37 @@ public class NDI {
      * Variable housing todays lowest value;
      */
     private double todaysLow;
-
+    private final int numDays;
+    
+    private final MarketEntryAttemptBook book;
+    
+    /**
+     * 
+     * @param _book MarketEntryAttemptBook object
+     * @param _numDays number of days over which NDI must be calculated.
+     */
+    public NDI(MarketEntryAttemptBook _book, int _numDays)
+    {
+        book = _book;
+        numDays = _numDays;
+        currValue = todaysHigh = book.getHighestTradePrice(numDays);
+        todaysLow = book.getLowestTradePrice(numDays);
+        prevClosing = book.getLastTradePrice(); //Might need to be changed
+        
+    }
+    
     /**
      *
      * @param _todaysHigh Todays highest NDI value
      * @param _todaysLow Todays lowest NDIvalue
      * @param _prevClosing Yesterdays stock closing value
      */
-    public NDI(double _todaysHigh, double _todaysLow, double _prevClosing) {
+    /*public NDI(double _todaysHigh, double _todaysLow, double _prevClosing) {
         prevValue = currValue = 0;
         todaysHigh = _todaysHigh;
         todaysLow = _todaysLow;
         prevClosing = _prevClosing;
-    }
+    }*/
 
     /**
      * 
@@ -51,7 +70,8 @@ public class NDI {
      */
     public double calculateNDI(double _currNDM, double _prevNDM) throws NotEnoughDataException {
         EMA ema = new EMA(14);
-        ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
+        //ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
+        ATR atr = new ATR(book, numDays);
         
         ema.setCurrentPrice(_currNDM);
         ema.setPreviousEMAValue(_prevNDM);

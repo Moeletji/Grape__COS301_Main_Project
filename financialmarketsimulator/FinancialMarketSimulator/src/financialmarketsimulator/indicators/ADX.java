@@ -4,6 +4,7 @@ import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static java.lang.Math.abs;
 
 /**
@@ -55,19 +56,29 @@ public class ADX {
     }
   }*/
     
-    
     private double currentADX;
     private double previousADX;
     private double todaysHigh;
     private double todaysLow;
     private double prevClosing;
+    private MarketEntryAttemptBook book;
+    private final int numDays;
     
-    public ADX(double _high, double _low, double _closing)
+    public ADX(MarketEntryAttemptBook _book, int _numDays)
+    {
+        book = _book;
+        numDays = _numDays;
+        todaysHigh = book.getHighestTradePrice(numDays);
+        todaysLow = book.getLowestTradePrice(numDays);
+        prevClosing = book.getLastTradePrice(); //Might need to be changed
+    }
+    
+    /*public ADX(double _high, double _low, double _closing)
     {
         todaysHigh = _high;
         todaysLow = _low;
         prevClosing = _closing;
-    }
+    }*/
     
     /**
      * @brief Calculates and returns the average directional movement value
@@ -83,8 +94,10 @@ public class ADX {
     {
         previousADX = currentADX;
         EMA ema = new EMA(14);
-        PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
-        NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
+        //PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
+        //NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
+        PDI pdi = new PDI(book, numDays);
+        NDI ndi = new NDI(book, numDays);
         double currVal;
         double prevVal;
         

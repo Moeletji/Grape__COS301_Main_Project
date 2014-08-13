@@ -1,6 +1,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 
 /**
  * @brief Relative Strength Index
@@ -25,6 +26,18 @@ public class RSI {
     private double currentDownClose;
     private double previousUpClose;
     private double previousDownClose;
+    private final MarketEntryAttemptBook book; 
+    private final int numDays;
+    
+    public RSI(MarketEntryAttemptBook _book, int _numDays)
+    {
+        book = _book;
+        numDays = _numDays;
+        previousClose = 0.0;
+        currentClose = book.getLastTradePrice();
+        currentUpClose = book.getHighestTradePrice(numDays);
+        currentDownClose = book.getLowestTradePrice(numDays);
+    }
     
     /**
      * @param _currentUpClose The current up close value
@@ -32,12 +45,12 @@ public class RSI {
      * @param _currentClose The current close
      * @param _previousClose The previous close
      */
-    public RSI(double _currentUpClose, double _currentDownClose, double _currentClose, double _previousClose) {
+    /*public RSI(double _currentUpClose, double _currentDownClose, double _currentClose, double _previousClose) {
         currentUpClose = _currentUpClose;
         currentDownClose = _currentDownClose;
         currentClose = _currentClose;
         previousClose = _previousClose;
-    }
+    }*/
 
     /**
      * @brief Calculates and returns the RSI value

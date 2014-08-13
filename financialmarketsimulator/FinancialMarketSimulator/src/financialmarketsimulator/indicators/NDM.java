@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+
 /**
  * @brief Negative Directional Movement
  * @author Grape <cos301.mainproject.grape@gmail.com>
@@ -14,10 +16,19 @@ public class NDM {
      * Variable housing the current value of the Negative Directional Movement
      */
     private double currValue;
-
-    public NDM() {
-        prevValue = currValue = 0;
+    private final MarketEntryAttemptBook book; 
+    private final int numDays;
+    
+    public NDM(MarketEntryAttemptBook _book, int _numDays)
+    {
+        book = _book;
+        numDays = _numDays;
+        prevValue = book.getLastTradePrice();
     }
+    
+    /*public NDM() {
+        prevValue = currValue = 0;
+    }*/
 
     /**
      * @brief Sets the current value of the Negative Directional Movement

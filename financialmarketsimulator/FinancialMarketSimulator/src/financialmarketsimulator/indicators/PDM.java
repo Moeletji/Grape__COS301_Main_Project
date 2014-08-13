@@ -1,5 +1,7 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+
 /**
  * @brief Positive Directional Movement
  * @author Grape <cos301.mainproject.grape@gmail.com>
@@ -14,10 +16,19 @@ public class PDM {
      * Variable housing the current value of the Positive Directional Movement
      */
     private double currValue;
-
-    public PDM() {
-        prevValue = currValue = 0;
+    private final MarketEntryAttemptBook book; 
+    private final int numDays;
+    
+    public PDM(MarketEntryAttemptBook _book, int _numDays)
+    {
+        book = _book;
+        numDays = _numDays;
+        prevValue = book.getLastTradePrice();
     }
+    
+    /*public PDM() {
+        prevValue = currValue = 0;
+    }*/
 
     /**
      * @brief Sets the current value of the Positive Directional Movement. Also 
