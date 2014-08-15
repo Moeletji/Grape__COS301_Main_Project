@@ -2,14 +2,16 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
+import financialmarketsimulator.marketData.Message;
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @brief The StockManager class is the super class from which each concrete
  * stock/security manager will inherit.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class StockManager {
+public class StockManager extends Thread {
 
     //Name of the stock
     private String stockName;
@@ -19,16 +21,23 @@ public class StockManager {
     private MatchedMarketEntryAttemptUpdate marketSnapShot;
     //List of all MarketParticipants
     private ArrayList<MarketParticipant> participants;
-            
+    //Message queue
+    private ConcurrentLinkedQueue<Message> messageQueue;
+    //Thread started
+    private boolean started;
+    //Thread paused
+    private boolean paused;
+
     /**
      * @brief MarketManager Constructor
      */
     public StockManager(String stockName, long timePeriod, int totalNumberOfShares) {
-        this.orderList = new MarketEntryAttemptBook(stockName,timePeriod,totalNumberOfShares);
+        this.orderList = new MarketEntryAttemptBook(stockName, timePeriod, totalNumberOfShares);
         this.stockName = stockName;
         this.participants = new ArrayList<MarketParticipant>();
+        this.messageQueue = new ConcurrentLinkedQueue<>();
     }
-    
+
     /**
      * @brief MarketManager Constructor
      *
@@ -38,6 +47,7 @@ public class StockManager {
         this.stockName = sName;
         this.orderList = new MarketEntryAttemptBook(stockName, 10, 1000);
         this.participants = new ArrayList<MarketParticipant>();
+        this.messageQueue = new ConcurrentLinkedQueue<>();
     }
 
     public String getStockName() {
@@ -57,7 +67,6 @@ public class StockManager {
         }
 
         orderList.placeOrder(order);
-        this.Notify();
         return true;
     }
 
@@ -76,7 +85,6 @@ public class StockManager {
      * @return MarketEntryAttempt to be removed
      */
     public MarketEntryAttempt removeOrder(MarketEntryAttempt order) {
-        this.Notify();
         return orderList.removeOrder(order);
     }
 
@@ -88,7 +96,6 @@ public class StockManager {
      * @brief Acknowledgement of the bid being removed by the market manager
      */
     public MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE orderSide) {
-        this.Notify();
         return orderList.removeOrder(orderId, orderSide);
     }
 
@@ -102,7 +109,6 @@ public class StockManager {
      * @throws OrderHasNoValuesException
      */
     public void editOrder(String orderId, double price, int numberShares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
-        this.Notify();
         orderList.alterOrder(orderId, price, numberShares, side);
     }
 
@@ -116,7 +122,6 @@ public class StockManager {
      * @throws OrderHasNoValuesException
      */
     public void editOrder(String orderId, double price, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
-        this.Notify();
         orderList.alterOrder(orderId, price, side);
     }
 
@@ -130,33 +135,110 @@ public class StockManager {
      * @throws OrderHasNoValuesException
      */
     public void editOrder(String orderId, int numberShares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
-        this.Notify();
         orderList.alterOrder(orderId, numberShares, side);
     }
 
     public MatchedMarketEntryAttemptUpdate getMarketSnapShot() {
         return new MatchedMarketEntryAttemptUpdate(orderList.getMatchedOrders());
     }
-    
+
     /**
      * @brief add MarketParticipant
      * @param participant MarketParticipant to be added
      */
-    public void attach(MarketParticipant participant){
+    public void attach(MarketParticipant participant) {
         participants.add(participant);
     }
-    
+
     /**
      * @brief remove a MarketParticipant
      * @param participant MarketParticipant to be removed
      */
-    public void detach(MarketParticipant participant){
+    public void detach(MarketParticipant participant) {
         participants.remove(participant);
     }
     
-    public void Notify(){
-        for(MarketParticipant participant : participants){
+    public void sendMessage(Message message){
+        this.messageQueue.add(message);
+    } 
+
+    public void Notify() {
+        for (MarketParticipant participant : participants) {
             participant.update(this);
+        }
+    }
+
+    /**
+     * @brief StockManager thread that receives Messages and updates the market
+     * according to those messages
+     */
+    @Override
+    public void run() {
+        try {
+            synchronized (this) {
+                while (paused) {
+                    wait();
+                }
+            }
+        } catch (InterruptedException exception) {
+            System.out.println("Interrupted Exception " + super.getId());
+        }
+
+        while (true) {
+            while (messageQueue.isEmpty()) {}
+
+            synchronized (this) {
+                if (!messageQueue.isEmpty()) {
+                    Message message = messageQueue.poll();
+
+                    if (message != null) {
+                        switch (message.getType()) {
+                            case AMEND: {
+                                double newPrice = message.getPrice();
+                                int newShares = message.getShares();
+                                String id = message.getAttempt().getOrderID();
+                                MarketEntryAttempt.SIDE side = message.getAttempt().getSide();
+
+                                try {
+                                    this.editOrder(id, newPrice, newShares, side);
+                                } catch (OrderHasNoValuesException | CloneNotSupportedException ex) {
+                                    System.out.println("Order was not edited");
+                                }
+                            }
+                            break;
+
+                            case CANCEL: {
+                                this.removeOrder(message.getAttempt());
+                            }
+                            break;
+
+                            case ORDER: {
+                                try {
+                                    this.acceptOrder(message.getAttempt());
+                                } catch (InterruptedException ex) {
+                                    System.out.println("Interrupted Exception " + super.getId());
+                                }
+                            }
+                        }
+                        this.Notify();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void start() {
+        System.out.println(this.getStockName() + " Thread has started");
+
+        if (!started) {
+            started = true;
+            super.start();
+        }
+
+        if (paused) {
+            notify();
+            paused = false;
         }
     }
 }

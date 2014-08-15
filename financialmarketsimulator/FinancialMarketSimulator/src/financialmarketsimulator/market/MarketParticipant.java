@@ -4,6 +4,7 @@ import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
+import financialmarketsimulator.marketData.Message;
 import financialmarketsimulator.strategies.MACDStrategy;
 import java.util.ArrayList;
 import java.util.Random;
@@ -66,20 +67,17 @@ public class MarketParticipant extends Thread {
      * @brief Class encapsulating all the variants to be used by the class
      */
     private Variants variants;
-    
     /**
      * Used for GUI
      */
-    
-    JList bidsList; 
-    JList offersList; 
+    JList bidsList;
+    JList offersList;
     JList matchedList;
-    
     /**
      * MACD Strategy testing
      */
     private MACDStrategy macdStrategy;
-    
+
     /**
      * @brief Constructing a MarketEnity object with parameters
      * @param participantName name of the entity
@@ -95,10 +93,10 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
-        
+
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
-        
+
         bidsList = offersList = matchedList = null;
 
         //Get the OrderList book for the stock 
@@ -122,7 +120,7 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
-        
+
         this.bidsList = bidsList;
         this.offersList = offersList;
         this.matchedList = matchedList;
@@ -216,7 +214,7 @@ public class MarketParticipant extends Thread {
         System.out.println("Stock name: " + stock);
 
         //while (true) {
-            for (int l = 0; l < 1000; l++) {
+        for (int l = 0; l < 1000; l++) {
             try {
                 synchronized (this) {
                     while (paused) {
@@ -259,55 +257,21 @@ public class MarketParticipant extends Thread {
 
             synchronized (this) {
 
-                //Uncomment line below and add trade functionality inside trade method
-                //trade();
-
                 MarketEntryAttempt newAttempt = new MarketEntryAttempt((double) (Math.random() * (max - min) + min), (int) (Math.random() * (maxShares - minShares) + minShares), participantName, side);
-                //MarketEntryAttempt newAttempt = new MarketEntryAttempt(45.56, 1500, participantName, side);
-
+ 
                 try {
-                    
-                    stockManager.acceptOrder(newAttempt);
-                    
-                    //Code used to update GUI
-                    DefaultListModel modelBids = new DefaultListModel();
-                    DefaultListModel modelOffers = new DefaultListModel();
-                    DefaultListModel modelMatched = new DefaultListModel();
-                    
-                    Vector offers = exchange.getBook(this.stock).getOffers();
-                    Vector bids = exchange.getBook(this.stock).getBids();
-                    Vector matched = exchange.getBook(this.stock).getMatchedOrders();
-                    
-                    for(int i = 0; i < bids.size(); i++){
-                        MarketEntryAttempt attempt = (MarketEntryAttempt)bids.get(i);
-                        modelBids.addElement(attempt.toString());
-                    }
-                    
-                    for(int i = 0; i < offers.size(); i++){
-                        MarketEntryAttempt attempt = (MarketEntryAttempt)offers.get(i);
-                        modelOffers.addElement(attempt.toString());
-                    }
-                    
-                    for(int i = 0; i < matched.size(); i++){
-                        MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt)matched.get(i);
-                        modelMatched.addElement(attempt.toString());
-                    }
-                    
-                    macdStrategy.generateMarketEntryAttempt();
-                    
-                    if((bidsList != null) && (offersList != null) && (matchedList != null)){
-                        bidsList.setModel(modelBids);
-                        offersList.setModel(modelOffers);
-                        matchedList.setModel(modelMatched);
-                    }
-                    
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NotEnoughDataException ex) {
-                    Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
-                //this.print();
+                    Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
+                    stockManager.sendMessage(message);
+
+                    //Update the GUI
+                    this.updateDisplay();
+
+                    macdStrategy.generateMarketEntryAttempt();
+
+                } catch (NotEnoughDataException ex) {
+                    System.out.println("Not Enough Data Exception " + getParticipantID());
+                }
             }
         }
     }
@@ -336,7 +300,6 @@ public class MarketParticipant extends Thread {
     }
 
     public void trade() {
-        
     }
 
     public void update(StockManager Updatedmanager) {
@@ -344,7 +307,7 @@ public class MarketParticipant extends Thread {
     }
 
     public void print() {
-        
+
         Vector offers = exchange.getBook(this.stock).getOffers();
         Vector bids = exchange.getBook(this.stock).getBids();
         Vector matched = exchange.getBook(this.stock).getMatchedOrders();
@@ -390,8 +353,40 @@ public class MarketParticipant extends Thread {
     public void setStock(String stock) {
         this.stock = stock;
     }
-    
-    public boolean hasStarted(){
+
+    public boolean hasStarted() {
         return started;
+    }
+
+    private void updateDisplay() {
+        //Code used to update GUI
+        DefaultListModel modelBids = new DefaultListModel();
+        DefaultListModel modelOffers = new DefaultListModel();
+        DefaultListModel modelMatched = new DefaultListModel();
+
+        Vector offers = exchange.getBook(this.stock).getOffers();
+        Vector bids = exchange.getBook(this.stock).getBids();
+        Vector matched = exchange.getBook(this.stock).getMatchedOrders();
+
+        for (int i = 0; i < bids.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) bids.get(i);
+            modelBids.addElement(attempt.toString());
+        }
+
+        for (int i = 0; i < offers.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) offers.get(i);
+            modelOffers.addElement(attempt.toString());
+        }
+
+        for (int i = 0; i < matched.size(); i++) {
+            MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matched.get(i);
+            modelMatched.addElement(attempt.toString());
+        }
+
+        if ((bidsList != null) && (offersList != null) && (matchedList != null)) {
+            bidsList.setModel(modelBids);
+            offersList.setModel(modelOffers);
+            matchedList.setModel(modelMatched);
+        }
     }
 }

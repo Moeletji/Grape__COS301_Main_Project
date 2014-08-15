@@ -52,6 +52,8 @@ public class FinancialMarketSimulator {
         manager.attach(entity9);
         manager.attach(entity10);
         
+        manager.start();
+        
         entity1.start();
         entity2.start();
 

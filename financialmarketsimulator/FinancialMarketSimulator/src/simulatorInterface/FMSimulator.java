@@ -2112,6 +2112,7 @@ public class FMSimulator extends javax.swing.JFrame {
             manager = new StockManager(stockName);
             exchange.addStockManager(manager);
             cbxStocks.addItem(stockName);
+            manager.start();
             return;
         }
 
@@ -2119,6 +2120,7 @@ public class FMSimulator extends javax.swing.JFrame {
             manager = new StockManager(stockName, Integer.parseInt(totalNumberofShares), Integer.parseInt(period));
             exchange.addStockManager(manager);
             cbxStocks.addItem(stockName);
+            manager.start();
             return;
         }
 
@@ -2203,8 +2205,10 @@ public class FMSimulator extends javax.swing.JFrame {
         String[] names = {"INV", "IPSA", "LBH", "ABSA", "SAL"};
 
         for (int i = 0; i < names.length; i++) {
-            exchange.addStockManager(new StockManager(names[i], 10, 5000));
+            StockManager manager = new StockManager(names[i], 10, 5000);
+            exchange.addStockManager(manager);
             cbxStocks.addItem(names[i]);
+            manager.start();
         }
 
         MessageBox.infoBox("Stock generated", "OK");
