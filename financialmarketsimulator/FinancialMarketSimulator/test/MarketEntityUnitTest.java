@@ -3,6 +3,7 @@ import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
+import financialmarketsimulator.exception.NotEnoughDataException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,7 +33,7 @@ public class MarketEntityUnitTest {
      * this test.
      */
     @Test
-    public void instantiation() {
+    public void instantiation() throws NotEnoughDataException {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "e012345";
         String expectedEntityType = "investor";
@@ -52,7 +53,7 @@ public class MarketEntityUnitTest {
      * @brief Tests if the setMarketName method sets the object's marketName as
      * it should.
      */
-    public void setMarketNameTest() {
+    public void setMarketNameTest() throws NotEnoughDataException {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "";
         String expectedEntityType = "";
@@ -65,7 +66,7 @@ public class MarketEntityUnitTest {
     /**
      * @brief Tests if the setID method sets the object's ID as it should.
      */
-    public void setIDTest() {
+    public void setIDTest() throws NotEnoughDataException {
         String expectedEntityName = "";
         String expectedEntityID = "e012345";
         String expectedEntityType = "";
@@ -78,7 +79,7 @@ public class MarketEntityUnitTest {
     /**
      * @brief Tests if the setType method sets the object's type as it should.
      */
-    public void setTypeTest() {
+    public void setTypeTest() throws NotEnoughDataException {
         String expectedEntityName = "";
         String expectedEntityID = "";
         String expectedEntityType = "investor";
@@ -96,7 +97,7 @@ public class MarketEntityUnitTest {
      * getters work as expected.
      */
     @Test
-    public void addMarketStrategyTest() {
+    public void addMarketStrategyTest() throws NotEnoughDataException {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "e012345";
         String expectedEntityType = "investor";
@@ -137,7 +138,7 @@ public class MarketEntityUnitTest {
      * expected.
      */
     @Test
-    public void setCurrentStrategyTest() {
+    public void setCurrentStrategyTest() throws NotEnoughDataException {
         String expectedEntityName = "Test Name";
         String expectedEntityID = "e012345";
         String expectedEntityType = "investor";
