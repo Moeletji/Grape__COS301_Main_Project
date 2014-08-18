@@ -5,6 +5,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ATR;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.NDI;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -22,6 +23,7 @@ public class NDIUnitTest {
      * NDI object used throughout the unit tests.
      */
     NDI ndi;
+    MarketEntryAttemptBook book;
     
     public NDIUnitTest() {
     }
@@ -55,12 +57,13 @@ public class NDIUnitTest {
         double previiousNDM = 0.31;
         double expectedResult;
         double observedResult;
-        
+        book = new MarketEntryAttemptBook();
         //***********************
         // Expected result calculation
         //***********************
         EMA ema = new EMA(14);
-        ATR atr = new ATR(todaysHigh, todaysLow, previousClosing);
+        ATR atr = new ATR(book,14);
+        //ATR atr = new ATR(todaysHigh, todaysLow, previousClosing);
         
         ema.setCurrentPrice(currentNDM);
         ema.setPreviousEMAValue(previiousNDM);
@@ -70,7 +73,8 @@ public class NDIUnitTest {
         //***********************
         // Observed result calculation
         //***********************
-        ndi = new NDI(todaysHigh, todaysLow, previousClosing);
+        ndi = new NDI(book,14);
+        //ndi = new NDI(todaysHigh, todaysLow, previousClosing);
         observedResult = ndi.calculateNDI(currentNDM, previiousNDM);
         
         assertEquals(expectedResult, observedResult, 0);

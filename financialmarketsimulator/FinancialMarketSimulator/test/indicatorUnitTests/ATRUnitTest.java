@@ -1,6 +1,7 @@
 package indicatorUnitTests;
 
 import financialmarketsimulator.indicators.ATR;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -18,6 +19,7 @@ public class ATRUnitTest {
      * ATR object used throughout the unit tests.
      */
     ATR atr;
+    MarketEntryAttemptBook book;
 
     public ATRUnitTest() {
     }
@@ -50,7 +52,7 @@ public class ATRUnitTest {
         int numDays = 14;
         double expectedResult;
         double observedResult;
-
+        book = new MarketEntryAttemptBook();
         //*******************************
         // Excpected result calculation
         //*******************************
@@ -60,7 +62,8 @@ public class ATRUnitTest {
         //*******************************
         // Observed results calculation
         //*******************************
-        atr = new ATR(currentHigh, currentLow, previousClosing);
+        atr = new ATR(book, 14);
+        //atr = new ATR(currentHigh, currentLow, previousClosing);
         atr.setPreviousATR(previousATR);
         observedResult = atr.calculateATR();
 

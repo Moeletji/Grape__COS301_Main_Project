@@ -5,6 +5,7 @@ import financialmarketsimulator.indicators.ADX;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.NDI;
 import financialmarketsimulator.indicators.PDI;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static java.lang.Math.abs;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,6 +29,7 @@ public class ADXUnitTest {
      * test.
      */
     ADX adx;
+    MarketEntryAttemptBook book;
     
     /**
      * @brief Tests the calculateADX function.
@@ -46,13 +48,15 @@ public class ADXUnitTest {
         double currNDM = 0.18;
         double prevPDM = 0.18;
         double prevNDM = 0.15;
-        
+        book = new MarketEntryAttemptBook();
         //**************************************
         //Calculations for expected results
         //**************************************
         EMA ema = new EMA(14);
-        PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
-        NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
+        PDI pdi = new PDI(book,14);
+        NDI ndi = new NDI(book,14);
+        //PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
+        //NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
         double currVal;
         double prevVal;
         
@@ -71,7 +75,8 @@ public class ADXUnitTest {
         //**************************************
         //Calculations for actual observed results
         //**************************************
-        adx = new ADX(todaysHigh, todaysLow, prevClosing);
+        adx = new ADX(book,14);
+        //adx = new ADX(todaysHigh, todaysLow, prevClosing);
         observedResult = adx.calulateADX(prevPDI, prevNDI, currPDM, currNDM, prevPDM, prevNDM);
         
         assertEquals(expectedResult, observedResult, 0);

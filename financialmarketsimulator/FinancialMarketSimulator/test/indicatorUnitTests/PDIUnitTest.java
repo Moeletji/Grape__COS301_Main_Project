@@ -5,6 +5,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.ATR;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.PDI;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -22,6 +23,7 @@ public class PDIUnitTest {
      * PDI object used throughout the unit tests.
      */
     PDI pdi;
+    MarketEntryAttemptBook book;
     
     public PDIUnitTest() {
     }
@@ -55,12 +57,13 @@ public class PDIUnitTest {
         double previiousPDM = 0.31;
         double expectedResult;
         double observedResult;
-        
+        book = new MarketEntryAttemptBook();
         //***********************
         // Expected result calculation
         //***********************
         EMA ema = new EMA(14);
-        ATR atr = new ATR(todaysHigh, todaysLow, previousClosing);
+        ATR atr = new ATR(book, 14);
+        //ATR atr = new ATR(todaysHigh, todaysLow, previousClosing);
         
         ema.setCurrentPrice(currentPDM);
         ema.setPreviousEMAValue(previiousPDM);
@@ -70,7 +73,8 @@ public class PDIUnitTest {
         //***********************
         // Observed result calculation
         //***********************
-        pdi = new PDI(todaysHigh, todaysLow, previousClosing);
+        pdi = new PDI(book,14);
+        //pdi = new PDI(todaysHigh, todaysLow, previousClosing);
         observedResult = pdi.calculatePDI(currentPDM, previiousPDM);
         
         assertEquals(expectedResult, observedResult, 0);

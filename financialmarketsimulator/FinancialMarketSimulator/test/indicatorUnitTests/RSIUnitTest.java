@@ -4,6 +4,7 @@ package indicatorUnitTests;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.RSI;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -18,6 +19,7 @@ import org.junit.Test;
 public class RSIUnitTest {
     
     RSI rsi;
+    MarketEntryAttemptBook book;
     
     public RSIUnitTest() {
     }
@@ -52,7 +54,7 @@ public class RSIUnitTest {
         double previousDownClose;
         double expectedResult;
         double observedResult;
-        
+        book = new MarketEntryAttemptBook();
         //*****************************
         // Expected result calculation
         //*****************************
@@ -77,7 +79,8 @@ public class RSIUnitTest {
         //*****************************
         // Observed result calculation
         //*****************************
-        rsi = new RSI(currentUpClose, currentDownClose, currentClose, previousClose);
+        rsi = new RSI(book,14);
+        //rsi = new RSI(currentUpClose, currentDownClose, currentClose, previousClose);
         observedResult = rsi.calculateRSI();
         
         assertEquals(expectedResult, observedResult, 0);
