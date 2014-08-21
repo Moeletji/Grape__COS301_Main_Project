@@ -73,7 +73,7 @@ public class PDI {
      * @return Returns the current positive directional indicator
      */
     public double calculatePDI(double _currPDM, double _prevPDM) throws NotEnoughDataException {
-        EMA ema = new EMA(14);
+        EMA ema = new EMA(book,14);
         //ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
         ATR atr = new ATR(book,numDays);
         

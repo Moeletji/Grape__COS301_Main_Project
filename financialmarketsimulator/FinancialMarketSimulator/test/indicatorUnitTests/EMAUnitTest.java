@@ -2,6 +2,7 @@ package indicatorUnitTests;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -46,7 +47,8 @@ public class EMAUnitTest {
         closingPrice = 50.0;
         previousEMA = 1.0;
 
-        EMA ema = new EMA(numberOfDays);
+        MarketEntryAttemptBook book = new MarketEntryAttemptBook();
+        EMA ema = new EMA(book,numberOfDays);
         ema.setPreviousEMAValue(previousEMA);
         ema.setCurrentPrice(closingPrice);
 

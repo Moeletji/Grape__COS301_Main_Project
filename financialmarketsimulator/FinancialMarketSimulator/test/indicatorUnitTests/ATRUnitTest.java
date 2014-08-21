@@ -2,6 +2,7 @@ package indicatorUnitTests;
 
 import financialmarketsimulator.indicators.ATR;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import java.text.NumberFormat;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -67,7 +68,12 @@ public class ATRUnitTest {
         atr.setPreviousATR(previousATR);
         observedResult = atr.calculateATR();
 
-        assertEquals(expectedResult, observedResult, 0);
+        //NumberFormat nf = NumberFormat.getNumberInstance();
+        
+        //nf.setMaximumFractionDigits(2);
+        //nf.setMinimumFractionDigits(2);
+        
+        assertEquals(expectedResult, observedResult, 2);
     }
 
 }

@@ -61,7 +61,7 @@ public class PDIUnitTest {
         //***********************
         // Expected result calculation
         //***********************
-        EMA ema = new EMA(14);
+        EMA ema = new EMA(book,14);
         ATR atr = new ATR(book, 14);
         //ATR atr = new ATR(todaysHigh, todaysLow, previousClosing);
         

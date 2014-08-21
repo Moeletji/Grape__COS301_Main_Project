@@ -69,7 +69,7 @@ public class NDI {
      * @return Returns the current negative directional indicator
      */
     public double calculateNDI(double _currNDM, double _prevNDM) throws NotEnoughDataException {
-        EMA ema = new EMA(14);
+        EMA ema = new EMA(book,14);
         //ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
         ATR atr = new ATR(book, numDays);
         

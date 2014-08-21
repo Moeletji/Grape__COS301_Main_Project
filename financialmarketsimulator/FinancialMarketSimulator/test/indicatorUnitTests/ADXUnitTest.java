@@ -52,7 +52,7 @@ public class ADXUnitTest {
         //**************************************
         //Calculations for expected results
         //**************************************
-        EMA ema = new EMA(14);
+        EMA ema = new EMA(book,14);
         PDI pdi = new PDI(book,14);
         NDI ndi = new NDI(book,14);
         //PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);

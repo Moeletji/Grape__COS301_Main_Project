@@ -93,7 +93,7 @@ public class ADX {
     public double calulateADX(double prevPDI, double prevNDI, double currPDM, double currNDM, double prevPDM, double prevNDM) throws NotEnoughDataException
     {
         previousADX = currentADX;
-        EMA ema = new EMA(14);
+        EMA ema = new EMA(book,14);
         //PDI pdi = new PDI(todaysHigh, todaysLow, prevClosing);
         //NDI ndi = new NDI(todaysHigh, todaysLow, prevClosing);
         PDI pdi = new PDI(book, numDays);

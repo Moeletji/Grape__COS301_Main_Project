@@ -67,8 +67,8 @@ public class RSI {
      * @todo Calculate Relative Strength.
      */
     public double calculateRS() throws NotEnoughDataException {
-        EMA emaUp = new EMA(14);
-        EMA emaDown = new EMA(14);
+        EMA emaUp = new EMA(book,14);
+        EMA emaDown = new EMA(book,14);
         
         previousUpClose = currentUpClose;
         previousDownClose = currentDownClose;
