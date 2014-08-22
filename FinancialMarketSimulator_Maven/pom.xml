@@ -13,4 +13,26 @@
     <description>Financial Market Simulator for Cortical Systems by Team Grape, COS 301 - Software Engineering, Department of Computer Science, University of Pretoria, 2014.
 This is a Maven Build Java Project.</description>
     <name>Financial Market Simulator Project</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.18</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.31</version>
+        </dependency>
+    </dependencies>
 </project>
