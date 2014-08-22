@@ -41,7 +41,7 @@
 		Madimetja Shika 12127877\\[3em]
 	
 	\small Publication Date: 21 May 2014\\[0.5em]
-	\small Version: 0.2		    
+	\small Version: 0.3		    
 	\end{center}%
 	
 	\newpage		
@@ -64,6 +64,8 @@
 		31/07/2014 & Madimetja & Added vision and scope sections & 0.1\\
 		01/08/2014 & Moeletji & Added final images and compiled document & 0.2\\
 		21/08/2014 & Madimetja &  Updated Class Diagram document & 0.2\\
+                20/08/2014 & Daniel & Added section for GUI and pictures & 0.3\\
+                22/08/2014 & Daniel & Edited Architectural Constraints & 0.3\\
 	\end{tabular}
 	
 	\newpage
@@ -138,6 +140,171 @@
 		\item In order to minimize cost and complexity, the system can be developed to run and operate on a single physical machine. 
 		\end{itemize}
 	
+        \newpage
+                \section{Architectural requirements}	    
+			    \subsection{Architectural scope}	
+
+                                \begin{itemize}
+                                     \item Concurrent threading execution of Market Participants for a realistic simulation.
+                                     \item A relational database will be the persistent infrastructure used to record data.
+                                     \item Full API of the system will be available.
+                                 \end{itemize}
+
+			    \subsection{Quality requirements}	
+			    	\subsubsection{Security}
+			    	\begin{itemize}
+			    		\item Only system administrators may tweak trading algorithms or matching engine to follow current trends within the stock market.
+                                        \item The system allows anonymity in terms of no buyer or seller can view what another buyer or seller’s activities.
+                                        \item Matching engine is only allowed to be accessed directly by system administrators. 
+                                        \item The matching engine is abstracted to the buyers and sellers of the system. 
+                                        \item System administrators are not allowed to participate in the trading simulation.
+			    	\end{itemize}	
+			    		
+			    	\subsubsection{Auditability}
+			    	\begin{itemize}
+				    	\items One can query any Market Data generated within the system, this includes the user who made the change, the data that was changed, the new and old values of the data, as well as when the data was changed
+			    	\end{itemize}
+			    	
+			    	\subsubsection{Testability}
+			    	\begin{itemize}
+			    		\item All services provided by the system are testable with unit tests, that the service is provided if all pre-conditions are met (i.e. that no exception is raised except if one of the pre-conditions for the service is not met), and that all post-conditions hold true once the service has been provided.
+			    	\end{itemize}
+			    
+			    	\subsubsection{Usability}
+			    	\begin{itemize}
+			    		\item System will support up to 40 Market Participants and 3 Stock Markets.
+                                        \item The system will be presented in the English language, and with further development will cater for other popular languages.
+                                        \item The Graphical User Interface will use design principals and usability goals from interaction design theoretical frameworks to increase the ease of using the system for the first time.
+                                        \item All calculations will be abstracted for the users and the Graphical User Interface will only show averages and final results to the user.
+                                \end{itemize}
+			    
+			    	\subsubsection{Scalability}
+			    	\begin{itemize}
+			    		\item The system will be able to use 10 trading algorithms and allow more algorithms to be plugged in at a later stage.
+                                        \item The system will be able to concurrently trade with 20-40 Market Participants trading 1-3 different Market Entities effectively and accurately according to the business rules of the system.
+                                        \item The system will have an API that can be used with different interfaces. 
+                                \end{itemize}
+			    	
+			    	\subsubsection{Performance}
+			    	\begin{itemize}
+			    		\item The matching engine will return matches in less than 0.5 seconds
+                                        \item Reporting of the market will be displayed in less than 5 seconds
+                                        \item The buyers and sellers will be able the concurrently interact with the market simulation and this would take less than 0.5 second
+                                \end{itemize} 
+			    	    		
+                            \subsection{Access Channel Requirements}
+                                 The system is a stand-alone system and does not integrate with any other systems.
+                                 The system will be accessible by human users through the following channel:
+                                         \begin{itemize}
+                                             \item From any system that contains a JVM (Java Virtual Machine).
+                                         \end{itemize}
+			   			
+                            \subsection{Architectural Constraints}	
+                                    \begin{itemize}
+                                            \item System runs on a JVM
+                                            \item System uses MySQL as its database
+                                            \item Operating systems: Windows, Linux, Mac OS X
+                                    \end{itemize}						    	    
+		\subsection{Architectural patterns/styles}
+                                \begin{itemize}
+                                    \item \textbf{Interface Segregation:} system has an API that can be used by other interfaces other than its native interface.
+                                    \item \textbf{Singleton:} the system only allows an instance of one Stock Exchange to prevent overwhelming the system’s resources. With improved system the system may be adapted to work with more than one stock exchange
+                                    \item \textbf{Polymorphism:} All strategies inherit from a base strategy, but all sub-types have different strategies.
+                                    \item \textbf{Encapsulation:} All Stocks are encapsulated by their managers to allow for further extensibility of the functionality.
+                                    \item \textbf{Observer:} Market Participants will be notified of changes in Matching Engine. 
+                                    \item \textbf{Message Queue:} Market Participants will send Messages in the form of a Message Queue to the Matching Engine to ensure fairness.
+                                \end{itemize}
+                \subsection{Architectural Tactics and Strategies} 
+                    \begin{itemize}
+                        \item Full separate functional API allows for pluggable application interfaces.
+                        \item Multi-Threading Market Participants allow for real-time simulation.
+                    \end{itemize}
+
+                \subsection{Technologies}
+                    \begin{itemize}
+                        \item \textbf{Built Environment:} Maven
+                        \item \textbf{Software:} Java
+                        \item \textbf{IDE:} Netbeans
+                        \item \textbf{Database:} MySql
+                        \item \textbf{Programming Languages:} Java
+                        \item \textbf{Business logic:} Java
+                        \item \textbf{Interface:} Java
+                    \end{itemize}
+
+		\section{Architectural Constraints}
+		\begin{itemize}
+		\item In order to minimize cost and complexity, the system can be developed to run and operate on a single physical machine. 
+		\end{itemize}
+
+        \newpage
+	\section{User Interface}
+            A user will create stocks and market participants with relevant data and 
+            will the simulator by selecting which market participants trades in which stocks.
+
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./menu}
+                            \caption{Menu of Interface}
+                            \label{Menu}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./matchingengine}
+                            \caption{Matching Engine of Interface}
+                            \label{Matching Engine}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./marketentryattempt}
+                            \caption{Create Market Entry Attempt}
+                            \label{Market Entry Attempt}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./marketdata}
+                            \caption{View Market Data}
+                            \label{Market Data}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./priceupdates}
+                            \caption{Set Price Updates}
+                            \label{Price Updates}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./marketparticipant}
+                            \caption{Create and Manage Market Participants}
+                            \label{Market Participants}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./createstocks}
+                            \caption{Create or Generate Stocks}
+                            \label{Stocks}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./marketparticipantdata}
+                            \caption{View Market Participant Data}
+                            \label{Market Participants}
+            \end{figure}
+            \\
+            \begin{figure}[th]
+                            \centering
+                            \includegraphics[scale=0.6]{./tradingmarketparticipants}
+                            \caption{View Trading Market Participants
+                            \label{Market Participants}
+            \end{figure}
+            \\
+
 	\newpage		    		    		    			    	
 	\section{Functional requirements and application design}
 		\subsection{Introduction}	
