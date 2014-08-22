@@ -187,7 +187,7 @@ public class MarketExchange {
 
             StockManager manager = (StockManager) stocksManagers.get(foundStockName);
 
-            if (manager.getStockName().equals(foundStockName)) {
+            if (manager != null && manager.getStockName().equals(foundStockName)) {
                 return true;
             }
         }
