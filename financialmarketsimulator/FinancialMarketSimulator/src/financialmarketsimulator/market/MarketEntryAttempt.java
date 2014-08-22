@@ -145,7 +145,7 @@ public class MarketEntryAttempt implements Cloneable {
      * @param _price The price of the shares for the entry attempt.
      */
     public void setPrice(double _price) {
-        this.price = Math.round(price * 20) / 20.0;
+        this.price = Math.round(_price * 20) / 20.0;
     }
 
     /**
