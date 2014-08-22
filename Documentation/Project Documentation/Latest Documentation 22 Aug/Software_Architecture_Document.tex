@@ -63,6 +63,7 @@
 		29/07/2014 & Madimetja & Edited and Reviewd document & 0.1\\
 		31/07/2014 & Madimetja & Added vision and scope sections & 0.1\\
 		01/08/2014 & Moeletji & Added final images and compiled document & 0.2\\
+		21/08/2014 & Madimetja &  Updated Class Diagram document & 0.2\\
 	\end{tabular}
 	
 	\newpage
@@ -376,17 +377,20 @@
 			Allow users who use the system to be able to see graphs(e.g. line graphs) of the calculated data(i.e technical iindicators) in order to see how the financial market and individual instruments are performing.
 					  
 		\subsection{Domain Objects}	
-		See the last page.	  
+		See the last page.
+								
+			The strategy design pattern will be used for implementing the different trading algorithms to provide pluggability.
+			And the observer design pattern will be used for the event handling of delivering messages about the activity in the financial market.
+		\clearpage 
+		\newpage	
 			\begin{figure}[th]
 			\centering
-			\includegraphics[scale=0.4]{./Paint_Image}
+			\vbox{\vspace{-5em}\includegraphics[scale=0.35, angle=90]{./ClassDiagram.jpg}}	
 			\caption{Class diagram of the system so far}
 			\label{domain objects}
 			\end{figure}
-								
-			The strategy design pattern will be used for implementing the different trading algorithms to provide pluggability.
-			And the observer design pattern will be used for the event handling of delivering messages about the activity in the financial market. 
-			
+		
+	\clearpage	
 	\newpage				
 	\section{Glossary}	
 		\begin{itemize}
