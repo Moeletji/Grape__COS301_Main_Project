@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.19)  22 AUG 2014 19:20
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.19)  22 AUG 2014 21:57
 entering extended mode
 **Software_Architecture_Document.tex
 
@@ -109,7 +109,29 @@ Package color Info: Driver file: pdftex.def on input line 130.
 )
 ("C:\Users\Moeletji\Documents\GitHub\Grape__COS301_Main_Project\Documentation\P
 roject Documentation\Latest Documentation 22 Aug\Software_Architecture_Document
-.aux")
+.aux"
+
+LaTeX Warning: Label `Market Participants' multiply defined.
+
+
+LaTeX Warning: Label `domain objects' multiply defined.
+
+
+LaTeX Warning: Label `domain objects' multiply defined.
+
+
+LaTeX Warning: Label `domain objects' multiply defined.
+
+
+LaTeX Warning: Label `domain objects' multiply defined.
+
+
+LaTeX Warning: Label `domain objects' multiply defined.
+
+
+LaTeX Warning: Label `domain objects' multiply defined.
+
+)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
 LaTeX Font Info:    ... okay on input line 23.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
@@ -159,283 +181,286 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 50.
 
-Overfull \hbox (30.7561pt too wide) in paragraph at lines 49--70
+Overfull \hbox (88.72202pt too wide) in paragraph at lines 49--72
 [] 
  []
 
 [2]
 ("C:\Users\Moeletji\Documents\GitHub\Grape__COS301_Main_Project\Documentation\P
 roject Documentation\Latest Documentation 22 Aug\Software_Architecture_Document
-.toc")
+.toc" [3])
 \tf@toc=\write3
- [3]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 82.
+ [4]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 84.
  ("C:\Program Files\MiKTeX\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <14.4> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 82.
- [4] [5]
-[6] [7]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 84.
+ [5]
+[6] [7] [8]
 Missing character: There is no ’ in font cmr12!
- [8] [9]
+ [9] [10]
 Missing character: There is no ’ in font cmr12!
- [10] [11]
+ [11] [12]
+Underfull \hbox (badness 10000) in paragraph at lines 243--245
 
-! LaTeX Error: File `./menu' not found.
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.246 ...      \includegraphics[scale=0.6]{./menu}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<./menu.png, id=46, 428.35031pt x 24.84282pt>
+File: ./menu.png Graphic file (type png)
+ <use ./menu.png>
+Package pdftex.def Info: ./menu.png used on input line 248.
+(pdftex.def)             Requested size: 342.68071pt x 19.87427pt.
 
+<./matchingengine.png, id=47, 438.8897pt x 229.60782pt>
+File: ./matchingengine.png Graphic file (type png)
 
-! LaTeX Error: There's no line here to end.
+<use ./matchingengine.png>
+Package pdftex.def Info: ./matchingengine.png used on input line 256.
+(pdftex.def)             Requested size: 351.11223pt x 183.6865pt.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.251             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+<./marketentryattempt.png, id=48, 126.4725pt x 243.91125pt>
+File: ./marketentryattempt.png Graphic file (type png)
 
+<use ./marketentryattempt.png>
+Package pdftex.def Info: ./marketentryattempt.png used on input line 264.
+(pdftex.def)             Requested size: 101.17813pt x 195.12926pt.
+ [13 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/menu.png> <C:/Users/Moelet
+ji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Project Documentat
+ion/Latest Documentation 22 Aug/matchingengine.png>] <./marketdata.png, id=53, 
+184.43906pt x 150.5625pt>
+File: ./marketdata.png Graphic file (type png)
+ <use ./marketdata.png>
+Package pdftex.def Info: ./marketdata.png used on input line 273.
+(pdftex.def)             Requested size: 147.55144pt x 120.45015pt.
 
-! LaTeX Error: File `./matchingengine' not found.
+<./priceupdates.png, id=54, 128.73094pt x 134.75343pt>
+File: ./priceupdates.png Graphic file (type png)
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.253 ...ludegraphics[scale=0.6]{./matchingengine}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<use ./priceupdates.png>
+Package pdftex.def Info: ./priceupdates.png used on input line 281.
+(pdftex.def)             Requested size: 102.98486pt x 107.80289pt.
+ [14 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/marketentryattempt.png> <C
+:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Proj
+ect Documentation/Latest Documentation 22 Aug/marketdata.png>] <./marketpartici
+pant.png, id=58, 213.04594pt x 463.7325pt>
+File: ./marketparticipant.png Graphic file (type png)
 
+<use ./marketparticipant.png>
+Package pdftex.def Info: ./marketparticipant.png used on input line 289.
+(pdftex.def)             Requested size: 170.43697pt x 370.9865pt.
 
-! LaTeX Error: There's no line here to end.
+<./createstocks.png, id=59, 277.78781pt x 203.25937pt>
+File: ./createstocks.png Graphic file (type png)
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.258             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: File `./marketentryattempt' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.260 ...graphics[scale=0.6]{./marketentryattempt}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<use ./createstocks.png>
+Package pdftex.def Info: ./createstocks.png used on input line 298.
+(pdftex.def)             Requested size: 222.23053pt x 162.60771pt.
 
 
-! LaTeX Error: There's no line here to end.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.265             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+[15 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/priceupdates.png> <C:/Users
+/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Project Doc
+umentation/Latest Documentation 22 Aug/marketparticipant.png>]
+<./marketparticipantdata.png, id=63, 179.16937pt x 101.62968pt>
+File: ./marketparticipantdata.png Graphic file (type png)
 
+<use ./marketparticipantdata.png>
+Package pdftex.def Info: ./marketparticipantdata.png used on input line 307.
+(pdftex.def)             Requested size: 143.33568pt x 81.30385pt.
+ [16 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/createstocks.png> <C:/User
+s/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Project Do
+cumentation/Latest Documentation 22 Aug/marketparticipantdata.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
 
-! LaTeX Error: File `./marketdata' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.267 ...\includegraphics[scale=0.6]{./marketdata}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+ []
 
 
-! LaTeX Error: There's no line here to end.
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.272             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+ []
 
+<./activity.png, id=67, 773.89125pt x 360.59718pt>
+File: ./activity.png Graphic file (type png)
+ <use ./activity.png>
+Package pdftex.def Info: ./activity.png used on input line 319.
+(pdftex.def)             Requested size: 464.33833pt x 216.35997pt.
 
-! LaTeX Error: File `./priceupdates' not found.
+[17 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/activity.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 332--336
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.274 ...ncludegraphics[scale=0.6]{./priceupdates}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+ []
 
+<./matching_engine_use_case.png, id=72, 433.62pt x 328.22626pt>
+File: ./matching_engine_use_case.png Graphic file (type png)
 
-! LaTeX Error: There's no line here to end.
+<use ./matching_engine_use_case.png>
+Package pdftex.def Info: ./matching_engine_use_case.png used on input line 348.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.279             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+(pdftex.def)             Requested size: 346.89647pt x 262.58136pt.
+ [18]
+Underfull \hbox (badness 10000) in paragraph at lines 361--365
+
+ []
 
 
-! LaTeX Error: File `./marketparticipant' not found.
+Underfull \hbox (badness 10000) in paragraph at lines 366--367
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.281 ...egraphics[scale=0.6]{./marketparticipant}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+ []
 
+[19 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/matching_engine_use_case.pn
+g (PNG copy)>]
+<./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg, id=80, 492.3393
+7pt x 255.95625pt>
+File: ./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg Graphic fil
+e (type jpg)
 
-! LaTeX Error: There's no line here to end.
+<use ./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg>
+Package pdftex.def Info: ./USE_CASE_Market_Attempt_Book_Financial_Market_Simula
+tor.jpg used on input line 372.
+(pdftex.def)             Requested size: 295.40588pt x 153.57492pt.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.286             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+Underfull \hbox (badness 10000) in paragraph at lines 384--387
+
+ []
 
 
-! LaTeX Error: File `./createstocks' not found.
+Underfull \hbox (badness 10000) in paragraph at lines 388--389
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.288 ...ncludegraphics[scale=0.6]{./createstocks}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+ []
+
+[20 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Market_Attempt_Boo
+k_Financial_Market_Simulator.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 399--402
+
+ []
 
 
-! LaTeX Error: There's no line here to end.
+Underfull \hbox (badness 10000) in paragraph at lines 419--421
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.293             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+ []
 
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
 
-! LaTeX Error: File `./marketparticipantdata' not found.
+ []
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.295 ...phics[scale=0.6]{./marketparticipantdata}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+[22]
+<./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg, id=90, 47
+2.76625pt x 303.38344pt>
+File: ./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg Graph
+ic file (type jpg)
 
+<use ./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg>
+Package pdftex.def Info: ./USE_CASE_Create_Market_Participant_Financial_Market_
+Simulator.jpg used on input line 453.
+(pdftex.def)             Requested size: 283.66193pt x 182.03146pt.
 
-! LaTeX Error: There's no line here to end.
+Underfull \hbox (badness 10000) in paragraph at lines 464--465
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.300             \begin
-                        {figure}[th]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+ []
+
+[23 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Create_Market_Part
+icipant_Financial_Market_Simulator.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 472--473
+
+ []
 
 
-! LaTeX Error: File `./tradingmarketparticipants' not found.
+Underfull \hbox (badness 10000) in paragraph at lines 482--483
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.302 ...s[scale=0.6]{./tradingmarketparticipants}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+ []
 
-)
-Runaway argument?
-{View Trading Market Participants \label {Market Participants} \end {\ETC.
-! File ended while scanning use of \@xdblarg.
-<inserted text> 
-                \par 
-<*> Software_Architecture_Document.tex
-                                      
-I suspect you have forgotten a `}', causing me
-to read past where you wanted me to stop.
-I'll try to recover; but if the error is serious,
-you'd better type `E' or `X' now and fix your file.
+<./placeOrder_activity.png, id=94, 709.14937pt x 346.29375pt>
+File: ./placeOrder_activity.png Graphic file (type png)
 
-! Emergency stop.
-<*> Software_Architecture_Document.tex
-                                      
-*** (job aborted, no legal \end found)
+<use ./placeOrder_activity.png>
+Package pdftex.def Info: ./placeOrder_activity.png used on input line 488.
+(pdftex.def)             Requested size: 496.40118pt x 242.40396pt.
 
- 
+Overfull \hbox (26.6462pt too wide) in paragraph at lines 488--489
+ [][] 
+ []
+
+[24] [25 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documen
+tation/Project Documentation/Latest Documentation 22 Aug/placeOrder_activity.pn
+g>]
+<./USE_CASE_Select_Simulator_Financial_Market_Simulator.png, id=102, 456.20438p
+t x 286.82156pt>
+File: ./USE_CASE_Select_Simulator_Financial_Market_Simulator.png Graphic file (
+type png)
+
+<use ./USE_CASE_Select_Simulator_Financial_Market_Simulator.png>
+Package pdftex.def Info: ./USE_CASE_Select_Simulator_Financial_Market_Simulator
+.png used on input line 515.
+(pdftex.def)             Requested size: 364.96399pt x 229.45755pt.
+
+<./USE_CASE_Run_Simulator_Financial_Market_Simulator.png, id=103, 538.26094pt x
+ 272.51813pt>
+File: ./USE_CASE_Run_Simulator_Financial_Market_Simulator.png Graphic file (typ
+e png)
+ <use ./USE_CASE_Run_Simulator_Financial_Market_Simulator.png>
+Package pdftex.def Info: ./USE_CASE_Run_Simulator_Financial_Market_Simulator.pn
+g used on input line 522.
+(pdftex.def)             Requested size: 430.60934pt x 218.01479pt.
+
+[26 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Select_Simulator_F
+inancial_Market_Simulator.png>] [27 <C:/Users/Moeletji/Documents/GitHub/Grape__
+COS301_Main_Project/Documentation/Project Documentation/Latest Documentation 22
+ Aug/USE_CASE_Run_Simulator_Financial_Market_Simulator.png>] [28]
+<./ClassDiagram.jpg, id=115, 2127.44812pt x 1042.64531pt>
+File: ./ClassDiagram.jpg Graphic file (type jpg)
+
+<use ./ClassDiagram.jpg>
+Package pdftex.def Info: ./ClassDiagram.jpg used on input line 568.
+(pdftex.def)             Requested size: 744.61801pt x 364.93132pt.
+
+
+LaTeX Warning: Float too large for page by 63.72203pt on input line 571.
+
+[29 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/ClassDiagram.jpg>]
+
+AED: lastpage setting LastPage
+[30
+
+
+]
+("C:\Users\Moeletji\Documents\GitHub\Grape__COS301_Main_Project\Documentation\P
+roject Documentation\Latest Documentation 22 Aug\Software_Architecture_Document
+.aux")
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2459 strings out of 493921
- 35384 string characters out of 3148877
- 91336 words of memory out of 3000000
- 5747 multiletter control sequences out of 15000+200000
- 6985 words of font info for 25 fonts, out of 3000000 for 9000
+ 2536 strings out of 493921
+ 38410 string characters out of 3148877
+ 92091 words of memory out of 3000000
+ 5824 multiletter control sequences out of 15000+200000
+ 7332 words of font info for 26 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,7n,32p,520b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 27i,10n,32p,511b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Progra
+m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/ams
+fonts/cm/cmti12.pfb>
+Output written on Software_Architecture_Document.pdf (30 pages, 1728318 bytes).
+
+PDF statistics:
+ 139 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
+

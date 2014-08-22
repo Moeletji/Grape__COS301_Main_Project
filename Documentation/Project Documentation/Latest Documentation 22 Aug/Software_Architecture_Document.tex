@@ -40,8 +40,8 @@
 		Moeletji Semenya 12349136\\
 		Madimetja Shika 12127877\\[3em]
 	
-	\small Publication Date: 21 May 2014\\[0.5em]
-	\small Version: 0.3		    
+	\small Publication Date: 22 August 2014\\[0.5em]
+	\small Version: 0.4		    
 	\end{center}%
 	
 	\newpage		
@@ -63,9 +63,11 @@
 		29/07/2014 & Madimetja & Edited and Reviewd document & 0.1\\
 		31/07/2014 & Madimetja & Added vision and scope sections & 0.1\\
 		01/08/2014 & Moeletji & Added final images and compiled document & 0.2\\
-		21/08/2014 & Madimetja &  Updated Class Diagram document & 0.2\\
-                20/08/2014 & Daniel & Added section for GUI and pictures & 0.3\\
-                22/08/2014 & Daniel & Edited Architectural Constraints & 0.3\\
+		19/08/2014 & Moeletji & Added diagram and updated functional requirements & 0.3\\
+        20/08/2014 & Daniel & Added section for GUI and pictures & 0.3\\
+        21/08/2014 & Madimetja &  Updated Class Diagram document & 0.3\\
+        22/08/2014 & Daniel & Edited Architectural Constraints & 0.3\\
+        22/08/2014 & Moeletji & Finalising new version & 0.4\\
 	\end{tabular}
 	
 	\newpage
@@ -239,69 +241,78 @@
         \newpage
 	\section{User Interface}
             A user will create stocks and market participants with relevant data and 
-            will the simulator by selecting which market participants trades in which stocks.
+            will the simulator by selecting which market participants trades in which stocks.\\
 
             \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./menu}
-                            \caption{Menu of Interface}
-                            \label{Menu}
+             \centering
+             \includegraphics[scale=0.8]{./menu}
+             \caption{Menu of Interface}
+             \label{Menu}
             \end{figure}
-            \\
+            The tabs above provide access to the market depth and participant metrices.
+            
             \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./matchingengine}
-                            \caption{Matching Engine of Interface}
-                            \label{Matching Engine}
+            \centering
+            \includegraphics[scale=0.8]{./matchingengine}
+            \caption{Matching Engine of Interface}
+            \label{Matching Engine}
             \end{figure}
-            \\
-            \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./marketentryattempt}
-                            \caption{Create Market Entry Attempt}
-                            \label{Market Entry Attempt}
-            \end{figure}
-            \\
-            \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./marketdata}
-                            \caption{View Market Data}
-                            \label{Market Data}
-            \end{figure}
-            \\
-            \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./priceupdates}
-                            \caption{Set Price Updates}
-                            \label{Price Updates}
-            \end{figure}
-            \\
-            \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./marketparticipant}
-                            \caption{Create and Manage Market Participants}
-                            \label{Market Participants}
-            \end{figure}
-            \\
-            \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./createstocks}
-                            \caption{Create or Generate Stocks}
-                            \label{Stocks}
-            \end{figure}
-            \\
-            \begin{figure}[th]
-                            \centering
-                            \includegraphics[scale=0.6]{./marketparticipantdata}
-                            \caption{View Market Participant Data}
-                            \label{Market Participants}
-            \end{figure}
-            \\
+            The Order List tab displays the market depth for each stock registered in the system and shows the orders as they are placed and matched.
+          \pagebreak
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.8]{./marketentryattempt}
+\caption{Create Market Entry Attempt}
+\label{Market Entry Attempt}
+\end{figure}  
+         
+ This part of the Order List view allows a user to manually insert a market entry attempt into the system while the simulation takes place. 
+           
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.8]{./marketdata}
+\caption{View Market Data}
+\label{Market Data}
+\end{figure}
+Also part of the Order List tab interface is the section that enables users to view the state of the system at different points in time to see the data generated by clicking on any of the buttons displayed.
+\pagebreak            
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.8]{./priceupdates}
+\caption{Set Price Updates}
+\label{Price Updates}
+\end{figure}
 
-	\newpage		    		    		    			    	
+The Exchange Data tab enables users to update information into the market to see how it reacts to different updates at specific times.           
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.8]{./marketparticipant}
+\caption{Create and Manage Market Participants}
+\label{Market Participants}
+\end{figure}
+        
+The Market Simulator tab contains the user interface for the simulation and adding market participants into the system to start trading.            
+
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.8]{./createstocks}
+	\caption{Create or Generate Stocks}
+	\label{Stocks}
+	\end{figure}
+	
+	The Stock Management tab provides the user interface for adding Stocks and corresponding stock managers to the system. After doing that, the stocks can be generated before the simulator is started.  
+            
+	\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.8]{./marketparticipantdata}
+	\caption{View Market Participant Data}
+	\label{Market Participants}
+	\end{figure}
+            
+\newpage
 	\section{Functional requirements and application design}
 		\subsection{Introduction}	
-		This part of the document outlines the functional requirements of the \textit{Financial market simulation} at the different levels of granularity. In the deisgn of the system we followed the SOLID design principles.
+		This part of the document outlines the functional requirements of the \textit{Financial market simulation} at the different levels of granularity. In the deisgn of the system we followed the SOLID design principles.\\ \\ 
 		
 			\begin{figure}[th]
 			\centering
@@ -468,8 +479,17 @@
 					\item Requirement Level: High
 				\end{itemize}  
 				
-				The system should be able to generate bids and offers. The participant will have a mechanism(trading strategies) to decide how much to offer or bid and the quantity of shares. This requirement is strongly linked with previous requirement.	 
+				The system should be able to generate bids and offers. The participant will have a mechanism(trading strategies) to decide how much to offer or bid and the quantity of shares. This requirement is strongly linked with previous requirement.\\
 				
+				Figure 13 shows an activity diagram of how an order would be placed in the Financial Market Simulator.	 
+				
+\begin{figure}[th!]
+\centering
+\includegraphics[scale=0.7]{./placeOrder_activity}
+\caption{An activity diagram for placing an order.}
+\label{domain objects}
+\end{figure}
+			\pagebreak			 
 			\subsubsection{A mechanism for delivering messages about market events}
 			\begin{itemize}
 					\item Requirement Prioritization: Critical
@@ -477,8 +497,8 @@
 					\item Requirement Level: High	
 			\end{itemize}
 			
-			Messages about the last traded price need to be delivered to the other relevant market participants in order for them to have the latest information on whats happening in the market. The MarketEntryAttemptBook will deliver the messages to market participants and other components of the system that will need the latest data for computatoin purposes. All the market participants which are trading a particular instrument will be informed of what the other participants are doing.
-			
+			Messages about the last traded price need to be delivered to the other relevant market participants in order for them to have the latest information on whats happening in the market. The stock manager will deliver the messages to market participants and other components of the system that will need the latest data for computation purposes. All the market participants which are trading a particular instrument will be informed of what the other participants are doing.
+	\pagebreak		
 			\subsubsection{Simulate the financial market}
 			\begin{itemize}
 				\item Requirement Prioritization: Critical
@@ -554,7 +574,7 @@
 	\newpage				
 	\section{Glossary}	
 		\begin{itemize}
-			\item \textbf{Order}: An instruction from a participant to either put in an offer or a bid.
+			\item \textbf{Order}: An instruction from a participant to either put in an offer or a bid.(Note-The term market entry attempt has the same meaning in this context)
 			\item \textbf{Market data}: Data reflecting current trading information to include pricing and volume and other additional information related to the trade.
 			\item \textbf{Match}: When an offer and a bid have the same price.
 			\item \textbf{Trading Event} Entering the market(placing an bid) or exiting the market(placing an offer). 
