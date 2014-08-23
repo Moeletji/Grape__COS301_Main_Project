@@ -7,19 +7,20 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Madimetja
  */
 public class NDMTest {
-    
+    MarketEntryAttemptBook book;
     public NDMTest() {
     }
     
@@ -45,11 +46,12 @@ public class NDMTest {
     @Test
     public void testSetCurrValue() {
         System.out.println("setCurrValue");
-        double val = 0.0;
-        NDM instance = null;
+        double val = 22.5;
+        book = new MarketEntryAttemptBook();
+        NDM instance = new NDM(book,14);
         instance.setCurrValue(val);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double result = instance.getCurrValue();
+        assertEquals(val,result,0.0);
     }
 
     /**
@@ -59,10 +61,11 @@ public class NDMTest {
     public void testSetPrevValue() {
         System.out.println("setPrevValue");
         int prev = 0;
-        NDM instance = null;
+        book = new MarketEntryAttemptBook();
+        NDM instance = new NDM(book,14);
         instance.setPrevValue(prev);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double result = instance.getCurrValue();
+        assertEquals(prev,result,0.0);
     }
 
     /**
@@ -71,12 +74,12 @@ public class NDMTest {
     @Test
     public void testGetPrevValue() {
         System.out.println("getPrevValue");
-        NDM instance = null;
-        double expResult = 0.0;
+        book = new MarketEntryAttemptBook();
+        NDM instance = new NDM(book,14);
+        int expResult = 22;
+        instance.setPrevValue(expResult);
         double result = instance.getPrevValue();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -85,12 +88,12 @@ public class NDMTest {
     @Test
     public void testGetCurrValue() {
         System.out.println("getCurrValue");
-        NDM instance = null;
+        book = new MarketEntryAttemptBook();
+        NDM instance = new NDM(book,14);
         double expResult = 0.0;
+        instance.setCurrValue(expResult);
         double result = instance.getCurrValue();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

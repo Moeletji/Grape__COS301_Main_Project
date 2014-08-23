@@ -7,19 +7,20 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Madimetja
  */
 public class NDITest {
-    
+    MarketEntryAttemptBook book;
     public NDITest() {
     }
     
@@ -41,18 +42,36 @@ public class NDITest {
 
     /**
      * Test of calculateNDI method, of class NDI.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateNDI() throws Exception {
         System.out.println("calculateNDI");
         double _currNDM = 0.0;
         double _prevNDM = 0.0;
-        NDI instance = null;
-        double expResult = 0.0;
+        book = new MarketEntryAttemptBook();
+        NDI instance = new NDI(book,14);
+        double expResult;
+        double currentNDM = 0.29;
+        double previiousNDM = 0.31;
+        book = new MarketEntryAttemptBook();
+        //***********************
+        // Expected result calculation
+        //***********************
+        EMA ema = new EMA(book,14);
+        ATR atr = new ATR(book,14);
+        
+        ema.setCurrentPrice(currentNDM);
+        ema.setPreviousEMAValue(previiousNDM);
+        
+        expResult = (100 * ema.calculateEMA() / atr.calculateATR());
+        
+        //***********************
+        // Observed result calculation
+        //***********************
         double result = instance.calculateNDI(_currNDM, _prevNDM);
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -62,10 +81,9 @@ public class NDITest {
     public void testSetPreviousValue() {
         System.out.println("setPreviousValue");
         double _prev = 0.0;
-        NDI instance = null;
+        book = new MarketEntryAttemptBook();
+        NDI instance = new NDI(book,14);
         instance.setPreviousValue(_prev);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -74,12 +92,19 @@ public class NDITest {
     @Test
     public void testGetPrevValue() {
         System.out.println("getPrevValue");
-        NDI instance = null;
+        book = new MarketEntryAttemptBook();
+        NDI instance = new NDI(book,14);
+        
+        //Default result
         double expResult = 0.0;
         double result = instance.getPrevValue();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //Result after set
+        expResult = 25;
+        instance.setPreviousValue(expResult);
+        result = instance.getPrevValue();
+        assertEquals(expResult, result, 0.0);
     }
 
     /**
@@ -89,10 +114,9 @@ public class NDITest {
     public void testSetTodaysHigh() {
         System.out.println("setTodaysHigh");
         int high = 0;
-        NDI instance = null;
+        book = new MarketEntryAttemptBook();
+        NDI instance = new NDI(book,14);
         instance.setTodaysHigh(high);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -102,10 +126,9 @@ public class NDITest {
     public void testSetTodaysLow() {
         System.out.println("setTodaysLow");
         int low = 0;
-        NDI instance = null;
+        book = new MarketEntryAttemptBook();
+        NDI instance = new NDI(book,14);
         instance.setTodaysLow(low);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -115,10 +138,9 @@ public class NDITest {
     public void testSetPrevClosing() {
         System.out.println("setPrevClosing");
         int preC = 0;
-        NDI instance = null;
+        book = new MarketEntryAttemptBook();
+        NDI instance = new NDI(book,14);
         instance.setPrevClosing(preC);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

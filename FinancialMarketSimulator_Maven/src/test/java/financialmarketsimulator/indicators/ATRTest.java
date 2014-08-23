@@ -7,19 +7,20 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Madimetja
  */
 public class ATRTest {
-    
+    MarketEntryAttemptBook book;
     public ATRTest() {
     }
     
@@ -45,12 +46,29 @@ public class ATRTest {
     @Test
     public void testCalculateATR() {
         System.out.println("calculateATR");
-        ATR instance = null;
-        double expResult = 0.0;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
+        double expResult;
+        double currentHigh = 0.51;
+        double currentLow = 0.48;
+        double previousATR = 0.45;
+        int numDays = 14;
+        
+        //*******************************
+        // Excpected result calculation
+        //*******************************
+        double trueRange = currentHigh - currentLow;
+        expResult = (previousATR * (numDays - 1)) + (trueRange / numDays);
+
+        //*******************************
+        // Observed results calculation
+        //*******************************
+        instance.setCurrentHight(currentHigh);
+        instance.setCurrentLow(currentLow);
+        instance.setPreviousATR(previousATR);
         double result = instance.calculateATR();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        assertEquals(expResult, result, 2);
     }
 
     /**
@@ -59,12 +77,11 @@ public class ATRTest {
     @Test
     public void testGetTrueRange() {
         System.out.println("getTrueRange");
-        ATR instance = null;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
         double expResult = 0.0;
         double result = instance.getTrueRange();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,10 +90,9 @@ public class ATRTest {
     @Test
     public void testSetTrueRange() {
         System.out.println("setTrueRange");
-        ATR instance = null;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
         instance.setTrueRange();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -86,10 +102,9 @@ public class ATRTest {
     public void testSetPreviousATR() {
         System.out.println("setPreviousATR");
         double prev = 0.0;
-        ATR instance = null;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
         instance.setPreviousATR(prev);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -99,10 +114,9 @@ public class ATRTest {
     public void testSetCurrentHight() {
         System.out.println("setCurrentHight");
         double val = 0.0;
-        ATR instance = null;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
         instance.setCurrentHight(val);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -112,10 +126,9 @@ public class ATRTest {
     public void testSetCurrentLow() {
         System.out.println("setCurrentLow");
         double val = 0.0;
-        ATR instance = null;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
         instance.setCurrentLow(val);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -125,10 +138,9 @@ public class ATRTest {
     public void testSetPreviousClosing() {
         System.out.println("setPreviousClosing");
         double val = 0.0;
-        ATR instance = null;
+        book = new MarketEntryAttemptBook();
+        ATR instance = new ATR(book,14);
         instance.setPreviousClosing(val);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

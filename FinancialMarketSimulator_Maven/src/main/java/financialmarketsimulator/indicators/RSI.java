@@ -31,12 +31,12 @@ public class RSI {
     
     public RSI(MarketEntryAttemptBook _book, int _numDays)
     {
-        book = _book;
-        numDays = _numDays;
-        previousClose = 0.0;
-        currentClose = book.getLastTradePrice();
-        currentUpClose = book.getHighestTradePrice(numDays);
-        currentDownClose = book.getLowestTradePrice(numDays);
+        this.book = _book;
+        this.numDays = _numDays;
+        this.previousClose = 0.0;
+        this.currentClose = this.book.getLastTradePrice();
+        this.currentUpClose = this.book.getHighestTradePrice(this.numDays);
+        this.currentDownClose = this.book.getLowestTradePrice(this.numDays);
     }
     
     /**

@@ -7,19 +7,20 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author Madimetja
  */
 public class RSITest {
-    
+    MarketEntryAttemptBook book;
     public RSITest() {
     }
     
@@ -41,30 +42,92 @@ public class RSITest {
 
     /**
      * Test of calculateRSI method, of class RSI.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateRSI() throws Exception {
         System.out.println("calculateRSI");
-        RSI instance = null;
-        double expResult = 0.0;
+        book = new MarketEntryAttemptBook();
+        RSI instance = new RSI(book,14);
+        double currentUpClose = 0.49;
+        double currentDownClose = 0.44; 
+        double currentClose = 0.48;
+        double previousClose = 0.46;
+        double previousUpClose;
+        double previousDownClose;
+        double expResult;
+        
+        //*****************************
+        // Expected result calculation
+        //*****************************
+        EMA emaUp = new EMA(book,14);
+        EMA emaDown = new EMA(book,14);
+        
+        previousUpClose = currentUpClose;
+        previousDownClose = currentDownClose;
+        currentUpClose = (currentClose > previousClose) ? currentClose-previousClose : 0;
+        currentDownClose = (currentClose < previousClose) ? previousClose-currentClose : 0;
+        
+        emaUp.setCurrentPrice(currentUpClose);
+        emaUp.setPreviousEMAValue(previousUpClose);
+        emaDown.setCurrentPrice(currentDownClose);
+        emaDown.setPreviousEMAValue(previousDownClose);
+        
+        double relativeStrength = emaUp.calculateEMA()/emaDown.calculateEMA();
+        
+        double RSvalue = 
+        expResult = 100 - (100 / (1 + relativeStrength));
+        
+        //*****************************
+        // Observed result calculation
+        //*****************************
         double result = instance.calculateRSI();
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of calculateRS method, of class RSI.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateRS() throws Exception {
         System.out.println("calculateRS");
-        RSI instance = null;
-        double expResult = 0.0;
+        book = new MarketEntryAttemptBook();
+        RSI instance = new RSI(book,14);
+        double previousUpClose;
+        double currentUpClose;
+        double previousDownClose;
+        double currentDownClose;
+        double currentClose;
+        double previousClose;
+        double expResult;
+        
+        //Empirical
+        EMA emaUp = new EMA(book,14);
+        EMA emaDown = new EMA(book,14);
+        
+        previousClose = 0.0;
+        currentClose = book.getLastTradePrice();
+        currentUpClose = book.getHighestTradePrice(14);
+        currentDownClose = book.getLowestTradePrice(14);
+        
+        previousUpClose = currentUpClose;
+        previousDownClose = currentDownClose;
+        currentUpClose = (currentClose > previousClose) ? currentClose-previousClose : 0;
+        currentDownClose = (currentClose < previousClose) ? previousClose-currentClose : 0;
+        
+        emaUp.setCurrentPrice(currentUpClose);
+        emaUp.setPreviousEMAValue(previousUpClose);
+        emaDown.setCurrentPrice(currentDownClose);
+        emaDown.setPreviousEMAValue(previousDownClose);
+        
+        expResult = emaUp.calculateEMA()/emaDown.calculateEMA();
+        
+        //Theoretical
         double result = instance.calculateRS();
+        
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -73,12 +136,11 @@ public class RSITest {
     @Test
     public void testGetRSI() {
         System.out.println("getRSI");
-        RSI instance = null;
+        book = new MarketEntryAttemptBook();
+        RSI instance = new RSI(book,14);
         double expResult = 0.0;
         double result = instance.getRSI();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -87,12 +149,11 @@ public class RSITest {
     @Test
     public void testGetRS() {
         System.out.println("getRS");
-        RSI instance = null;
+        book = new MarketEntryAttemptBook();
+        RSI instance = new RSI(book,14);
         double expResult = 0.0;
         double result = instance.getRS();
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
