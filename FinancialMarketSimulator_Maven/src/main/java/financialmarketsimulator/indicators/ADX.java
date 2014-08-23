@@ -1,8 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import com.tictactec.ta.lib.Core;
-import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static java.lang.Math.abs;
