@@ -24,13 +24,14 @@ public class MACDStrategy {
 
     public void generateMarketEntryAttempt() throws NotEnoughDataException {
         double currentValue = macd.calculateMACDValue();
+        double prevMACDValue = macd.getPreviousMACDValue();
         //double signalLine = macd.calculateSignalValue();
-        if (macd.getPreviousMACDValue() > 0 && currentValue < 0) {
+        if (prevMACDValue > 0 && currentValue < 0) {
             //buy
             System.out.println(new Date().toString() + " BUY");
         }
         //else
-        if (macd.getPreviousMACDValue() < 0 && currentValue > 0) {
+        if (prevMACDValue < 0 && currentValue > 0) {
             //sell
             System.out.println(new Date().toString() + " SELL");
         }
