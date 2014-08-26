@@ -5,6 +5,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
 import java.util.Vector;
 
@@ -36,4 +37,5 @@ public class MACDStrategy {
             System.out.println(new Date().toString() + " SELL");
         }
     }
+ 
 }

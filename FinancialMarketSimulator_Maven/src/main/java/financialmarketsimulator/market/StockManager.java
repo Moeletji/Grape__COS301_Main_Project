@@ -157,10 +157,10 @@ public class StockManager extends Thread {
     public void detach(MarketParticipant participant) {
         participants.remove(participant);
     }
-    
-    public void sendMessage(Message message){
+
+    public void sendMessage(Message message) {
         this.messageQueue.add(message);
-    } 
+    }
 
     public void Notify() {
         for (MarketParticipant participant : participants) {
@@ -185,7 +185,8 @@ public class StockManager extends Thread {
         }
 
         while (true) {
-            while (messageQueue.isEmpty()) {}
+            while (messageQueue.isEmpty()) {
+            }
 
             synchronized (this) {
                 if (!messageQueue.isEmpty()) {

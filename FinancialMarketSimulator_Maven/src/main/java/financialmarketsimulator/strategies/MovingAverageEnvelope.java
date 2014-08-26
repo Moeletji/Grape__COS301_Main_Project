@@ -5,6 +5,7 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
 import java.util.Vector;
 
@@ -40,7 +41,8 @@ public class MovingAverageEnvelope extends MarketStrategy{
     
     MarketEntryAttemptBook book;
 
-    public MovingAverageEnvelope(MarketEntryAttemptBook _book) throws NotEnoughDataException {
+    public MovingAverageEnvelope(MarketExchange exchange, MarketEntryAttemptBook _book) throws NotEnoughDataException {
+        super(exchange, "MovingAverageEnvelope");
         if (_book != null)
         {
             this.book = _book;
@@ -53,7 +55,9 @@ public class MovingAverageEnvelope extends MarketStrategy{
         else throw new NotEnoughDataException();
     }
     
-    public MovingAverageEnvelope(MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
+    public MovingAverageEnvelope(MarketExchange exchange, MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
+        super(exchange, "MovingAverageEnvelope");
+        
         if (_book != null)
         {
             this.book = _book;
@@ -179,5 +183,10 @@ public class MovingAverageEnvelope extends MarketStrategy{
     public STRATEGY_TYPE getType()
     {
         return this.type;
+    }
+    
+    @Override
+    public void trade(){
+        //Implement one trade instance here, infinite loop is in MarketParticipant
     }
 }

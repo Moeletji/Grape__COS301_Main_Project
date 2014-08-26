@@ -12,6 +12,7 @@ import financialmarketsimulator.market.Variants;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 import financialmarketsimulator.marketData.QuoteUpdates;
+import financialmarketsimulator.strategies.Phantom;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2041,7 +2042,7 @@ public class FMSimulator extends javax.swing.JFrame {
         
         try {
         
-            participant = new MarketParticipant(name, id, exchange, stock, variants, lbxBidsList, lbxOffersList, lbxMatchedList);
+            participant = new MarketParticipant(name, id, exchange, stock, variants, new Phantom(exchange, Phantom.LEVEL_PRICE.LOW, Phantom.LEVEL_SHARES.LOW), lbxBidsList, lbxOffersList, lbxMatchedList);
         
         } catch (NotEnoughDataException ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,6 +5,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketExchange;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.ema;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.price;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.sma;
@@ -24,8 +25,8 @@ public class PriceSmaCrossover extends Crossover{
     //indicator2 = SMA
     
     @SuppressWarnings("Convert2Diamond")
-    public PriceSmaCrossover(MarketEntryAttemptBook _data, int _numDays) {
-       super(_data, _numDays, "Price", "SMA");
+    public PriceSmaCrossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays) {
+       super(exchange, _data, _numDays, "Price", "SMA");
        smaObj = new SMA(this.data, _numDays);
        
        closingSmas = new Vector<>();
@@ -142,5 +143,10 @@ public class PriceSmaCrossover extends Crossover{
            return "SMA";
        else
            return null;
+    }
+    
+    @Override
+    public void trade(){
+        //Implement one trade instance here, infinite loop is in MarketParticipant
     }
 }

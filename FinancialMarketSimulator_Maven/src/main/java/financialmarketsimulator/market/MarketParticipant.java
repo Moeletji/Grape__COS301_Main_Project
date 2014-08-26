@@ -4,14 +4,10 @@ import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
-import financialmarketsimulator.marketData.Message;
 import financialmarketsimulator.strategies.MACDStrategy;
 import financialmarketsimulator.strategies.MovingAverageCrossover;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -87,7 +83,7 @@ public class MarketParticipant extends Thread {
      * @param type the type of the entity
      * @param stock name of the stock
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) throws NotEnoughDataException {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, MarketStrategy strategy) throws NotEnoughDataException {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -95,7 +91,8 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
-
+        this.currentStrategy = strategy;
+        
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
 
@@ -113,7 +110,7 @@ public class MarketParticipant extends Thread {
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy ,JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -126,14 +123,13 @@ public class MarketParticipant extends Thread {
         this.bidsList = bidsList;
         this.offersList = offersList;
         this.matchedList = matchedList;
+        this.currentStrategy = strategy;
 
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
-        macdStrategy = new MACDStrategy(this.stockManager.getOrderList());
-        macStrategy = new MovingAverageCrossover(this.stockManager.getOrderList(), 14);
     }
 
     /**
@@ -189,7 +185,7 @@ public class MarketParticipant extends Thread {
      */
     public void addStrategy(MarketStrategy strategy) throws NameAlreadyExistsException {
         for (MarketStrategy strategyTmp : strategies) {
-            if (strategyTmp.getName().equals(strategy.getName())) {
+            if (strategyTmp.getStrategyName().equals(strategy.getStrategyName())) {
                 throw new NameAlreadyExistsException();
             }
         }
@@ -203,7 +199,7 @@ public class MarketParticipant extends Thread {
      */
     public void setCurrentStrategy(String name) throws NameNotFoundException {
         for (MarketStrategy strategy : strategies) {
-            if (strategy.getName().equals(name)) {
+            if (strategy.getStrategyName().equals(name)) {
                 currentStrategy = strategy;
                 return;
             }
@@ -216,8 +212,8 @@ public class MarketParticipant extends Thread {
 
         System.out.println("Stock name: " + stock);
 
-        //while (true) {
-        for (int l = 0; l < 1000; l++) {
+        while (true) {
+        //for(int i = 0; i < 1000; i++){
             try {
                 synchronized (this) {
                     while (paused) {
@@ -230,51 +226,13 @@ public class MarketParticipant extends Thread {
 
             synchronized (this) {
                 if (stop) {
-                    break;
+                    return;
                 }
-            }
-
-
-            //************************************************************************
-            //This is where you trade ... 
-            //*************************************************************************
-
-            //REMOVE ALL CODE IN THIS BLOCK THIS IS JUST USED TO TEST IF IT WORKS
-
-            int min = 0;
-            int max = 5;
-
-            int maxShares = 1000;
-            int minShares = 500;
-
-
-            int flag = new Random().nextInt(11);
-
-            MarketEntryAttempt.SIDE side;
-
-            if (flag > 5) {
-                side = MarketEntryAttempt.SIDE.BID;
-            } else {
-                side = MarketEntryAttempt.SIDE.OFFER;
             }
 
             synchronized (this) {
-
-                MarketEntryAttempt newAttempt = new MarketEntryAttempt((double) (Math.random() * (max - min) + min), (int) (Math.random() * (maxShares - minShares) + minShares), participantName, side);
- 
-                try {
-
-                    Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
-                    stockManager.sendMessage(message);
-
-                    //Update the GUI
-                    this.updateDisplay();
-
-                    macdStrategy.generateMarketEntryAttempt();
-
-                } catch (NotEnoughDataException ex) {
-                    System.out.println("Not Enough Data Exception " + getParticipantID());
-                }
+                currentStrategy.trade();
+                this.updateDisplay();
             }
         }
     }
@@ -300,9 +258,6 @@ public class MarketParticipant extends Thread {
 
     synchronized public void terminateTrading() {
         stop = true;
-    }
-
-    public void trade() {
     }
 
     public void update(StockManager Updatedmanager) {

@@ -2,6 +2,7 @@ package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -22,6 +23,10 @@ import org.jfree.data.time.TimeSeriesCollection;
  * PriceVsEma Crossover and PriceVsSma Crossover.
  */
 public abstract class Crossover extends MarketStrategy{
+    
+    private boolean buy;
+    
+    private boolean sell;
 
     /**
      * @brief Class used to house the details of a crossover event.
@@ -127,7 +132,9 @@ public abstract class Crossover extends MarketStrategy{
      */
     protected JFreeChart graph;
 
-    public Crossover(MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
+    public Crossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
+        super(exchange, "Crossover");
+        
         this.numDays = _numDays;
         this.crossoverPoints = null;
         this.graph = null;
@@ -229,5 +236,10 @@ public abstract class Crossover extends MarketStrategy{
     public JFreeChart getCrossoverGraph() {
         drawCrossoverGraph();
         return graph;
+    }
+    
+    @Override
+    public void trade(){
+        //Implement one trade instance here, infinite loop is in MarketParticipant
     }
 }
