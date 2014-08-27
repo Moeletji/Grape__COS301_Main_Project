@@ -46,21 +46,9 @@ public class PriceEmaCrossoverTest {
     public void testDetermineCrossoverPoints() {
         System.out.println("determineCrossoverPoints");
         PriceEmaCrossover instance = null;
-        instance.determineCrossoverPoints();
+        //instance.determineCrossoverPoints();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of generateMarketEntryAttempt method, of class PriceEmaCrossover.
-     */
-    @Test
-    public void testGenerateMarketEntryAttempt() throws Exception {
-        System.out.println("generateMarketEntryAttempt");
-        PriceEmaCrossover instance = null;
-        instance.trade();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -73,6 +61,18 @@ public class PriceEmaCrossoverTest {
         String expResult = "";
         String result = instance.getCurrentHight();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of trade method, of class PriceEmaCrossover.
+     */
+    @Test
+    public void testTrade() throws Exception {
+        System.out.println("trade");
+        PriceEmaCrossover instance = null;
+        instance.trade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
