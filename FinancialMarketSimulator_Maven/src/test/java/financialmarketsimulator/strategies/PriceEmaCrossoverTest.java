@@ -58,7 +58,7 @@ public class PriceEmaCrossoverTest {
     public void testGenerateMarketEntryAttempt() throws Exception {
         System.out.println("generateMarketEntryAttempt");
         PriceEmaCrossover instance = null;
-        instance.generateMarketEntryAttempt();
+        instance.trade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

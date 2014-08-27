@@ -1,5 +1,6 @@
 package financialmarketsimulator.market;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.marketData.Message;
 import java.util.Map;
 
@@ -86,7 +87,8 @@ public abstract class MarketStrategy {
     }
     
     /**
-     * @Brief where different strategies trade
+     * @throws financialmarketsimulator.exception.NotEnoughDataException
+     * @Brief where trade signals are generated
      */
-    public abstract void trade();
+    public abstract void trade() throws NotEnoughDataException;
 }

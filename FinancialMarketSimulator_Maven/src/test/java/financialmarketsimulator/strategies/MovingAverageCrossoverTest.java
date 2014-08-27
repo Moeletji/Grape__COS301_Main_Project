@@ -58,7 +58,7 @@ public class MovingAverageCrossoverTest {
     public void testGenerateMarketEntryAttempt() throws Exception {
         System.out.println("generateMarketEntryAttempt");
         MovingAverageCrossover instance = null;
-        instance.generateMarketEntryAttempt();
+        instance.trade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

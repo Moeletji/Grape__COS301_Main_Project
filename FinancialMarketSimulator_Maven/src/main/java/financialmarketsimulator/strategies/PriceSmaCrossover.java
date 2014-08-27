@@ -1,8 +1,6 @@
-
 package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
@@ -17,26 +15,27 @@ import java.util.Vector;
  *
  * @Brief Price-SMA Crossover Strategy
  */
-public class PriceSmaCrossover extends Crossover{
+public class PriceSmaCrossover extends Crossover {
+
     private SMA smaObj;
-    private Vector<Double> closingSmas;
-    private Vector<Double> closingStockPrice;
+    private final Vector<Double> closingSmas;
+    private final Vector<Double> closingStockPrice;
     //indicator1 = Price
     //indicator2 = SMA
-    
+
     @SuppressWarnings("Convert2Diamond")
     public PriceSmaCrossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays) {
-       super(exchange, _data, _numDays, "Price", "SMA");
-       smaObj = new SMA(this.data, _numDays);
-       
-       closingSmas = new Vector<>();
-       closingStockPrice = new Vector<>();
-       
+        super(exchange, _data, _numDays, "Price", "SMA");
+        smaObj = new SMA(this.data, _numDays);
+
+        closingSmas = new Vector<>();
+        closingStockPrice = new Vector<>();
+
         //TODO : Populate with objects housing closing Price and EMA values over the
         //specidies previous numDays days.
-       closingSmas.add(smaObj.getPreviousSMAValue());
-       closingStockPrice.add(_data.getHighestTradePrice(numDays));
-       
+        closingSmas.add(smaObj.getPreviousSMAValue());
+        closingStockPrice.add(_data.getHighestTradePrice(numDays));
+
         //TODO : Populate with objects housing closing Price and SMA values over the
         //specidies previous numDays days.
         this.closingAverages = new Vector<Crossover.DayClosingAverages>();
@@ -45,9 +44,8 @@ public class PriceSmaCrossover extends Crossover{
     @Override
     @SuppressWarnings("Convert2Diamond")
     public void determineCrossoverPoints() {
-        
+
         //Determine which of the Price or SMA had a higher starting value.
-        
         //Consider the consequent values until non equal values are observed
         //Using while loop for performance sake where Price and SMA values are equivalent
         int j = 0; //Start from the first Price and SMA values
@@ -107,63 +105,36 @@ public class PriceSmaCrossover extends Crossover{
         }
         //At this point all the cross over points are recorded in crossoverPoints LinkedHashMap
     }
-    
+
     @Override
-    public void generateMarketEntryAttempt() throws NotEnoughDataException
-    {
-        double smaCurr = smaObj.calculateSMA(); 
+    public void trade() throws NotEnoughDataException {
+        //Implement one trade instance here, infinite loop is in MarketParticipant
+        double smaCurr = smaObj.calculateSMA();
         double priceCurr = data.getLastTradePrice(); //smaObj.calculateSMA();
-        
-        
-        if( (smaCurr > priceCurr) ) // && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue()) )
+
+        if ((smaCurr > priceCurr)) // && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue()) )
         {
             //Generate Buy Signal
             System.out.println("Price SMA Crossover : BUY SIGNAL.");
             currentHigh = sma;
-        }
-        else if( (smaCurr < priceCurr) ) //&& (emaObj.getPreviousEMAValue()> smaObj.getPreviousSMAValue()) )
+            this.buy = true;
+        } else if ((smaCurr < priceCurr)) //&& (emaObj.getPreviousEMAValue()> smaObj.getPreviousSMAValue()) )
         {
             //Generate Sell Signal
             System.out.println("Price SMA Crossover : SELL SIGNAL.");
             currentHigh = ema;
+            this.sell = true;
         }
-        
-        /*closingSmas.add(smaObj.getPreviousSMAValue());
-        closingStockPrice.add(data.getHighestTradePrice(numDays));
-        
-        if(!closingSmas.isEmpty() && !closingStockPrice.isEmpty())
-        {
-            if( (closingSmas.lastElement() > closingStockPrice.lastElement()) && (smaObj.getCurrentSMAValue() < data.getHighestTradePrice(numDays)) )
-            {
-                //Generate Buy Signal
-                System.out.println("Price Sma Crossover : BUY SIGNAL.");
-                currentHigh = price;
-            }
-            else if( (closingSmas.lastElement() < closingStockPrice.lastElement()) && (smaObj.getCurrentSMAValue() > data.getHighestTradePrice(numDays)) )
-            {
-                //Generate Sell Signal
-                System.out.println("Price Sma Crossover : SELL SIGNAL.");
-                currentHigh = sma;
-            }   
-        }
-        else
-        {
-            System.out.println("Not enough data for Moving Average Crossover.");
-        }*/
     }
 
     @Override
     public String getCurrentHight() {
-       if(currentHigh == price)
-           return "Price";
-       else if(currentHigh == sma)
-           return "SMA";
-       else
-           return null;
-    }
-    
-    @Override
-    public void trade(){
-        //Implement one trade instance here, infinite loop is in MarketParticipant
+        if (currentHigh == price) {
+            return "Price";
+        } else if (currentHigh == sma) {
+            return "SMA";
+        } else {
+            return null;
+        }
     }
 }

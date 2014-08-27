@@ -8,6 +8,8 @@ import financialmarketsimulator.strategies.MACDStrategy;
 import financialmarketsimulator.strategies.MovingAverageCrossover;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -231,7 +233,11 @@ public class MarketParticipant extends Thread {
             }
 
             synchronized (this) {
-                currentStrategy.trade();
+                try {
+                    currentStrategy.trade();
+                } catch (NotEnoughDataException ex) {
+                    ex.printStackTrace();
+                }
                 this.updateDisplay();
             }
         }

@@ -22,11 +22,11 @@ import org.jfree.data.time.TimeSeriesCollection;
  * crossover strategies. Can be implemented by MovingAverage Crossover,
  * PriceVsEma Crossover and PriceVsSma Crossover.
  */
-public abstract class Crossover extends MarketStrategy{
-    
-    private boolean buy;
-    
-    private boolean sell;
+public abstract class Crossover extends MarketStrategy {
+
+    protected boolean buy;
+
+    protected boolean sell;
 
     /**
      * @brief Class used to house the details of a crossover event.
@@ -34,8 +34,8 @@ public abstract class Crossover extends MarketStrategy{
     public class CrossoverDetails {
 
         /**
-         * The difference between the two indicator values immediately before the
-         * crossover event
+         * The difference between the two indicator values immediately before
+         * the crossover event
          */
         private final Double previousDifference;
         /**
@@ -104,18 +104,18 @@ public abstract class Crossover extends MarketStrategy{
      * The number of days over which the strategy is observed
      */
     protected int numDays;
-    
-    
+
     protected final String ind1;
     protected final String ind2;
-    
+
     protected MarketEntryAttemptBook data;
 
     protected HigherAverage currentHigh;
 
     /**
      * Houses the two indicator closing values over the past numDays days.
-     * DayClosingAverages specifies the particular day and the closing values for that day.
+     * DayClosingAverages specifies the particular day and the closing values
+     * for that day.
      */
     @SuppressWarnings({"UseOfObsoleteCollectionType", "FieldMayBeFinal"})
     protected Vector<DayClosingAverages> closingAverages;
@@ -134,7 +134,7 @@ public abstract class Crossover extends MarketStrategy{
 
     public Crossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
         super(exchange, "Crossover");
-        
+
         this.numDays = _numDays;
         this.crossoverPoints = null;
         this.graph = null;
@@ -145,9 +145,9 @@ public abstract class Crossover extends MarketStrategy{
     }
 
     /**
-     * @brief Determines when crossovers events took place in the past numDays days and
-     * stores the crossover events information in CrossoverDetails objects and 
-     * the crossoverPoints vector.
+     * @brief Determines when crossovers events took place in the past numDays
+     * days and stores the crossover events information in CrossoverDetails
+     * objects and the crossoverPoints vector.
      */
     public abstract void determineCrossoverPoints();
 
@@ -155,22 +155,21 @@ public abstract class Crossover extends MarketStrategy{
      * @brief Sets the buy status to either true or false.
      * @param bool The value to which buy should be set.
      */
-    private void setBuy(boolean bool)
-    {
+    private void setBuy(boolean bool) {
         this.buy = bool;
     }
-    
+
     /**
      * @brief Sets the sell status to either true or false.
      * @param bool The value to which sell should be set.
      */
-    private void setSell(boolean bool)
-    {
+    private void setSell(boolean bool) {
         this.sell = bool;
     }
-    
-    public abstract void generateMarketEntryAttempt() throws NotEnoughDataException;
-    
+
+    @Override
+    public abstract void trade() throws NotEnoughDataException;
+
     /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.
      * Graph is stored in the JFreeChart Graph variable
@@ -208,7 +207,7 @@ public abstract class Crossover extends MarketStrategy{
     }
 
     /**
-     * 
+     *
      * @return Returns the current higher indicator/price
      */
     public abstract String getCurrentHight();
@@ -236,10 +235,5 @@ public abstract class Crossover extends MarketStrategy{
     public JFreeChart getCrossoverGraph() {
         drawCrossoverGraph();
         return graph;
-    }
-    
-    @Override
-    public void trade(){
-        //Implement one trade instance here, infinite loop is in MarketParticipant
     }
 }
