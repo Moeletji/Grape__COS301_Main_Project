@@ -111,7 +111,24 @@ public class PriceEmaCrossover extends Crossover{
     @Override
     public void generateMarketEntryAttempt() throws NotEnoughDataException
     {
-        closingEmas.add(emaObj.getPreviousEMAValue());
+        double emaCurr = emaObj.calculateEMA(); 
+        double priceCurr = data.getLastTradePrice(); //smaObj.calculateSMA();
+        
+        
+        if( (emaCurr > priceCurr) ) // && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue()) )
+        {
+            //Generate Buy Signal
+            System.out.println("Price EMA Crossover : BUY SIGNAL.");
+            currentHigh = sma;
+        }
+        else if( (emaCurr < priceCurr) ) //&& (emaObj.getPreviousEMAValue()> smaObj.getPreviousSMAValue()) )
+        {
+            //Generate Sell Signal
+            System.out.println("Price EMA Crossover : SELL SIGNAL.");
+            currentHigh = ema;
+        }
+        
+        /*closingEmas.add(emaObj.getPreviousEMAValue());
         closingStockPrice.add(data.getHighestTradePrice(numDays));
         
         if(!closingEmas.isEmpty() && !closingStockPrice.isEmpty())
@@ -132,7 +149,7 @@ public class PriceEmaCrossover extends Crossover{
         else
         {
             System.out.println("Not enough data for Moving Average Crossover.");
-        }
+        }*/
     }
 
     @Override

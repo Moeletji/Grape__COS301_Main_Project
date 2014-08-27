@@ -110,27 +110,27 @@ public class MovingAverageCrossover extends Crossover{
     @Override
     public void generateMarketEntryAttempt() throws NotEnoughDataException
     {
-        closingEmas.add(emaObj.getPreviousEMAValue());
-        closingSmas.add(smaObj.getPreviousSMAValue());
+        //closingEmas.add(emaObj.getPreviousEMAValue());
+        //closingSmas.add(smaObj.getPreviousSMAValue());
         
-        if(!closingEmas.isEmpty() && !closingSmas.isEmpty())
+        double emaCurr = emaObj.calculateEMA(); 
+        double smaCurr = smaObj.calculateSMA();
+        
+        if( (emaCurr > smaCurr) && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue()) )
         {
-            if( (closingEmas.lastElement() > closingSmas.lastElement()) && (emaObj.getCurrentPrice() < smaObj.getCurrentSMAValue()) )
-            {
-                //Generate Buy Signal
-                System.out.println("Moving Average Crossover : BUY SIGNAL.");
-                currentHigh = sma;
-            }
-            else if( (closingEmas.lastElement() < closingSmas.lastElement()) && (emaObj.getCurrentPrice() > smaObj.getCurrentSMAValue()) )
-            {
-                //Generate Sell Signal
-                System.out.println("Moving Average Crossover : SELL SIGNAL.");
-                currentHigh = ema;
-            }   
+            //Generate Buy Signal
+            System.out.println("Moving Average Crossover : BUY SIGNAL.");
+            currentHigh = sma;
         }
+        else if( (emaCurr < smaCurr) && (emaObj.getPreviousEMAValue()> smaObj.getPreviousSMAValue()) )
+        {
+            //Generate Sell Signal
+            System.out.println("Moving Average Crossover : SELL SIGNAL.");
+            currentHigh = ema;
+        }   
         else
         {
-            System.out.println("Not enough data for Moving Average Crossover.");
+            //System.out.println("Moving Average Crossover : NONE  -> " + emaCurr + "|" +emaObj.getPreviousEMAValue() + ",,,, " + smaCurr);
         }
     }
 
