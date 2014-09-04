@@ -26,16 +26,16 @@ public class FinancialMarketSimulator {
 
         //10 Strategies
         //Trading Strategies
-        MarketStrategy strategy1 = new Phantom(exchange, Phantom.LEVEL_PRICE.LOW, Phantom.LEVEL_SHARES.LOW);
-        MarketStrategy strategy2 = new Phantom(exchange, Phantom.LEVEL_PRICE.MEDIUM, Phantom.LEVEL_SHARES.MEDIUM);
-        MarketStrategy strategy3 = new Phantom(exchange, Phantom.LEVEL_PRICE.HIGH, Phantom.LEVEL_SHARES.HIGH);
-        MarketStrategy strategy4 = new Phantom(exchange, Phantom.LEVEL_PRICE.LOW, Phantom.LEVEL_SHARES.HIGH);
-        MarketStrategy strategy5 = new Phantom(exchange, Phantom.LEVEL_PRICE.HIGH, Phantom.LEVEL_SHARES.LOW);
-        MarketStrategy strategy6 = new Phantom(exchange, Phantom.LEVEL_PRICE.MEDIUM, Phantom.LEVEL_SHARES.LOW);
-        MarketStrategy strategy7 = new Phantom(exchange, Phantom.LEVEL_PRICE.HIGH, Phantom.LEVEL_SHARES.MEDIUM);
-        MarketStrategy strategy8 = new Phantom(exchange, Phantom.LEVEL_PRICE.LOW, Phantom.LEVEL_SHARES.HIGH);
-        MarketStrategy strategy9 = new Phantom(exchange, Phantom.LEVEL_PRICE.HIGH, Phantom.LEVEL_SHARES.LOW);
-        MarketStrategy strategy10 = new Phantom(exchange, Phantom.LEVEL_PRICE.MEDIUM, Phantom.LEVEL_SHARES.MEDIUM);
+        MarketStrategy strategy1 = new Phantom();
+        MarketStrategy strategy2 = new Phantom();
+        MarketStrategy strategy3 = new Phantom();
+        MarketStrategy strategy4 = new Phantom();
+        MarketStrategy strategy5 = new Phantom();
+        MarketStrategy strategy6 = new Phantom();
+        MarketStrategy strategy7 = new Phantom();
+        MarketStrategy strategy8 = new Phantom();
+        MarketStrategy strategy9 = new Phantom();
+        MarketStrategy strategy10 = new Phantom();
 
         //10 entities
         //let's only trade investec stocks for now

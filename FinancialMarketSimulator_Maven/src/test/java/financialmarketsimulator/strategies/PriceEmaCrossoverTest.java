@@ -50,21 +50,7 @@ public class PriceEmaCrossoverTest {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of getCurrentHight method, of class PriceEmaCrossover.
-     */
-    @Test
-    public void testGetCurrentHight() {
-        System.out.println("getCurrentHight");
-        PriceEmaCrossover instance = null;
-        String expResult = "";
-        String result = instance.getCurrentHight();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+    
     /**
      * Test of trade method, of class PriceEmaCrossover.
      */

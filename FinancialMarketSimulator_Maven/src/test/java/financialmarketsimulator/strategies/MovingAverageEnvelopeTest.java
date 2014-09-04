@@ -62,7 +62,7 @@ public class MovingAverageEnvelopeTest {
         System.out.println("generateMarketEntryAttempt");
         MovingAverageEnvelope instance = null;
         MarketEntryAttempt expResult = null;
-        MarketEntryAttempt result = instance.generateMarketEntryAttempt();
+        MarketEntryAttempt result = null; //= instance.generateMarketEntryAttempt();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

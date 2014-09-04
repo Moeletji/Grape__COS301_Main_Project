@@ -2042,9 +2042,9 @@ public class FMSimulator extends javax.swing.JFrame {
         
         try {
         
-            participant = new MarketParticipant(name, id, exchange, stock, variants, new Phantom(exchange, Phantom.LEVEL_PRICE.LOW, Phantom.LEVEL_SHARES.LOW), lbxBidsList, lbxOffersList, lbxMatchedList);
+            participant = new MarketParticipant(name, id, exchange, stock, variants, new Phantom(), lbxBidsList, lbxOffersList, lbxMatchedList);
         
-        } catch (NotEnoughDataException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(FMSimulator.class.getName()).log(Level.SEVERE, null, ex);
         }
 

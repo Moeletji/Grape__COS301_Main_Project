@@ -46,7 +46,7 @@ public class MACDStrategyTest {
     public void testGenerateMarketEntryAttempt() throws Exception {
         System.out.println("generateMarketEntryAttempt");
         MACDStrategy instance = null;
-        instance.generateMarketEntryAttempt();
+        //instance.generateMarketEntryAttempt();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
