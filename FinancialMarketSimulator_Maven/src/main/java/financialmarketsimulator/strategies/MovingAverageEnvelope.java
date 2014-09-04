@@ -41,7 +41,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
     
     MarketEntryAttemptBook book;
 
-    public MovingAverageEnvelope(MarketExchange exchange, MarketEntryAttemptBook _book) throws NotEnoughDataException {
+    public MovingAverageEnvelope(MarketEntryAttemptBook _book) throws NotEnoughDataException {
         super("MovingAverageEnvelope");
         if (_book != null)
         {
@@ -166,7 +166,6 @@ public class MovingAverageEnvelope extends MarketStrategy{
                 MarketEntryAttempt buy = new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID);
                 book.placeOrder(buy);
                 this.signalDetails.setSignal(SIGNAL.BUY);
-                return this.signalDetails;
             }
         }
         else if (this.getClosingPrice() == this.calculateSMAUpperEvelope())
@@ -177,7 +176,6 @@ public class MovingAverageEnvelope extends MarketStrategy{
                 MarketEntryAttempt sell = new MarketEntryAttempt(999,999,"", MarketEntryAttempt.SIDE.OFFER);
                 book.placeOrder(sell);
                 this.signalDetails.setSignal(SIGNAL.SELL);
-                return this.signalDetails;
             }
             /*else if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {
@@ -188,8 +186,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
         else
         {
             this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
-            return this.signalDetails;
         }
-        return null;
+        return this.signalDetails;
     }
 }

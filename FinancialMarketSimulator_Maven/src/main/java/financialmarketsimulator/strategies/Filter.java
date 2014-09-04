@@ -17,13 +17,9 @@ public abstract class Filter extends MarketStrategy{
     
     private final MarketEntryAttemptBook book;
     
-    public Filter(MarketEntryAttemptBook book)
+    public Filter(MarketEntryAttemptBook book, String strategyName)
     {
-        super("Filter");
-        
+        super(strategyName + " - Filter");
         this.book = book;
     }
-    
-    @Override
-    public abstract SignalDetails trade();
 }

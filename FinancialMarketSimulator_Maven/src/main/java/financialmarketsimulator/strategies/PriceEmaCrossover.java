@@ -5,9 +5,6 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
-import static financialmarketsimulator.strategies.Crossover.HigherAverage.ema;
-import static financialmarketsimulator.strategies.Crossover.HigherAverage.price;
-import static financialmarketsimulator.strategies.Crossover.HigherAverage.sma;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Vector;
@@ -49,18 +46,16 @@ public class PriceEmaCrossover extends Crossover {
             //Generate Buy Signal
             System.out.println("Price EMA Crossover : BUY SIGNAL.");
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.BUY);
-            return this.signalDetails;
         } else if ((emaCurr < priceCurr)) //&& (emaObj.getPreviousEMAValue()> smaObj.getPreviousSMAValue()) )
         {
             //Generate Sell Signal
             System.out.println("Price EMA Crossover : SELL SIGNAL.");
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.SELL);
-            return this.signalDetails;
         }
         else
         {
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
-            return this.signalDetails;
         }
+        return this.signalDetails;
     }
 }

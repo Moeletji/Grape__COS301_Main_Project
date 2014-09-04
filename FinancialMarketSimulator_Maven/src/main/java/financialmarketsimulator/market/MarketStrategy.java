@@ -76,6 +76,7 @@ public abstract class MarketStrategy {
     }
 
     /**
+     * @return Signal Details Object
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @Brief where trade signals are generated
      */

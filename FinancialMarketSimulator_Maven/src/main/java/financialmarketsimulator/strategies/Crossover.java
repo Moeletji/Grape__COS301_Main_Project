@@ -23,11 +23,6 @@ import org.jfree.data.time.TimeSeriesCollection;
  */
 public abstract class Crossover extends MarketStrategy {
     
-    public static enum HigherAverage {
-
-        sma, ema, price
-    }
-
     /**
      * The number of days over which the strategy is observed
      */
@@ -38,19 +33,15 @@ public abstract class Crossover extends MarketStrategy {
 
     protected MarketEntryAttemptBook data;
 
-    protected HigherAverage currentHigh;
-
     /**
      * Houses the latest crossover graph
      */
     protected JFreeChart graph;
 
     public Crossover(MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
-        super("Crossover");
-
+        super(_line1+ " & " +_line2+" - Crossover");
         this.numDays = _numDays;
         this.graph = null;
-        this.currentHigh = null;
         this.ind1 = _line1;
         this.ind2 = _line2;
         this.data = _data;
