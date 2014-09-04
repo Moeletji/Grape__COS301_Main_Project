@@ -2,7 +2,6 @@
 package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
 
 /**
@@ -26,8 +25,5 @@ public abstract class Filter extends MarketStrategy{
     }
     
     @Override
-    public void trade(){
-        //Implement one trade instance here, infinite loop is in MarketParticipant
-        
-    }
+    public abstract SignalDetails trade();
 }

@@ -13,28 +13,38 @@ import java.util.Vector;
  *
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MACDStrategy {
+public class MACDStrategy extends MarketStrategy{
 
     private MarketEntryAttemptBook data;
     private MACD macd;
 
     public MACDStrategy(MarketEntryAttemptBook _data) throws NotEnoughDataException {
+        super("MACD Strategy");
         this.data = _data;
         macd = new MACD(this.data);
     }
-
-    public void generateMarketEntryAttempt() throws NotEnoughDataException {
+    
+    @Override
+    public SignalDetails trade() throws NotEnoughDataException {
         double currentValue = macd.calculateMACDValue();
         double prevMACDValue = macd.getPreviousMACDValue();
         //double signalLine = macd.calculateSignalValue();
         if (prevMACDValue > 0 && currentValue < 0) {
             //buy
             System.out.println(new Date().toString() + " BUY");
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BUY);
+            return this.signalDetails;
         }
-        //else
-        if (prevMACDValue < 0 && currentValue > 0) {
+        else if (prevMACDValue < 0 && currentValue > 0) {
             //sell
             System.out.println(new Date().toString() + " SELL");
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.SELL);
+            return this.signalDetails;
+        }
+        else
+        {
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
+            return this.signalDetails;
         }
     }
  

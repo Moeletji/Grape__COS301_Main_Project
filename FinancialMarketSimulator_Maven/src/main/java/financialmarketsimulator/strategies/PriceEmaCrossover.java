@@ -4,6 +4,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
+import financialmarketsimulator.market.MarketStrategy;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.ema;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.price;
 import static financialmarketsimulator.strategies.Crossover.HigherAverage.sma;
@@ -25,7 +26,7 @@ public class PriceEmaCrossover extends Crossover {
     //indicator2 = EMA
     @SuppressWarnings("Convert2Diamond")
     public PriceEmaCrossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays) throws NotEnoughDataException {
-        super(exchange, _data, _numDays, "Price", "EMA");
+        super(_data, _numDays, "Price", "EMA");
         emaObj = new EMA(this.data, _numDays);
 
         closingEmas = new Vector<>();
@@ -105,7 +106,7 @@ public class PriceEmaCrossover extends Crossover {
     }
 
     @Override
-    public void trade() throws NotEnoughDataException {
+    public SignalDetails trade() throws NotEnoughDataException {
         double emaCurr = emaObj.calculateEMA();
         double priceCurr = data.getLastTradePrice(); //smaObj.calculateSMA();
 
@@ -113,14 +114,19 @@ public class PriceEmaCrossover extends Crossover {
         {
             //Generate Buy Signal
             System.out.println("Price EMA Crossover : BUY SIGNAL.");
-            currentHigh = sma;
-            this.sell = true;
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BUY);
+            return this.signalDetails;
         } else if ((emaCurr < priceCurr)) //&& (emaObj.getPreviousEMAValue()> smaObj.getPreviousSMAValue()) )
         {
             //Generate Sell Signal
             System.out.println("Price EMA Crossover : SELL SIGNAL.");
-            currentHigh = ema;
-            this.buy = true;
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.SELL);
+            return this.signalDetails;
+        }
+        else
+        {
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
+            return this.signalDetails;
         }
     }
 

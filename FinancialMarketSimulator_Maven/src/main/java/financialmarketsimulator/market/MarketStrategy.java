@@ -79,5 +79,5 @@ public abstract class MarketStrategy {
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @Brief where trade signals are generated
      */
-    public abstract void trade() throws NotEnoughDataException;
+    public abstract SignalDetails trade() throws NotEnoughDataException;
 }

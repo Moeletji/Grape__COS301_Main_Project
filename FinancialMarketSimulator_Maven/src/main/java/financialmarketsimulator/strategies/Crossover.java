@@ -2,7 +2,6 @@ package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -168,7 +167,7 @@ public abstract class Crossover extends MarketStrategy {
     }
 
     @Override
-    public abstract void trade() throws NotEnoughDataException;
+    public abstract SignalDetails trade() throws NotEnoughDataException;
 
     /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.

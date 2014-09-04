@@ -84,7 +84,7 @@ public class Phantom extends MarketStrategy {
     }
 
     @Override
-    public void trade() {
+    public SignalDetails trade() {
 
         double minPrice = Math.round(maxPrice / 10);
         int minShares = Math.round(maxShares / 10);
