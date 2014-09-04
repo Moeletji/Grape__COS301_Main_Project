@@ -4,9 +4,6 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import financialmarketsimulator.market.MarketExchange;
-import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Vector;
 
 /**
@@ -20,6 +17,11 @@ public class MovingAverageCrossover extends Crossover {
     private final Vector<Double> closingEmas;
     private final Vector<Double> closingSmas;
 
+    //The following variables are declared here as to be memory efficient when the
+    //trade method is consistanctly called.
+    double emaCurr;
+    double smaCurr;
+
     //indicator1 = EMA
     //indicator2 = SMA
     @SuppressWarnings("Convert2Diamond")
@@ -32,15 +34,14 @@ public class MovingAverageCrossover extends Crossover {
 
         closingEmas.add(emaObj.getPreviousEMAValue());
         closingSmas.add(smaObj.getPreviousSMAValue());
-        
 
     }
 
     @Override
     public SignalDetails trade() throws NotEnoughDataException {
-        
-        double emaCurr = emaObj.calculateEMA();
-        double smaCurr = smaObj.calculateSMA();
+
+        emaCurr = emaObj.calculateEMA();
+        smaCurr = smaObj.calculateSMA();
 
         if ((emaCurr > smaCurr) && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue())) {
             //Generate Buy Signal
@@ -53,7 +54,7 @@ public class MovingAverageCrossover extends Crossover {
         } else {
             this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
         }
-        
+
         return this.signalDetails;
     }
 }

@@ -1,6 +1,7 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.database.DBConnect;
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
@@ -44,6 +45,10 @@ public class MarketEntryAttemptBook {
      * @brief last trade price
      */
     private double lastTradePrice;
+    /**
+     * @brief The immediate previous trade price
+     */
+    private double previousTradePrice;
     /**
      * @brief total number of shares the stock holds
      */
@@ -586,7 +591,13 @@ public class MarketEntryAttemptBook {
     }
 
     public void setLastTradePrice(double lastTradePrice) {
+        this.previousTradePrice = this.lastTradePrice;
         this.lastTradePrice = lastTradePrice;
+    }
+    
+    public double getPreviousTradePrice()
+    {
+        return this.previousTradePrice;
     }
 
     public int getTotalNumberOfShares() {
@@ -595,5 +606,13 @@ public class MarketEntryAttemptBook {
 
     public void setTotalNumberOfShares(int totalNumberOfShares) {
         this.totalNumberOfShares = totalNumberOfShares;
+    }
+    
+    public double getOpeningPrice() throws NotEnoughDataException
+    {
+        if (this.matchedOrders.isEmpty())
+            throw new NotEnoughDataException();
+        
+        return this.matchedOrders.firstElement().getPrice();
     }
 }

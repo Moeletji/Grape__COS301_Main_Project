@@ -9,9 +9,7 @@ package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import static financialmarketsimulator.market.MarketStrategy.SIGNAL.BUY;
-import static financialmarketsimulator.market.MarketStrategy.SIGNAL.DO_NOTHING;
-import static financialmarketsimulator.market.MarketStrategy.SIGNAL.SELL;
+import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
 import java.util.Vector;
 
 /**
