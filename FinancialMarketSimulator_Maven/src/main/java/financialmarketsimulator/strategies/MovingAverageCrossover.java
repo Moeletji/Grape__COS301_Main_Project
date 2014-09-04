@@ -26,7 +26,7 @@ public class MovingAverageCrossover extends Crossover {
     //indicator2 = SMA
     @SuppressWarnings("Convert2Diamond")
     public MovingAverageCrossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays) throws NotEnoughDataException {
-        super(exchange, _data, _numDays, "EMA", "SMA");
+        super(_data, _numDays, "EMA", "SMA");
         emaObj = new EMA(this.data, numDays);
         smaObj = new SMA(this.data, numDays);
         closingEmas = new Vector<>();
@@ -114,15 +114,17 @@ public class MovingAverageCrossover extends Crossover {
         if ((emaCurr > smaCurr) && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue())) {
             //Generate Buy Signal
             System.out.println("Moving Average Crossover : BUY SIGNAL.");
+            signalDetails.setSignal(SIGNAL.BUY);
             currentHigh = sma;
             this.sell = true;
         } else if ((emaCurr < smaCurr) && (emaObj.getPreviousEMAValue() > smaObj.getPreviousSMAValue())) {
             //Generate Sell Signal
             System.out.println("Moving Average Crossover : SELL SIGNAL.");
             currentHigh = ema;
+            signalDetails.setSignal(SIGNAL.SELL);
             this.buy = true;
         } else {
-            //System.out.println("Moving Average Crossover : NONE  -> " + emaCurr + "|" +emaObj.getPreviousEMAValue() + ",,,, " + smaCurr);
+            signalDetails.setSignal(SIGNAL.DO_NOTHING);
         }
     }
 

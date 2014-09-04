@@ -1,6 +1,7 @@
 
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
 
@@ -8,15 +9,25 @@ import financialmarketsimulator.market.MarketStrategy;
  *
  * @brief Filter Strategy
  */
-public class Filter extends MarketStrategy{
+public abstract class Filter extends MarketStrategy{
     
-    public Filter(MarketExchange exchange)
+    /**
+     * The type of filter strategy it is.
+     */
+    protected String filterType;
+    
+    private final MarketEntryAttemptBook book;
+    
+    public Filter(MarketEntryAttemptBook book)
     {
-        super(exchange, "Filter");
+        super("Filter");
+        
+        this.book = book;
     }
     
     @Override
     public void trade(){
         //Implement one trade instance here, infinite loop is in MarketParticipant
+        
     }
 }

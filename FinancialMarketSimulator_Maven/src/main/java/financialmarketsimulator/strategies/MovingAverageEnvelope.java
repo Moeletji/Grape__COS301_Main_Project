@@ -42,7 +42,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
     MarketEntryAttemptBook book;
 
     public MovingAverageEnvelope(MarketExchange exchange, MarketEntryAttemptBook _book) throws NotEnoughDataException {
-        super(exchange, "MovingAverageEnvelope");
+        super("MovingAverageEnvelope");
         if (_book != null)
         {
             this.book = _book;
@@ -56,7 +56,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
     }
     
     public MovingAverageEnvelope(MarketExchange exchange, MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
-        super(exchange, "MovingAverageEnvelope");
+        super("MovingAverageEnvelope");
         
         if (_book != null)
         {

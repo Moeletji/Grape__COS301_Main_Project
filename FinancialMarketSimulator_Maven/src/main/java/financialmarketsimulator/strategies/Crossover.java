@@ -132,8 +132,8 @@ public abstract class Crossover extends MarketStrategy {
      */
     protected JFreeChart graph;
 
-    public Crossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
-        super(exchange, "Crossover");
+    public Crossover(MarketEntryAttemptBook _data, int _numDays, String _line1, String _line2) {
+        super("Crossover");
 
         this.numDays = _numDays;
         this.crossoverPoints = null;

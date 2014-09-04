@@ -44,7 +44,7 @@ public class Phantom extends MarketStrategy {
 
     public Phantom(MarketExchange exchange, Phantom.LEVEL_PRICE levelPrice, Phantom.LEVEL_SHARES levelShares) {
 
-        super(exchange, "Phantom");
+        super("Phantom");
 
         switch (levelPrice) {
             case LOW: {
