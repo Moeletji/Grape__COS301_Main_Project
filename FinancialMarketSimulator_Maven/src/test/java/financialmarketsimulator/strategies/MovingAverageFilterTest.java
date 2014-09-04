@@ -19,9 +19,9 @@ import static org.junit.Assert.*;
  *
  * @author Madimetja
  */
-public class MACDStrategyTest {
+public class MovingAverageFilterTest {
     
-    public MACDStrategyTest() {
+    public MovingAverageFilterTest() {
     }
     
     @BeforeClass
@@ -41,24 +41,12 @@ public class MACDStrategyTest {
     }
 
     /**
-     * Test of generateMarketEntryAttempt method, of class MACDStrategy.
-     */
-    @Test
-    public void testGenerateMarketEntryAttempt() throws Exception {
-        System.out.println("generateMarketEntryAttempt");
-        MACDStrategy instance = null;
-        //instance.generateMarketEntryAttempt();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of trade method, of class MACDStrategy.
+     * Test of trade method, of class MovingAverageFilter.
      */
     @Test
     public void testTrade() throws Exception {
         System.out.println("trade");
-        MACDStrategy instance = null;
+        MovingAverageFilter instance = null;
         MarketStrategy.SignalDetails expResult = null;
         MarketStrategy.SignalDetails result = instance.trade();
         assertEquals(expResult, result);

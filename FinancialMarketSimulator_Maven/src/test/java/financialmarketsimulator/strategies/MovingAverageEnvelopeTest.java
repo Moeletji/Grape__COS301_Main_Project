@@ -8,6 +8,7 @@
 package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketStrategy;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -132,6 +133,20 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         MovingAverageEnvelope.STRATEGY_TYPE expResult = null;
         MovingAverageEnvelope.STRATEGY_TYPE result = instance.getType();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of trade method, of class MovingAverageEnvelope.
+     */
+    @Test
+    public void testTrade() throws Exception {
+        System.out.println("trade");
+        MovingAverageEnvelope instance = null;
+        MarketStrategy.SignalDetails expResult = null;
+        MarketStrategy.SignalDetails result = instance.trade();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

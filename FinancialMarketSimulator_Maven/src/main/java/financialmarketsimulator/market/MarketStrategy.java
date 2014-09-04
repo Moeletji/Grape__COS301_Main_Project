@@ -17,7 +17,7 @@ public abstract class MarketStrategy {
     
     public static enum SIGNAL {BUY, SELL, DO_NOTHING};
     
-    protected class SignalDetails
+    public class SignalDetails
     {
         private MarketStrategy.LENGTH length;
 

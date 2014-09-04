@@ -7,7 +7,6 @@
 
 package financialmarketsimulator.strategies;
 
-import financialmarketsimulator.market.MarketStrategy;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author Madimetja
  */
-public class MACDStrategyTest {
+public class FilterTest {
     
-    public MACDStrategyTest() {
+    public FilterTest() {
     }
     
     @BeforeClass
@@ -40,28 +39,8 @@ public class MACDStrategyTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of generateMarketEntryAttempt method, of class MACDStrategy.
-     */
     @Test
-    public void testGenerateMarketEntryAttempt() throws Exception {
-        System.out.println("generateMarketEntryAttempt");
-        MACDStrategy instance = null;
-        //instance.generateMarketEntryAttempt();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of trade method, of class MACDStrategy.
-     */
-    @Test
-    public void testTrade() throws Exception {
-        System.out.println("trade");
-        MACDStrategy instance = null;
-        MarketStrategy.SignalDetails expResult = null;
-        MarketStrategy.SignalDetails result = instance.trade();
-        assertEquals(expResult, result);
+    public void testSomeMethod() {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
