@@ -5,6 +5,8 @@ import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
+import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 import java.util.Vector;
 
 /**
@@ -50,7 +52,7 @@ public class PriceSmaCrossover extends Crossover {
         if ((smaCurr > priceCurr) && (smaPrev < previousPrice)) {
             //Generate Buy Signal
             System.out.println("Price SMA Crossover : BUY SIGNAL.");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BID);
+            this.signalDetails.setSignal(BID);
         } else if ((smaCurr < priceCurr) && (smaPrev > previousPrice)) {
             //Generate Sell Signal
             System.out.println("Price SMA Crossover : SELL SIGNAL.");
@@ -58,6 +60,8 @@ public class PriceSmaCrossover extends Crossover {
         } else {
             signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
         }
+        
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }

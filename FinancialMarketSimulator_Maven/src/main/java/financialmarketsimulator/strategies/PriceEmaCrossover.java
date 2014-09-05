@@ -5,6 +5,8 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
+import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 import java.util.Vector;
 
 /**
@@ -57,8 +59,10 @@ public class PriceEmaCrossover extends Crossover {
             System.out.println("Price EMA Crossover : SELL SIGNAL.");
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.OFFER);
         } else {
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
+            this.signalDetails.setSignal(DO_NOTHING);
         }
+        
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }

@@ -4,6 +4,8 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 import java.util.Vector;
 
 /**
@@ -46,15 +48,18 @@ public class MovingAverageCrossover extends Crossover {
         if ((emaCurr > smaCurr) && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue())) {
             //Generate Buy Signal
             System.out.println("Moving Average Crossover : BUY SIGNAL.");
-            this.signalDetails.setSignal(SIGNAL.BID);
+            this.signalDetails.setSignal(BID);
+            this.signalDetails.setVolaility(NORMAL);
         } else if ((emaCurr < smaCurr) && (emaObj.getPreviousEMAValue() > smaObj.getPreviousSMAValue())) {
             //Generate Sell Signal
             System.out.println("Moving Average Crossover : SELL SIGNAL.");
-            this.signalDetails.setSignal(SIGNAL.OFFER);
+            this.signalDetails.setSignal(OFFER);
+             this.signalDetails.setVolaility(NORMAL);
         } else {
-            this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
+            this.signalDetails.setSignal(DO_NOTHING);
         }
 
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }

@@ -80,6 +80,7 @@ public class SimpleRSI extends MarketStrategy {
             this.signalDetails.setSignal(DO_NOTHING);
         }
 
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }

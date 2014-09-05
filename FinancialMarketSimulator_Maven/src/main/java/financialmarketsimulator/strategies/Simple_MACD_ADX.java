@@ -16,6 +16,7 @@ import financialmarketsimulator.indicators.PDM;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketStrategy;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 
 /**
  * @brief This strategy works with the strength of a trend to generate signals.
@@ -85,6 +86,8 @@ public class Simple_MACD_ADX extends MarketStrategy{
             //Generate Do_Nothing signal
             this.signalDetails.setSignal(DO_NOTHING);
         }
+        
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }

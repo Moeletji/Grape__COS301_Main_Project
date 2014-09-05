@@ -10,6 +10,7 @@ package financialmarketsimulator.strategies;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 import java.util.Vector;
 
 /**
@@ -83,6 +84,7 @@ public class MovingAverageFilter extends Filter{
             this.signalDetails.setSignal(DO_NOTHING);
         }
         
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }
