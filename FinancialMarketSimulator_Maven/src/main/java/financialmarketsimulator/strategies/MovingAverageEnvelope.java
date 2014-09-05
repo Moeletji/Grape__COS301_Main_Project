@@ -148,7 +148,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
      * oversold/overbought
      */
     @Override
-    public SignalDetails trade() throws NotEnoughDataException{
+    public SignalMessage trade() throws NotEnoughDataException{
         //Implement one trade instance here, infinite loop is in MarketParticipant
         if (pastSMAValues.isEmpty())
             throw new NotEnoughDataException();
@@ -165,7 +165,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
                 //buy
                 MarketEntryAttempt buy = new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID);
                 book.placeOrder(buy);
-                this.signalDetails.setSignal(SIGNAL.BUY);
+                this.signalDetails.setSignal(SIGNAL.BID);
             }
         }
         else if (this.getClosingPrice() == this.calculateSMAUpperEvelope())
@@ -175,7 +175,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
                 //sell
                 MarketEntryAttempt sell = new MarketEntryAttempt(999,999,"", MarketEntryAttempt.SIDE.OFFER);
                 book.placeOrder(sell);
-                this.signalDetails.setSignal(SIGNAL.SELL);
+                this.signalDetails.setSignal(SIGNAL.OFFER);
             }
             /*else if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {

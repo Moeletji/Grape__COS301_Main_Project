@@ -25,25 +25,28 @@ public class MACDStrategy extends MarketStrategy{
     }
     
     @Override
-    public SignalDetails trade() throws NotEnoughDataException {
+    public SignalMessage trade() throws NotEnoughDataException {
         double currentValue = macd.calculateMACDValue();
         double prevMACDValue = macd.getPreviousMACDValue();
         //double signalLine = macd.calculateSignalValue();
         if (prevMACDValue > 0 && currentValue < 0) {
             //buy
             System.out.println(new Date().toString() + " BUY");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BUY);
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BID);
+            this.signalDetails.setVolaility(VOLATILITY.NORMAL);
             return this.signalDetails;
         }
         else if (prevMACDValue < 0 && currentValue > 0) {
             //sell
             System.out.println(new Date().toString() + " SELL");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.SELL);
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.OFFER);
+            this.signalDetails.setVolaility(VOLATILITY.NORMAL);
             return this.signalDetails;
         }
         else
         {
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
+            this.signalDetails.setVolaility(VOLATILITY.NORMAL);
             return this.signalDetails;
         }
     }

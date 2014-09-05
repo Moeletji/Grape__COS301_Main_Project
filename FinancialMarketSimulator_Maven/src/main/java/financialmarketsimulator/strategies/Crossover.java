@@ -48,7 +48,7 @@ public abstract class Crossover extends MarketStrategy {
     }
 
     @Override
-    public abstract SignalDetails trade() throws NotEnoughDataException;
+    public abstract SignalMessage trade() throws NotEnoughDataException;
 
     /**
      * @brief Draws a line graph of the SMA and EMA values over numDays days.

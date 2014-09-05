@@ -4,41 +4,69 @@ import financialmarketsimulator.market.MarketStrategy;
 import java.util.Random;
 
 /**
- * @brief @author Grape <cos301.mainproject.grape@gmail.com>
+ * @brief Phantom strategy is used to generate data to see how other strategies
+ * react to its trading behaviour.
+ * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class Phantom extends MarketStrategy {
 
+    public static enum SAFETY_LEVEL {
+
+        LOW, MEDIUM, HIGH, RANDOM
+    };
+    private SAFETY_LEVEL safetyLevel;
+
     public Phantom() {
         super("Phantom");
+        safetyLevel = SAFETY_LEVEL.RANDOM;
+    }
+
+    public Phantom(SAFETY_LEVEL safetyLevel) {
+
+        super("Phantom");
+        this.safetyLevel = safetyLevel;
     }
 
     @Override
-    public SignalDetails trade() {
-
-        //Choose a random SIZE to place an MarketEntryAttempt on
-        int flag = new Random().nextInt(11);
+    public SignalMessage trade() {
 
         MarketStrategy.SIGNAL signal;
 
-        if (flag > 5) {
-            signal = MarketStrategy.SIGNAL.BUY;
+        //Choose to randomly to buy or sell. 
+        if (new Random().nextBoolean()) {
+            signal = MarketStrategy.SIGNAL.BID;
         } else {
-            signal = MarketStrategy.SIGNAL.SELL;
+            signal = MarketStrategy.SIGNAL.OFFER;
         }
 
-        flag = new Random().nextInt(101);
+        int flag = new Random().nextInt(101);
 
-        MarketStrategy.LENGTH length;
+        MarketStrategy.VOLATILITY volatility;
 
-        if (flag < 34) {
-            length = MarketStrategy.LENGTH.LOW;
-        } else if (flag >= 34 && flag < 67) {
-            length = MarketStrategy.LENGTH.MEDUIM;
-        } else {
-            length = MarketStrategy.LENGTH.HIGH;
+        switch (safetyLevel) {
+            case LOW:
+                volatility = MarketStrategy.VOLATILITY.LOW;
+                break;
+            case MEDIUM:
+                volatility = MarketStrategy.VOLATILITY.MEDIUM;
+                break;
+            case HIGH:
+                volatility = MarketStrategy.VOLATILITY.HIGH;
+                break;
+            case RANDOM:
+            default:
+                //Randomly choose the volatility
+                if (flag < 34) {
+                    volatility = MarketStrategy.VOLATILITY.LOW;
+                } else if (flag >= 34 && flag < 67) {
+                    volatility = MarketStrategy.VOLATILITY.MEDIUM;
+                } else {
+                    volatility = MarketStrategy.VOLATILITY.HIGH;
+                }
+                break;
         }
 
-        this.signalDetails.setLength(length);
+        this.signalDetails.setVolaility(volatility);
         this.signalDetails.setSignal(signal);
 
         return signalDetails;

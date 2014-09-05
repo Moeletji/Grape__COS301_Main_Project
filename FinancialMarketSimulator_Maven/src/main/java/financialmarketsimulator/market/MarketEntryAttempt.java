@@ -13,7 +13,6 @@ public class MarketEntryAttempt implements Cloneable {
 
     //Static variables declaration
     public static enum SIDE {
-
         BID, OFFER
     }
 
@@ -188,6 +187,10 @@ public class MarketEntryAttempt implements Cloneable {
         this.timeStamp = stamp;
     }
     
+    /**
+     * @brief returns a string of the MarketEntryAttempt
+     * @return String of the object
+     */
     @Override
     public String toString(){
         return numOfShares + " @ " + price + ", " + participantName;

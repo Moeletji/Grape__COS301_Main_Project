@@ -3,6 +3,7 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
+import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.strategies.Phantom;
 import java.util.ArrayList;
@@ -39,8 +40,8 @@ public class FinancialMarketSimulator {
 
         //10 entities
         //let's only trade investec stocks for now
-        MarketParticipant entity1 = new MarketParticipant("BGP Holdings", "BGPLTD", exchange, names[0], strategy1);
-        MarketParticipant entity2 = new MarketParticipant("Steinhoff", "STH", exchange, names[0], strategy2);
+        MarketParticipant entity1 = new PhantomMarketParticipant("BGP Holdings", "BGPLTD", exchange, names[0]);
+        MarketParticipant entity2 = new PhantomMarketParticipant("Steinhoff", "STH", exchange, names[0]);
         MarketParticipant entity3 = new MarketParticipant("Boshoff", "BGPLTD", exchange, names[0], strategy3);
         MarketParticipant entity4 = new MarketParticipant("MiguelGroup", "MMG", exchange, names[0], strategy4);
         MarketParticipant entity5 = new MarketParticipant("SunBlue", "SBINC", exchange, names[0], strategy5);
@@ -70,6 +71,8 @@ public class FinancialMarketSimulator {
 
         manager.start();
 
+        
+        //Running the 2 phantoms
         entity1.start();
         entity2.start();
 

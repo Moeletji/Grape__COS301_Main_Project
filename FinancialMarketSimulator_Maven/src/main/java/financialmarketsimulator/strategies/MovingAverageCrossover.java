@@ -38,7 +38,7 @@ public class MovingAverageCrossover extends Crossover {
     }
 
     @Override
-    public SignalDetails trade() throws NotEnoughDataException {
+    public SignalMessage trade() throws NotEnoughDataException {
 
         emaCurr = emaObj.calculateEMA();
         smaCurr = smaObj.calculateSMA();
@@ -46,11 +46,11 @@ public class MovingAverageCrossover extends Crossover {
         if ((emaCurr > smaCurr) && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue())) {
             //Generate Buy Signal
             System.out.println("Moving Average Crossover : BUY SIGNAL.");
-            this.signalDetails.setSignal(SIGNAL.BUY);
+            this.signalDetails.setSignal(SIGNAL.BID);
         } else if ((emaCurr < smaCurr) && (emaObj.getPreviousEMAValue() > smaObj.getPreviousSMAValue())) {
             //Generate Sell Signal
             System.out.println("Moving Average Crossover : SELL SIGNAL.");
-            this.signalDetails.setSignal(SIGNAL.SELL);
+            this.signalDetails.setSignal(SIGNAL.OFFER);
         } else {
             this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
         }

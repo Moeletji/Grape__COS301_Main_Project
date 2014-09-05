@@ -58,7 +58,7 @@ public class Simple_MACD_ADX extends MarketStrategy{
     }
 
     @Override
-    public SignalDetails trade() throws NotEnoughDataException {
+    public SignalMessage trade() throws NotEnoughDataException {
        
         currPDM = pdm.getCurrValue();
         currNDM = ndm.getCurrValue();
@@ -73,12 +73,12 @@ public class Simple_MACD_ADX extends MarketStrategy{
         if( adxValue > 20 && pdiValue > 20 && ndiValue < 20 )
         {
             //generate buy signal
-            this.signalDetails.setSignal(BUY);
+            this.signalDetails.setSignal(BID);
         }
         else if ( adxValue > 20 && ndiValue > 20 && pdiValue < 20 )
         {
             //Generate sell signal
-            this.signalDetails.setSignal(SELL);
+            this.signalDetails.setSignal(OFFER);
         }
         else
         {

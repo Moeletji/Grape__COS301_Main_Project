@@ -42,7 +42,7 @@ public class PriceEmaCrossover extends Crossover {
     }
 
     @Override
-    public SignalDetails trade() throws NotEnoughDataException {
+    public SignalMessage trade() throws NotEnoughDataException {
         emaCurr = emaObj.calculateEMA();
         emaPrev = emaObj.getPreviousEMAValue();
         priceCurr = data.getLastTradePrice(); //smaObj.calculateSMA();
@@ -51,11 +51,11 @@ public class PriceEmaCrossover extends Crossover {
         if ((emaCurr > priceCurr) && (emaPrev < previousPrice)) {
             //Generate Buy Signal
             System.out.println("Price EMA Crossover : BUY SIGNAL.");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BUY);
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BID);
         } else if ((emaCurr < priceCurr) && ((emaPrev > previousPrice))) {
             //Generate Sell Signal
             System.out.println("Price EMA Crossover : SELL SIGNAL.");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.SELL);
+            this.signalDetails.setSignal(MarketStrategy.SIGNAL.OFFER);
         } else {
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
         }

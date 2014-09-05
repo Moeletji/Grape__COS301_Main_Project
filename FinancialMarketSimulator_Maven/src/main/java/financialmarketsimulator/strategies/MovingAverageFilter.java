@@ -42,7 +42,7 @@ public class MovingAverageFilter extends Filter{
     }
 
     @Override
-    public SignalDetails trade() throws NotEnoughDataException{
+    public SignalMessage trade() throws NotEnoughDataException{
        
         outcome.clear();
         buyCount = 0;
@@ -54,11 +54,11 @@ public class MovingAverageFilter extends Filter{
         
         for(SIGNAL sig : outcome)
         {
-            if(sig == BUY)
+            if(sig == BID)
             {
                 buyCount++;
             }
-            else if (sig == SELL)
+            else if (sig == OFFER)
             {
                 sellCount++;
             }
@@ -70,12 +70,12 @@ public class MovingAverageFilter extends Filter{
         if( buySignalStregnth > 0.5 )
         {
             //Moving average buy signal is string. Generate buy signal.
-            this.signalDetails.setSignal(BUY);
+            this.signalDetails.setSignal(BID);
         }
         else if ( sellSignalStrength > 0.5 )
         {
             //Moving average buy signal is strong. Generate sell signal.
-            this.signalDetails.setSignal(SELL);
+            this.signalDetails.setSignal(OFFER);
         }
         else
         {

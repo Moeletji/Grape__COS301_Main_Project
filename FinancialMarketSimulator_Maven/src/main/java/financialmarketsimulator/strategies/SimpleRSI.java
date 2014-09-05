@@ -11,7 +11,7 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketStrategy;
-import static financialmarketsimulator.market.MarketStrategy.LENGTH.*;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
 import static java.lang.Math.abs;
 
@@ -56,7 +56,7 @@ public class SimpleRSI extends MarketStrategy {
     }
 
     @Override
-    public SignalDetails trade() throws NotEnoughDataException {
+    public SignalMessage trade() throws NotEnoughDataException {
         openingPrice = book.getOpeningPrice();
         closingPrice = book.getLastTradePrice();
         currEma = ema.calculateEMA();
@@ -66,16 +66,16 @@ public class SimpleRSI extends MarketStrategy {
 
         //Buy condition 1
         if (closingPrice > currEma && currRsi < 30) {
-            this.signalDetails.setSignal(BUY);
+            this.signalDetails.setSignal(BID);
         } //Buy condition 2
         else if ((closingPrice < currEma && currRsi < 25)
                 && (abs(openingPrice - closingPrice) > 0.70 * abs(highestTradePrice - lowestTradePrice)
                 && closingPrice < openingPrice)) {
-            this.signalDetails.setSignal(BUY);
+            this.signalDetails.setSignal(BID);
         } //Sell condition
         else if (rsi.calculateRSI() > 40) {
-            this.signalDetails.setSignal(SELL);
-            this.signalDetails.setLength(HIGH);
+            this.signalDetails.setSignal(OFFER);
+            this.signalDetails.setVolaility(HIGH);
         } else {
             this.signalDetails.setSignal(DO_NOTHING);
         }

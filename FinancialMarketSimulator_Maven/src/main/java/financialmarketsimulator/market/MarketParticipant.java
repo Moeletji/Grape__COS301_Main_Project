@@ -4,12 +4,9 @@ import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
-import financialmarketsimulator.strategies.MACDStrategy;
-import financialmarketsimulator.strategies.MovingAverageCrossover;
+import financialmarketsimulator.marketData.Message;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -25,58 +22,61 @@ public class MarketParticipant extends Thread {
     /**
      * @brief name of the market participant
      */
-    private String participantName;
+    protected String participantName;
     /**
      * @brief participant ID
      */
-    private String participantID;
+    protected String participantID;
     /**
      * @brief market exchange
      */
-    private MarketExchange exchange;
+    protected MarketExchange exchange;
     /**
      * @brief current strategy used by market entity to trade
      */
-    private MarketStrategy currentStrategy;
+    protected MarketStrategy currentStrategy;
     /**
      * @brief list of all trade strategies used by the market entity to trade
      */
-    private ArrayList<MarketStrategy> strategies;
+    protected ArrayList<MarketStrategy> strategies;
     /**
      * @brief If the entity is trading with a specfic stock
      */
-    private boolean started;
+    protected boolean started;
     /**
      * @brief pauses an entity from trading
      */
-    private boolean paused;
+    protected boolean paused;
     /**
      * @brief stops an entity from trading
      */
-    private boolean stop;
+    protected boolean stop;
     /**
      * @brief name of the stock the Market Entity is trading in
      */
-    private String stock;
+    protected String stock;
     /**
      * @brief Order book used by participant
      */
-    StockManager stockManager;
+    protected StockManager stockManager;
     /**
      * @brief Class encapsulating all the variants to be used by the class
      */
-    private Variants variants;
+    protected Variants variants;
+    /**
+     * @brief different price ranges
+     */
+    private final double[] prices = {10.00, 100.00, 1000.00};
+    /**
+     * @brief different ranges for shares
+     */
+    private final int[] shares = {1000, 10000, 100000};
     /**
      * Used for GUI
      */
-    JList bidsList;
-    JList offersList;
-    JList matchedList;
-    /**
-     * MACD Strategy testing
-     */
-    private MACDStrategy macdStrategy;
-    private MovingAverageCrossover macStrategy;
+    protected JList bidsList;
+    protected JList offersList;
+    protected JList matchedList;
 
     /**
      * @brief Constructing a MarketEnity object with parameters
@@ -94,7 +94,7 @@ public class MarketParticipant extends Thread {
         this.paused = false;
         this.stop = false;
         this.currentStrategy = strategy;
-        
+
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
 
@@ -102,7 +102,6 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
-        macdStrategy = new MACDStrategy(this.stockManager.getOrderList());
     }
 
     /**
@@ -112,7 +111,7 @@ public class MarketParticipant extends Thread {
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy ,JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -215,7 +214,7 @@ public class MarketParticipant extends Thread {
         System.out.println("Stock name: " + stock);
 
         while (true) {
-        //for(int i = 0; i < 1000; i++){
+            //for(int i = 0; i < 1000; i++){
             try {
                 synchronized (this) {
                     while (paused) {
@@ -234,7 +233,75 @@ public class MarketParticipant extends Thread {
 
             synchronized (this) {
                 try {
-                    currentStrategy.trade();
+
+                    double maxPrice;
+                    int maxShares;
+
+                    MarketEntryAttempt.SIDE side;
+
+                    //Receive a signalMessage from strategy 
+                    MarketStrategy.SignalMessage sigMessage = currentStrategy.trade();
+
+                    if (sigMessage == null) {
+                        System.out.println("No Signal Message");
+                        continue;
+                    }
+
+                    //Decide on what to do based of Signal Message
+                    switch (sigMessage.getVolatility()) {
+                        case LOW: {
+                            maxPrice = prices[0];
+                            maxShares = shares[0];
+                        }
+                        break;
+                        case MEDIUM: {
+                            maxPrice = prices[1];
+                            maxShares = shares[1];
+                        }
+                        break;
+                        case HIGH: {
+                            maxPrice = prices[2];
+                            maxShares = shares[2];
+                        }
+                        break;
+                        default: {
+                            maxPrice = prices[0];
+                            maxShares = shares[0];
+                        }
+                    }
+
+                    switch (sigMessage.getSignal()) {
+                        case BID: {
+                            side = MarketEntryAttempt.SIDE.BID;
+                        }
+                        break;
+                        case OFFER: {
+                            side = MarketEntryAttempt.SIDE.OFFER;
+                        }
+                        break;
+                        //Market is to volatile to create a MarketEntryAttempt
+                        case DO_NOTHING: {
+                            continue;
+                        }
+                        default: {
+                            continue;
+                        }
+                    }
+
+                    //Select a minimum price range to trade
+                    double minPrice = Math.round(maxPrice / 10);
+                    //Select a minimum shares range to trade
+                    int minShares = Math.round(maxShares / 10);
+
+                    //Create MarketEntryAttempt based on data
+                    MarketEntryAttempt newAttempt = new MarketEntryAttempt((double) (Math.random() * (maxPrice - minPrice) + minPrice), (int) (Math.random() * (maxShares - minShares) + minShares), this.getParticipantName(), side);
+
+                    //Construct message to be sent
+                    Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
+
+                    //Send a message to the stock manager
+                    stockManager.sendMessage(message);
+
                 } catch (NotEnoughDataException ex) {
                     ex.printStackTrace();
                 }

@@ -59,8 +59,8 @@ public class MACDStrategyTest {
     public void testTrade() throws Exception {
         System.out.println("trade");
         MACDStrategy instance = null;
-        MarketStrategy.SignalDetails expResult = null;
-        MarketStrategy.SignalDetails result = instance.trade();
+        MarketStrategy.SignalMessage expResult = null;
+        MarketStrategy.SignalMessage result = instance.trade();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -1,8 +1,6 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.marketData.Message;
-import java.util.Map;
 
 /**
  * @brief The super market strategy class from which each concrete market
@@ -11,35 +9,32 @@ import java.util.Map;
  */
 public abstract class MarketStrategy {
     
-    protected SignalDetails signalDetails;
-    
-    public static enum LENGTH {HIGH, MEDUIM, NORMAL, LOW};
-    
-    public static enum SIGNAL {BUY, SELL, DO_NOTHING};
-    
-    public class SignalDetails
+    /**
+     * @brief Struct class the encapsulates the Volatility and Signal message sent to a MarketParticipant
+     */
+    public class SignalMessage
     {
-        private MarketStrategy.LENGTH length;
+        private MarketStrategy.VOLATILITY volatility;
 
         private MarketStrategy.SIGNAL signal;
 
-        public SignalDetails(){}
+        public SignalMessage(){}
 
-        public MarketStrategy.LENGTH getLength() {
-            return length;
+        public MarketStrategy.VOLATILITY getVolatility() {
+            return volatility;
         }
 
         public MarketStrategy.SIGNAL getSignal() {
             return signal;
         }
 
-        public void setLength(MarketStrategy.LENGTH length) {
+        public void setVolaility(MarketStrategy.VOLATILITY length) {
             if(length.equals(null))
             {
-                this.length = MarketStrategy.LENGTH.NORMAL;
+                this.volatility = MarketStrategy.VOLATILITY.NORMAL;
             }
             else
-                this.length = length;
+                this.volatility = length;
         }
 
         public void setSignal(MarketStrategy.SIGNAL _signal) {
@@ -53,6 +48,22 @@ public abstract class MarketStrategy {
     };
     
     /**
+     * @brief   A message sent to the MarketParticipant to
+     *          indicate where to BUY or SELL a rate of volatility.
+     */
+    protected SignalMessage signalDetails;
+    
+    /**
+     * @brief Range of volatility 
+     */
+    public static enum VOLATILITY {HIGH, MEDIUM, NORMAL, LOW};
+    
+    /**
+     * @brief Trade signal 
+     */
+    public static enum SIGNAL {BID, OFFER, DO_NOTHING};
+    
+    /**
      * @brief Name of the MarketStrategy
      */
     private final String strategyName;
@@ -64,7 +75,7 @@ public abstract class MarketStrategy {
      */
     public MarketStrategy(String strategyName) {
         this.strategyName = strategyName;
-        this.signalDetails = new SignalDetails();
+        this.signalDetails = new SignalMessage();
     }
 
     /**
@@ -80,5 +91,5 @@ public abstract class MarketStrategy {
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @Brief where trade signals are generated
      */
-    public abstract SignalDetails trade() throws NotEnoughDataException;
+    public abstract SignalMessage trade() throws NotEnoughDataException;
 }
