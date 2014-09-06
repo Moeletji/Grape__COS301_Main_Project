@@ -483,6 +483,11 @@ public class MarketEntryAttemptBook {
         }
         return lowest;
     }
+    
+    public synchronized double getFirstTradePrice()
+    {
+        return (!matchedOrders.isEmpty()) ? matchedOrders.firstElement().getPrice() : 0.0;
+    }
 
     /**
      * @brief get the highest bid price
@@ -621,7 +626,7 @@ public class MarketEntryAttemptBook {
      * @brief Returns a vector housing the gains from trade to trade
      * @return Double Vector housing gains
      */
-    public Vector<Double> getGains()
+    public synchronized Vector<Double> getGains()
     {
         return this.gains;
     }
@@ -630,7 +635,7 @@ public class MarketEntryAttemptBook {
      * @brief Return a vector housing the losses from trade to trade
      * @return Double Vector housing losses
      */
-    public Vector<Double> getLosses()
+    public synchronized Vector<Double> getLosses()
     {
         return this.losses;
     }

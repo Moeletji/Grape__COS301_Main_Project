@@ -3,6 +3,7 @@ package financialmarketsimulator.indicators;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
+import java.util.Vector;
 
 /**
  * @brief Negative Directional Indicator
@@ -10,30 +11,11 @@ import financialmarketsimulator.market.MarketIndicator;
  */
 
 public class NDI extends MarketIndicator{
-
-    /**
-     * Variable housing the previous value of the Negative Directional Indicator
-     */
-    private double prevValue;
-    /**
-     * Variable housing the current value of the Negative Directional Indicator
-     */
-    private double currValue;
-    /**
-     * Variable housing the previous closing price
-     */
-    private double prevClosing;
-    /**
-     * variable housing todays highest value
-     */
-    private double todaysHigh;
-    /**
-     * Variable housing todays lowest value;
-     */
-    private double todaysLow;
     private final int numDays;
-    
+    private final NDM ndm;
+    private final ATR atr;
     private final MarketEntryAttemptBook book;
+    private Vector<Double> NDIValues;
     
     /**
      * 
@@ -42,75 +24,45 @@ public class NDI extends MarketIndicator{
      */
     public NDI(MarketEntryAttemptBook _book, int _numDays)
     {
-        super("Negative Directional Index");
-        book = _book;
-        numDays = _numDays;
-        currValue = todaysHigh = book.getHighestTradePrice(numDays);
-        todaysLow = book.getLowestTradePrice(numDays);
-        prevClosing = book.getLastTradePrice(); //Might need to be changed
-        
+        super("Negative Directional Indicator");
+        this.book = _book;
+        this.numDays = _numDays;
+        this.ndm = new NDM(this.book,14);
+        this.atr = new ATR(this.book,14);
+        this.NDIValues = new Vector<>();
     }
     
-    /**
-     *
-     * @param _todaysHigh Todays highest NDI value
-     * @param _todaysLow Todays lowest NDIvalue
-     * @param _prevClosing Yesterdays stock closing value
-     */
-    /*public NDI(double _todaysHigh, double _todaysLow, double _prevClosing) {
-        prevValue = currValue = 0;
-        todaysHigh = _todaysHigh;
-        todaysLow = _todaysLow;
-        prevClosing = _prevClosing;
-    }*/
-
-    /**
-     * 
-     * @param _currNDM The current negative directional movement value
-     * @param _prevNDM The previous negative directional movement value
-     * @return Returns the current negative directional indicator
-     */
-    public double calculateNDI(double _currNDM, double _prevNDM) throws NotEnoughDataException {
-        EMA ema = new EMA(book,14);
-        //ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
-        ATR atr = new ATR(book, numDays);
-        
-        ema.setCurrentPrice(_currNDM);
-        ema.setPreviousEMAValue(_prevNDM);
-        
-        //prevValue = currValue;
-        currValue = (100 * ema.calculateEMA() / atr.calculateATR());
-        return currValue;
-        
-    }
-    
-    public void setPreviousValue(double _prev)
+    public Double calculateNDI()
     {
-        prevValue = _prev;
+        //Get numDays day NDM average
+        Vector<Double> NDMValues = ndm.getNDMValues();
+        
+        if( NDMValues.size() < numDays )
+            return 0.0;
+        
+       double averageTR = atr.calculateATR();
+       double averageNMD = 0.0;
+       int count = 0;
+       
+       while( count < numDays )
+       {
+           averageNMD += NDMValues.get( (NDMValues.size()-1) - count);
+           count++;
+       }
+       averageNMD = averageNMD/numDays;
+       
+       double result = 100 * averageNMD / averageTR;
+       this.NDIValues.add(result);
+       return result;
     }
     
-    public double getPrevValue() {
-        return prevValue;
-    }
-    
-    public void setTodaysHigh(int high)
+    public Vector<Double> getNDIValues()
     {
-        this.todaysHigh = high;
+        return this.NDIValues;
     }
     
-    public void setTodaysLow(int low)
-    {
-        this.todaysLow = low;
-    }
-    
-    public void setPrevClosing(int preC)
-    {
-        this.prevClosing = preC;
-    }
-
     @Override
     public Double calculateIndicator() throws NotEnoughDataException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.calculateNDI();
     }
-
 }

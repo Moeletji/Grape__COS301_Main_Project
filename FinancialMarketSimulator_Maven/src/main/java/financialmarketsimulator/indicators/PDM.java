@@ -3,69 +3,53 @@ package financialmarketsimulator.indicators;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
+import java.util.Vector;
 
 /**
  * @brief Positive Directional Movement
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class PDM extends MarketIndicator{
-
-    /**
-     * Variable housing the previous value of the Positive Directional Movement
-     */
-    private double prevValue;
-    /**
-     * Variable housing the current value of the Positive Directional Movement
-     */
-    private double currValue;
+    
     private final MarketEntryAttemptBook book; 
     private final int numDays;
+    private Vector<Double> PDMValues;
     
     public PDM(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Positive Directional Movement");
         book = _book;
         numDays = _numDays;
-        prevValue = book.getLastTradePrice();
+        PDMValues = new Vector<>();
     }
     
-    /*public PDM() {
-        prevValue = currValue = 0;
-    }*/
-
     /**
-     * @brief Sets the current value of the Positive Directional Movement. Also 
-     * sets the previous value to the old current.
-     * @param val The new value for the current Positive Directional Movement
+     * @todo MUST USE YESTERDAY's CLOSING HIGH AND LOW VALUES, INSTEAD OF THE FIRST ELEMENT!!!!
+     * @return Double value representing the current NDM
      */
-    public void setCurrValue(double val) {
-        prevValue = currValue;
-        currValue = val;
-    }
-    
-    public void setPrevValue(int prev)
+    public Double calculatePDM()
     {
-        this.prevValue = prev;
+        double upMove = this.book.getHighestTradePrice(numDays) - this.book.getFirstTradePrice();
+        double downMove = this.book.getFirstTradePrice() - this.book.getLowestTradePrice(numDays);
+        double result;
+        
+        if( upMove > downMove && upMove > 0 )
+            result = upMove;
+        else
+            result = 0.0;
+        
+        this.PDMValues.add(result);
+        return result;
     }
-
-    /**
-     * @brief Returns the previous value of the Positive Directional Movement
-     * @return Previous Positive Directional Movement
-     */
-    public double getPrevValue() {
-        return prevValue;
+    
+    public Vector<Double> getPDMValue()
+    {
+        this.calculatePDM();
+        return this.PDMValues;
     }
-
-    /**
-     * @brief Return the current value of the Positive Directional Movement
-     * @return Current Positive Directional Movement
-     */
-    public double getCurrValue() {
-        return currValue;
-    }
-
+    
     @Override
     public Double calculateIndicator() throws NotEnoughDataException {
-        return this.getCurrValue();
+        return this.calculatePDM();
     }
 }

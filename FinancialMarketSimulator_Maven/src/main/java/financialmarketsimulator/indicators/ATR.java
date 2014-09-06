@@ -42,7 +42,7 @@ public class ATR extends MarketIndicator{
     {
         double temp = currentATR;
         setTrueRange();
-        currentATR = (previousATR * (numDays - 1)) + (currentTrueRange/numDays);
+        currentATR = ( (previousATR * (numDays - 1)) + currentTrueRange) / numDays;
         previousATR = temp;
         return currentATR;
     }
@@ -54,6 +54,10 @@ public class ATR extends MarketIndicator{
     
     public void setTrueRange()
     {
+        setCurrentHight(book.getHighestTradePrice(numDays));
+        setCurrentLow(book.getLowestTradePrice(numDays));
+        setPreviousClosing(book.getLastTradePrice());
+        
         double val1 = currentHigh - currentLow;
         double val2 = abs(currentHigh - previousClosing);
         double val3 = abs(currentLow - previousClosing);

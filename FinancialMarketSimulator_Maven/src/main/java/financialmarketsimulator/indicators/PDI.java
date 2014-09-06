@@ -3,6 +3,7 @@ package financialmarketsimulator.indicators;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
+import java.util.Vector;
 
 /**
  *
@@ -14,30 +15,11 @@ import financialmarketsimulator.market.MarketIndicator;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class PDI extends MarketIndicator{
-
-    /**
-     * Variable housing the previous value of the Positive Directional Indicator
-     */
-    private double prevValue;
-    /**
-     * Variable housing the current value of the Positive Directional Indicator
-     */
-    private double currValue;
-    /**
-     * Variable housing the previous closing price
-     */
-    private double prevClosing;
-    /**
-     * variable housing todays highest value
-     */
-    private double todaysHigh;
-    /**
-     * Variable housing todays lowest value;
-     */
-    private double todaysLow;
     private final int numDays;
-    
+    private final PDM pdm;
+    private final ATR atr;
     private final MarketEntryAttemptBook book;
+    private Vector<Double> PDIValues;
     
     /**
      * 
@@ -46,73 +28,45 @@ public class PDI extends MarketIndicator{
      */
     public PDI(MarketEntryAttemptBook _book, int _numDays)
     {
-        super("Positive Directional Index");
+        super("Positive Directional Movement");
         book = _book;
         numDays = _numDays;
-        currValue = todaysHigh = book.getHighestTradePrice(numDays);
-        todaysLow = book.getLowestTradePrice(numDays);
-        prevClosing = book.getLastTradePrice(); //Might need to be changed
+        this.pdm = new PDM(this.book,14);
+        this.atr = new ATR(this.book,14);
+        this.PDIValues = new Vector<>();
+    }
+    
+    public Double calculatePDI()
+    {
+        //Get numDays day NDM average
+        Vector<Double> PDMValues = pdm.getPDMValue();
         
-    }
-     
-    /**
-     *
-     * @param _todaysHigh Todays highest PDI value
-     * @param _todaysLow Todays lowest PDIvalue
-     * @param _prevClosing Yesterdays stock closing value
-     */
-    /*public PDI(double _todaysHigh, double _todaysLow, double _prevClosing) {
-        prevValue = currValue = 0;
-        todaysHigh = _todaysHigh;
-        todaysLow = _todaysLow;
-        prevClosing = _prevClosing;
-    }*/
-
-    /**
-     * 
-     * @param _currPDM The current positive directional movement
-     * @param _prevPDM The previous positive directional movement
-     * @return Returns the current positive directional indicator
-     */
-    public double calculatePDI(double _currPDM, double _prevPDM) throws NotEnoughDataException {
-        EMA ema = new EMA(book,14);
-        //ATR atr = new ATR(todaysHigh, todaysLow, prevClosing);
-        ATR atr = new ATR(book,numDays);
+        if( PDMValues.size() < numDays )
+            return 0.0;
         
-        ema.setCurrentPrice(_currPDM);
-        ema.setPreviousEMAValue(_prevPDM);
-        
-        //prevValue = currValue;
-        currValue = (100 * ema.calculateEMA() / atr.calculateATR());
-        return currValue;
+       double averageTR = atr.calculateATR();
+       double averageNMD = 0.0;
+       int count = 0;
+       
+       while( count < numDays )
+       {
+           averageNMD += PDMValues.get( (PDMValues.size()-1) - count);
+           count++;
+       }
+       averageNMD = averageNMD/numDays;
+       
+       Double result = 100 * averageNMD / averageTR;  
+       PDIValues.add(result);
+       return result;
     }
     
-    public void setPreviousValue(double _prev)
+    public Vector<Double> getPDIValues()
     {
-        prevValue = _prev;
-    }
-
-    public double getPrevValue() {
-        return prevValue;
+        return this.PDIValues;
     }
     
-    public void setTodaysHigh(int high)
-    {
-        this.todaysHigh = high;
-    }
-    
-    public void setTodaysLow(int low)
-    {
-        this.todaysLow = low;
-    }
-    
-    public void setPrevClosing(int preC)
-    {
-        this.prevClosing = preC;
-    }
-
     @Override
     public Double calculateIndicator() throws NotEnoughDataException {
-        return this.calculatePDI(this.currValue, this.prevValue);
+        return this.calculatePDI();
     }
 }
