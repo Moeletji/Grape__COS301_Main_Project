@@ -2,13 +2,14 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  * @brief Negative Directional Indicator
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
-public class NDI {
+public class NDI extends MarketIndicator{
 
     /**
      * Variable housing the previous value of the Negative Directional Indicator
@@ -41,6 +42,7 @@ public class NDI {
      */
     public NDI(MarketEntryAttemptBook _book, int _numDays)
     {
+        super("Negative Directional Index");
         book = _book;
         numDays = _numDays;
         currValue = todaysHigh = book.getHighestTradePrice(numDays);
@@ -104,6 +106,11 @@ public class NDI {
     public void setPrevClosing(int preC)
     {
         this.prevClosing = preC;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

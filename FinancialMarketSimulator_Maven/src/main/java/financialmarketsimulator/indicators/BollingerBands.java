@@ -3,13 +3,14 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  *
  * @brief This clas uses the Bollinger Brands pattern 
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class BollingerBands {
+public class BollingerBands extends MarketIndicator{
     
     private Volatility sd;
     private double upperBand;
@@ -24,11 +25,13 @@ public class BollingerBands {
     
     public BollingerBands()
     {
+        super("Bollinger Bands");
         factor = DEFAULT_FACTOR;
     }
     
     public BollingerBands(MarketEntryAttemptBook _data)
     {
+        super("Bollinger Bands");
         this.data = _data;
         this.sma = new SMA(DEFAULT_FACTOR);
         sd = new Volatility(NUM_DAYS, this.data);
@@ -37,6 +40,7 @@ public class BollingerBands {
     
     public BollingerBands(int _factor,MarketEntryAttemptBook _data)
     {
+        super("Bollinger Bands");
         this.data = _data;
         this.sma = new SMA(DEFAULT_FACTOR);
         sd = new Volatility(NUM_DAYS, this.data);
@@ -128,5 +132,14 @@ public class BollingerBands {
     public double getBandWidth()
     {
         return (getUpperBand() - getLowerBand());
+    }
+
+    /**
+     * 
+     * @todo ALTER FUNCTION TO RETURN THE CORRECT VALUE
+     */
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.getBandWidth();
     }
 }

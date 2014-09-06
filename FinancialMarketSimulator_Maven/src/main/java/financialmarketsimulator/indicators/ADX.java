@@ -2,13 +2,15 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
+import static java.lang.Math.abs;
 import static java.lang.Math.abs;
 
 /**
  * @brief ADX (Average Directional Index).
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class ADX {
+public class ADX extends MarketIndicator{
 
     /**
    * The total number of periods to generate data for.
@@ -63,6 +65,7 @@ public class ADX {
     
     public ADX(MarketEntryAttemptBook _book, int _numDays)
     {
+        super("Average Directional Index");
         book = _book;
         numDays = _numDays;
         todaysHigh = book.getHighestTradePrice(numDays);
@@ -116,5 +119,10 @@ public class ADX {
     public double getADX()
     {
         return this.currentADX;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calulateADX(this.previousADX, this.previousADX, this.currentADX, this.currentADX, this.previousADX, this.previousADX);
     }
 }

@@ -1,12 +1,14 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  * @brief Positive Directional Movement
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class PDM {
+public class PDM extends MarketIndicator{
 
     /**
      * Variable housing the previous value of the Positive Directional Movement
@@ -21,6 +23,7 @@ public class PDM {
     
     public PDM(MarketEntryAttemptBook _book, int _numDays)
     {
+        super("Positive Directional Movement");
         book = _book;
         numDays = _numDays;
         prevValue = book.getLastTradePrice();
@@ -59,5 +62,10 @@ public class PDM {
      */
     public double getCurrValue() {
         return currValue;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.getCurrValue();
     }
 }

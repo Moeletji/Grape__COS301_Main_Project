@@ -1,14 +1,16 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 import static java.lang.Math.*;
 
 /**
  * @brief This class calculates the Average True Range
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class ATR {
+public class ATR extends MarketIndicator{
     private double previousATR;
     private double currentATR;
     private final int numDays;
@@ -20,6 +22,7 @@ public class ATR {
     
     public ATR(MarketEntryAttemptBook _book, int _numDays)
     {
+        super("Average True Range");
         book = _book;
         if(_numDays <= 0) numDays = 14; else numDays = _numDays;
         currentHigh = book.getHighestTradePrice(numDays);
@@ -75,5 +78,10 @@ public class ATR {
     public void setPreviousClosing(double val)
     {
         previousClosing = val;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calculateATR();
     }
 }

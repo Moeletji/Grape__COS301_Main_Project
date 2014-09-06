@@ -1,12 +1,14 @@
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  * @brief Negative Directional Movement
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class NDM {
+public class NDM extends MarketIndicator{
 
     /**
      * Variable housing the previous value of the Negative Directional Movement
@@ -21,6 +23,7 @@ public class NDM {
     
     public NDM(MarketEntryAttemptBook _book, int _numDays)
     {
+        super("Negative Directional Movement");
         book = _book;
         numDays = _numDays;
         prevValue = book.getLastTradePrice();
@@ -58,5 +61,10 @@ public class NDM {
      */
     public double getCurrValue() {
         return currValue;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.getCurrValue();
     }
 }

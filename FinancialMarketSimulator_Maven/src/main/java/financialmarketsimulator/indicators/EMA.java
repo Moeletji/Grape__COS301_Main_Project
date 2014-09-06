@@ -2,6 +2,7 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  * @brief EMA(Exponential Moving Average) EMA places more weight on the most
@@ -9,7 +10,7 @@ import financialmarketsimulator.market.MarketEntryAttemptBook;
  * and will be used to calculate other technical indicators.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class EMA {
+public class EMA extends MarketIndicator{
 
     /**
      * Number of days in EMA
@@ -30,6 +31,7 @@ public class EMA {
 
     public EMA(int numDays)
     {
+        super("Exponential Moving Average");
         this.numOfDays = numDays;
     }
     
@@ -38,6 +40,7 @@ public class EMA {
      * @param numDays
      */
     public EMA(MarketEntryAttemptBook _data, int numDays) throws NotEnoughDataException {
+        super("Exponential Moving Average");
         this.numOfDays = numDays;
         this.data = _data;
         previousEMAValue = new SMA(this.data,numOfDays).calculateSMA();
@@ -93,5 +96,10 @@ public class EMA {
     public double getCurrentPrice()
     {
         return (data.getMatchedOrders().isEmpty())?0.0:data.getMatchedOrders().lastElement().getPrice();
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calculateEMA();
     }
 }

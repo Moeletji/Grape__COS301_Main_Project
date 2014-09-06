@@ -3,6 +3,7 @@ package financialmarketsimulator.indicators;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
 
@@ -11,7 +12,7 @@ import java.util.Vector;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 
-public class Volatility {
+public class Volatility extends MarketIndicator{
     
     private int period;
     private SMA sma;
@@ -21,6 +22,7 @@ public class Volatility {
     
     public Volatility(int _period,MarketEntryAttemptBook _data )
     {
+        super("Volatility");
         this.period = _period;
         this.data = _data;
         sma = new SMA(this.data, period);
@@ -54,5 +56,14 @@ public class Volatility {
     public double getSD()
     {
         return sd;
+    }
+
+    /**
+     * 
+     * @todo ALTER FUNCTION TO RETURN CORRECT DATA 
+     */
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.getMean();
     }
 }

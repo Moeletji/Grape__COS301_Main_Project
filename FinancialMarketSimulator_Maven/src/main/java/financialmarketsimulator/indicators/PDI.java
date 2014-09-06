@@ -2,6 +2,7 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  *
@@ -12,7 +13,7 @@ import financialmarketsimulator.market.MarketEntryAttemptBook;
  * @brief Positive Directional Indicator
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class PDI {
+public class PDI extends MarketIndicator{
 
     /**
      * Variable housing the previous value of the Positive Directional Indicator
@@ -45,6 +46,7 @@ public class PDI {
      */
     public PDI(MarketEntryAttemptBook _book, int _numDays)
     {
+        super("Positive Directional Index");
         book = _book;
         numDays = _numDays;
         currValue = todaysHigh = book.getHighestTradePrice(numDays);
@@ -107,5 +109,10 @@ public class PDI {
     public void setPrevClosing(int preC)
     {
         this.prevClosing = preC;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calculatePDI(this.currValue, this.prevValue);
     }
 }

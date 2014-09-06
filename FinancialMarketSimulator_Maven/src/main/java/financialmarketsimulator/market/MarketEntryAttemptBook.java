@@ -25,6 +25,14 @@ public class MarketEntryAttemptBook {
      */
     Vector<MatchedMarketEntryAttempt> matchedOrders;
     /**
+     * @brief Vector of all gain values from trade to trade
+     */
+    Vector<Double> gains;
+    /**
+     * @bried Vector of all loss values from trade to trade
+     */
+    Vector<Double> losses;
+    /**
      * @brief Name of the stock stored as a string
      */
     private String stockName;
@@ -165,15 +173,51 @@ public class MarketEntryAttemptBook {
                     hasMoreShares = false;
                     removeOrder(topOrder);
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
+                    if(!matchedOrders.isEmpty())
+                    {
+                        double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
+                        if( difference < 0)
+                        {
+                            losses.add(difference);
+                        }
+                        else if( difference > 0 )
+                        {
+                            gains.add(difference);
+                        }
+                    }
                     matchedOrders.add(newTrade);
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
+                    if(!matchedOrders.isEmpty())
+                    {
+                        double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
+                        if( difference < 0)
+                        {
+                            losses.add(difference);
+                        }
+                        else if( difference > 0 )
+                        {
+                            gains.add(difference);
+                        }
+                    }
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                 } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares())
                 {
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
+                    if(!matchedOrders.isEmpty())
+                    {
+                        double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
+                        if( difference < 0)
+                        {
+                            losses.add(difference);
+                        }
+                        else if( difference > 0 )
+                        {
+                            gains.add(difference);
+                        }
+                    }
                     matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                     hasMoreShares = false;
@@ -571,6 +615,24 @@ public class MarketEntryAttemptBook {
      */
     public synchronized double getVolatility() {
         return 0.0;
+    }
+    
+    /**
+     * @brief Returns a vector housing the gains from trade to trade
+     * @return Double Vector housing gains
+     */
+    public Vector<Double> getGains()
+    {
+        return this.gains;
+    }
+    
+    /**
+     * @brief Return a vector housing the losses from trade to trade
+     * @return Double Vector housing losses
+     */
+    public Vector<Double> getLosses()
+    {
+        return this.losses;
     }
 
     /**

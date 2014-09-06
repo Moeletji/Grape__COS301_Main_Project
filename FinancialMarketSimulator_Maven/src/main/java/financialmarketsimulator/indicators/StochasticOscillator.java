@@ -3,6 +3,7 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  *      %D = 3-day SMA of %K
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class StochasticOscillator {
+public class StochasticOscillator extends MarketIndicator{
     /**
      * The last traded price
      */
@@ -80,6 +81,7 @@ public class StochasticOscillator {
     
     public StochasticOscillator()
     {
+        super("Stochastic Oscillator");
         lowerBound = 20;
         upperBound = 80;
         kValues = new ArrayList<Double>();
@@ -91,6 +93,7 @@ public class StochasticOscillator {
      */
     public StochasticOscillator(MarketEntryAttemptBook _book)
     {
+        super("Stochastic Oscillator");
         lowerBound = 20;
         upperBound = 80;
         kValues = new ArrayList<Double>();
@@ -105,6 +108,7 @@ public class StochasticOscillator {
      */
     public StochasticOscillator(int _lowerBound, int _upperBound,MarketEntryAttemptBook _book)
     {
+        super("Stochastic Oscillator");
         lowerBound = _lowerBound;
         upperBound = _upperBound;
         kValues = new ArrayList<Double>();
@@ -187,5 +191,14 @@ public class StochasticOscillator {
     public int getNumDays()
     {
         return this.NUM_DAYS;
+    }
+
+    /**
+     * 
+     * @todo ALTER FUNCTION TO RETURN CORRECT VALUE
+     */
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calculateD();
     }
 }

@@ -2,13 +2,14 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 
 /**
  * @brief SMA(Simple Moving Average). This technical indicator is the average of
  * the closing prices
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class SMA {
+public class SMA extends MarketIndicator{
 
     /**
      * Number of days
@@ -34,10 +35,12 @@ public class SMA {
     
     public SMA(int numDays)
     {
+        super("Simple Moving Average");
         numOfDays = numDays;
     }
     
     public SMA(MarketEntryAttemptBook _book ,int numDays) {
+        super("Simple moving Average");
         numOfDays = numDays;
         this.book = _book;
     }
@@ -71,5 +74,10 @@ public class SMA {
     public double getCurrentSMAValue()
     {
         return currentSmaValue;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calculateSMA();
     }
 }

@@ -2,6 +2,7 @@ package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Vector;
  * buying and selling signals.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public final class MACD {
+public final class MACD extends MarketIndicator{
 
     private double currentMACDValue = 0;
     private double previousMACDValue = 0;
@@ -30,10 +31,11 @@ public final class MACD {
 
     public MACD() {
         //currentMACDValue = previousMACDValue;
-
+        super("Moving Average Convergence Divergence");
     }
 
     public MACD(MarketEntryAttemptBook _data) throws NotEnoughDataException {
+        super("Moving Average Convergence Divergence");
         this.data = _data;
         prevMACDValues = new Vector<Double>();
         prevSignalValues = new Vector<Double>();
@@ -95,6 +97,11 @@ public final class MACD {
         double previousSignalValue = prevSignalValues.lastElement();
         prevMACDValues.add(currentMACDValue);
         return previousSignalValue;
+    }
+
+    @Override
+    public Double calculateIndicator() throws NotEnoughDataException {
+        return this.calculateMACDValue();
     }
 
 }
