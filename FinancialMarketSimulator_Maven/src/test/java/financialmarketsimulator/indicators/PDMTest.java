@@ -8,6 +8,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import java.util.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -39,61 +40,47 @@ public class PDMTest {
     @After
     public void tearDown() {
     }
-
+    
     /**
-     * Test of setCurrValue method, of class PDM.
+     * Test of calculatePDM method, of class PDM.
      */
     @Test
-    public void testSetCurrValue() {
-        System.out.println("setCurrValue");
-        double val = 22.5;
-        book = new MarketEntryAttemptBook();
-        PDM instance = new PDM(book,14);
-        instance.setCurrValue(val);
-        double result = instance.getCurrValue();
-        assertEquals(val,result,0.0);
+    public void testCalculatePDM() {
+        System.out.println("calculatePDM");
+        PDM instance = null;
+        Double expResult = null;
+        Double result = instance.calculatePDM();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setPrevValue method, of class PDM.
+     * Test of getPDMValue method, of class PDM.
      */
     @Test
-    public void testSetPrevValue() {
-        System.out.println("setPrevValue");
-        int prev = 99;
-        book = new MarketEntryAttemptBook();
-        PDM instance = new PDM(book,14);
-        instance.setPrevValue(prev);
-        double result = instance.getPrevValue();
-        assertEquals(prev,result,0.0);
+    public void testGetPDMValue() {
+        System.out.println("getPDMValue");
+        PDM instance = null;
+        Vector<Double> expResult = null;
+        Vector<Double> result = instance.getPDMValue();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getPrevValue method, of class PDM.
+     * Test of calculateIndicator method, of class PDM.
      */
     @Test
-    public void testGetPrevValue() {
-        System.out.println("getPrevValue");
-        book = new MarketEntryAttemptBook();
-        PDM instance = new PDM(book,14);
-        int expResult = 287;
-        instance.setPrevValue(expResult);
-        double result = instance.getPrevValue();
-        assertEquals(expResult, result, 0.0);
-    }
-
-    /**
-     * Test of getCurrValue method, of class PDM.
-     */
-    @Test
-    public void testGetCurrValue() {
-        System.out.println("getCurrValue");
-        book = new MarketEntryAttemptBook();
-        PDM instance = new PDM(book,14);
-        double expResult = 22.2;
-        instance.setCurrValue(expResult);
-        double result = instance.getCurrValue();
-        assertEquals(expResult, result, 0.0);
+    public void testCalculateIndicator() throws Exception {
+        System.out.println("calculateIndicator");
+        PDM instance = null;
+        Double expResult = null;
+        Double result = instance.calculateIndicator();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

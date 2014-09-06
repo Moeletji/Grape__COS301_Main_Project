@@ -8,6 +8,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import java.util.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -41,59 +42,45 @@ public class NDMTest {
     }
 
     /**
-     * Test of setCurrValue method, of class NDM.
+     * Test of calculateNDM method, of class NDM.
      */
     @Test
-    public void testSetCurrValue() {
-        System.out.println("setCurrValue");
-        double val = 22.5;
-        book = new MarketEntryAttemptBook();
-        NDM instance = new NDM(book,14);
-        instance.setCurrValue(val);
-        double result = instance.getCurrValue();
-        assertEquals(val,result,0.0);
+    public void testCalculateNDM() {
+        System.out.println("calculateNDM");
+        NDM instance = null;
+        Double expResult = null;
+        Double result = instance.calculateNDM();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setPrevValue method, of class NDM.
+     * Test of getNDMValues method, of class NDM.
      */
     @Test
-    public void testSetPrevValue() {
-        System.out.println("setPrevValue");
-        int prev = 0;
-        book = new MarketEntryAttemptBook();
-        NDM instance = new NDM(book,14);
-        instance.setPrevValue(prev);
-        double result = instance.getCurrValue();
-        assertEquals(prev,result,0.0);
+    public void testGetNDMValues() {
+        System.out.println("getNDMValues");
+        NDM instance = null;
+        Vector<Double> expResult = null;
+        Vector<Double> result = instance.getNDMValues();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getPrevValue method, of class NDM.
+     * Test of calculateIndicator method, of class NDM.
      */
     @Test
-    public void testGetPrevValue() {
-        System.out.println("getPrevValue");
-        book = new MarketEntryAttemptBook();
-        NDM instance = new NDM(book,14);
-        int expResult = 22;
-        instance.setPrevValue(expResult);
-        double result = instance.getPrevValue();
-        assertEquals(expResult, result, 0.0);
-    }
-
-    /**
-     * Test of getCurrValue method, of class NDM.
-     */
-    @Test
-    public void testGetCurrValue() {
-        System.out.println("getCurrValue");
-        book = new MarketEntryAttemptBook();
-        NDM instance = new NDM(book,14);
-        double expResult = 0.0;
-        instance.setCurrValue(expResult);
-        double result = instance.getCurrValue();
-        assertEquals(expResult, result, 0.0);
+    public void testCalculateIndicator() throws Exception {
+        System.out.println("calculateIndicator");
+        NDM instance = null;
+        Double expResult = null;
+        Double result = instance.calculateIndicator();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

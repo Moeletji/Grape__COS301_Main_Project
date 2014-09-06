@@ -42,61 +42,45 @@ public class ADXTest {
     }
 
     /**
-     * Test of calulateADX method, of class ADX.
+     * Test of calculateADX method, of class ADX.
      */
     @Test
-    public void testCalulateADX() throws Exception {
-        System.out.println("calulateADX");
-        double prevPDI = 0.15;
-        double prevNDI = 0.26;
-        double currPDM = 0.20;
-        double currNDM = 0.18;
-        double prevPDM = 0.18;
-        double prevNDM = 0.15;
-        book = new MarketEntryAttemptBook();
-        ADX instance = new ADX(book, 14);
-        double expResult;
-        
-        //**************************************
-        //Calculations for expected results
-        //**************************************
-        EMA ema = new EMA(book,14);
-        PDI pdi = new PDI(book,14);
-        NDI ndi = new NDI(book,14);
-        double currVal;
-        double prevVal;
-        
-        pdi.setPreviousValue(prevPDI);
-        ndi.setPreviousValue(prevNDI);
-        
-        //Set values.
-        currVal = abs(pdi.calculatePDI(currPDM, prevPDM) - ndi.calculateNDI(currNDM, prevNDM))/abs(pdi.calculatePDI(currPDM, prevPDM) + ndi.calculateNDI(currNDM, prevNDM));
-        prevVal = abs(pdi.getPrevValue() - ndi.getPrevValue())/abs(pdi.getPrevValue() + ndi.getPrevValue());
-        
-        ema.setCurrentPrice(currVal);
-        ema.setPreviousEMAValue(prevVal);
-        
-        expResult = (100 * ema.calculateEMA());
-        
-        //**************************************
-        //Calculations for actual observed results
-        //**************************************
-        double result = instance.calulateADX(prevPDI, prevNDI, currPDM, currNDM, prevPDM, prevNDM);
-        
+    public void testCalculateADX() throws Exception {
+        System.out.println("calculateADX");
+        ADX instance = null;
+        double expResult = 0.0;
+        double result = instance.calculateADX();
         assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getADX method, of class ADX.
+     * Test of getPreviousADX method, of class ADX.
      */
     @Test
-    public void testGetADX() {
-        System.out.println("getADX");
-        book = new MarketEntryAttemptBook();
-        ADX instance = new ADX(book, 14);
+    public void testGetPreviousADX() {
+        System.out.println("getPreviousADX");
+        ADX instance = null;
         double expResult = 0.0;
-        double result = instance.getADX();
+        double result = instance.getPreviousADX();
         assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of calculateIndicator method, of class ADX.
+     */
+    @Test
+    public void testCalculateIndicator() throws Exception {
+        System.out.println("calculateIndicator");
+        ADX instance = null;
+        Double expResult = null;
+        Double result = instance.calculateIndicator();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }

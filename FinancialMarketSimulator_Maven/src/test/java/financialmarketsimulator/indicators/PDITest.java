@@ -8,6 +8,7 @@
 package financialmarketsimulator.indicators;
 
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import java.util.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -69,78 +70,37 @@ public class PDITest {
         //***********************
         // Observed result calculation
         //***********************
-        double result = instance.calculatePDI(_currPDM, _prevPDM);
+        double result = instance.calculatePDI();
         
         assertEquals(expResult, result, 0.0);
     }
 
     /**
-     * Test of setPreviousValue method, of class PDI.
+     * Test of getPDIValues method, of class PDI.
      */
     @Test
-    public void testSetPreviousValue() {
-        System.out.println("setPreviousValue");
-        double _prev = 0.0;
-        book = new MarketEntryAttemptBook();
-        PDI instance = new PDI(book,14);
-        instance.setPreviousValue(_prev);
+    public void testGetPDIValues() {
+        System.out.println("getPDIValues");
+        PDI instance = null;
+        Vector<Double> expResult = null;
+        Vector<Double> result = instance.getPDIValues();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getPrevValue method, of class PDI.
+     * Test of calculateIndicator method, of class PDI.
      */
     @Test
-    public void testGetPrevValue() {
-        System.out.println("getPrevValue");
-        book = new MarketEntryAttemptBook();
-        PDI instance = new PDI(book,14);
-        
-        //Default result
-        double expResult = 0.0;
-        double result = instance.getPrevValue();
-        assertEquals(expResult, result, 0.0);
-        
-        //Result after set
-        expResult = 25;
-        instance.setPreviousValue(expResult);
-        result = instance.getPrevValue();
-        assertEquals(expResult, result, 0.0);
-    }
-
-    /**
-     * Test of setTodaysHigh method, of class PDI.
-     */
-    @Test
-    public void testSetTodaysHigh() {
-        System.out.println("setTodaysHigh");
-        int high = 0;
-        book = new MarketEntryAttemptBook();
-        PDI instance = new PDI(book,14);
-        instance.setTodaysHigh(high);
-    }
-
-    /**
-     * Test of setTodaysLow method, of class PDI.
-     */
-    @Test
-    public void testSetTodaysLow() {
-        System.out.println("setTodaysLow");
-        int low = 0;
-        book = new MarketEntryAttemptBook();
-        PDI instance = new PDI(book,14);
-        instance.setTodaysLow(low);
-    }
-
-    /**
-     * Test of setPrevClosing method, of class PDI.
-     */
-    @Test
-    public void testSetPrevClosing() {
-        System.out.println("setPrevClosing");
-        int preC = 0;
-        book = new MarketEntryAttemptBook();
-        PDI instance = new PDI(book,14);
-        instance.setPrevClosing(preC);
+    public void testCalculateIndicator() throws Exception {
+        System.out.println("calculateIndicator");
+        PDI instance = null;
+        Double expResult = null;
+        Double result = instance.calculateIndicator();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }
