@@ -1,13 +1,19 @@
 
 import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.market.MarketParticipant;
+import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.indicators.RSI;
+import financialmarketsimulator.indicators.SMA;
+import financialmarketsimulator.interfaceCharts.DynamicLineChart;
+import financialmarketsimulator.interfaceCharts.IndicatorChart;
 import financialmarketsimulator.market.MarketExchange;
+import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.strategies.Phantom;
 import java.util.ArrayList;
 import java.util.Random;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  * @brief Main project execution class
@@ -75,6 +81,29 @@ public class FinancialMarketSimulator {
         //Running the 2 phantoms
         entity1.start();
         entity2.start();
-
+        
+        //FOR CREATING THE GRAPHS
+        
+        //Graph for EMA
+        EMA emaObj = new EMA(exchange.getBook("INV"),14);
+        final IndicatorChart ema = new IndicatorChart(emaObj,"Exponential Moving Average","EMA");
+        ema.pack();
+        RefineryUtilities.centerFrameOnScreen(ema);
+        ema.setVisible(true);
+        
+        //Graph for SMA
+        SMA smaObj = new SMA(exchange.getBook("INV"),14);
+        final IndicatorChart sma = new IndicatorChart(smaObj,"Simple Moving Average","SMA");
+        sma.pack();
+        RefineryUtilities.centerFrameOnScreen(sma);
+        sma.setVisible(true);
+        
+        //Graph for RSI
+        RSI rsiObj = new RSI(exchange.getBook("INV"),14);
+        final IndicatorChart rsi = new IndicatorChart(rsiObj,"Relative Strength Index","RSI");
+        rsi.pack();
+        RefineryUtilities.centerFrameOnScreen(rsi);
+        rsi.setVisible(true);
+        
     }
 }
