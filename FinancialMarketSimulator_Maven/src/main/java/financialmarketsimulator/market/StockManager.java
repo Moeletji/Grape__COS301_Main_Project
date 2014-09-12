@@ -13,15 +13,25 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class StockManager extends Thread {
 
-    //Name of the stock
+    /**
+     * @brief Name of the stock
+     */
     private String stockName;
-    //An order book of all the orders accepted
+    /**
+     * @brief an order book all orders accepted
+     */
     private final MarketEntryAttemptBook orderList;
-    //Snapshot of the market data
+    /**
+     * @brief Snapshot of the MarketData
+     */
     private MatchedMarketEntryAttemptUpdate marketSnapShot;
-    //List of all MarketParticipants
+    /**
+     * @brief List of all MarketParticipants
+     */
     private ArrayList<MarketParticipant> participants;
-    //Message queue
+    /**
+     * @brief Holds A list of all messages sent by MarketParticipants
+     */
     private ConcurrentLinkedQueue<Message> messageQueue;
     //Thread started
     private boolean started;
@@ -241,5 +251,33 @@ public class StockManager extends Thread {
             notify();
             paused = false;
         }
+    }
+
+    /**
+     * @brief see if a specific MarketParticipant is trading in a stock
+     * @param marketParticipantID ID of MarketParticipant
+     * @return true if MarketParticipant is trading and false if it's not
+     */
+    boolean participantIsTrading(String marketParticipantID) {
+        for (MarketParticipant participant : participants) {
+            if ((participant != null) && (participant.getParticipantID().equals(marketParticipantID))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @brief get a MarketParticipant that is trading in a stock
+     * @param marketParticipantID ID of MarketParticipant
+     * @return MarketParticipant if it exists else null
+     */
+    MarketParticipant getParticipant(String marketParticipantID) {
+        for (MarketParticipant participant : participants) {
+            if ((participant != null) && (participant.getParticipantID().equals(marketParticipantID))) {
+                return participant;
+            }
+        }
+        return null;
     }
 }

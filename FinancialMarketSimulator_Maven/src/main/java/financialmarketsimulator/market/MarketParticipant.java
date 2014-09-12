@@ -20,6 +20,18 @@ import javax.swing.JList;
 public class MarketParticipant extends Thread {
 
     /**
+     * @brief Amount a MarketParticipant has to trade
+     */
+    private final double BUDGET = 10000;
+    /**
+     * @brief Current amount of money remaining
+     */
+    private double currentAmount;
+    /**
+     * @brief amount of shares owned
+     */
+    private int amountOfShares;
+    /**
      * @brief name of the market participant
      */
     protected String participantName;
@@ -64,19 +76,27 @@ public class MarketParticipant extends Thread {
      */
     protected Variants variants;
     /**
+     * @brief Profit of a MarketParticipant
+     */
+    private double profit;
+    /**
      * @brief different price ranges
      */
-    private final double[] prices = {10.00, 100.00, 1000.00};
+    private final double[] prices = {10.00, 50.00, 100.00};
     /**
      * @brief different ranges for shares
      */
-    private final int[] shares = {1000, 10000, 100000};
+    private final int[] shares = {100, 1000, 10000};
     /**
      * Used for GUI
      */
     protected JList bidsList;
     protected JList offersList;
     protected JList matchedList;
+
+    public MarketParticipant() {
+        this.profit = 10000;
+    }
 
     /**
      * @brief Constructing a MarketEnity object with parameters
@@ -86,6 +106,7 @@ public class MarketParticipant extends Thread {
      * @param stock name of the stock
      */
     public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, MarketStrategy strategy) throws NotEnoughDataException {
+        this();
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -94,6 +115,8 @@ public class MarketParticipant extends Thread {
         this.paused = false;
         this.stop = false;
         this.currentStrategy = strategy;
+        this.amountOfShares = 0;
+        this.currentAmount = BUDGET;
 
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
@@ -112,6 +135,7 @@ public class MarketParticipant extends Thread {
      * @param participantID id of the entity
      */
     public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
+        this();
         this.participantName = participantName;
         this.participantID = participantID;
         this.exchange = exchange;
@@ -120,6 +144,8 @@ public class MarketParticipant extends Thread {
         this.started = false;
         this.paused = false;
         this.stop = false;
+        this.amountOfShares = 0;
+        this.currentAmount = BUDGET;
 
         this.bidsList = bidsList;
         this.offersList = offersList;
@@ -131,6 +157,14 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
+    }
+
+    /**
+     * @brief Returns the initial budget for a MarketParticipant
+     * @return The Participant's Budget
+     */
+    public double getBUDGET() {
+        return BUDGET;
     }
 
     /**
@@ -294,7 +328,39 @@ public class MarketParticipant extends Thread {
                     int minShares = Math.round(maxShares / 10);
 
                     //Create MarketEntryAttempt based on data
-                    MarketEntryAttempt newAttempt = new MarketEntryAttempt((double) (Math.random() * (maxPrice - minPrice) + minPrice), (int) (Math.random() * (maxShares - minShares) + minShares), this.getParticipantName(), side);
+                    double attemptPrice = (double) (Math.random() * (maxPrice - minPrice) + minPrice);
+                    int attemptShares = (int) (Math.random() * (maxShares - minShares) + minShares);
+                    String Id = this.getParticipantID();
+                    MarketEntryAttempt.SIDE attemptSide = side;
+
+                    //Trading with no price or shares is invalid
+                    if (attemptPrice <= 0 || attemptShares <= 0) {
+                        continue;
+                    }
+
+                    if (side == MarketEntryAttempt.SIDE.BID) {
+                        //If you don't have enough money to buy shares, then don't buy
+                        //An alternative can be thought of later
+                        //Use PriceStep downwards until you find a suitable amount
+                        if (currentAmount < (attemptPrice * attemptShares)) {
+                            continue;
+                        }
+                        currentAmount += (attemptPrice * attemptShares);
+                        amountOfShares += attemptShares;
+
+                    } else if (side == MarketEntryAttempt.SIDE.OFFER) {
+                        //If you don't have enough shares to sell then sell only what you have
+                        if (amountOfShares < attemptShares) {
+                            attemptShares = amountOfShares;
+                        }
+
+                        //Get the current price of the stock
+                        double currentPrice = stockManager.getOrderList().getLowestOfferPrice();
+                        currentAmount -= (currentPrice * attemptShares);
+                        amountOfShares -= attemptShares;
+                    }
+
+                    MarketEntryAttempt newAttempt = new MarketEntryAttempt(attemptPrice, attemptShares, Id, attemptSide);
 
                     //Construct message to be sent
                     Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
@@ -369,12 +435,37 @@ public class MarketParticipant extends Thread {
         return this.started;
     }
 
+    /* Accessors and Mutators */
     public Variants getVariants() {
         return variants;
     }
 
     public void setVariants(Variants variants) {
         this.variants = variants;
+    }
+
+    public double getCurrentAmount() {
+        return currentAmount;
+    }
+
+    public void setCurrentAmount(double currentAmount) {
+        this.currentAmount = currentAmount;
+    }
+
+    public int getAmountOfShares() {
+        return amountOfShares;
+    }
+
+    public void setAmountOfShares(int amountOfShares) {
+        this.amountOfShares = amountOfShares;
+    }
+
+    public double getProfit() {
+        return profit;
+    }
+
+    public void setProfit(double profit) {
+        this.profit = profit;
     }
 
     public String getStock() {

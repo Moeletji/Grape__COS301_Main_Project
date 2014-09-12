@@ -32,7 +32,7 @@ public class MarketEntryAttempt implements Cloneable {
     /*!
      * @brief Stores the name of the participant making the bid or offer.
      */
-    protected String participantName;
+    protected String participantID;
     /*!
      * @brief Java Data variable to get current date. 
      */
@@ -52,13 +52,13 @@ public class MarketEntryAttempt implements Cloneable {
      * @param side side of order
      * @param price The price of the entry attempt
      * @param numShares The number of shares being bid or offered
-     * @param name The name of the participant making the bid or the offer.
+     * @param id The id of the participant making the bid or the offer.
      */
-    public MarketEntryAttempt(double price, int numShares, String name, SIDE side) {
+    public MarketEntryAttempt(double price, int numShares, String id, SIDE side) {
         this();
         this.price = Math.round(price * 20) / 20.0;
         this.numOfShares = numShares;
-        this.participantName = name;
+        this.participantID = id;
         this.side = side;
     }
 
@@ -106,8 +106,8 @@ public class MarketEntryAttempt implements Cloneable {
      * @return String value for the name of the market participant who made the
      * entry attempt.
      */
-    public String getParticipantName() {
-        return this.participantName;
+    public String getParticipantID() {
+        return this.participantID;
     }
 
     /**
@@ -160,8 +160,8 @@ public class MarketEntryAttempt implements Cloneable {
      * @todo Sets the name of the participant making the entry attempt.
      * @param _name The name of the participant making the entry attempt.
      */
-    public void setParticipantName(String _name) {
-        this.participantName = _name;
+    public void setParticipantID(String _name) {
+        this.participantID = _name;
     }
 
     public boolean hasNoSharesLeft() {
@@ -181,7 +181,7 @@ public class MarketEntryAttempt implements Cloneable {
     public void replaceWith(double price, int numShares, String name, Date newDate, String stamp) {
         this.price = price;
         this.numOfShares = numShares;
-        this.participantName = name;
+        this.participantID = name;
         this.orderID = UUID.randomUUID();
         this.date = newDate;
         this.timeStamp = stamp;
@@ -193,6 +193,6 @@ public class MarketEntryAttempt implements Cloneable {
      */
     @Override
     public String toString(){
-        return numOfShares + " @ " + price + ", " + participantName;
+        return numOfShares + " @ " + price + ", " + participantID;
     }
 }

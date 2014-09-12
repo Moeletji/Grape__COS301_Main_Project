@@ -1,8 +1,10 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * @brief This encapsulates all the stock managers and all market participants
@@ -88,12 +90,12 @@ public class MarketExchange {
      */
     public boolean addStockManager(StockManager stockManager) {
         String searchKey = stockManager.getStockName();
-
+        
         if (!stocksManagers.containsKey(searchKey)) {
             stocksManagers.put(searchKey, stockManager);
             return true;
         }
-
+        
         return false;
     }
 
@@ -105,12 +107,12 @@ public class MarketExchange {
      */
     public boolean removeStockManager(StockManager stockManager) {
         String searchKey = stockManager.getStockName();
-
+        
         if (!stocksManagers.containsKey(searchKey)) {
             stocksManagers.remove(searchKey);
             return true;
         }
-
+        
         return false;
     }
 
@@ -134,7 +136,7 @@ public class MarketExchange {
             stocksManagers.get(name).acceptOrder(attempt);
             return true;
         }
-
+        
         return false;
     }
 
@@ -154,7 +156,7 @@ public class MarketExchange {
             stocksManagers.get(name).editOrder(attempt.getOrderID(), price, numberShares, MarketEntryAttempt.SIDE.BID);
             return true;
         }
-
+        
         return false;
     }
 
@@ -180,22 +182,51 @@ public class MarketExchange {
     public void updateManager(String stockName, StockManager updatedStockManager) {
         stocksManagers.put(stockName, updatedStockManager);
     }
-
+    
     public boolean stockAlreadyExists(String foundStockName) {
-
+        
         for (int i = 0; i < stocksManagers.size(); i++) {
-
+            
             StockManager manager = (StockManager) stocksManagers.get(foundStockName);
-
+            
             if (manager.getStockName().equals(foundStockName)) {
                 return true;
             }
         }
-
+        
         return false;
     }
     
-    public void clearStocks(){
+    public void clearStocks() {
         stocksManagers.clear();
+    }
+
+    /**
+     * @brief get the profit for a specific MarketParticipant
+     * @param marketParticipantID the MarketParticipant to get profit from
+     * @return profit made or lost
+     */
+    public double getProfit(String marketParticipantID) {
+        double totalProfit = 0.0;
+        int countInstances = 0;
+        double budget = 0.0;
+        
+        for (StockManager manager : stocksManagers.values()) {
+            if (manager != null) {
+                if (manager.participantIsTrading(marketParticipantID)) {
+                    MarketParticipant participant = manager.getParticipant(marketParticipantID);
+                    budget = participant.getBUDGET();
+                    totalProfit += participant.getCurrentAmount();
+                    countInstances++;
+                }
+            } else {
+                System.out.println("Manager is null");
+            }
+        }
+        
+        double totalBudget = (budget * countInstances);
+        double profit = (totalProfit / totalBudget);
+        
+        return profit;
     }
 }

@@ -74,7 +74,7 @@ public final class DepthUpdates {
     public DepthUpdates(MarketEntryAttempt order, DepthUpdates.UpdateType upDate) {
         this();
 
-        this.setStockName(order.getParticipantName());
+        this.setStockName(order.getParticipantID());
         this.setOrderID(order.getOrderID());
         this.setNumberOfShares(order.getNumOfShares());
         switch (upDate) {

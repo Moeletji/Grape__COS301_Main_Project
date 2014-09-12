@@ -58,16 +58,22 @@ public class MarketEntryAttemptBook {
      */
     private double previousTradePrice;
     /**
-     * @brief total number of shares the stock holds
+     * @brief Total number of shares the stock holds
      */
     private int totalNumberOfShares;
+    /**
+     * @brief Current number of shares the stock holds
+     */
+    private int currentNumberOfShares;
 
     public MarketEntryAttemptBook(String stockName, long timePeriod, int totalNumberOfShares) {
         this();
         this.timePeriod = timePeriod;
         this.totalNumberOfShares = totalNumberOfShares;
+        this.currentNumberOfShares = this.totalNumberOfShares;
         this.stockName = stockName;
     }
+
     /**
      * @brief constructor for MarketEntryAttemptBook
      * @param _stock
@@ -84,7 +90,8 @@ public class MarketEntryAttemptBook {
      */
     public MarketEntryAttemptBook(long timePeriod, String stockName) {
         this.stockName = stockName;
-        this.totalNumberOfShares = 0;
+        this.totalNumberOfShares = 10000;
+        this.currentNumberOfShares = this.totalNumberOfShares;
         this.bids = new Vector<MarketEntryAttempt>();
         this.offers = new Vector<MarketEntryAttempt>();
         this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
@@ -98,7 +105,8 @@ public class MarketEntryAttemptBook {
      */
     public MarketEntryAttemptBook(long timePeriod) {
         this.stockName = "";
-        this.totalNumberOfShares = 1000;
+        this.totalNumberOfShares = 10000;
+        this.currentNumberOfShares = this.totalNumberOfShares;
         this.bids = new Vector<MarketEntryAttempt>();
         this.offers = new Vector<MarketEntryAttempt>();
         this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
@@ -152,6 +160,12 @@ public class MarketEntryAttemptBook {
         if (newOrder.getPrice() == 0 || newOrder.getNumOfShares() == 0) {
             return;//throw exception
         }
+
+        //No shares remaining to trade with
+        if (currentNumberOfShares <= 0) {
+            return;//throw exception
+        }
+
         MarketEntryAttempt.SIDE orderSide = newOrder.getSide();
         //the list to check if any matchedOrders can be made
         Vector<MarketEntryAttempt> listToCheck = (orderSide == MarketEntryAttempt.SIDE.BID) ? offers : bids;
@@ -171,50 +185,56 @@ public class MarketEntryAttemptBook {
                     || (orderSide == MarketEntryAttempt.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice())) {
                 if (newOrder.getNumOfShares() == topOrder.getNumOfShares()) {
                     hasMoreShares = false;
+
+                    //If there's not enough shares remaining to honour the Match
+                    //Only Match with whatever shares are remaining.
+                    if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
+                        newOrder.setNumOfShares(currentNumberOfShares);
+                    }
                     removeOrder(topOrder);
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    if(!matchedOrders.isEmpty())
-                    {
+                    currentNumberOfShares -= newOrder.getNumOfShares();
+                    if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
-                        if( difference < 0)
-                        {
+                        if (difference < 0) {
                             losses.add(difference);
-                        }
-                        else if( difference > 0 )
-                        {
+                        } else if (difference > 0) {
                             gains.add(difference);
                         }
                     }
                     matchedOrders.add(newTrade);
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
+                    //If there's not enough shares remaining to honour the Match
+                    //Only Match with whatever shares are remaining.
+                    if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
+                        newOrder.setNumOfShares(currentNumberOfShares);
+                    }
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    if(!matchedOrders.isEmpty())
-                    {
+                    currentNumberOfShares -= newOrder.getNumOfShares();
+                    if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
-                        if( difference < 0)
-                        {
+                        if (difference < 0) {
                             losses.add(difference);
-                        }
-                        else if( difference > 0 )
-                        {
+                        } else if (difference > 0) {
                             gains.add(difference);
                         }
                     }
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
-                } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares())
-                {
+                } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares()) {
+                    //If there's not enough shares remaining to honour the Match
+                    //Only Match with whatever shares are remaining.
+                    if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
+                        newOrder.setNumOfShares(currentNumberOfShares);
+                    }
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    if(!matchedOrders.isEmpty())
-                    {
+                    currentNumberOfShares -= newOrder.getNumOfShares();
+                    if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
-                        if( difference < 0)
-                        {
+                        if (difference < 0) {
                             losses.add(difference);
-                        }
-                        else if( difference > 0 )
-                        {
+                        } else if (difference > 0) {
                             gains.add(difference);
                         }
                     }
@@ -229,26 +249,27 @@ public class MarketEntryAttemptBook {
         if (hasMoreShares) {
             addOrderToList(newOrder);
         }
-        
+
         //After elapsed time, sync with database
-        syncDb();
+        //syncDb();
 
     }
+
     /**
      * @brief synchronize data with database
      */
-    public void syncDb(){
+    public void syncDb() {
         long test = System.currentTimeMillis();
         if (test >= (pastTime + timePeriod * 1000)) { //multiply by 1000 to get milliseconds
-           long dbSyncTime = pastTime;
-           pastTime = test;
-           
+            long dbSyncTime = pastTime;
+            pastTime = test;
+
             //db = new DBConnect();
-            
-           //Sync only matches that are not already in database
-            for(int i = 0; i < matchedOrders.size(); i++){
-                MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt)matchedOrders.elementAt(i);
-                if(matched.getDateIssued().getTime() >= dbSyncTime){
+
+            //Sync only matches that are not already in database
+            for (int i = 0; i < matchedOrders.size(); i++) {
+                MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) matchedOrders.elementAt(i);
+                if (matched.getDateIssued().getTime() >= dbSyncTime) {
                     //db.recordTrade(matched);
                 }
             }
@@ -387,7 +408,7 @@ public class MarketEntryAttemptBook {
 
         return null;
     }
-    
+
     private MarketEntryAttempt searchForOrder(MarketEntryAttempt attempt) {
         Vector<MarketEntryAttempt> orders = (attempt.side == MarketEntryAttempt.SIDE.BID ? bids : offers);
 
@@ -400,7 +421,6 @@ public class MarketEntryAttemptBook {
 
         return null;
     }
-    
 
     public synchronized MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE _side) {
         Vector<MarketEntryAttempt> orders = (_side == MarketEntryAttempt.SIDE.BID ? bids : offers);
@@ -483,9 +503,8 @@ public class MarketEntryAttemptBook {
         }
         return lowest;
     }
-    
-    public synchronized double getFirstTradePrice()
-    {
+
+    public synchronized double getFirstTradePrice() {
         return (!matchedOrders.isEmpty()) ? matchedOrders.firstElement().getPrice() : 0.0;
     }
 
@@ -621,22 +640,20 @@ public class MarketEntryAttemptBook {
     public synchronized double getVolatility() {
         return 0.0;
     }
-    
+
     /**
      * @brief Returns a vector housing the gains from trade to trade
      * @return Double Vector housing gains
      */
-    public synchronized Vector<Double> getGains()
-    {
+    public synchronized Vector<Double> getGains() {
         return this.gains;
     }
-    
+
     /**
      * @brief Return a vector housing the losses from trade to trade
      * @return Double Vector housing losses
      */
-    public synchronized Vector<Double> getLosses()
-    {
+    public synchronized Vector<Double> getLosses() {
         return this.losses;
     }
 
@@ -661,9 +678,8 @@ public class MarketEntryAttemptBook {
         this.previousTradePrice = this.lastTradePrice;
         this.lastTradePrice = lastTradePrice;
     }
-    
-    public double getPreviousTradePrice()
-    {
+
+    public double getPreviousTradePrice() {
         return this.previousTradePrice;
     }
 
@@ -674,12 +690,12 @@ public class MarketEntryAttemptBook {
     public void setTotalNumberOfShares(int totalNumberOfShares) {
         this.totalNumberOfShares = totalNumberOfShares;
     }
-    
-    public double getOpeningPrice() throws NotEnoughDataException
-    {
-        if (this.matchedOrders.isEmpty())
+
+    public double getOpeningPrice() throws NotEnoughDataException {
+        if (this.matchedOrders.isEmpty()) {
             throw new NotEnoughDataException();
-        
+        }
+
         return this.matchedOrders.firstElement().getPrice();
     }
 }

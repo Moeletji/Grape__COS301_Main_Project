@@ -1490,7 +1490,7 @@ public class FMSimulator extends javax.swing.JFrame {
             Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
-                tmpBids[i][0] = attempt.getParticipantName();
+                tmpBids[i][0] = attempt.getParticipantID();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
 
@@ -1501,7 +1501,7 @@ public class FMSimulator extends javax.swing.JFrame {
             Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
-                tmpOffers[i][0] = attempt.getParticipantName();
+                tmpOffers[i][0] = attempt.getParticipantID();
                 tmpOffers[i][1] = attempt.getNumOfShares();
                 tmpOffers[i][2] = attempt.getPrice();
             }
@@ -1776,7 +1776,7 @@ public class FMSimulator extends javax.swing.JFrame {
             Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
-                tmpBids[i][0] = attempt.getParticipantName();
+                tmpBids[i][0] = attempt.getParticipantID();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
 
@@ -1787,7 +1787,7 @@ public class FMSimulator extends javax.swing.JFrame {
             Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
-                tmpOffers[i][0] = attempt.getParticipantName();
+                tmpOffers[i][0] = attempt.getParticipantID();
                 tmpOffers[i][1] = attempt.getNumOfShares();
                 tmpOffers[i][2] = attempt.getPrice();
             }
@@ -1877,7 +1877,7 @@ public class FMSimulator extends javax.swing.JFrame {
             Object[][] tmpBids = new Object[bidsVec.size()][3];
             for (int i = 0; i < bidsVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
-                tmpBids[i][0] = attempt.getParticipantName();
+                tmpBids[i][0] = attempt.getParticipantID();
                 tmpBids[i][1] = attempt.getNumOfShares();
                 tmpBids[i][2] = attempt.getPrice();
 
@@ -1888,7 +1888,7 @@ public class FMSimulator extends javax.swing.JFrame {
             Object[][] tmpOffers = new Object[offersVec.size()][3];
             for (int i = 0; i < offersVec.size(); i++) {
                 MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
-                tmpOffers[i][0] = attempt.getParticipantName();
+                tmpOffers[i][0] = attempt.getParticipantID();
                 tmpOffers[i][1] = attempt.getNumOfShares();
                 tmpOffers[i][2] = attempt.getPrice();
             }
@@ -1928,7 +1928,7 @@ public class FMSimulator extends javax.swing.JFrame {
         Object[][] tmpBids = new Object[bidsVec.size()][3];
         for (int i = 0; i < bidsVec.size(); i++) {
             MarketEntryAttempt attempt = (MarketEntryAttempt) bidsVec.elementAt(i);
-            tmpBids[i][0] = attempt.getParticipantName();
+            tmpBids[i][0] = attempt.getParticipantID();
             tmpBids[i][1] = attempt.getNumOfShares();
             tmpBids[i][2] = attempt.getPrice();
 
@@ -1939,7 +1939,7 @@ public class FMSimulator extends javax.swing.JFrame {
         Object[][] tmpOffers = new Object[offersVec.size()][3];
         for (int i = 0; i < offersVec.size(); i++) {
             MarketEntryAttempt attempt = (MarketEntryAttempt) offersVec.elementAt(i);
-            tmpOffers[i][0] = attempt.getParticipantName();
+            tmpOffers[i][0] = attempt.getParticipantID();
             tmpOffers[i][1] = attempt.getNumOfShares();
             tmpOffers[i][2] = attempt.getPrice();
         }

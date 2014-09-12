@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /**
- * @brief This class is used to connect to a database for recording the market data
+ * @brief This class is used to connect to a database for recording the market
+ * data
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-
 public class DBConnect {
 
     private Connection con;
@@ -44,7 +44,7 @@ public class DBConnect {
              */
             String query1 = "INSERT INTO " + tableName + " (Date,Volume,Price,Offeror, Bidder) "
                     + "VALUES(" + trade.getDateIssuedToString() + "," + trade.getQuantity() + "," + trade.getPrice() + ","
-                    + trade.getOffererName() + "," + trade.getBidderName() + ")";
+                    + trade.getOffererID() + "," + trade.getBidderID() + ")";
 
             rs = st.executeQuery(query1);
         } catch (Exception e) {
@@ -62,6 +62,7 @@ public class DBConnect {
             java.util.Date dateIssued = new SimpleDateFormat("YYYY.MM.DD HH:MM:SS").parse(rs.getString("Date"));
             int numShares = Integer.parseInt(rs.getString("Volume"));
             double price = Double.parseDouble(rs.getString("Volume"));
+            String stockname = rs.getString("Stock");
             trade = new MatchedMarketEntryAttempt(_id, dateIssued, numShares, price);
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,8 +83,8 @@ public class DBConnect {
                 java.util.Date dateIssued = new SimpleDateFormat("YYYY.MM.DD HH:MM:SS").parse(rs.getString("Date"));
                 int numShares = Integer.parseInt(rs.getString("Volume"));
                 double price = Double.parseDouble(rs.getString("Volume"));
+                String stockname = rs.getString("Stock");
                 trade = new MatchedMarketEntryAttempt(_id, dateIssued, numShares, price);
-
                 array.add(trade);
             }
         } catch (NumberFormatException | SQLException | ParseException e) {

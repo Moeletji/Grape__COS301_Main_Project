@@ -3,7 +3,6 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.indicators.SMA;
-import financialmarketsimulator.interfaceCharts.DynamicLineChart;
 import financialmarketsimulator.interfaceCharts.IndicatorChart;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketParticipant;
@@ -11,7 +10,6 @@ import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.strategies.Phantom;
-import java.util.ArrayList;
 import java.util.Random;
 import org.jfree.ui.RefineryUtilities;
 
