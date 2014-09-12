@@ -31,6 +31,7 @@ public class DirectionalIndex extends MarketIndicator{
         this.numDays = _numDays;
         this.pdi = new PDI(this.book, this.numDays);
         this.ndi = new NDI(this.book, this.numDays);
+        this.directionalIndexValues = new Vector<>();
     }
     
     public double calculateDirectionalIndex() throws NotEnoughDataException

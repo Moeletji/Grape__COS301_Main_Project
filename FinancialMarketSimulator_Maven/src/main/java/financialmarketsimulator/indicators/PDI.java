@@ -55,7 +55,12 @@ public class PDI extends MarketIndicator{
        }
        averageNMD = averageNMD/numDays;
        
-       Double result = 100 * averageNMD / averageTR;  
+       double result;
+       if( averageTR == 0.0 )
+            result = 0.0;
+       else
+            result = 100 * averageNMD / averageTR;
+        
        PDIValues.add(result);
        return result;
     }

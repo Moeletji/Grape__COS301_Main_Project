@@ -51,7 +51,12 @@ public class NDI extends MarketIndicator{
        }
        averageNMD = averageNMD/numDays;
        
-       double result = 100 * averageNMD / averageTR;
+       double result;
+       if( averageTR == 0.0 )
+            result = 0.0;
+       else
+            result = 100 * averageNMD / averageTR;
+       
        this.NDIValues.add(result);
        return result;
     }

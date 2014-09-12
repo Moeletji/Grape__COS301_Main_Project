@@ -1,16 +1,20 @@
 
+import com.grape.financialmarketsimulator_maven.MultiLineChart;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.interfaceCharts.IndicatorChart;
 import financialmarketsimulator.market.MarketExchange;
+import financialmarketsimulator.market.MarketIndicator;
 import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.strategies.Phantom;
 import java.util.Random;
+import java.util.Vector;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -82,8 +86,27 @@ public class FinancialMarketSimulator {
         
         //FOR CREATING THE GRAPHS
         
+        //Creating multi line graphs
+        Vector<MarketIndicator> ind = new Vector<>();
+        ind.add(new EMA(exchange.getBook("INV"),14));
+        ind.add(new SMA(exchange.getBook("INV"),14));
+        ind.add(new RSI(exchange.getBook("INV"),14));
+        ind.add(new MACD(exchange.getBook("INV")));
+        
+        Vector<String> indNames = new Vector<>();
+        
+        indNames.add("EMA Movement");
+        indNames.add("SMA Movement");
+        indNames.add("RSI Movement");
+        indNames.add("MACD Movement");
+        
+        final MultiLineChart chart = new MultiLineChart(ind,indNames,"Indicators");
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+        
         //Graph for EMA
-        EMA emaObj = new EMA(exchange.getBook("INV"),14);
+        /*EMA emaObj = new EMA(exchange.getBook("INV"),14);
         final IndicatorChart ema = new IndicatorChart(emaObj,"Exponential Moving Average","EMA");
         ema.pack();
         RefineryUtilities.centerFrameOnScreen(ema);
@@ -101,7 +124,7 @@ public class FinancialMarketSimulator {
         final IndicatorChart rsi = new IndicatorChart(rsiObj,"Relative Strength Index","RSI");
         rsi.pack();
         RefineryUtilities.centerFrameOnScreen(rsi);
-        rsi.setVisible(true);
+        rsi.setVisible(true);*/
         
     }
 }
