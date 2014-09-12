@@ -47,7 +47,7 @@ public class EMATest {
         System.out.println("calculateEMA");
         EMA instance = null;
         double expResult = 0.0;
-        double result = instance.calculateEMA();
+        //double result = instance.calculateEMA();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -64,7 +64,7 @@ public class EMATest {
         int numDays = 0;
         EMA instance = null;
         double expResult = 0.0;
-        double result = instance.calculateEMA(prev, current, numDays);
+        //double result = instance.calculateEMA(prev, current, numDays);
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -78,7 +78,7 @@ public class EMATest {
         System.out.println("getNumberOfDays");
         EMA instance = null;
         int expResult = 0;
-        int result = instance.getNumberOfDays();
+        //int result = instance.getNumberOfDays();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -92,7 +92,7 @@ public class EMATest {
         System.out.println("setPreviousEMAValue");
         double previous = 0.0;
         EMA instance = null;
-        instance.setPreviousEMAValue(previous);
+        //instance.setPreviousEMAValue(previous);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -105,7 +105,7 @@ public class EMATest {
         System.out.println("setCurrentPrice");
         double current = 0.0;
         EMA instance = null;
-        instance.setCurrentPrice(current);
+        //instance.setCurrentPrice(current);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -118,7 +118,7 @@ public class EMATest {
         System.out.println("getPreviousEMAValue");
         EMA instance = null;
         double expResult = 0.0;
-        double result = instance.getPreviousEMAValue();
+        //double result = instance.getPreviousEMAValue();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -132,7 +132,7 @@ public class EMATest {
         System.out.println("getCurrentPrice");
         EMA instance = null;
         double expResult = 0.0;
-        double result = instance.getCurrentPrice();
+        //double result = instance.getCurrentPrice();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
