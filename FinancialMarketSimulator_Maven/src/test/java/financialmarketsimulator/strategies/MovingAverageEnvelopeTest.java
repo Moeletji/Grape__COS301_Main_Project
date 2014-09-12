@@ -50,9 +50,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         double expResult = 0.0;
         double result = instance.getSMA();
-        assertEquals(expResult, result, 0.0);
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -64,9 +64,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         MarketEntryAttempt expResult = null;
         MarketEntryAttempt result = null; //= instance.generateMarketEntryAttempt();
-        assertEquals(expResult, result);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -78,9 +78,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         double expResult = 0.0;
         double result = instance.getPreviousClosingPrice();
-        assertEquals(expResult, result, 0.0);
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -93,7 +93,7 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         instance.setClosingPrice(closing);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -105,9 +105,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         double expResult = 0.0;
         double result = instance.getClosingPrice();
-        assertEquals(expResult, result, 0.0);
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -119,9 +119,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         double expResult = 0.0;
         double result = instance.getPercentage();
-        assertEquals(expResult, result, 0.0);
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -133,9 +133,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         MovingAverageEnvelope.STRATEGY_TYPE expResult = null;
         MovingAverageEnvelope.STRATEGY_TYPE result = instance.getType();
-        assertEquals(expResult, result);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -147,9 +147,9 @@ public class MovingAverageEnvelopeTest {
         MovingAverageEnvelope instance = null;
         MarketStrategy.SignalMessage expResult = null;
         MarketStrategy.SignalMessage result = instance.trade();
-        assertEquals(expResult, result);
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
