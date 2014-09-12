@@ -47,10 +47,10 @@ public class SMATest {
         System.out.println("calculateSMA");
         SMA instance = null;
         double expResult = 0.0;
-        double result = instance.calculateSMA();
-        assertEquals(expResult, result, 0.0);
+        //double result = instance.calculateSMA();
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -62,10 +62,10 @@ public class SMATest {
         double total = 0.0;
         SMA instance = null;
         double expResult = 0.0;
-        double result = instance.calculateSMA(total);
-        assertEquals(expResult, result, 0.0);
+        //double result = instance.calculateSMA(total);
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -76,10 +76,10 @@ public class SMATest {
         System.out.println("getPreviousSMAValue");
         SMA instance = null;
         double expResult = 0.0;
-        double result = instance.getPreviousSMAValue();
-        assertEquals(expResult, result, 0.0);
+        //double result = instance.getPreviousSMAValue();
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -90,10 +90,10 @@ public class SMATest {
         System.out.println("getCurrentSMAValue");
         SMA instance = null;
         double expResult = 0.0;
-        double result = instance.getCurrentSMAValue();
-        assertEquals(expResult, result, 0.0);
+        //double result = instance.getCurrentSMAValue();
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }

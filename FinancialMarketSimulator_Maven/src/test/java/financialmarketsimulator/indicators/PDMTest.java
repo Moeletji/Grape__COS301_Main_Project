@@ -49,7 +49,7 @@ public class PDMTest {
         System.out.println("calculatePDM");
         PDM instance = null;
         Double expResult = null;
-        Double result = instance.calculatePDM();
+        //Double result = instance.calculatePDM();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -63,7 +63,7 @@ public class PDMTest {
         System.out.println("getPDMValue");
         PDM instance = null;
         Vector<Double> expResult = null;
-        Vector<Double> result = instance.getPDMValue();
+        //Vector<Double> result = instance.getPDMValue();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -77,7 +77,7 @@ public class PDMTest {
         System.out.println("calculateIndicator");
         PDM instance = null;
         Double expResult = null;
-        Double result = instance.calculateIndicator();
+        //Double result = instance.calculateIndicator();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

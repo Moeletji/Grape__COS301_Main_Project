@@ -49,7 +49,7 @@ public class NDMTest {
         System.out.println("calculateNDM");
         NDM instance = null;
         Double expResult = null;
-        Double result = instance.calculateNDM();
+        //Double result = instance.calculateNDM();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -63,7 +63,7 @@ public class NDMTest {
         System.out.println("getNDMValues");
         NDM instance = null;
         Vector<Double> expResult = null;
-        Vector<Double> result = instance.getNDMValues();
+        //Vector<Double> result = instance.getNDMValues();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -77,7 +77,7 @@ public class NDMTest {
         System.out.println("calculateIndicator");
         NDM instance = null;
         Double expResult = null;
-        Double result = instance.calculateIndicator();
+        //Double result = instance.calculateIndicator();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");

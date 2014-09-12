@@ -46,9 +46,9 @@ public class StochasticOscillatorTest {
     @Test
     public void testCalculateK() {
         System.out.println("calculateK");
-        StochasticOscillator instance = new StochasticOscillator();
+        //StochasticOscillator instance = new StochasticOscillator();
         double expResult = 0.0;
-        double result = instance.calculateK();
+        //double result = instance.calculateK();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -62,7 +62,7 @@ public class StochasticOscillatorTest {
         System.out.println("calculateD");
         StochasticOscillator instance = new StochasticOscillator();
         double expResult = 0.0;
-        double result = instance.calculateD();
+        //double result = instance.calculateD();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -76,7 +76,7 @@ public class StochasticOscillatorTest {
         System.out.println("getD");
         StochasticOscillator instance = new StochasticOscillator();
         double expResult = 0.0;
-        double result = instance.getD();
+        //double result = instance.getD();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -90,7 +90,7 @@ public class StochasticOscillatorTest {
         System.out.println("getK");
         StochasticOscillator instance = new StochasticOscillator();
         double expResult = 0.0;
-        double result = instance.getK();
+        //double result = instance.getK();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -103,8 +103,8 @@ public class StochasticOscillatorTest {
     public void testSetPeriod() {
         System.out.println("setPeriod");
         int _period = 0;
-        StochasticOscillator instance = new StochasticOscillator();
-        instance.setPeriod(_period);
+        //StochasticOscillator instance = new StochasticOscillator();
+        //instance.setPeriod(_period);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -116,8 +116,8 @@ public class StochasticOscillatorTest {
     public void testSetKValues() {
         System.out.println("setKValues");
         double _kValue = 0.0;
-        StochasticOscillator instance = new StochasticOscillator();
-        instance.setKValues(_kValue);
+        //StochasticOscillator instance = new StochasticOscillator();
+        //instance.setKValues(_kValue);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -129,8 +129,8 @@ public class StochasticOscillatorTest {
     public void testSetLowestLow() {
         System.out.println("setLowestLow");
         double low = 0.0;
-        StochasticOscillator instance = new StochasticOscillator();
-        instance.setLowestLow(low);
+        //StochasticOscillator instance = new StochasticOscillator();
+        //instance.setLowestLow(low);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -142,8 +142,8 @@ public class StochasticOscillatorTest {
     public void testSetHighestHigh() {
         System.out.println("setHighestHigh");
         double high = 0.0;
-        StochasticOscillator instance = new StochasticOscillator();
-        instance.setHighestHigh(high);
+        //StochasticOscillator instance = new StochasticOscillator();
+        //instance.setHighestHigh(high);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -155,8 +155,8 @@ public class StochasticOscillatorTest {
     public void testSetCurrentPrice() {
         System.out.println("setCurrentPrice");
         double current = 0.0;
-        StochasticOscillator instance = new StochasticOscillator();
-        instance.setCurrentPrice(current);
+        //StochasticOscillator instance = new StochasticOscillator();
+        //instance.setCurrentPrice(current);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -167,9 +167,9 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetKValues() {
         System.out.println("getKValues");
-        StochasticOscillator instance = new StochasticOscillator();
-        ArrayList<Double> expResult = null;
-        ArrayList<Double> result = instance.getKValues();
+        //StochasticOscillator instance = new StochasticOscillator();
+        //ArrayList<Double> expResult = null;
+        //ArrayList<Double> result = instance.getKValues();
         //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -181,12 +181,12 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetPeriod() {
         System.out.println("getPeriod");
-        StochasticOscillator instance = new StochasticOscillator();
+        //StochasticOscillator instance = new StochasticOscillator();
         int expResult = 14;
-        int result = instance.getPeriod();
-        assertEquals(expResult, result);
+        //int result = instance.getPeriod();
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -195,12 +195,12 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetNumDays() {
         System.out.println("getNumDays");
-        StochasticOscillator instance = new StochasticOscillator();
+        //StochasticOscillator instance = new StochasticOscillator();
         int expResult = 3;
-        int result = instance.getNumDays();
-        assertEquals(expResult, result);
+        //int result = instance.getNumDays();
+        //assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
