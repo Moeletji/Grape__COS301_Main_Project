@@ -19,7 +19,7 @@ import org.junit.runners.Suite;
  * @author Madimetja
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({financialmarketsimulator.strategies.PriceSmaCrossoverTest.class, financialmarketsimulator.strategies.CrossoverTest.class, financialmarketsimulator.strategies.MovingAverageFilterTest.class, financialmarketsimulator.strategies.MovingAverageCrossoverTest.class, financialmarketsimulator.strategies.FilterTest.class, financialmarketsimulator.strategies.PriceEmaCrossoverTest.class, financialmarketsimulator.strategies.SimpleRSITest.class, financialmarketsimulator.strategies.Simple_MACD_ADXTest.class, financialmarketsimulator.strategies.MovingAverageEnvelopeTest.class, financialmarketsimulator.strategies.PhantomTest.class, financialmarketsimulator.strategies.MACDStrategyTest.class})
+@Suite.SuiteClasses({financialmarketsimulator.strategies.PriceSmaCrossoverTest.class, financialmarketsimulator.strategies.MovingAverageFilterTest.class, financialmarketsimulator.strategies.MovingAverageCrossoverTest.class, financialmarketsimulator.strategies.PriceEmaCrossoverTest.class, financialmarketsimulator.strategies.SimpleRSITest.class, financialmarketsimulator.strategies.Simple_MACD_ADXTest.class, financialmarketsimulator.strategies.MovingAverageEnvelopeTest.class, financialmarketsimulator.strategies.PhantomTest.class, financialmarketsimulator.strategies.MACDStrategyTest.class})
 public class StrategiesSuite {
 
     @BeforeClass

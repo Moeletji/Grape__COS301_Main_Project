@@ -7,12 +7,18 @@
 
 package financialmarketsimulator.strategies;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.MarketStrategy;
+import static financialmarketsimulator.market.MarketStrategy.SIGNAL.DO_NOTHING;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.NORMAL;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -38,29 +44,51 @@ public class PriceEmaCrossoverTest {
     @After
     public void tearDown() {
     }
-
-    /**
-     * Test of determineCrossoverPoints method, of class PriceEmaCrossover.
-     */
-    @Test
-    public void testDetermineCrossoverPoints() {
-        System.out.println("determineCrossoverPoints");
-        PriceEmaCrossover instance = null;
-        //instance.determineCrossoverPoints();
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
     
     /**
      * Test of trade method, of class PriceEmaCrossover.
+     * @throws java.lang.Exception
      */
     @Test
     public void testTrade() throws Exception {
         System.out.println("trade");
-        PriceEmaCrossover instance = null;
-        //instance.trade();
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        MarketEntryAttemptBook book = new MarketEntryAttemptBook();
+        MovingAverageCrossover instance = new MovingAverageCrossover(book,14);
+        try{
+        //***************************
+        //EXPECTED RESULT CALCULATION
+        //***************************
+        MovingAverageCrossover dummy = new MovingAverageCrossover(book,14);
+        MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
+        EMA emaObj = new EMA(book,14);
+        
+        double emaCurr = emaObj.calculateEMA();
+        double emaPrev = emaObj.getPreviousEMAValue();
+        double priceCurr = book.getLastTradePrice(); //smaObj.calculateSMA();
+        double previousPrice = book.getPreviousTradePrice();
+
+        if ((emaCurr > priceCurr) && (emaPrev < previousPrice)) {
+            expResult.setSignal(MarketStrategy.SIGNAL.BID);
+        } else if ((emaCurr < priceCurr) && ((emaPrev > previousPrice))) {
+            expResult.setSignal(MarketStrategy.SIGNAL.OFFER);
+        } else {
+            expResult.setSignal(DO_NOTHING);
+        }
+        
+        expResult.setVolaility(NORMAL);
+        
+        //***************************
+        //OBSERVED RESULT
+        //***************************
+        MarketStrategy.SignalMessage result = instance.trade();
+        
+        assertEquals(expResult.getSignal(), result.getSignal());
+        assertEquals(expResult.getVolatility(), result.getVolatility());
+        }
+        catch(NotEnoughDataException e)
+        {
+            System.err.println("Price Ema Crossover threw NotEnoughDataException.");
+        }
     }
     
 }
