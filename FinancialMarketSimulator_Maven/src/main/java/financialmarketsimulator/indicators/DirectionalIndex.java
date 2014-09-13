@@ -21,7 +21,7 @@ public class DirectionalIndex extends MarketIndicator{
     private final int numDays;
     private final PDI pdi;
     private final NDI ndi;
-    private Vector<Double> directionalIndexValues;
+    private final Vector<Double> directionalIndexValues;
     private final MarketEntryAttemptBook book;
     
     public DirectionalIndex(MarketEntryAttemptBook _book, int _numDays)
@@ -39,7 +39,13 @@ public class DirectionalIndex extends MarketIndicator{
         double difference = abs(pdi.calculatePDI() - ndi.calculateNDI());
         double sum = pdi.calculatePDI() + ndi.calculateIndicator();
         
-        double result = 100 *(difference/sum);
+        double result;
+        
+        if( sum == 0.0 )
+            result = 0.0; 
+        else
+            result = 100 *(difference/sum);
+        
         this.directionalIndexValues.add(result);
         return result;
     }

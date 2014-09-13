@@ -30,14 +30,6 @@ public class ATR extends MarketIndicator{
         previousClosing = book.getLastTradePrice(); //Might need to be changed
     }
     
-    /*public ATR(double currHigh, double currLow, double prevClosing)
-    {
-        numDays = 14;
-        currentHigh = currHigh;
-        currentLow = currLow;
-        previousClosing = prevClosing;
-    }*/
-    
     public double calculateATR()
     {
         double temp = currentATR;

@@ -48,19 +48,6 @@ public class RSI extends MarketIndicator{
     }
     
     /**
-     * @param _currentUpClose The current up close value
-     * @param _currentDownClose The current down close value
-     * @param _currentClose The current close
-     * @param _previousClose The previous close
-     */
-    /*public RSI(double _currentUpClose, double _currentDownClose, double _currentClose, double _previousClose) {
-        currentUpClose = _currentUpClose;
-        currentDownClose = _currentDownClose;
-        currentClose = _currentClose;
-        previousClose = _previousClose;
-    }*/
-
-    /**
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @brief Calculates and returns the RSI value
      * @return Double value representing the RSI value
@@ -76,21 +63,7 @@ public class RSI extends MarketIndicator{
      * @return Double value representing the relative strength value.
      */
     public double calculateRS() throws NotEnoughDataException {
-        /*EMA emaUp = new EMA(book,14);
-        EMA emaDown = new EMA(book,14);
         
-        previousUpClose = currentUpClose;
-        previousDownClose = currentDownClose;
-        currentUpClose = (currentClose > previousClose) ? currentClose-previousClose : 0;
-        currentDownClose = (currentClose < previousClose) ? previousClose-currentClose : 0;
-        
-        emaUp.setCurrentPrice(currentUpClose);
-        emaUp.setPreviousEMAValue(previousUpClose);
-        emaDown.setCurrentPrice(currentDownClose);
-        emaDown.setPreviousEMAValue(previousDownClose);
-        
-        relativeStrength = emaUp.calculateEMA()/emaDown.calculateEMA();
-        return relativeStrength;*/
         Vector<Double> gains = this.book.getGains();
         Vector<Double> losses = this.book.getLosses();
         
