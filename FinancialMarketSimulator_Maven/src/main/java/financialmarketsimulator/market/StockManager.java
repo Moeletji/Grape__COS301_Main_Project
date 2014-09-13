@@ -3,6 +3,9 @@ package financialmarketsimulator.market;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 import financialmarketsimulator.marketData.Message;
+import static financialmarketsimulator.marketData.Message.MessageType.AMEND;
+import static financialmarketsimulator.marketData.Message.MessageType.CANCEL;
+import static financialmarketsimulator.marketData.Message.MessageType.ORDER;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -195,9 +198,6 @@ public class StockManager extends Thread {
         }
 
         while (true) {
-            while (messageQueue.isEmpty()) {
-            }
-
             synchronized (this) {
                 if (!messageQueue.isEmpty()) {
                     Message message = messageQueue.poll();
