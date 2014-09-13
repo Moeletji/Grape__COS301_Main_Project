@@ -43,7 +43,7 @@ public class PriceSmaCrossover extends Crossover {
 
     @Override
     public SignalMessage trade() throws NotEnoughDataException {
-        //Implement one trade instance here, infinite loop is in MarketParticipant
+        
         smaCurr = smaObj.calculateSMA();
         smaPrev = smaObj.getPreviousSMAValue();
         priceCurr = data.getLastTradePrice(); //smaObj.calculateSMA();
@@ -51,11 +51,9 @@ public class PriceSmaCrossover extends Crossover {
 
         if ((smaCurr > priceCurr) && (smaPrev < previousPrice)) {
             //Generate Buy Signal
-            System.out.println("Price SMA Crossover : BUY SIGNAL.");
             this.signalDetails.setSignal(BID);
         } else if ((smaCurr < priceCurr) && (smaPrev > previousPrice)) {
             //Generate Sell Signal
-            System.out.println("Price SMA Crossover : SELL SIGNAL.");
             this.signalDetails.setSignal(MarketStrategy.SIGNAL.OFFER);
         } else {
             signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);

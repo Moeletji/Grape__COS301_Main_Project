@@ -60,7 +60,7 @@ public class SimpleRSI extends MarketStrategy {
         openingPrice = book.getOpeningPrice();
         closingPrice = book.getLastTradePrice();
         currEma = ema.calculateEMA();
-        currRsi = rsi.calculateRS();
+        currRsi = rsi.calculateRSI();
         highestTradePrice = book.getHighestTradePrice(numDays);
         lowestTradePrice = book.getLowestTradePrice(numDays);
 
@@ -73,7 +73,7 @@ public class SimpleRSI extends MarketStrategy {
                 && closingPrice < openingPrice)) {
             this.signalDetails.setSignal(BID);
         } //Sell condition
-        else if (rsi.calculateRSI() > 40) {
+        else if (currRsi > 40) {
             this.signalDetails.setSignal(OFFER);
             this.signalDetails.setVolaility(HIGH);
         } else {

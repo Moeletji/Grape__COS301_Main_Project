@@ -26,9 +26,11 @@ public class Simple_MACD_ADX extends MarketStrategy{
     
     private final MarketEntryAttemptBook book;
     private final ADX adx;
+    private final MACDStrategy macdSrategy;
     private final PDI pdi;
     private final NDI ndi;
     private final int numDays;
+    private SignalMessage macdSignal;
     
     //The following variables are declared here as to be memory effificient when 
     //the trade method is consistently called.
@@ -36,12 +38,13 @@ public class Simple_MACD_ADX extends MarketStrategy{
     private double pdiValue;
     private double ndiValue;
     
-    public Simple_MACD_ADX(MarketEntryAttemptBook _book)
+    public Simple_MACD_ADX(MarketEntryAttemptBook _book) throws NotEnoughDataException
     {
         super("Simple MACD/ADX Strategy");
         this.book = _book;
         this.numDays = 14;
         this.adx = new ADX(this.book,numDays);
+        this.macdSrategy = new MACDStrategy(this.book);
         this.pdi = new PDI(this.book, numDays);
         this.ndi = new NDI(this.book, numDays);
     }
@@ -52,13 +55,14 @@ public class Simple_MACD_ADX extends MarketStrategy{
         adxValue = adx.calculateADX();
         pdiValue = pdi.calculatePDI();
         ndiValue = ndi.calculateNDI();
+        macdSignal  = macdSrategy.trade();
         
-        if( adxValue > 20 && pdiValue > 20 && ndiValue < 20 )
+        if( adxValue > 20 && pdiValue > 20 && ndiValue < 20 && macdSignal.getSignal() == BID )
         {
             //generate buy signal
             this.signalDetails.setSignal(BID);
         }
-        else if ( adxValue > 20 && ndiValue > 20 && pdiValue < 20 )
+        else if ( adxValue > 20 && ndiValue > 20 && pdiValue < 20 && macdSignal.getSignal() == OFFER)
         {
             //Generate sell signal
             this.signalDetails.setSignal(OFFER);
