@@ -1,6 +1,10 @@
 package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.market.MarketStrategy;
+import static financialmarketsimulator.strategies.Phantom.SAFETY_LEVEL.HIGH;
+import static financialmarketsimulator.strategies.Phantom.SAFETY_LEVEL.LOW;
+import static financialmarketsimulator.strategies.Phantom.SAFETY_LEVEL.MEDIUM;
+import static financialmarketsimulator.strategies.Phantom.SAFETY_LEVEL.RANDOM;
 import java.util.Random;
 
 /**
@@ -14,21 +18,21 @@ public class Phantom extends MarketStrategy {
 
         LOW, MEDIUM, HIGH, RANDOM
     };
-    private SAFETY_LEVEL safetyLevel;
+    private Phantom.SAFETY_LEVEL safetyLevel;
 
     public Phantom() {
         super("Phantom");
-        safetyLevel = SAFETY_LEVEL.RANDOM;
+        safetyLevel = Phantom.SAFETY_LEVEL.RANDOM;
     }
 
-    public Phantom(SAFETY_LEVEL safetyLevel) {
+    public Phantom(Phantom.SAFETY_LEVEL safetyLevel) {
 
         super("Phantom");
         this.safetyLevel = safetyLevel;
     }
 
     @Override
-    public SignalMessage trade() {
+    public MarketStrategy.SignalMessage trade() {
 
         MarketStrategy.SIGNAL signal;
 

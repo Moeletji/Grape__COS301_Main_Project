@@ -197,9 +197,13 @@ public class MarketEntryAttemptBook {
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
-                            losses.add(difference);
+                            if (losses != null) {
+                                losses.add(difference);
+                            }
                         } else if (difference > 0) {
-                            gains.add(difference);
+                            if (gains != null) {
+                                gains.add(difference);
+                            }
                         }
                     }
                     matchedOrders.add(newTrade);
@@ -214,9 +218,13 @@ public class MarketEntryAttemptBook {
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
-                            losses.add(difference);
+                            if (losses != null) {
+                                losses.add(difference);
+                            }
                         } else if (difference > 0) {
-                            gains.add(difference);
+                            if (gains != null) {
+                                gains.add(difference);
+                            }
                         }
                     }
                     matchedOrders.add(newTrade);
@@ -233,9 +241,13 @@ public class MarketEntryAttemptBook {
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
-                            losses.add(difference);
+                            if (losses != null) {
+                                losses.add(difference);
+                            }
                         } else if (difference > 0) {
-                            gains.add(difference);
+                            if (gains != null) {
+                                gains.add(difference);
+                            }
                         }
                     }
                     matchedOrders.add(newTrade);
@@ -252,7 +264,6 @@ public class MarketEntryAttemptBook {
 
         //After elapsed time, sync with database
         //syncDb();
-
     }
 
     /**
@@ -265,7 +276,6 @@ public class MarketEntryAttemptBook {
             pastTime = test;
 
             //db = new DBConnect();
-
             //Sync only matches that are not already in database
             for (int i = 0; i < matchedOrders.size(); i++) {
                 MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) matchedOrders.elementAt(i);
@@ -513,7 +523,10 @@ public class MarketEntryAttemptBook {
      * @return highest bid price
      */
     public synchronized double getHighestBidPrice() {
-        return (bids.get(0).price > 0.0 ? bids.get(0).price : 0.0);
+        if (!bids.isEmpty()) {
+            return (bids.get(0).price > 0.0 ? bids.get(0).price : 0.0);
+        }
+        return 0.0;
     }
 
     /**
@@ -521,7 +534,10 @@ public class MarketEntryAttemptBook {
      * @return lowest offer price
      */
     public synchronized double getLowestOfferPrice() {
-        return (offers.get(0).price > 0.0 ? offers.get(0).price : 0.0);
+        if (!offers.isEmpty()) {
+            return (offers.get(0).price > 0.0 ? offers.get(0).price : 0.0);
+        }
+        return 0.0;
     }
 
     /**
@@ -529,7 +545,10 @@ public class MarketEntryAttemptBook {
      * @return total shares
      */
     public synchronized int getTotalSharesForHighestBidPrice() {
-        return (bids.get(0).numOfShares > 0.0 ? bids.get(0).numOfShares : 0);
+        if (!bids.isEmpty()) {
+            return (bids.get(0).numOfShares > 0.0 ? bids.get(0).numOfShares : 0);
+        }
+        return 0;
     }
 
     /**
@@ -537,7 +556,10 @@ public class MarketEntryAttemptBook {
      * @return total shares
      */
     public synchronized int getTotalSharesForLowestOfferPrice() {
-        return (offers.get(0).numOfShares > 0.0 ? offers.get(0).numOfShares : 0);
+        if (!offers.isEmpty()) {
+            return (offers.get(0).numOfShares > 0.0 ? offers.get(0).numOfShares : 0);
+        }
+        return 0;
     }
 
     /**

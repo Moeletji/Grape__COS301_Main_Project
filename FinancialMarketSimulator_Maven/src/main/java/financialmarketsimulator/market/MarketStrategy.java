@@ -29,7 +29,7 @@ public abstract class MarketStrategy {
         }
 
         public void setVolaility(MarketStrategy.VOLATILITY length) {
-            if(length.equals(null))
+            if(length == null)
             {
                 this.volatility = MarketStrategy.VOLATILITY.NORMAL;
             }
@@ -38,7 +38,7 @@ public abstract class MarketStrategy {
         }
 
         public void setSignal(MarketStrategy.SIGNAL _signal) {
-            if(signal.equals(null))
+            if(signal == null)
             {
                 this.signal = MarketStrategy.SIGNAL.DO_NOTHING;
             }
@@ -51,7 +51,7 @@ public abstract class MarketStrategy {
      * @brief   A message sent to the MarketParticipant to
      *          indicate where to BUY or SELL a rate of volatility.
      */
-    protected SignalMessage signalDetails;
+    protected MarketStrategy.SignalMessage signalDetails;
     
     /**
      * @brief Range of volatility 
@@ -75,7 +75,7 @@ public abstract class MarketStrategy {
      */
     public MarketStrategy(String strategyName) {
         this.strategyName = strategyName;
-        this.signalDetails = new SignalMessage();
+        this.signalDetails = new MarketStrategy.SignalMessage();
     }
 
     /**
@@ -91,5 +91,5 @@ public abstract class MarketStrategy {
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @Brief where trade signals are generated
      */
-    public abstract SignalMessage trade() throws NotEnoughDataException;
+    public abstract MarketStrategy.SignalMessage trade() throws NotEnoughDataException;
 }
