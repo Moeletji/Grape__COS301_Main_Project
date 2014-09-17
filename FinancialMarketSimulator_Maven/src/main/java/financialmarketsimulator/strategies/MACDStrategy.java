@@ -3,7 +3,6 @@ package financialmarketsimulator.strategies;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.MACD;
-import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;

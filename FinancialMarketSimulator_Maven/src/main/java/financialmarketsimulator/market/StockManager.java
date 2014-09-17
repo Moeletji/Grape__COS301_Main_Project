@@ -240,8 +240,12 @@ public class StockManager extends Thread {
 
     @Override
     public void start() {
-        System.out.println(this.getStockName() + " Thread has started");
+        System.out.println("StockManager : " + this.getStockName() + " Thread has started");
 
+        for(MarketParticipant participant : participants){
+            participant.start();
+        }
+        
         if (!started) {
             started = true;
             super.start();

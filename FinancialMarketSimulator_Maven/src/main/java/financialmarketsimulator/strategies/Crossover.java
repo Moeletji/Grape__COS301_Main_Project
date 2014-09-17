@@ -1,6 +1,5 @@
 package financialmarketsimulator.strategies;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketStrategy;
 

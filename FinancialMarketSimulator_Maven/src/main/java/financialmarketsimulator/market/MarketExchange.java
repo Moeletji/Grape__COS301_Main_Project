@@ -115,6 +115,19 @@ public class MarketExchange {
         
         return false;
     }
+    
+    /**
+     * @brief returns a specific StockManager
+     * @param _stockName name of the stock
+     * @return StockManager from specified Stock Name
+     */
+    public StockManager getManager(String _stockName){
+        if(stocksManagers.containsKey(_stockName)){
+            StockManager man = stocksManagers.get(_stockName);
+            return man;
+        }
+        return null;
+    }
 
     /**
      * @brief Get the MarketEntryAttemptBook of a specific Stock
@@ -204,7 +217,7 @@ public class MarketExchange {
     /**
      * @brief get the profit for a specific MarketParticipant
      * @param marketParticipantID the MarketParticipant to get profit from
-     * @return profit made or lost
+     * @return profit made or lost in decimal percentage format
      */
     public double getProfit(String marketParticipantID) {
         double totalProfit = 0.0;
@@ -228,5 +241,9 @@ public class MarketExchange {
         double profit = (totalProfit / totalBudget);
         
         return profit;
+    }
+
+    public int size() {
+        return stocksManagers.size();
     }
 }

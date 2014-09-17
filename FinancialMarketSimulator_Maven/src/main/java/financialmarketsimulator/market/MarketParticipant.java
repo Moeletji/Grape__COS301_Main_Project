@@ -511,4 +511,9 @@ public class MarketParticipant extends Thread {
             matchedList.setModel(modelMatched);
         }
     }
+    
+    @Override
+    public String toString(){
+        return participantName + ", " + participantID + ", " + stock + ", " + currentStrategy.getStrategyName();
+    }
 }
