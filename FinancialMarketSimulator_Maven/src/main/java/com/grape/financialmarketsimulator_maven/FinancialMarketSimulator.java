@@ -100,7 +100,7 @@ public class FinancialMarketSimulator {
         indNames.add("RSI Movement");
         indNames.add("MACD Movement");
         
-        final MultiLineChart chart = new MultiLineChart(ind,indNames,"Indicators");
+        final MultiLineChart chart = new MultiLineChart(ind,indNames,"Indicators", 0, 5);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);

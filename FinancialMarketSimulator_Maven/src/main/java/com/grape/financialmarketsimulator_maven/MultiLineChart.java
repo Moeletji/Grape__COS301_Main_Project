@@ -7,19 +7,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Date;
 import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Millisecond;
 import org.jfree.data.xy.XYDataset;
@@ -45,8 +40,10 @@ public class MultiLineChart extends ApplicationFrame implements ActionListener{
     private XYSeries series;
     private XYSeries ser1;
     private XYSeries ser2;
-    private double lastValue = 100.0;
-    private Timer timer = new Timer(250, this);
+    private final double lastValue = 100.0;
+    private final Timer timer = new Timer(250, this);
+    private final double yAxisMin;
+    private final double yAxisMax;
     //private final MarketIndicator indicator;
     //private final MarketIndicator indicator2;
     //private final MarketIndicator indicator3;
@@ -56,11 +53,22 @@ public class MultiLineChart extends ApplicationFrame implements ActionListener{
     int i = 0;
     Date date;
     
-    public MultiLineChart(Vector<MarketIndicator> _indicators, Vector<String> _indicatorNames, String _chartTitle) throws NotEnoughDataException
+    /**
+     * @brief Class constructor
+     * @param _indicators A vector containing the indicators or parameters to be graphed
+     * @param _indicatorNames The names of the indicators in the _indicators vector in the order as they appear in the vector
+     * @param _chartTitle The title of the chart
+     * @param _yAxisMin The minimum Y-AXIS value for the graph 
+     * @param _yAxisMax The maximum Y-AXIS value for the graph
+     * @throws NotEnoughDataException 
+     */
+    public MultiLineChart(Vector<MarketIndicator> _indicators, Vector<String> _indicatorNames, String _chartTitle, double _yAxisMin, double _yAxisMax) throws NotEnoughDataException
     {
         super(_chartTitle);
         this.indicators = _indicators;
         this.indicatorNames = _indicatorNames;
+        this.yAxisMin = _yAxisMin;
+        this.yAxisMax = _yAxisMax;
         //this.indicator = _indicator;
         //this.indicator2 = _indicator2;
         //this.indicator3 = _indicator3;
@@ -125,7 +133,7 @@ public class MultiLineChart extends ApplicationFrame implements ActionListener{
         xaxis.setFixedAutoRange(40000.0);  // 60 seconds
         xaxis.setVerticalTickLabels(true);
         ValueAxis yaxis = plot.getRangeAxis();
-        yaxis.setRange(-3.0, 5.0);
+        yaxis.setRange(this.yAxisMin, this.yAxisMax);
         return result;
     }
     
