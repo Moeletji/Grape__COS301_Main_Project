@@ -82,7 +82,7 @@ public class MarketParticipant extends Thread {
     /**
      * @brief different price ranges
      */
-    private final double[] prices = {10.00, 50.00, 100.00};
+    private final double[] prices = {5.33, 5.67, 6};
     /**
      * @brief different ranges for shares
      */
@@ -323,7 +323,7 @@ public class MarketParticipant extends Thread {
                     }
 
                     //Select a minimum price range to trade
-                    double minPrice = Math.round(maxPrice / 10);
+                    double minPrice = Math.round(maxPrice - 33);
                     //Select a minimum shares range to trade
                     int minShares = Math.round(maxShares / 10);
 
