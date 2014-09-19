@@ -5,7 +5,7 @@
  * code with the correct authors/owners.
  */
 
-package com.grape.financialmarketsimulator_maven;
+package financialmarketsimulator.marketData;
 
  import java.io.File;  
  import java.io.FileReader;  
@@ -16,15 +16,30 @@ package com.grape.financialmarketsimulator_maven;
  import com.thoughtworks.xstream.XStream;  
 
  public final class XStreamTranslator {  
-     //public static void main(String[] args){
-         
-     //}
      
      private XStream xstream = null;  
      private XStreamTranslator(){  
          xstream = new XStream();  
          xstream.ignoreUnknownElements();  
 }  
+     /**
+      * 
+      * @param obj
+      * @param fileName
+      * @return
+      * @throws IOException 
+      */
+     public boolean storeObject(Object obj, String fileName) throws IOException
+     {
+         if (obj != null || fileName.isEmpty())
+         {
+            String temp = xstream.toXML(obj);
+            toXMLFile(temp, "Persistent Storage\\Participants\\"+fileName+".xml");
+            return true;
+         }
+         
+         return false;
+     }
      /**  
       * Convert a any given Object to a XML String  
       * @param object  
