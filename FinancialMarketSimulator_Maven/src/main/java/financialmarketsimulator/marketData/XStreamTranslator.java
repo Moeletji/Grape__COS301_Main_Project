@@ -26,6 +26,7 @@ package financialmarketsimulator.marketData;
       * 
       * @param obj
       * @param fileName
+     * @param fieldsToIgnore
       * @return
       * @throws IOException 
       */
@@ -33,8 +34,9 @@ package financialmarketsimulator.marketData;
      {
          if (obj != null || fileName.isEmpty())
          {
-            String temp = xstream.toXML(obj);
-            toXMLFile(temp, "Persistent Storage\\Participants\\"+fileName+".xml");
+            //String temp = xstream.toXML(obj);
+            String newFileName = "Persistent Storage\\Participants\\"+fileName+".xml";
+            toXMLFile(obj, newFileName);
             return true;
          }
          

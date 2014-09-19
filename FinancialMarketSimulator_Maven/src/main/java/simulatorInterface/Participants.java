@@ -9,6 +9,7 @@ import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.market.StockManager;
+import financialmarketsimulator.marketData.XStreamTranslator;
 import financialmarketsimulator.strategies.DirectionalMovementIndex;
 import financialmarketsimulator.strategies.MACDStrategy;
 import financialmarketsimulator.strategies.MovingAverageCrossover;
@@ -22,6 +23,7 @@ import financialmarketsimulator.strategies.Simple_MACD_ADX;
 import java.awt.Cursor;
 import java.awt.Frame;
 import static java.awt.Frame.getFrames;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -242,6 +244,47 @@ public class Participants extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        /*File folder = new File("Persistent Storage\\Participants");
+        File[] listOfFiles = folder.listFiles();
+        
+        if (listOfFiles.length == 0)
+        {
+            MessageBox.infoBox("Please add a participant", "No participants were loaded.");
+            return;
+        }
+        else
+        {
+            XStreamTranslator x = new XStreamTranslator();
+            for (int i = 0; i < listOfFiles.length; i++) {
+             if (listOfFiles[i].isFile()) {
+                 try {
+                     System.out.println("File " + listOfFiles[i].getName());
+                     MarketParticipant p = (MarketParticipant)x.toObject(listOfFiles[i]);
+                     if (participants.contains(p))
+                     {
+                         
+                     }
+                     else
+                     {
+                         
+                        participants.add(p);
+                        System.out.println("added participant" + listOfFiles[i].getName());
+                        DefaultListModel model = new DefaultListModel();
+                     
+                        for (MarketParticipant part : participants) {
+                             model.addElement(part.toString());
+                        }
+                     
+                        lbxParticipantList.setModel(model);
+                       MessageBox.infoBox(listOfFiles.length+ " participants were loaded.", "Participants loaded...");
+                       return;
+                     }
+                 } catch (IOException ex) {
+                     Logger.getLogger(Participants.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+            }
+        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

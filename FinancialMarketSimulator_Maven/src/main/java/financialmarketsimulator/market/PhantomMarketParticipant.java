@@ -34,7 +34,7 @@ public class PhantomMarketParticipant extends MarketParticipant{
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public PhantomMarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy ,JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
+    public PhantomMarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy ,JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException, IOException {
         super(participantName, participantID, exchange, stock, variants, strategy, bidsList, offersList, matchedList);
     }
 }

@@ -1,5 +1,6 @@
 package financialmarketsimulator.market;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.exception.NotEnoughDataException;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 import static java.util.UUID.randomUUID;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -94,8 +97,20 @@ public class MarketParticipant extends Thread {
     /**
      * Used for GUI
      */
+    
+    @XStreamOmitField
+    private UUID filename = UUID.randomUUID();
+    
+    @XStreamOmitField
+    XStreamTranslator xstream = new XStreamTranslator();
+    
+    @XStreamOmitField
     protected JList bidsList;
+    
+    @XStreamOmitField
     protected JList offersList;
+    
+    @XStreamOmitField
     protected JList matchedList;
 
     public MarketParticipant() {
@@ -129,9 +144,8 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
-        XStreamTranslator x = new XStreamTranslator();
-        Boolean b = x.storeObject(this, UUID.randomUUID().toString());
-    }
+        //this.saveParticipant();
+}
 
     /**
      * @param exchange
@@ -140,7 +154,7 @@ public class MarketParticipant extends Thread {
      * @param participantName name of the entity
      * @param participantID id of the entity
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException, IOException {
         this();
         this.participantName = participantName;
         this.participantID = participantID;
@@ -163,8 +177,19 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
+        //this.saveParticipant();
+  
     }
 
+    public void saveParticipant() 
+    {
+        try {
+            xstream.storeObject(this,filename.toString());
+        } catch (IOException ex) {
+            //Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Exception thrown in save Participant method");
+        }
+    }
     /**
      * @brief Returns the initial budget for a MarketParticipant
      * @return The Participant's Budget
@@ -224,7 +249,7 @@ public class MarketParticipant extends Thread {
      * @param strategy new strategy to be added
      * @throws NameAlreadyExistsException
      */
-    public void addStrategy(MarketStrategy strategy) throws NameAlreadyExistsException {
+    public void addStrategy(MarketStrategy strategy) throws NameAlreadyExistsException, IOException {
         for (MarketStrategy strategyTmp : strategies) {
             if (strategyTmp.getStrategyName().equals(strategy.getStrategyName())) {
                 throw new NameAlreadyExistsException();
@@ -238,7 +263,7 @@ public class MarketParticipant extends Thread {
      * @param name of the current strategy to be used
      * @throws NameNotFoundException
      */
-    public void setCurrentStrategy(String name) throws NameNotFoundException {
+    public void setCurrentStrategy(String name) throws NameNotFoundException, IOException {
         for (MarketStrategy strategy : strategies) {
             if (strategy.getStrategyName().equals(name)) {
                 currentStrategy = strategy;
@@ -252,7 +277,7 @@ public class MarketParticipant extends Thread {
     public void run() {
 
         System.out.println("Stock name: " + stock);
-
+        
         while (true) {
             //for(int i = 0; i < 1000; i++){
             try {
@@ -387,6 +412,7 @@ public class MarketParticipant extends Thread {
         System.out.println(this.participantID + " Thread has started");
 
         if (!started) {
+            
             started = true;
             super.start();
         }
