@@ -186,7 +186,10 @@ public class MarketParticipant extends Thread {
     public void saveParticipant() 
     {
         try {
-            xstream.storeObject(this,filename.toString());
+            if (xstream.storeObject(this,filename.toString()))
+            {
+                
+            }
         } catch (IOException ex) {
             //Logger.getLogger(MarketParticipant.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Exception thrown in save Participant method");
