@@ -13,6 +13,7 @@ import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
 import financialmarketsimulator.strategies.Phantom;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
 import org.jfree.ui.RefineryUtilities;
@@ -23,7 +24,7 @@ import org.jfree.ui.RefineryUtilities;
  */
 public class FinancialMarketSimulator {
 
-    public static void main(String[] args) throws NotEnoughDataException {
+    public static void main(String[] args) throws NotEnoughDataException, IOException {
 
         MarketExchange exchange = MarketExchange.getInstance("JSE");
 

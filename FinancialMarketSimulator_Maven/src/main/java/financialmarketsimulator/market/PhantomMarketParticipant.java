@@ -2,6 +2,7 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.strategies.Phantom;
+import java.io.IOException;
 import javax.swing.JList;
 
 /**
@@ -22,7 +23,7 @@ public class PhantomMarketParticipant extends MarketParticipant{
         LOW, HIGH, MEDIUM
     };
     
-    public PhantomMarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) throws NotEnoughDataException {
+    public PhantomMarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock) throws NotEnoughDataException, IOException {
         super(participantName, participantID, exchange, stock, new Phantom());
     }
 

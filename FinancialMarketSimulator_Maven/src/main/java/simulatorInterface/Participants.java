@@ -22,8 +22,11 @@ import financialmarketsimulator.strategies.Simple_MACD_ADX;
 import java.awt.Cursor;
 import java.awt.Frame;
 import static java.awt.Frame.getFrames;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -348,6 +351,8 @@ public class Participants extends javax.swing.JFrame {
 
         } catch (NotEnoughDataException ex) {
             MessageBox.infoBox("Market Participant not created.", "Not enough data");
+        } catch (IOException ex) {
+            Logger.getLogger(Participants.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

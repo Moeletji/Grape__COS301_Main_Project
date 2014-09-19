@@ -18,7 +18,7 @@ package financialmarketsimulator.marketData;
  public final class XStreamTranslator {  
      
      private XStream xstream = null;  
-     private XStreamTranslator(){  
+     public XStreamTranslator(){  
          xstream = new XStream();  
          xstream.ignoreUnknownElements();  
 }  

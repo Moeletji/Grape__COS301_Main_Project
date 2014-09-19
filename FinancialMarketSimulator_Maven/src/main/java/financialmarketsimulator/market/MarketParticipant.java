@@ -5,7 +5,11 @@ import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.Message;
+import financialmarketsimulator.marketData.XStreamTranslator;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
+import static java.util.UUID.randomUUID;
 import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -105,7 +109,7 @@ public class MarketParticipant extends Thread {
      * @param type the type of the entity
      * @param stock name of the stock
      */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, MarketStrategy strategy) throws NotEnoughDataException {
+    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, MarketStrategy strategy) throws NotEnoughDataException, IOException {
         this();
         this.participantName = participantName;
         this.participantID = participantID;
@@ -125,6 +129,8 @@ public class MarketParticipant extends Thread {
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
+        XStreamTranslator x = new XStreamTranslator();
+        Boolean b = x.storeObject(this, UUID.randomUUID().toString());
     }
 
     /**
