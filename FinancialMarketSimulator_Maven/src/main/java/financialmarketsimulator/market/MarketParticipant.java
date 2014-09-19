@@ -1,5 +1,6 @@
 package financialmarketsimulator.market;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
@@ -24,6 +25,7 @@ import javax.swing.JList;
  * using.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
+@XStreamAlias("MarketParticipant")
 public class MarketParticipant extends Thread {
 
     /**
