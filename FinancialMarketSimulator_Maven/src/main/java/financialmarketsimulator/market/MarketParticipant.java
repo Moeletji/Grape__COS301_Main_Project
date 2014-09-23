@@ -25,7 +25,6 @@ import javax.swing.JList;
  * using.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-@XStreamAlias("MarketParticipant")
 public class MarketParticipant extends Thread {
 
     /**
@@ -142,7 +141,7 @@ public class MarketParticipant extends Thread {
         //Initialise trading strategies
         this.strategies = new ArrayList<>();
 
-        bidsList = offersList = matchedList = null;
+        //bidsList = offersList = matchedList = null;
 
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
@@ -180,7 +179,6 @@ public class MarketParticipant extends Thread {
         //Get the OrderList book for the stock 
         this.stockManager = exchange.getStocksManagers().get(this.stock);
         //this.saveParticipant();
-  
     }
 
     public void saveParticipant() 

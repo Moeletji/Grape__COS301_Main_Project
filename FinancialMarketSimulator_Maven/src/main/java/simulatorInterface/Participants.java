@@ -260,13 +260,13 @@ public class Participants extends javax.swing.JFrame {
                  try {
                      System.out.println("File " + listOfFiles[i].getName());
                      MarketParticipant p = (MarketParticipant)x.toObject(listOfFiles[i]);
-                     if (participants.contains(p))
+                     if (participants.contains(p) || p == null)
                      {
-                         
+                         System.out.println("P is null");
+                         break;
                      }
                      else
                      {
-                         
                         participants.add(p);
                         System.out.println("added participant" + listOfFiles[i].getName());
                         DefaultListModel model = new DefaultListModel();
@@ -276,7 +276,7 @@ public class Participants extends javax.swing.JFrame {
                         }
                      
                         lbxParticipantList.setModel(model);
-                       MessageBox.infoBox(listOfFiles.length+ " participants were loaded.", "Participants loaded...");
+                       MessageBox.infoBox(listOfFiles.length+ " participants were loaded.", "Participants loaded...");*
                        return;
                      }
                  } catch (IOException ex) {
