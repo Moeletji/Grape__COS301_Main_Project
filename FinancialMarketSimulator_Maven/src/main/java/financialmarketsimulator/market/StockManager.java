@@ -7,6 +7,7 @@ import static financialmarketsimulator.marketData.Message.MessageType.AMEND;
 import static financialmarketsimulator.marketData.Message.MessageType.CANCEL;
 import static financialmarketsimulator.marketData.Message.MessageType.ORDER;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -40,6 +41,8 @@ public class StockManager extends Thread {
     private boolean started;
     //Thread paused
     private boolean paused;
+    //Thread stopeed
+    private boolean stop;
 
     /**
      * @brief MarketManager Constructor
@@ -49,6 +52,7 @@ public class StockManager extends Thread {
         this.stockName = stockName;
         this.participants = new ArrayList<MarketParticipant>();
         this.messageQueue = new ConcurrentLinkedQueue<>();
+        this.stop = false;
     }
 
     /**
@@ -61,6 +65,7 @@ public class StockManager extends Thread {
         this.orderList = new MarketEntryAttemptBook(stockName, 10, 1000);
         this.participants = new ArrayList<MarketParticipant>();
         this.messageQueue = new ConcurrentLinkedQueue<>();
+        this.stop = false;
     }
 
     public String getStockName() {
@@ -176,6 +181,7 @@ public class StockManager extends Thread {
     }
 
     public void Notify() {
+        Collections.shuffle(participants);
         for (MarketParticipant participant : participants) {
             participant.update(this);
         }
@@ -197,6 +203,11 @@ public class StockManager extends Thread {
             System.out.println("Interrupted Exception " + super.getId());
         }
 
+        synchronized (this) {
+            if (stop) {
+                return;
+            }
+        }
         while (true) {
             synchronized (this) {
                 if (!messageQueue.isEmpty()) {
@@ -242,13 +253,18 @@ public class StockManager extends Thread {
     public void start() {
         System.out.println("StockManager : " + this.getStockName() + " Thread has started");
 
-        for(MarketParticipant participant : participants){
-            participant.start();
-        }
-        
         if (!started) {
             started = true;
+
+            //start the stock market
             super.start();
+
+            Collections.shuffle(participants);
+
+            //Begin to start trading with participants
+            for (MarketParticipant participant : participants) {
+                participant.start();
+            }
         }
 
         if (paused) {
@@ -276,12 +292,40 @@ public class StockManager extends Thread {
      * @param marketParticipantID ID of MarketParticipant
      * @return MarketParticipant if it exists else null
      */
-    MarketParticipant getParticipant(String marketParticipantID) {
+    public MarketParticipant getParticipant(String marketParticipantID) {
         for (MarketParticipant participant : participants) {
             if ((participant != null) && (participant.getParticipantID().equals(marketParticipantID))) {
                 return participant;
             }
         }
         return null;
+    }
+
+    /**
+     * @brief Get all Market Participants
+     * @return All Participants
+     */
+    public ArrayList<MarketParticipant> getAllParticipantsForStock() {
+        return participants;
+    }
+
+    /**
+     * @brief Pause the Market
+     */
+    public synchronized void pause() {
+        for (MarketParticipant part : participants) {
+            part.pause();
+        }
+        this.paused = true;
+    }
+
+    /**
+     * @brief Stop trading
+     */
+    synchronized public void terminateTrading() {
+        for (MarketParticipant part : participants) {
+            part.terminateTrading();
+        }
+        stop = true;
     }
 }

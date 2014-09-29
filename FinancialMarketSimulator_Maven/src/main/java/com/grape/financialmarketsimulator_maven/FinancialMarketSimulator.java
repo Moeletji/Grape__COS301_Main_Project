@@ -16,6 +16,8 @@ import financialmarketsimulator.strategies.Phantom;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -24,7 +26,7 @@ import org.jfree.ui.RefineryUtilities;
  */
 public class FinancialMarketSimulator {
 
-    public static void main(String[] args) throws NotEnoughDataException, IOException {
+    public static void main(String[] args) throws NotEnoughDataException {
 
         MarketExchange exchange = MarketExchange.getInstance("JSE");
 
@@ -49,8 +51,14 @@ public class FinancialMarketSimulator {
 
         //10 entities
         //let's only trade investec stocks for now
-        MarketParticipant entity1 = new PhantomMarketParticipant("BGP Holdings", "BGPLTD", exchange, names[0]);
-        MarketParticipant entity2 = new PhantomMarketParticipant("Steinhoff", "STH", exchange, names[0]);
+        MarketParticipant entity1 = null;
+        MarketParticipant entity2 = null;
+        try {
+            entity1 = new PhantomMarketParticipant("BGP Holdings", "BGPLTD", exchange, names[0]);
+            entity2 = new PhantomMarketParticipant("Steinhoff", "STH", exchange, names[0]);
+        } catch (IOException ex) {
+            Logger.getLogger(FinancialMarketSimulator.class.getName()).log(Level.SEVERE, null, ex);
+        }
         MarketParticipant entity3 = new MarketParticipant("Boshoff", "BGPLTD", exchange, names[0], strategy3);
         MarketParticipant entity4 = new MarketParticipant("MiguelGroup", "MMG", exchange, names[0], strategy4);
         MarketParticipant entity5 = new MarketParticipant("SunBlue", "SBINC", exchange, names[0], strategy5);
@@ -107,7 +115,7 @@ public class FinancialMarketSimulator {
         chart.setVisible(true);
         
         //Graph for EMA
-        /*EMA emaObj = new EMA(exchange.getBook("INV"),14);
+        EMA emaObj = new EMA(exchange.getBook("INV"),14);
         final IndicatorChart ema = new IndicatorChart(emaObj,"Exponential Moving Average","EMA");
         ema.pack();
         RefineryUtilities.centerFrameOnScreen(ema);
@@ -125,7 +133,7 @@ public class FinancialMarketSimulator {
         final IndicatorChart rsi = new IndicatorChart(rsiObj,"Relative Strength Index","RSI");
         rsi.pack();
         RefineryUtilities.centerFrameOnScreen(rsi);
-        rsi.setVisible(true);*/
+        rsi.setVisible(true);
         
     }
 }

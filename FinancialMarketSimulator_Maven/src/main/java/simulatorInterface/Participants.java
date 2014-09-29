@@ -8,8 +8,8 @@ import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
+import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
-import financialmarketsimulator.marketData.XStreamTranslator;
 import financialmarketsimulator.strategies.DirectionalMovementIndex;
 import financialmarketsimulator.strategies.MACDStrategy;
 import financialmarketsimulator.strategies.MovingAverageCrossover;
@@ -23,12 +23,12 @@ import financialmarketsimulator.strategies.Simple_MACD_ADX;
 import java.awt.Cursor;
 import java.awt.Frame;
 import static java.awt.Frame.getFrames;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.ldap.ManageReferralControl;
 import javax.swing.DefaultListModel;
 
 /**
@@ -119,7 +119,7 @@ public class Participants extends javax.swing.JFrame {
             }
         });
 
-        cbxStrategies.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Phantom", "MACDStrategy", "DirectionalMovementIndex", "MovingAverageCrossover", "MovingAverageEnvelope", "MovingAverageFilter", "PriceEmaCrossover", "PriceSmaCrossover", "SimpleRSI", "Simple_MACD_ADX" }));
+        cbxStrategies.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MACDStrategy", "DirectionalMovementIndex", "MovingAverageCrossover", "MovingAverageEnvelope", "MovingAverageFilter", "PriceEmaCrossover", "PriceSmaCrossover", "SimpleRSI", "Simple_MACD_ADX" }));
 
         jLabel2.setText("Strategy:");
 
@@ -193,11 +193,12 @@ public class Participants extends javax.swing.JFrame {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(185, 185, 185))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(132, 132, 132))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(78, 78, 78)))
+                        .addGap(61, 61, 61))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(197, 197, 197)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,13 +210,12 @@ public class Participants extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
@@ -231,8 +231,11 @@ public class Participants extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
@@ -244,47 +247,6 @@ public class Participants extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        /*File folder = new File("Persistent Storage\\Participants");
-        File[] listOfFiles = folder.listFiles();
-        
-        if (listOfFiles.length == 0)
-        {
-            MessageBox.infoBox("Please add a participant", "No participants were loaded.");
-            return;
-        }
-        else
-        {
-            XStreamTranslator x = new XStreamTranslator();
-            for (int i = 0; i < listOfFiles.length; i++) {
-             if (listOfFiles[i].isFile()) {
-                 try {
-                     System.out.println("File " + listOfFiles[i].getName());
-                     MarketParticipant p = (MarketParticipant)x.toObject(listOfFiles[i]);
-                     if (participants.contains(p) || p == null)
-                     {
-                         System.out.println("P is null");
-                         break;
-                     }
-                     else
-                     {
-                        participants.add(p);
-                        System.out.println("added participant" + listOfFiles[i].getName());
-                        DefaultListModel model = new DefaultListModel();
-                     
-                        for (MarketParticipant part : participants) {
-                             model.addElement(part.toString());
-                        }
-                     
-                        lbxParticipantList.setModel(model);
-                       MessageBox.infoBox(listOfFiles.length+ " participants were loaded.", "Participants loaded...");*
-                       return;
-                     }
-                 } catch (IOException ex) {
-                     Logger.getLogger(Participants.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }
-            }
-        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -317,9 +279,6 @@ public class Participants extends javax.swing.JFrame {
         }
 
         switch (strat) {
-            case "Phantom":
-                strategy = new Phantom();
-                break;
             case "DirectionalMovementIndex":
                 strategy = new DirectionalMovementIndex(exchange.getBook(stockName), 14);
                 break;
@@ -394,17 +353,16 @@ public class Participants extends javax.swing.JFrame {
 
         } catch (NotEnoughDataException ex) {
             MessageBox.infoBox("Market Participant not created.", "Not enough data");
-        } catch (IOException ex) {
-            Logger.getLogger(Participants.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        if(participants.size() <= 0){
+        if (participants.size() <= 0) {
             MessageBox.infoBox("No Participants were added", "No Participants added");
             return;
         }
+
         for (MarketParticipant marketParticipant : participants) {
             StockManager manager = exchange.getManager(marketParticipant.getStock());
             if (manager == null) {
@@ -412,6 +370,18 @@ public class Participants extends javax.swing.JFrame {
                 return;
             }
             manager.attach(marketParticipant);
+        }
+
+        for (StockManager manager : exchange.getStocksManagers().values()) {
+            if (manager.getAllParticipantsForStock().size() > 0) {
+                try {
+                    manager.attach(new PhantomMarketParticipant("Phantom", "Phantom", exchange, manager.getStockName()));
+                } catch (NotEnoughDataException ex) {
+                    Logger.getLogger(Participants.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Participants.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
 
         dispose();

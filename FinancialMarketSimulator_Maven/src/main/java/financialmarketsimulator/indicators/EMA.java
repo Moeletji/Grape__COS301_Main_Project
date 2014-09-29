@@ -36,6 +36,7 @@ public class EMA extends MarketIndicator{
     }
     
     /**
+     * @param _data
      * @brief Constructor for the EMA class
      * @param numDays
      */

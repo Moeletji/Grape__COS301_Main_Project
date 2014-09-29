@@ -72,6 +72,7 @@ public class MarketEntryAttemptBook {
         this.totalNumberOfShares = totalNumberOfShares;
         this.currentNumberOfShares = this.totalNumberOfShares;
         this.stockName = stockName;
+        this.lastTradePrice = 0.0;
     }
 
     /**
@@ -81,6 +82,7 @@ public class MarketEntryAttemptBook {
     public MarketEntryAttemptBook(String stockName) {
         this();
         this.stockName = stockName;
+        this.lastTradePrice = 0.0;
     }
 
     /**

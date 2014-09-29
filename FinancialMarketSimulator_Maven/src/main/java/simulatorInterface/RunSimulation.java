@@ -1,20 +1,51 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package simulatorInterface;
 
-/**
- *
- * @author Siphe
- */
+import com.grape.financialmarketsimulator_maven.MultiLineChart;
+import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.indicators.MACD;
+import financialmarketsimulator.indicators.RSI;
+import financialmarketsimulator.indicators.SMA;
+import financialmarketsimulator.market.MarketExchange;
+import financialmarketsimulator.market.MarketIndicator;
+import financialmarketsimulator.market.MarketParticipant;
+import financialmarketsimulator.market.StockManager;
+import java.awt.Cursor;
+import java.awt.Frame;
+import static java.awt.Frame.getFrames;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jfree.ui.RefineryUtilities;
+
 public class RunSimulation extends javax.swing.JFrame {
+
+    private MarketExchange exchange = MarketExchange.getInstance("JSE");
+    private ParticipantList pList = null;
 
     /**
      * Creates new form RunSimulation
      */
     public RunSimulation() {
         initComponents();
+        jButton2.setEnabled(false);
+        jButton3.setEnabled(false);
+
+        Frame[] frames = getFrames();
+
+        if (frames.length > 0) {
+            frames[0].setResizable(false);
+        }
+
+        Cursor cursor = Cursor.getDefaultCursor();
+        //change cursor appearance to HAND_CURSOR when the mouse pointed on images
+        cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
+        setCursor(cursor);
+
     }
 
     /**
@@ -33,11 +64,16 @@ public class RunSimulation extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setBackground(new java.awt.Color(0, 255, 51));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton1.setText("START");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Simulation");
@@ -46,10 +82,20 @@ public class RunSimulation extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(255, 255, 0));
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton2.setText("PAUSE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 0, 0));
         jButton3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton3.setText("STOP");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(153, 255, 153));
         jButton4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -101,7 +147,7 @@ public class RunSimulation extends javax.swing.JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
@@ -149,6 +195,123 @@ public class RunSimulation extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        jButton1.setEnabled(false);
+        jButton2.setEnabled(true);
+        jButton3.setEnabled(true);
+
+        exchange.openMarket();
+
+        if (pList == null) {
+            pList = new ParticipantList();
+
+            /* Set the Nimbus look and feel */
+            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+             */
+            try {
+                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            //</editor-fold>
+
+            /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    pList.setVisible(true);
+                }
+            });
+        }
+
+        pList.setVisible(true);
+
+        Runnable updateGUI = new Runnable() {
+            public void run() {
+                ArrayList<MarketParticipant> parts = exchange.getAllParticipants();
+                pList.updateGUI(parts);
+            }
+        };
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(updateGUI, 0, 5, TimeUnit.SECONDS);
+
+        Vector<MarketIndicator> ind = new Vector<>();
+
+        try {
+
+            for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+                //Creating multi line graphs
+                EMA ema = new EMA(stockmanager.getOrderList(), 14);
+                SMA sma = new SMA(stockmanager.getOrderList(), 14);
+                MACD macd = new MACD(stockmanager.getOrderList());
+
+                ind.add(ema);
+                ind.add(sma);
+                ind.add(macd);
+            }
+
+        } catch (NotEnoughDataException ex) {
+            Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Vector<String> indNames = new Vector<>();
+
+        indNames.add("EMA Movement");
+        indNames.add("SMA Movement");
+        //indNames.add("RSI Movement");
+        indNames.add("MACD Movement");
+
+        final MultiLineChart chart;
+
+        try {
+            chart = new MultiLineChart(ind, indNames, "Indicators", -5, 5);
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+        } catch (NotEnoughDataException ex) {
+            Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jButton2.setEnabled(false);
+        jButton1.setEnabled(true);
+        jButton3.setEnabled(true);
+
+        if (pList != null) {
+            pList.setVisible(false);
+        }
+
+        exchange.pause();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jButton2.setEnabled(false);
+        jButton1.setEnabled(false);
+        jButton3.setEnabled(false);
+
+        if (pList != null) {
+            pList.dispose();
+        }
+
+        exchange.stop();
+        jButton2.setEnabled(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

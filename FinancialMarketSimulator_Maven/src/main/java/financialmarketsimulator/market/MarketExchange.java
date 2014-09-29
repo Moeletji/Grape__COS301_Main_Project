@@ -2,8 +2,14 @@ package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
+import java.util.ArrayList;
+import static java.util.Collections.list;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -90,12 +96,12 @@ public class MarketExchange {
      */
     public boolean addStockManager(StockManager stockManager) {
         String searchKey = stockManager.getStockName();
-        
+
         if (!stocksManagers.containsKey(searchKey)) {
             stocksManagers.put(searchKey, stockManager);
             return true;
         }
-        
+
         return false;
     }
 
@@ -107,22 +113,22 @@ public class MarketExchange {
      */
     public boolean removeStockManager(StockManager stockManager) {
         String searchKey = stockManager.getStockName();
-        
+
         if (!stocksManagers.containsKey(searchKey)) {
             stocksManagers.remove(searchKey);
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * @brief returns a specific StockManager
      * @param _stockName name of the stock
      * @return StockManager from specified Stock Name
      */
-    public StockManager getManager(String _stockName){
-        if(stocksManagers.containsKey(_stockName)){
+    public StockManager getManager(String _stockName) {
+        if (stocksManagers.containsKey(_stockName)) {
             StockManager man = stocksManagers.get(_stockName);
             return man;
         }
@@ -149,7 +155,7 @@ public class MarketExchange {
             stocksManagers.get(name).acceptOrder(attempt);
             return true;
         }
-        
+
         return false;
     }
 
@@ -169,7 +175,7 @@ public class MarketExchange {
             stocksManagers.get(name).editOrder(attempt.getOrderID(), price, numberShares, MarketEntryAttempt.SIDE.BID);
             return true;
         }
-        
+
         return false;
     }
 
@@ -195,21 +201,21 @@ public class MarketExchange {
     public void updateManager(String stockName, StockManager updatedStockManager) {
         stocksManagers.put(stockName, updatedStockManager);
     }
-    
+
     public boolean stockAlreadyExists(String foundStockName) {
-        
+
         for (int i = 0; i < stocksManagers.size(); i++) {
-            
+
             StockManager manager = (StockManager) stocksManagers.get(foundStockName);
-            
+
             if (manager.getStockName().equals(foundStockName)) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     public void clearStocks() {
         stocksManagers.clear();
     }
@@ -223,7 +229,7 @@ public class MarketExchange {
         double totalProfit = 0.0;
         int countInstances = 0;
         double budget = 0.0;
-        
+
         for (StockManager manager : stocksManagers.values()) {
             if (manager != null) {
                 if (manager.participantIsTrading(marketParticipantID)) {
@@ -236,14 +242,68 @@ public class MarketExchange {
                 System.out.println("Manager is null");
             }
         }
-        
+
         double totalBudget = (budget * countInstances);
         double profit = (totalProfit / totalBudget);
-        
+
         return profit;
     }
 
+    /**
+     * @brief Returns the number of stocks
+     * @return number of stock managers
+     */
     public int size() {
         return stocksManagers.size();
+    }
+
+    public ArrayList<MarketParticipant> getAllParticipants() {
+        ArrayList<MarketParticipant> participants = new ArrayList();
+
+        for (StockManager manager : stocksManagers.values()) {
+            ArrayList<MarketParticipant> stockParticipants = manager.getAllParticipantsForStock();
+                for (MarketParticipant stPart : stockParticipants) {
+                    participants.add(stPart);
+                }
+        }
+
+        //Remove duplicate entries
+        ArrayList<MarketParticipant> result = new ArrayList();
+        Set<String> id = new HashSet();
+
+        for (MarketParticipant item : participants) {
+            if (id.add(item.getParticipantID())) {
+                result.add(item);
+            }
+        }
+        
+        return result;
+    }
+
+    /**
+     * @brief start the simulation
+     */
+    public void openMarket() {
+        for (StockManager man : stocksManagers.values()) {
+            man.start();
+        }
+    }
+
+    /**
+     * @brief pause the simulation
+     */
+    public void pause() {
+        for (StockManager man : stocksManagers.values()) {
+            man.pause();
+        }
+    }
+
+    /**
+     * @brief stop the simulation
+     */
+    public void stop() {
+        for (StockManager man : stocksManagers.values()) {
+            man.terminateTrading();
+        }
     }
 }
