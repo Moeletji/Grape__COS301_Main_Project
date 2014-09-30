@@ -187,15 +187,15 @@ public class MarketEntryAttemptBook {
                     || (orderSide == MarketEntryAttempt.SIDE.OFFER && newOrder.getPrice() <= topOrder.getPrice())) {
                 if (newOrder.getNumOfShares() == topOrder.getNumOfShares()) {
                     hasMoreShares = false;
-
-                    //If there's not enough shares remaining to honour the Match
-                    //Only Match with whatever shares are remaining.
-                    if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
-                        newOrder.setNumOfShares(currentNumberOfShares);
-                    }
                     removeOrder(topOrder);
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    currentNumberOfShares -= newOrder.getNumOfShares();
+                    //If there's not enough shares remaining to honour the Match
+                    //Only Match with whatever shares are remaining.
+                    //if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
+                    //    newOrder.setNumOfShares(currentNumberOfShares);
+                    //}
+                    
+                    //currentNumberOfShares -= newOrder.getNumOfShares();
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
@@ -212,11 +212,11 @@ public class MarketEntryAttemptBook {
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
-                    if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
+                    /*if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
                         newOrder.setNumOfShares(currentNumberOfShares);
-                    }
+                    }*/
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    currentNumberOfShares -= newOrder.getNumOfShares();
+                    //currentNumberOfShares -= newOrder.getNumOfShares();
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
@@ -235,11 +235,12 @@ public class MarketEntryAttemptBook {
                 } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
-                    if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
-                        newOrder.setNumOfShares(currentNumberOfShares);
-                    }
+                    //if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
+                    //    newOrder.setNumOfShares(currentNumberOfShares);
+                    //}
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    currentNumberOfShares -= newOrder.getNumOfShares();
+                    
+                    //currentNumberOfShares -= newOrder.getNumOfShares();
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
