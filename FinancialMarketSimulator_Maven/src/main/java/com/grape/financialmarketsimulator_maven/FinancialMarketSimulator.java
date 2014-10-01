@@ -5,7 +5,6 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.indicators.SMA;
-import financialmarketsimulator.interfaceCharts.IndicatorChart;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketIndicator;
 import financialmarketsimulator.market.MarketParticipant;
@@ -115,7 +114,7 @@ public class FinancialMarketSimulator {
         chart.setVisible(true);
         
         //Graph for EMA
-        EMA emaObj = new EMA(exchange.getBook("INV"),14);
+        /*EMA emaObj = new EMA(exchange.getBook("INV"),14);
         final IndicatorChart ema = new IndicatorChart(emaObj,"Exponential Moving Average","EMA");
         ema.pack();
         RefineryUtilities.centerFrameOnScreen(ema);
@@ -133,7 +132,7 @@ public class FinancialMarketSimulator {
         final IndicatorChart rsi = new IndicatorChart(rsiObj,"Relative Strength Index","RSI");
         rsi.pack();
         RefineryUtilities.centerFrameOnScreen(rsi);
-        rsi.setVisible(true);
+        rsi.setVisible(true);*/
         
     }
 }
