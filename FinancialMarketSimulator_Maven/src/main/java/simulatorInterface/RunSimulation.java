@@ -254,16 +254,16 @@ public class RunSimulation extends javax.swing.JFrame {
 
         try {
 
-            for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+            //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
                 //Creating multi line graphs
-                EMA ema = new EMA(stockmanager.getOrderList(), 14);
-                SMA sma = new SMA(stockmanager.getOrderList(), 14);
-                MACD macd = new MACD(stockmanager.getOrderList());
+                EMA ema = new EMA(exchange.getBook("INV"), 14);
+                SMA sma = new SMA(exchange.getBook("INV"), 14);
+                MACD macd = new MACD(exchange.getBook("INV"));
 
                 ind.add(ema);
                 ind.add(sma);
                 ind.add(macd);
-            }
+            //}
 
         } catch (NotEnoughDataException ex) {
             Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
@@ -276,10 +276,10 @@ public class RunSimulation extends javax.swing.JFrame {
         //indNames.add("RSI Movement");
         indNames.add("MACD Movement");
 
-        final MultiLineChart chart;
+        MultiLineChart chart;
 
         try {
-            chart = new MultiLineChart(ind, indNames, "Indicators", -5, 5);
+            chart = new MultiLineChart(ind, indNames, "Indicators", -50, 50);
             chart.pack();
             RefineryUtilities.centerFrameOnScreen(chart);
             chart.setVisible(true);

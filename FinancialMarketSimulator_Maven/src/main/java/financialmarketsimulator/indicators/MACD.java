@@ -40,7 +40,7 @@ public final class MACD extends MarketIndicator{
         prevMACDValues = new Vector<Double>();
         prevSignalValues = new Vector<Double>();
         sma = new SMA(this.data, 12);
-        ema = new EMA(AVE_DAY);
+        ema = new EMA(this.data, AVE_DAY);
         setPreviousMACDValue(sma.calculateSMA());
         prevMACDValues.add(getPreviousMACDValue());
     }

@@ -12,6 +12,8 @@ import java.util.Vector;
 /**
  *
  * @brief Moving Average Envelope Strategy
+ * This strategy is intended for identifying trend changes in the market. 
+ *
  */
 public class MovingAverageEnvelope extends MarketStrategy{
 
@@ -128,7 +130,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
     public double getClosingPrice()
     {
         //return book.getMatchedOrders().lastElement().getPrice();
-        return closingPrice;
+        return this.book.getLastTradePrice();
     }
     
     public double getPercentage()
@@ -151,9 +153,9 @@ public class MovingAverageEnvelope extends MarketStrategy{
     public SignalMessage trade() throws NotEnoughDataException{
         //Implement one trade instance here, infinite loop is in MarketParticipant
         if (pastSMAValues.isEmpty())
-            throw new NotEnoughDataException();
+            //throw new NotEnoughDataException();
         
-        if (this.getClosingPrice() == this.calculateSMALowerEvelope())
+        if (this.getClosingPrice() == this.calculateSMALowerEvelope() || (Math.abs(this.getClosingPrice() - this.calculateSMALowerEvelope())<0.05))
         {
             /*if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {
@@ -163,12 +165,12 @@ public class MovingAverageEnvelope extends MarketStrategy{
             else*/ if (this.getPreviousClosingPrice() < this.getClosingPrice())
             {
                 //buy
-                MarketEntryAttempt buy = new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID);
-                book.placeOrder(buy);
+                //MarketEntryAttempt buy = new MarketEntryAttempt(1,1,"", MarketEntryAttempt.SIDE.BID);
+                //book.placeOrder(buy);
                 this.signalDetails.setSignal(SIGNAL.BID);
             }
         }
-        else if (this.getClosingPrice() == this.calculateSMAUpperEvelope())
+        else if (this.getClosingPrice() == this.calculateSMAUpperEvelope() || (Math.abs(this.getClosingPrice() - this.calculateSMAUpperEvelope())<0.05))
         {
             if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {

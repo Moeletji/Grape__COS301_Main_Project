@@ -10,7 +10,7 @@ import financialmarketsimulator.market.MarketIndicator;
  * and will be used to calculate other technical indicators.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class EMA extends MarketIndicator{
+public final class EMA extends MarketIndicator{
 
     /**
      * Number of days in EMA
@@ -45,13 +45,17 @@ public class EMA extends MarketIndicator{
         this.numOfDays = numDays;
         this.data = _data;
         previousEMAValue = new SMA(this.data,numOfDays).calculateSMA();
+        this.setCurrentPrice(data.getLastTradePrice());
     }
 
     @SuppressWarnings("UnusedAssignment")
-    public double calculateEMA() throws NotEnoughDataException {
-
+    public double calculateEMA() {
+        this.setCurrentPrice(this.data.getLastTradePrice());
         if ((numOfDays <= 0) || (this.getCurrentPrice() <= 0)) {
-           return 0.0;// throw new NotEnoughDataException();
+           System.out.println("The number of days " + numOfDays);
+           System.out.println("The get current price " + this.getCurrentPrice());
+           System.out.println("The get current price from order book " + this.data.getLastTradePrice());
+           return 0.0;
         }
 
         double k = 2 / (numOfDays + 1);
@@ -96,7 +100,7 @@ public class EMA extends MarketIndicator{
     
     public double getCurrentPrice()
     {
-        return (data.getMatchedOrders().isEmpty())?0.0:data.getMatchedOrders().lastElement().getPrice();
+        return this.data.getLastTradePrice();
     }
 
     @Override
