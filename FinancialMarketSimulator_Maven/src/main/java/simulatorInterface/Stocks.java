@@ -262,7 +262,7 @@ public class Stocks extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         managers.clear();
 
-        String[] stocks = {"INV", "ISPA", "VODA", "PRASA", "FWD"};
+        String[] stocks = {"INV", "ISPA", "VODA"};
 
         for (int i = 0; i < stocks.length; i++) {
             managers.add(new StockManager(stocks[i]));
@@ -326,6 +326,11 @@ public class Stocks extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String stockName = jTextField1.getText().trim();
+        
+        if(exchange != null && exchange.getStocksManagers().size() > 5){
+            MessageBox.infoBox("A Maximum of 5 stocks is allowed", "Stock Amount Exceeded");
+            return;
+        }
         
         if("".equals(stockName)){
             MessageBox.infoBox("Please enter a Stock name", "Empty field");

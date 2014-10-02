@@ -26,6 +26,8 @@ public class RunSimulation extends javax.swing.JFrame {
 
     private MarketExchange exchange = MarketExchange.getInstance("JSE");
     private ParticipantList pList = null;
+    private StockList stockList = null;
+    private MultiLineChart chart = null;
 
     /**
      * Creates new form RunSimulation
@@ -197,7 +199,6 @@ public class RunSimulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         jButton1.setEnabled(false);
         jButton2.setEnabled(true);
         jButton3.setEnabled(true);
@@ -236,19 +237,57 @@ public class RunSimulation extends javax.swing.JFrame {
                     pList.setVisible(true);
                 }
             });
+        } else {
+            pList.setVisible(true);
         }
 
-        pList.setVisible(true);
+        if (stockList == null) {
+            stockList = new StockList();
 
+            /* Set the Nimbus look and feel */
+            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+             */
+            try {
+                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (InstantiationException ex) {
+                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            //</editor-fold>
+
+            /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    stockList.setVisible(true);
+                }
+            });
+        } else {
+            stockList.setVisible(true);
+        }
+
+        //Updates the GUI very 3 seconds
         Runnable updateGUI = new Runnable() {
             public void run() {
                 ArrayList<MarketParticipant> parts = exchange.getAllParticipants();
                 pList.updateGUI(parts);
+                stockList.updateGUI(exchange.getStocksManagers().values());
             }
         };
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(updateGUI, 0, 5, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(updateGUI, 0, 3, TimeUnit.SECONDS);
 
         Vector<MarketIndicator> ind = new Vector<>();
 
@@ -260,9 +299,16 @@ public class RunSimulation extends javax.swing.JFrame {
                 SMA sma = new SMA(stockmanager.getOrderList(), 14);
                 MACD macd = new MACD(stockmanager.getOrderList());
 
+                //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+                //Creating multi line graphs
+                //EMA ema = new EMA(exchange.getBook("INV"), 14);
+                //SMA sma = new SMA(exchange.getBook("INV"), 14);
+                //MACD macd = new MACD(exchange.getBook("INV"));
+
                 ind.add(ema);
                 ind.add(sma);
                 ind.add(macd);
+                //}
             }
 
         } catch (NotEnoughDataException ex) {
@@ -273,18 +319,18 @@ public class RunSimulation extends javax.swing.JFrame {
 
         indNames.add("EMA Movement");
         indNames.add("SMA Movement");
-        //indNames.add("RSI Movement");
         indNames.add("MACD Movement");
 
-        final MultiLineChart chart;
-
-        try {
-            chart = new MultiLineChart(ind, indNames, "Indicators", -5, 5);
-            chart.pack();
-            RefineryUtilities.centerFrameOnScreen(chart);
+        if (chart == null) {
+            try {
+                chart = new MultiLineChart(ind, indNames, "Indicators", -50, 50);
+                chart.pack();
+                RefineryUtilities.centerFrameOnScreen(chart);
+            } catch (NotEnoughDataException ex) {
+                Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
             chart.setVisible(true);
-        } catch (NotEnoughDataException ex) {
-            Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -297,6 +343,14 @@ public class RunSimulation extends javax.swing.JFrame {
             pList.setVisible(false);
         }
 
+        if (chart != null) {
+            chart.setVisible(false);
+        }
+
+        if (stockList != null) {
+            stockList.setVisible(false);
+        }
+
         exchange.pause();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -307,10 +361,21 @@ public class RunSimulation extends javax.swing.JFrame {
 
         if (pList != null) {
             pList.dispose();
+            pList = null;
+        }
+
+        if (chart != null) {
+            chart.dispose();
+            chart = null;
+        }
+
+        if (stockList != null) {
+            stockList.dispose();
+            stockList = null;
         }
 
         exchange.stop();
-        jButton2.setEnabled(false);
+        exchange = null;
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

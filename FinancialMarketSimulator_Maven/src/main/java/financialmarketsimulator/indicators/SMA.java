@@ -46,7 +46,7 @@ public class SMA extends MarketIndicator{
     }
 
     @SuppressWarnings("empty-statement")
-    public double calculateSMA() throws NotEnoughDataException {
+    public double calculateSMA() {
         if (book.getMatchedOrders().size() < numOfDays)
         {
             //System.out.println("The size of getMatchedoders: "+book.getMatchedOrders().size()+" for "+book.getStockName());

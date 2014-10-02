@@ -209,6 +209,7 @@ public class MarketEntryAttemptBook {
                         }
                     }
                     matchedOrders.add(newTrade);
+                    this.lastTradePrice = newTrade.getPrice();
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
@@ -232,6 +233,7 @@ public class MarketEntryAttemptBook {
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
+                    this.lastTradePrice = newTrade.getPrice();
                 } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
@@ -256,6 +258,7 @@ public class MarketEntryAttemptBook {
                     matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                     hasMoreShares = false;
+                    this.lastTradePrice = newTrade.getPrice();
                 }
             }
         }

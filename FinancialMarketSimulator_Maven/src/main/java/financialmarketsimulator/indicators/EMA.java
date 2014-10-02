@@ -10,7 +10,7 @@ import financialmarketsimulator.market.MarketIndicator;
  * and will be used to calculate other technical indicators.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class EMA extends MarketIndicator{
+public final class EMA extends MarketIndicator{
 
     /**
      * Number of days in EMA
@@ -40,30 +40,33 @@ public class EMA extends MarketIndicator{
      * @brief Constructor for the EMA class
      * @param numDays
      */
-    public EMA(MarketEntryAttemptBook _data, int numDays) throws NotEnoughDataException {
+    public EMA(MarketEntryAttemptBook _data, int numDays) {
         super("Exponential Moving Average");
         this.numOfDays = numDays;
         this.data = _data;
         previousEMAValue = new SMA(this.data,numOfDays).calculateSMA();
+        this.setCurrentPrice(data.getLastTradePrice());
     }
 
     @SuppressWarnings("UnusedAssignment")
-    public double calculateEMA() throws NotEnoughDataException {
-
+    public double calculateEMA() {
+        this.setCurrentPrice(this.data.getLastTradePrice());
         if ((numOfDays <= 0) || (this.getCurrentPrice() <= 0)) {
-           return 0.0;// throw new NotEnoughDataException();
+           System.out.println("The number of days " + numOfDays);
+           System.out.println("The get current price " + this.getCurrentPrice());
+           System.out.println("The get current price from order book " + this.data.getLastTradePrice());
+           return 0.0;
         }
 
         double k = 2 / (numOfDays + 1);
         double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
-        //System.out.println("The current EMA: "+ currentEmaValue);
         return currentEmaValue;
     }
     
      public double calculateEMA(double prev, double current, int numDays) throws NotEnoughDataException {
 
         if ((numDays <= 0) || (current == 0) || (prev == 0)) {
-           return 0.0;// throw new NotEnoughDataException();
+           return 0.0;
         }
         currentPrice = current;
         previousEMAValue = prev;
@@ -71,7 +74,6 @@ public class EMA extends MarketIndicator{
         
         double k = 2 / (numOfDays + 1);
         double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
-        //System.out.println("The current EMA: "+ currentEmaValue);
         return currentEmaValue;
     }
 
@@ -96,7 +98,7 @@ public class EMA extends MarketIndicator{
     
     public double getCurrentPrice()
     {
-        return (data.getMatchedOrders().isEmpty())?0.0:data.getMatchedOrders().lastElement().getPrice();
+        return this.data.getLastTradePrice();
     }
 
     @Override
