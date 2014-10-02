@@ -40,7 +40,7 @@ public final class EMA extends MarketIndicator{
      * @brief Constructor for the EMA class
      * @param numDays
      */
-    public EMA(MarketEntryAttemptBook _data, int numDays) throws NotEnoughDataException {
+    public EMA(MarketEntryAttemptBook _data, int numDays) {
         super("Exponential Moving Average");
         this.numOfDays = numDays;
         this.data = _data;
@@ -60,14 +60,13 @@ public final class EMA extends MarketIndicator{
 
         double k = 2 / (numOfDays + 1);
         double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
-        //System.out.println("The current EMA: "+ currentEmaValue);
         return currentEmaValue;
     }
     
      public double calculateEMA(double prev, double current, int numDays) throws NotEnoughDataException {
 
         if ((numDays <= 0) || (current == 0) || (prev == 0)) {
-           return 0.0;// throw new NotEnoughDataException();
+           return 0.0;
         }
         currentPrice = current;
         previousEMAValue = prev;
@@ -75,7 +74,6 @@ public final class EMA extends MarketIndicator{
         
         double k = 2 / (numOfDays + 1);
         double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
-        //System.out.println("The current EMA: "+ currentEmaValue);
         return currentEmaValue;
     }
 
