@@ -18,17 +18,16 @@ import org.jfree.data.xy.XYSeries;
  * @author Madimetja
  */
 public class IndicatorMultiLineChart extends MultiLineChart {
-
+    
     private final Vector<MarketIndicator> indicators;
-    private final Vector<String> indicatorNames;
 
-    public IndicatorMultiLineChart(Vector<MarketIndicator> _indicators, Vector<String> _indicatorNames, int minYAxisValue, int maxYAxis) throws NotEnoughDataException {
+    public IndicatorMultiLineChart(Vector<MarketIndicator> _indicators, int minYAxisValue, int maxYAxis) throws NotEnoughDataException {
         super("Market Indicators", minYAxisValue, maxYAxis);
         this.indicators = _indicators;
-        this.indicatorNames = _indicatorNames;
-
-        for (String ind : this.indicatorNames) {
-            this.serieses.add(new XYSeries(ind));
+        
+        for( MarketIndicator ind : this.indicators )
+        {
+            this.serieses.add(new XYSeries(ind.getName()));
         }
     }
 
@@ -47,7 +46,7 @@ public class IndicatorMultiLineChart extends MultiLineChart {
                 ind = this.indicators.get(k);
                 value = ind.calculateIndicator();
                 ser.add(i, value);
-                System.out.print("Current Time in Milliseconds = " + now.toString() + ", Current " + this.indicatorNames.get(k) + " : " + value);
+                System.out.print("Current Time in Milliseconds = " + now.toString() + ", Current " + this.indicators.elementAt(k).getName() + " : " + value);
             }
 
         } catch (NotEnoughDataException ex) {

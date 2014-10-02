@@ -9,8 +9,8 @@ package financialmarketsimulator.interfaceCharts;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -21,20 +21,30 @@ public class ChartsManager {
     /**
      * Members for all the different types of charts that can be created
     */
-    Vector<MultiLineChart> indicatorMulitLineChartContainer;
-    Vector<MultiLineChart> priceMovementMultiLineChartContainer;
+    private final Vector<MultiLineChart> indicatorMulitLineChartContainer;
+    private final Vector<MultiLineChart> priceMovementMultiLineChartContainer;
+    private final IndicatorData indicatorData;
+    private final ChartData chartData;
+    private final MarketEntryAttemptBook book;
     
-    public ChartsManager()
+    public ChartsManager(MarketEntryAttemptBook _book) throws NotEnoughDataException
     {
+        this.book = _book;
         this.indicatorMulitLineChartContainer = new Vector<>();
         this.priceMovementMultiLineChartContainer = new Vector<>();
+        this.indicatorData = new IndicatorData(this.book);
+        this.chartData = new ChartData();
     }
     
-    public boolean createNewIndicatorMultiLineChart(Vector<MarketIndicator> items, Vector<String> itemNames, String title, int minYAxisValue, int maxYAxisValue)
+    public boolean createNewIndicatorMultiLineChart(String title, int minYAxisValue, int maxYAxisValue)
     {   
         try
         {
-            this.indicatorMulitLineChartContainer.add(new IndicatorMultiLineChart(items, itemNames, minYAxisValue, maxYAxisValue));
+            IndicatorMultiLineChart imc = new IndicatorMultiLineChart(this.indicatorData.getIndicators(), minYAxisValue, maxYAxisValue);
+            this.indicatorMulitLineChartContainer.add(imc);
+            imc.pack();
+            RefineryUtilities.centerFrameOnScreen(imc);
+            imc.setVisible(true);
             return true;
         }
         catch(NotEnoughDataException e)
@@ -57,8 +67,11 @@ public class ChartsManager {
     public boolean createNewPriceMovementMultiLineChart(Vector<MarketEntryAttemptBook> items, Vector<String> itemNames, String title, int minYAxisValue, int maxYAxisValue)
     {
         try
-        {
-            this.indicatorMulitLineChartContainer.add(new PriceMultiLineChart(items, itemNames, minYAxisValue, maxYAxisValue));
+        {   PriceMultiLineChart pmc = new PriceMultiLineChart(items, itemNames, minYAxisValue, maxYAxisValue);
+            this.priceMovementMultiLineChartContainer.add(pmc);
+            pmc.pack();
+            RefineryUtilities.centerFrameOnScreen(pmc);
+            pmc.setVisible(true);
             return true;
         }
         catch(NotEnoughDataException e)
