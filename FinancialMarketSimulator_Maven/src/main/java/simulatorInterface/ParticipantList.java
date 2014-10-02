@@ -47,7 +47,7 @@ public class ParticipantList extends javax.swing.JFrame {
             p[i][0] = name; 
             p[i][1] = id; 
             p[i][2] = profit_loss;
-            p[i][3] = profit;
+            p[i][3] = profit * 100;
            
             i++;
         }

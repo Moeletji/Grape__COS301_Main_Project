@@ -172,19 +172,16 @@ public class StockManager extends Thread {
      * @brief remove a MarketParticipant
      * @param participant MarketParticipant to be removed
      */
-    public void detach(MarketParticipant participant) {
+    public synchronized void detach(MarketParticipant participant) {
         participants.remove(participant);
     }
 
-    public void sendMessage(Message message) {
+    public synchronized void sendMessage(Message message) {
         this.messageQueue.add(message);
     }
 
     public void Notify() {
         Collections.shuffle(participants);
-        for (MarketParticipant participant : participants) {
-            participant.update(this);
-        }
     }
 
     /**
@@ -193,22 +190,22 @@ public class StockManager extends Thread {
      */
     @Override
     public void run() {
-        try {
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                synchronized (this) {
+                    while (paused) {
+                        wait();
+                    }
+                }
+            } catch (InterruptedException exception) {
+                System.out.println("Interrupted Exception " + super.getId());
+            }
+
             synchronized (this) {
-                while (paused) {
-                    wait();
+                if (stop) {
+                    return;
                 }
             }
-        } catch (InterruptedException exception) {
-            System.out.println("Interrupted Exception " + super.getId());
-        }
-
-        synchronized (this) {
-            if (stop) {
-                return;
-            }
-        }
-        while (true) {
             synchronized (this) {
                 if (!messageQueue.isEmpty()) {
                     Message message = messageQueue.poll();
@@ -268,8 +265,10 @@ public class StockManager extends Thread {
         }
 
         if (paused) {
-            notify();
-            paused = false;
+            synchronized (this) {
+                notifyAll();
+                paused = false;
+            }
         }
     }
 
@@ -313,19 +312,24 @@ public class StockManager extends Thread {
      * @brief Pause the Market
      */
     public synchronized void pause() {
+        this.paused = true;
         for (MarketParticipant part : participants) {
             part.pause();
         }
-        this.paused = true;
     }
 
     /**
      * @brief Stop trading
      */
     synchronized public void terminateTrading() {
+        cancel();
         for (MarketParticipant part : participants) {
             part.terminateTrading();
         }
         stop = true;
+    }
+
+    private void cancel() {
+        interrupt();
     }
 }
