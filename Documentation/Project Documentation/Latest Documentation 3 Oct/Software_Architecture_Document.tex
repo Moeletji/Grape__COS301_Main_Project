@@ -40,8 +40,8 @@
 		Moeletji Semenya 12349136\\
 		Madimetja Shika 12127877\\[3em]
 	
-	\small Publication Date: 22 August 2014\\[0.5em]
-	\small Version: 0.4		    
+	\small Publication Date: 3 October 2014\\[0.5em]
+	\small Version: 0.5		    
 	\end{center}%
 	
 	\newpage		
@@ -68,6 +68,11 @@
         21/08/2014 & Madimetja &  Updated Class Diagram document & 0.3\\
         22/08/2014 & Daniel & Edited Architectural Constraints & 0.3\\
         22/08/2014 & Moeletji & Finalising new version & 0.4\\
+        01/09/2014 & Moeletji & Updated functional requirements and application design & 0.4\\
+        09/09/2014 & Madimetja & Editing document & 0.4\\
+        10/09/2014 & Daniel & Updated section for GUI and pictures & 0.4\\
+        20/09/2014 & Daniel & Updated architectural requirements & 0.4\\
+        23/09/2014 & Moeletji & Compiled updated version & 0.5\\     
 	\end{tabular}
 	
 	\newpage
@@ -259,22 +264,22 @@
              Allows a user to create Stocks to trade in.
 
         \pagebreak
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.8]{createstock}
-\caption{Create Stock}
-\label{Create Stock}
-\end{figure}
+		\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=0.8]{createstock}
+		\caption{Create Stock}
+		\label{Create Stock}
+		\end{figure}
 
     Allows a user to create custom Market Participants and having their own trading strategy.
 
             
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.8]{createparticipant}
-\caption{Create Market Participant}
-\label{Create Market Participant}
-\end{figure}
+		\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=0.8]{addparticipants}
+		\caption{Create Market Participant}
+		\label{Create Market Participant}
+		\end{figure}
 
     Used to Start, Pause and Stop the simulator.
 
@@ -420,11 +425,11 @@ Allows the user to view Market Data for both Stocks and Participants.
 							\item Requirement Level: High 	
 						\end{itemize}
 						
-				\textbf{Pre-condition} :If there is no data available(as in trades) .\\
+				\textbf{Pre-condition} :If there is no market data available/generated(as in trades) .\\
 				\textbf{Post-conditions} : A value(s) calculated by the technical indicator.\\ 
 						
 				Technical indicators are used for analysing and interpreting market behaviour. This ranges from analysing the price of a stock or the number of shares traded or the trend of a certain share. The indicators generate value(s) and are interpreted so that they can be used by the strategies which will decide whether to enter(bid) or exit(offer) the market.\\
-				Some of the indicators use each other to compute more complex technical indicators. So far 13 technical indicators have been implemented(*A library will be used if/when a suitable one is found).\\
+				Some of the indicators use each other to compute more complex technical indicators. 13 technical indicators have been implemented(in such a way that the design allows for the pluggability of technical indicators).\\
 				They are:
 				\begin{itemize}
 					\item Simple Moving Average(SMA)
@@ -442,15 +447,20 @@ Allows the user to view Market Data for both Stocks and Participants.
 					\item Stochastic Oscillator(SO)	
 				\end{itemize} 								
 				
-				\subsubsection{Allow for at least 20 market participants}
+				\subsubsection{Allow for at least 20 market participants in the financial market}
 				\begin{itemize}
 					\item Requirement Prioritization: Critical
 					\item Requirement Source: Client
 					\item Requirement Level: High 	
 				\end{itemize}
+				
+				\textbf{Pre-condition} :If there are no stocks generated .\\
+				\textbf{Post-conditions} : 20 or more market participants trading in the financial market.\\ 
+				\textbf{Request and Results Data Structures} : 20 MarketParticipant Objects created to trade financial instruments in the financial market.\\ 
+								
 				Enable multiple market participants to be active in the market and allow for concurrent bids and offers to be placed. With this functionality, we can see how the market performs under certain(e.g. conditions when a stock is trending or when the market is liquid). \\
 				
-				Participants will use the trading strategies implemented in order to compete with each other in the financial market to see which ones perform better or not in terms of profit and loss. 
+				Participants will use the algorithmic trading strategies implemented in order to compete with each other in the financial market to see which ones perform better or not in terms of profit and loss. Market participants will have the functionality to decide the price at which to enter or exit the financial market. 
 				
 				\begin{figure}[th]
 								\centering
@@ -459,13 +469,18 @@ Allows the user to view Market Data for both Stocks and Participants.
 								\label{domain objects}
 				\end{figure}
 				
-				\subsubsection{Algorithmic trading entities(strategies)}
+				\subsubsection{Algorithmic trading entities that generate buy and sell signals for market participants}
 				\begin{itemize}
 					\item Requirement Prioritization: Critical
 					\item Requirement Source: Client 	
 					\item Requirement Level: High
 				\end{itemize}
-				Since there are multiple participants who will be competing in the market, we need to see how trading stategies perform in different market conditions. \\
+				
+				\textbf{Pre-condition} :If a MarketParticipant object is created.\\
+				\textbf{Post-conditions} : A MarketParticipant object that is able to generate buy and sell signals.\\ 
+				\textbf{Request and Results Data Structures} : A MarketParticipant object which is active in the financial market.\\
+								
+				Since there are multiple participants who will be competing in the market, we need to see how trading stategies perform in different market conditions. A trading entity(market participant) uses an algorithmic trading algorithm to participate in the financial market.\\
 				
 				Each entity will need to do the following:
 				\begin{itemize}
@@ -475,40 +490,51 @@ Allows the user to view Market Data for both Stocks and Participants.
 					
 				These are the different number of trading strategies that would be implemented by the developers. Different variations of trading strategies will be implemented(with the help of technical indicators). Each trading strategy will be able to process market data in order to use the information generated from the process and will generate a trading event(either a bid or offer). The trading algorithms will be able to remove bids and offers.\\
 				
-				So far 5 trading strategies have been implemented, namely: Crossover, Moving Average Crossover, Price EMA Crossover, Price SMA Crossover and the Moving Average Envelope. 
-				\subsubsection{Generate trading events }
+				So far 5 trading strategies have been implemented, namely: Crossover, Moving Average Crossover, Price EMA Crossover, Price SMA Crossover and the Moving Average Envelope.
+				 
+				\subsubsection{Generate trading events in order to see the behavior and performance of market particippants in terms profit and loss}
 				\begin{itemize}
 					\item Requirement Prioritization: Critical
 					\item Requirement Source: Client 	
 					\item Requirement Level: High
 				\end{itemize}  
 				
-				The system should be able to generate bids and offers. The participant will have a mechanism(trading strategies) to decide how much to offer or bid and the quantity of shares. This requirement is strongly linked with previous requirement.\\
+				\textbf{Pre-condition} :If there is no activity(trades) in the financial market.\\
+				\textbf{Post-conditions} : Activity in the financial market which will be shown in the form of a graph of the stock prices for the different stocks and the profit and loss for market participants.\\ 
+								
+				The system should be able to generate bids and offers(t). The participant will have a mechanism(MarketParticipant with functionality to calculate how much to bid/offer for) to decide how much to offer or bid and the quantity of shares. This requirement is strongly linked with previous requirement.\\
 				
 				Figure 13 shows an activity diagram of how an order would be placed in the Financial Market Simulator.	 
 				
-\begin{figure}[th!]
-\centering
-\includegraphics[scale=0.7]{./placeOrder_activity}
-\caption{An activity diagram for placing an order.}
-\label{domain objects}
-\end{figure}
+			\begin{figure}[th!]
+			\centering
+			\includegraphics[scale=0.7]{./placeOrder_activity}
+			\caption{An activity diagram for placing an order.}
+			\label{domain objects}
+			\end{figure}
 			\pagebreak			 
-			\subsubsection{A mechanism for delivering messages about market events}
+			\subsubsection{A mechanism for delivering messages about market events(price)}
 			\begin{itemize}
 					\item Requirement Prioritization: Critical
 					\item Requirement Source: Client 
 					\item Requirement Level: High	
 			\end{itemize}
 			
-			Messages about the last traded price need to be delivered to the other relevant market participants in order for them to have the latest information on whats happening in the market. The stock manager will deliver the messages to market participants and other components of the system that will need the latest data for computation purposes. All the market participants which are trading a particular instrument will be informed of what the other participants are doing.
+			\textbf{Pre-condition} :If the system is not functioning.\\
+			\textbf{Post-conditions} :Messages delivered to market participants from the matching engine(and vice versa).\\ 
+			
+			Messages about the market activities(trades, price updates, order placements and/or cancellations) to be delivered to the other relevant market participants in order for them to have the latest information on whats happening in the market. The stock manager will deliver the messages(received from the matching engine) to market participants and other components of the system that will need the latest data for computation purposes. All the market participants which are trading a particular instrument will be informed of what the other participants are doing. This design decouples the market participant from the matching engine
 	\pagebreak		
-			\subsubsection{Simulate the financial market}
+			\subsubsection{Simulate the activities of a financial financial market}
 			\begin{itemize}
 				\item Requirement Prioritization: Critical
 				\item Requirement Source: Client 
 				\item Requirement Level: High	
 			\end{itemize}
+			
+			\textbf{Pre-condition} :All the core components(matching engine, message queue, market participants with algorithmic trading algorithms) are function correctly.\\
+			\textbf{Post-conditions} : Data that can be reviewed for later use when comparing the behaviour and perfomance of market participants in terms of profit and loss.\\ 
+			\textbf{Request and Results Data Structures} : A MarketExchange object which encapsulates a live financial market(See domain objects section).\\
 						
 			The system needs to be able to simulate(without input from the user) in order to evaluate the trading algorithms(strategies) and market participants performances. The range for the prices and shares will be specified so that the financial market is controlled and trends can be spotted. 
 			
@@ -534,6 +560,10 @@ Allows the user to view Market Data for both Stocks and Participants.
 				\item Requirement Source: Client 
 				\item Requirement Level: Medium	
 			\end{itemize}
+			
+			\textbf{Pre-condition} :If there are no MarketParticipant and StockManager objects instantited  .\\
+			\textbf{Post-conditions} : A connection mechanism between the market participants and the the financial market.\\ 
+						
 			In order to have market participants decoupled from the matching engine,  the participants will communicate with the matching engine using a message queue interface. All the participants would do is place an order onto the message queue and the matching engine will be responsible for taking the message and process the request.
 			
 			\subsubsection{Allow the matching engine to broadcast market updates to all market participants using a message queue}
@@ -550,6 +580,10 @@ Allows the user to view Market Data for both Stocks and Participants.
 				\item Requirement Source: Grape Team 
 				\item Requirement Level: Medium	
 			\end{itemize}
+			\textbf{Pre-condition} :There are no market participants to load.\\
+			\textbf{Post-conditions} : Previous used market participants with the trading algorithm used.\\ 
+			\textbf{Request and Results Data Structures} : A vector of the loaded MarketParticipant objects(if any where loaded).\\
+						
 			Enable users to load market participants from persistent storage with their preferences as it can get tiring to enter a new market everytime one runs the system. 
 			
 			\subsubsection{Provide graphical representation of the data generated}
@@ -558,6 +592,10 @@ Allows the user to view Market Data for both Stocks and Participants.
 				\item Requirement Source: Grape Team 
 				\item Requirement Level: Medium	
 			\end{itemize}
+			\textbf{Pre-condition} :There is no market data generated by the participants in the market.\\
+			\textbf{Post-conditions} : Graphs with the relevant information needed to view the behaviour and performance of the algorithmic trading entity in terms of profit loss.\\ 
+			\textbf{Request and Results Data Structures} : A chart object with the data needed to render graphs.\\
+						
 			Allow users who use the system to be able to see graphs(e.g. line graphs) of the calculated data(i.e technical iindicators) in order to see how the financial market and individual instruments are performing.
 					  
 		\subsection{Domain Objects}	
@@ -580,8 +618,9 @@ Allows the user to view Market Data for both Stocks and Participants.
 		\begin{itemize}
 			\item \textbf{Order}: An instruction from a participant to either put in an offer or a bid.(Note-The term market entry attempt has the same meaning in this context)
 			\item \textbf{Market data}: Data reflecting current trading information to include pricing and volume and other additional information related to the trade.
+			\item \textbf{MarketParticipant}: Refers to a market participant object. 
 			\item \textbf{Match}: When an offer and a bid have the same price.
 			\item \textbf{Trading Event} Entering the market(placing an bid) or exiting the market(placing an offer). 
-			\item \textbf{Volume}: A measure of activity i.e. the total number of shares one(a participant) has. 
+			\item \textbf{Volume}: A measure of activity i.e. the total number of shares one(a participant) has.
 		\end{itemize}				    			    			    		
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.19)  3 OCT 2014 22:21
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.19)  3 OCT 2014 23:58
 entering extended mode
 **Software_Architecture_Document.tex
 
@@ -111,9 +111,6 @@ Package color Info: Driver file: pdftex.def on input line 130.
 roject Documentation\Latest Documentation 22 Aug\Software_Architecture_Document
 .aux"
 
-LaTeX Warning: Label `Market Participants' multiply defined.
-
-
 LaTeX Warning: Label `domain objects' multiply defined.
 
 
@@ -181,290 +178,315 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 50.
 
-Overfull \hbox (88.72202pt too wide) in paragraph at lines 49--72
+Overfull \hbox (107.60008pt too wide) in paragraph at lines 49--77
 [] 
  []
 
 [2]
 ("C:\Users\Moeletji\Documents\GitHub\Grape__COS301_Main_Project\Documentation\P
 roject Documentation\Latest Documentation 22 Aug\Software_Architecture_Document
-.toc" [3])
+.toc" [3]
+Overfull \hbox (1.10094pt too wide) in paragraph at lines 38--38
+ \OT1/cmr/m/n/14.4 and per-for-mance of mar-ket par-ticip-pants in terms profit
+ 
+ []
+
+
+Overfull \hbox (40.10391pt too wide) in paragraph at lines 39--39
+ [][] []\OT1/cmr/m/n/14.4 A mech-a-nism for de-liv-er-ing mes-sages about mar-k
+et events(price) [][]  
+ []
+
+)
 \tf@toc=\write3
  [4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 84.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 89.
  ("C:\Program Files\MiKTeX\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <14.4> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 84.
- [5]
-[6] [7] [8]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 89.
+ [5] [6] [7] [8]
 Missing character: There is no ï in font cmr12!
 Missing character: There is no ¿ in font cmr12!
 Missing character: There is no ½ in font cmr12!
- [9] [10]
+
+[9] [10]
 Missing character: There is no ï in font cmr12!
 Missing character: There is no ¿ in font cmr12!
 Missing character: There is no ½ in font cmr12!
- [11] [12]
+ [11] [12] <maininterface.jpg, id=46, 371.88937pt x 114.4275pt>
+File: maininterface.jpg Graphic file (type jpg)
 
-! LaTeX Error: File `./maininterface' not found.
+<use maininterface.jpg>
+Package pdftex.def Info: maininterface.jpg used on input line 250.
+(pdftex.def)             Requested size: 297.51189pt x 91.54211pt.
+ <matchingengine.png, id=47, 438.8897pt x 229.60782pt>
+File: matchingengine.png Graphic file (type png)
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.245 ...cludegraphics[scale=0.8]{./maininterface}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<./matchingengine.png, id=46, 438.8897pt x 229.60782pt>
-File: ./matchingengine.png Graphic file (type png)
-
-<use ./matchingengine.png>
-Package pdftex.def Info: ./matchingengine.png used on input line 254.
+<use matchingengine.png>
+Package pdftex.def Info: matchingengine.png used on input line 259.
 (pdftex.def)             Requested size: 351.11223pt x 183.6865pt.
  [13 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
-on/Project Documentation/Latest Documentation 22 Aug/matchingengine.png>]
+on/Project Documentation/Latest Documentation 22 Aug/maininterface.jpg> <C:/Use
+rs/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Project D
+ocumentation/Latest Documentation 22 Aug/matchingengine.png>] <createstock.jpg,
+ id=52, 259.7203pt x 262.73157pt>
+File: createstock.jpg Graphic file (type jpg)
 
-! LaTeX Error: File `./createstock' not found.
+<use createstock.jpg>
+Package pdftex.def Info: createstock.jpg used on input line 269.
+(pdftex.def)             Requested size: 207.77652pt x 210.18552pt.
+ <addparticipants.jpg, id=53, 323.70938pt x 274.77657pt>
+File: addparticipants.jpg Graphic file (type jpg)
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.264 \includegraphics[scale=0.8]{./createstock}
-                                                
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<use addparticipants.jpg>
+Package pdftex.def Info: addparticipants.jpg used on input line 279.
+(pdftex.def)             Requested size: 258.96785pt x 219.82153pt.
+ [14 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/createstock.jpg> <C:/Users
+/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Project Doc
+umentation/Latest Documentation 22 Aug/addparticipants.jpg>] <simulation.jpg, i
+d=57, 198.7425pt x 123.46124pt>
+File: simulation.jpg Graphic file (type jpg)
+ <use simulation.jpg>
+Package pdftex.def Info: simulation.jpg used on input line 289.
+(pdftex.def)             Requested size: 158.9942pt x 98.7691pt.
 
-
-! LaTeX Error: File `./createparticipant' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.274 ...egraphics[scale=0.8]{./createparticipant}
-                                                  
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[14]
-
-! LaTeX Error: File `./simulation' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.284 \includegraphics[scale=0.8]{./simulation}
-                                               
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-<./marketdata.png, id=54, 184.43906pt x 150.5625pt>
-File: ./marketdata.png Graphic file (type png)
- <use ./marketdata.png>
-Package pdftex.def Info: ./marketdata.png used on input line 293.
+<marketdata.png, id=58, 184.43906pt x 150.5625pt>
+File: marketdata.png Graphic file (type png)
+ <use marketdata.png>
+Package pdftex.def Info: marketdata.png used on input line 298.
 (pdftex.def)             Requested size: 147.55144pt x 120.45015pt.
 
+<stockprices.jpg, id=59, 402.75468pt x 236.38312pt>
+File: stockprices.jpg Graphic file (type jpg)
+ <use stockprices.jpg>
+Package pdftex.def Info: stockprices.jpg used on input line 307.
+(pdftex.def)             Requested size: 322.20418pt x 189.10675pt.
 
-! LaTeX Error: File `./stockprices' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.302 	\includegraphics[scale=0.8]{./stockprices}
-                                                 
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+<indicators.jpg, id=60, 420.82219pt x 242.40562pt>
+File: indicators.jpg Graphic file (type jpg)
+ <use indicators.jpg>
+Package pdftex.def Info: indicators.jpg used on input line 316.
+(pdftex.def)             Requested size: 336.6582pt x 193.92474pt.
 
 
-! LaTeX Error: File `./indicators' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.311 	\includegraphics[scale=0.8]{./indicators}
-                                                
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [15 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
-n/Project Documentation/Latest Documentation 22 Aug/marketdata.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 319--320
+n/Project Documentation/Latest Documentation 22 Aug/simulation.jpg> <C:/Users/M
+oeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentation/Project Docum
+entation/Latest Documentation 22 Aug/marketdata.png> <C:/Users/Moeletji/Documen
+ts/GitHub/Grape__COS301_Main_Project/Documentation/Project Documentation/Latest
+ Documentation 22 Aug/stockprices.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 324--325
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 319--320
+Underfull \hbox (badness 10000) in paragraph at lines 324--325
 
  []
 
-<./activity.png, id=58, 773.89125pt x 360.59718pt>
-File: ./activity.png Graphic file (type png)
- <use ./activity.png>
-Package pdftex.def Info: ./activity.png used on input line 323.
+<activity.png, id=64, 773.89125pt x 360.59718pt>
+File: activity.png Graphic file (type png)
+ <use activity.png>
+Package pdftex.def Info: activity.png used on input line 328.
 (pdftex.def)             Requested size: 464.33833pt x 216.35997pt.
+ [16 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/indicators.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 341--345
 
-[16 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+ []
+
+[17 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
 n/Project Documentation/Latest Documentation 22 Aug/activity.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 336--340
+<matching_engine_use_case.png, id=72, 433.62pt x 328.22626pt>
+File: matching_engine_use_case.png Graphic file (type png)
 
- []
-
-<./matching_engine_use_case.png, id=63, 433.62pt x 328.22626pt>
-File: ./matching_engine_use_case.png Graphic file (type png)
-
-<use ./matching_engine_use_case.png>
-Package pdftex.def Info: ./matching_engine_use_case.png used on input line 352.
-
+<use matching_engine_use_case.png>
+Package pdftex.def Info: matching_engine_use_case.png used on input line 357.
 (pdftex.def)             Requested size: 346.89647pt x 262.58136pt.
- [17]
-Underfull \hbox (badness 10000) in paragraph at lines 365--369
+ [18 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/matching_engine_use_case.p
+ng (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 370--374
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 370--371
+Underfull \hbox (badness 10000) in paragraph at lines 375--376
 
  []
 
-[18 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
-n/Project Documentation/Latest Documentation 22 Aug/matching_engine_use_case.pn
-g (PNG copy)>]
-<./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg, id=70, 492.3393
+
+<./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg, id=76, 492.3393
 7pt x 255.95625pt>
 File: ./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg Graphic fil
 e (type jpg)
 
 <use ./USE_CASE_Market_Attempt_Book_Financial_Market_Simulator.jpg>
 Package pdftex.def Info: ./USE_CASE_Market_Attempt_Book_Financial_Market_Simula
-tor.jpg used on input line 376.
+tor.jpg used on input line 381.
 (pdftex.def)             Requested size: 295.40588pt x 153.57492pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 388--391
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 392--393
-
- []
-
-[19 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
-n/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Market_Attempt_Boo
-k_Financial_Market_Simulator.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 403--406
+ [19 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentati
+on/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Market_Attempt_Bo
+ok_Financial_Market_Simulator.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 393--396
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 423--425
+Underfull \hbox (badness 10000) in paragraph at lines 397--398
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 408--411
 
  []
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 451--452
+Overfull \hbox (4.60353pt too wide) in paragraph at lines 428--430
+[]\OT1/cmr/bx/n/14.4 Pre-condition \OT1/cmr/m/n/14.4 :If there is no mar-ket da
+ta avail-able/-gen-er-ated(as in trades)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--430
 
  []
 
 [21]
-<./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg, id=81, 47
+Underfull \hbox (badness 10000) in paragraph at lines 457--460
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 461--462
+
+ []
+
+
+<./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg, id=87, 47
 2.76625pt x 303.38344pt>
 File: ./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg Graph
 ic file (type jpg)
 
 <use ./USE_CASE_Create_Market_Participant_Financial_Market_Simulator.jpg>
 Package pdftex.def Info: ./USE_CASE_Create_Market_Participant_Financial_Market_
-Simulator.jpg used on input line 457.
+Simulator.jpg used on input line 467.
 (pdftex.def)             Requested size: 283.66193pt x 182.03146pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 468--469
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 479--482
 
  []
 
-[22 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--484
+
+ []
+
+[23 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
 n/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Create_Market_Part
 icipant_Financial_Market_Simulator.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 476--477
+Underfull \hbox (badness 10000) in paragraph at lines 491--492
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 486--487
+Underfull \hbox (badness 10000) in paragraph at lines 502--504
 
  []
 
-<./placeOrder_activity.png, id=85, 709.14937pt x 346.29375pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 505--506
+
+ []
+
+<./placeOrder_activity.png, id=94, 709.14937pt x 346.29375pt>
 File: ./placeOrder_activity.png Graphic file (type png)
 
 <use ./placeOrder_activity.png>
-Package pdftex.def Info: ./placeOrder_activity.png used on input line 492.
+Package pdftex.def Info: ./placeOrder_activity.png used on input line 511.
 (pdftex.def)             Requested size: 496.40118pt x 242.40396pt.
 
-Overfull \hbox (26.6462pt too wide) in paragraph at lines 492--493
+Overfull \hbox (26.6462pt too wide) in paragraph at lines 511--512
  [][] 
  []
 
-[23] [24 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documen
-tation/Project Documentation/Latest Documentation 22 Aug/placeOrder_activity.pn
-g>]
-<./USE_CASE_Select_Simulator_Financial_Market_Simulator.png, id=92, 456.20438pt
- x 286.82156pt>
+[24]
+Underfull \hbox (badness 10000) in paragraph at lines 523--525
+
+ []
+
+[25 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+n/Project Documentation/Latest Documentation 22 Aug/placeOrder_activity.png>]
+Overfull \hbox (0.60861pt too wide) in paragraph at lines 535--538
+[]\OT1/cmr/bx/n/14.4 Pre-condition \OT1/cmr/m/n/14.4 :All the core com-po-nents
+(matching en-gine, mes-sage queue,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 535--538
+
+ []
+
+
+<./USE_CASE_Select_Simulator_Financial_Market_Simulator.png, id=102, 456.20438p
+t x 286.82156pt>
 File: ./USE_CASE_Select_Simulator_Financial_Market_Simulator.png Graphic file (
 type png)
 
 <use ./USE_CASE_Select_Simulator_Financial_Market_Simulator.png>
 Package pdftex.def Info: ./USE_CASE_Select_Simulator_Financial_Market_Simulator
-.png used on input line 519.
+.png used on input line 545.
 (pdftex.def)             Requested size: 364.96399pt x 229.45755pt.
 
-<./USE_CASE_Run_Simulator_Financial_Market_Simulator.png, id=93, 538.26094pt x 
-272.51813pt>
+<./USE_CASE_Run_Simulator_Financial_Market_Simulator.png, id=103, 538.26094pt x
+ 272.51813pt>
 File: ./USE_CASE_Run_Simulator_Financial_Market_Simulator.png Graphic file (typ
 e png)
  <use ./USE_CASE_Run_Simulator_Financial_Market_Simulator.png>
 Package pdftex.def Info: ./USE_CASE_Run_Simulator_Financial_Market_Simulator.pn
-g used on input line 526.
+g used on input line 552.
 (pdftex.def)             Requested size: 430.60934pt x 218.01479pt.
 
-[25 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
-n/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Select_Simulator_F
-inancial_Market_Simulator.png>] [26 <C:/Users/Moeletji/Documents/GitHub/Grape__
+Underfull \hbox (badness 10000) in paragraph at lines 564--566
+
+ []
+
+[26] [27 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documen
+tation/Project Documentation/Latest Documentation 22 Aug/USE_CASE_Select_Simula
+tor_Financial_Market_Simulator.png> <C:/Users/Moeletji/Documents/GitHub/Grape__
 COS301_Main_Project/Documentation/Project Documentation/Latest Documentation 22
- Aug/USE_CASE_Run_Simulator_Financial_Market_Simulator.png>] [27]
-<./ClassDiagram.jpg, id=106, 2127.44812pt x 1042.64531pt>
+ Aug/USE_CASE_Run_Simulator_Financial_Market_Simulator.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 583--586
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 595--598
+
+ []
+
+[28] [29] <./ClassDiagram.jpg, id=118, 2127.44812pt x 1042.64531pt>
 File: ./ClassDiagram.jpg Graphic file (type jpg)
 
 <use ./ClassDiagram.jpg>
-Package pdftex.def Info: ./ClassDiagram.jpg used on input line 572.
+Package pdftex.def Info: ./ClassDiagram.jpg used on input line 610.
 (pdftex.def)             Requested size: 744.61801pt x 364.93132pt.
 
 
-LaTeX Warning: Float too large for page by 63.72203pt on input line 575.
+LaTeX Warning: Float too large for page by 63.72203pt on input line 613.
 
-[28 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
+[30 <C:/Users/Moeletji/Documents/GitHub/Grape__COS301_Main_Project/Documentatio
 n/Project Documentation/Latest Documentation 22 Aug/ClassDiagram.jpg>]
 
 AED: lastpage setting LastPage
-[29
+[31
 
 
 ]
@@ -476,22 +498,22 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2528 strings out of 493921
- 37921 string characters out of 3148877
- 92091 words of memory out of 3000000
- 5806 multiletter control sequences out of 15000+200000
+ 2537 strings out of 493921
+ 38283 string characters out of 3148877
+ 92100 words of memory out of 3000000
+ 5825 multiletter control sequences out of 15000+200000
  7332 words of font info for 26 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,10n,32p,511b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,10n,32p,673b,317s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Progra
 m Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKT
 eX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmti12.pfb>
-Output written on Software_Architecture_Document.pdf (29 pages, 1586371 bytes).
+Output written on Software_Architecture_Document.pdf (31 pages, 1767959 bytes).
 
 PDF statistics:
- 130 PDF objects out of 1000 (max. 8388607)
+ 143 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 86 words of extra memory for PDF output out of 10000 (max. 10000000)
 
