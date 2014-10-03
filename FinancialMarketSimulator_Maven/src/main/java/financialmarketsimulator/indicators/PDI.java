@@ -1,6 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
@@ -19,7 +18,12 @@ public class PDI extends MarketIndicator{
     private final PDM pdm;
     private final ATR atr;
     private final MarketEntryAttemptBook book;
-    private Vector<Double> PDIValues;
+    private final Vector<Double> PDIValues;
+    private Vector<Double> PDMValues;
+    private Double averageTR;
+    private Double averageNMD;
+    private int count;
+    private Double result;
     
     /**
      * 
@@ -39,14 +43,14 @@ public class PDI extends MarketIndicator{
     public Double calculatePDI()
     {
         //Get numDays day NDM average
-        Vector<Double> PDMValues = pdm.getPDMValue();
+        PDMValues = pdm.getPDMValue();
         
         if( PDMValues.size() < numDays )
             return 0.0;
         
-       double averageTR = atr.calculateATR();
-       double averageNMD = 0.0;
-       int count = 0;
+       averageTR = atr.calculateATR();
+       averageNMD = 0.0;
+       count = 0;
        
        while( count < numDays )
        {
@@ -55,7 +59,6 @@ public class PDI extends MarketIndicator{
        }
        averageNMD = averageNMD/numDays;
        
-       double result;
        if( averageTR == 0.0 )
             result = 0.0;
        else

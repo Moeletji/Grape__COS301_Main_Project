@@ -7,7 +7,6 @@
 
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import static java.lang.Math.abs;
@@ -23,6 +22,9 @@ public class DirectionalIndex extends MarketIndicator{
     private final NDI ndi;
     private final Vector<Double> directionalIndexValues;
     private final MarketEntryAttemptBook book;
+    private Double difference;
+    private Double sum;
+    private Double result;
     
     public DirectionalIndex(MarketEntryAttemptBook _book, int _numDays)
     {
@@ -34,12 +36,10 @@ public class DirectionalIndex extends MarketIndicator{
         this.directionalIndexValues = new Vector<>();
     }
     
-    public double calculateDirectionalIndex() throws NotEnoughDataException
+    public double calculateDirectionalIndex()
     {
-        double difference = abs(pdi.calculatePDI() - ndi.calculateNDI());
-        double sum = pdi.calculatePDI() + ndi.calculateIndicator();
-        
-        double result;
+        difference = abs(pdi.calculatePDI() - ndi.calculateNDI());
+        sum = pdi.calculatePDI() + ndi.calculateIndicator();
         
         if( sum == 0.0 )
             result = 0.0; 
@@ -50,14 +50,14 @@ public class DirectionalIndex extends MarketIndicator{
         return result;
     }
     
-    public Vector<Double> getDiretionalIndexValues() throws NotEnoughDataException
+    public Vector<Double> getDiretionalIndexValues()
     {
         this.calculateDirectionalIndex();
         return this.directionalIndexValues;
     }
     
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator(){
         return this.calculateDirectionalIndex();
     } 
 }

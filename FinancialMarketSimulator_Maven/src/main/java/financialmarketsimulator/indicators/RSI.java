@@ -1,6 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
@@ -20,14 +19,15 @@ public class RSI extends MarketIndicator{
      */
     private double relativeStrength;
     
+    private Double averageGain;
+    private Double averageLoss;
+    private Vector<Double> gains;
+    private Vector<Double> losses;
+    private int count1;
+    private int count2;
+    
     //Variables housing current and previous closing values
     
-    private final double currentClose;
-    private final double previousClose;
-    private double currentUpClose;
-    private double currentDownClose;
-    private double previousUpClose;
-    private double previousDownClose;
     private final MarketEntryAttemptBook book; 
     private final int numDays;
     
@@ -41,14 +41,9 @@ public class RSI extends MarketIndicator{
         super("Reletive Strength Index");
         this.book = _book;
         this.numDays = _numDays;
-        this.previousClose = 0.0;
-        this.currentClose = this.book.getLastTradePrice();
-        this.currentUpClose = this.book.getHighestTradePrice(this.numDays);
-        this.currentDownClose = this.book.getLowestTradePrice(this.numDays);
     }
     
     /**
-     * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @brief Calculates and returns the RSI value
      * @return Double value representing the RSI value
      */
@@ -58,20 +53,19 @@ public class RSI extends MarketIndicator{
     }
 
     /**
-     * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @brief Calculates and returns the Relative Strength over 14 days
      * @return Double value representing the relative strength value.
      */
     public double calculateRS()  {
         
-        Vector<Double> gains = this.book.getGains();
-        Vector<Double> losses = this.book.getLosses();
+        gains = this.book.getGains();
+        losses = this.book.getLosses();
         
-        double averageGain = 0.0;
-        double averageLoss = 0.0; 
+        averageGain = 0.0;
+        averageLoss = 0.0; 
         
-        int count1 = 0;
-        int count2 = 0;
+        count1 = 0;
+        count2 = 0;
         
         while(count1 < gains.size() && count1 <= numDays)
         {
