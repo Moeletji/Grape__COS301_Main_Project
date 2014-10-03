@@ -3,6 +3,7 @@ package financialmarketsimulator.market;
 import financialmarketsimulator.exception.NameAlreadyExistsException;
 import financialmarketsimulator.exception.NameNotFoundException;
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttempt.SIDE;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.BID;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.DO_NOTHING;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.OFFER;
@@ -12,6 +13,7 @@ import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.MEDIUM;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.Message;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.JList;
 
@@ -96,9 +98,16 @@ public class MarketParticipant extends Thread {
      * @brief price step used to determine how much to increase the price with.
      */
     private final double[] PRICE_STEP = {0.05, 0.10, 0.15, 0.2, 0.25, 0.50};
+    
+    private int downBidTimer, downCounter, randomDecrease;
+    private Random rand;    
 
     public MarketParticipant() {
         this.profit = 10000;
+        this.rand = new Random();
+        this.downBidTimer = rand.nextInt((800-2)+2)+2;
+        this.randomDecrease = rand.nextInt((3-1)+1)+1;
+        downCounter = 0;
     }
 
     /**
@@ -431,6 +440,22 @@ public class MarketParticipant extends Thread {
                 }
                 
                 this.print();
+                
+                if (downCounter == downBidTimer)
+                {
+                    this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice()-this.randomDecrease,1000,ID,SIDE.BID));
+                    this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice()-this.randomDecrease,1000,ID,SIDE.OFFER));
+                    
+                    this.randomDecrease = rand.nextInt((3-1)+1)+1;
+                    downCounter = 0;
+                    downBidTimer = rand.nextInt((800-2)+2)+1;
+                }
+                else if (downCounter > downBidTimer)
+                {
+                    downCounter = 0;
+                    downBidTimer = rand.nextInt((800-2)+2)+1;
+                }
+                downCounter++;
                 
             } catch (NotEnoughDataException ex) {
                 ex.printStackTrace();

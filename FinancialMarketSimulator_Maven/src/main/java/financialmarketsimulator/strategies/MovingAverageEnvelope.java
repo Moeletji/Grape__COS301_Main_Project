@@ -7,6 +7,7 @@ import financialmarketsimulator.market.MarketEntryAttempt;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.NORMAL;
 import java.util.Vector;
 
 /**
@@ -189,6 +190,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
         {
             this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
         }
+        this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }
 }

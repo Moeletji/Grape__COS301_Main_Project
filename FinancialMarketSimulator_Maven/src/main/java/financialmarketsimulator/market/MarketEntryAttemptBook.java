@@ -740,9 +740,10 @@ public class MarketEntryAttemptBook {
         this.totalNumberOfShares = totalNumberOfShares;
     }
 
-    public double getOpeningPrice() throws NotEnoughDataException {
+    public double getOpeningPrice() {
         if (this.matchedOrders.isEmpty()) {
-            throw new NotEnoughDataException();
+            //throw new NotEnoughDataException();
+            return 0.0;
         }
 
         return this.matchedOrders.firstElement().getPrice();
