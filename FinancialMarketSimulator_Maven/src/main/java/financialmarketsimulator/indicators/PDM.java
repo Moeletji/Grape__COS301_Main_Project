@@ -1,6 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
@@ -13,7 +12,10 @@ public class PDM extends MarketIndicator{
     
     private final MarketEntryAttemptBook book; 
     private final int numDays;
-    private Vector<Double> PDMValues;
+    private final Vector<Double> PDMValues;
+    private Double upMove;
+    private Double downMove;
+    private Double result;
     
     public PDM(MarketEntryAttemptBook _book, int _numDays)
     {
@@ -29,9 +31,8 @@ public class PDM extends MarketIndicator{
      */
     public Double calculatePDM()
     {
-        double upMove = this.book.getHighestTradePrice(numDays) - this.book.getFirstTradePrice();
-        double downMove = this.book.getFirstTradePrice() - this.book.getLowestTradePrice(numDays);
-        double result;
+        upMove = this.book.getHighestTradePrice(numDays) - this.book.getFirstTradePrice();
+        downMove = this.book.getFirstTradePrice() - this.book.getLowestTradePrice(numDays);
         
         if( upMove > downMove && upMove > 0 )
             result = upMove;

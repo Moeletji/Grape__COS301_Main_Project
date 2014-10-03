@@ -1,6 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
@@ -16,6 +15,9 @@ public class ADX extends MarketIndicator{
     private final int numDays;
     private int executionCount;
     private double previousADX;
+    private Vector<Double> diValues;
+    private Double average;
+    private Double result;
     
     public ADX(MarketEntryAttemptBook _book, int _numDays)
     {
@@ -27,19 +29,17 @@ public class ADX extends MarketIndicator{
         this.previousADX = 0.0;
     }
     
-    public double calculateADX() throws NotEnoughDataException
+    public double calculateADX()
     {
-        Vector<Double> diValues = di.getDiretionalIndexValues();
+        diValues = di.getDiretionalIndexValues();
         
         if( diValues.size() < numDays )
             return 0.0;
         
-        double result;
-        
         if( this.executionCount == 0 )
         {
             this.executionCount++;
-            double average = 0.0;
+            average = 0.0;
             
             for(double val : diValues)
             {
@@ -64,7 +64,7 @@ public class ADX extends MarketIndicator{
     }
     
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator(){
         return this.calculateADX();
     }
 }

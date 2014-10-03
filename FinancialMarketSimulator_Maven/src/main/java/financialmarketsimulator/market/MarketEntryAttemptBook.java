@@ -165,7 +165,7 @@ public class MarketEntryAttemptBook {
      * @param newOrder
      */
     public synchronized void placeOrder(MarketEntryAttempt newOrder) {
-        if (newOrder.getPrice() == 0 || newOrder.getNumOfShares() == 0) {
+        if (newOrder.getPrice() <= 0 || newOrder.getNumOfShares() <= 0) {
             return;//throw exception
         }
 
@@ -200,7 +200,7 @@ public class MarketEntryAttemptBook {
                     //if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
                     //    newOrder.setNumOfShares(currentNumberOfShares);
                     //}
-                    
+
                     //currentNumberOfShares -= newOrder.getNumOfShares();
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
@@ -220,8 +220,8 @@ public class MarketEntryAttemptBook {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
                     /*if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
-                        newOrder.setNumOfShares(currentNumberOfShares);
-                    }*/
+                     newOrder.setNumOfShares(currentNumberOfShares);
+                     }*/
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
                     //currentNumberOfShares -= newOrder.getNumOfShares();
                     if (!matchedOrders.isEmpty()) {
@@ -247,7 +247,7 @@ public class MarketEntryAttemptBook {
                     //    newOrder.setNumOfShares(currentNumberOfShares);
                     //}
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    
+
                     //currentNumberOfShares -= newOrder.getNumOfShares();
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
@@ -492,15 +492,12 @@ public class MarketEntryAttemptBook {
         }
         int length = matchedOrders.size();
         int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
-        double highest =0;
-        
-        if (matchedOrders.size()>=range)
-        {
-            highest=0;
-        }
-        else
-        {
-            highest= matchedOrders.get(range).getPrice();
+        double highest = 0;
+
+        if (matchedOrders.size() >= range) {
+            highest = 0;
+        } else {
+            highest = matchedOrders.get(range).getPrice();
             for (int i = range; i < length; i++) {
                 if (matchedOrders == null || matchedOrders.get(i) == null) {
                     break;
@@ -520,13 +517,10 @@ public class MarketEntryAttemptBook {
         }
         int length = matchedOrders.size();
         int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
-        double lowest=0 ;
-        if (matchedOrders.size()>= range)   
-        {
-            lowest =0;
-        }
-        else
-        {
+        double lowest = 0;
+        if (matchedOrders.size() >= range) {
+            lowest = 0;
+        } else {
             lowest = matchedOrders.get(range).getPrice();
             for (int i = range; i < length; i++) {
                 if (matchedOrders == null || matchedOrders.get(i) == null) {
@@ -747,5 +741,33 @@ public class MarketEntryAttemptBook {
         }
 
         return this.matchedOrders.firstElement().getPrice();
+    }
+
+    public double getHighestTradedPrice() {
+        double high = Double.MIN_VALUE;
+
+        Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>)matchedOrders.clone(); 
+        
+        for (int i = 0; i < tmp.size(); i++) {
+            MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp.get(i);
+            if (matched.getPrice() > high) {
+                high = matched.getPrice();
+            }
+        }
+        return (high == Double.MIN_VALUE) ? 0.0 : high;
+    }
+
+    public double getLowestTradedPrice() {
+        double low = Double.MAX_VALUE;
+        
+        Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>)matchedOrders.clone();
+        
+        for (int i = 0; i < tmp.size(); i++) {
+            MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp.get(i);
+            if (matched.getPrice() < low) {
+                low = Math.abs(matched.getPrice());
+            }
+        }
+        return (low == Double.MAX_VALUE) ? 0.0 : low;
     }
 }

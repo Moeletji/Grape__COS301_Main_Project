@@ -1,7 +1,6 @@
 
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import static java.lang.Math.*;
@@ -19,6 +18,7 @@ public class ATR extends MarketIndicator{
     private double currentLow;
     private double previousClosing;
     private final MarketEntryAttemptBook book;
+    private Double val1, val2, val3;
     
     public ATR(MarketEntryAttemptBook _book, int _numDays)
     {
@@ -50,9 +50,9 @@ public class ATR extends MarketIndicator{
         setCurrentLow(book.getLowestTradePrice(numDays));
         setPreviousClosing(book.getLastTradePrice());
         
-        double val1 = currentHigh - currentLow;
-        double val2 = abs(currentHigh - previousClosing);
-        double val3 = abs(currentLow - previousClosing);
+        val1 = currentHigh - currentLow;
+        val2 = abs(currentHigh - previousClosing);
+        val3 = abs(currentLow - previousClosing);
         currentTrueRange = max(max(val1,val2),val3);
     }
     

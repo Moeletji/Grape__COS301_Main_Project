@@ -199,7 +199,7 @@
     <Component class="javax.swing.JComboBox" name="cbxStrategies">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="9">
+          <StringArray count="10">
             <StringItem index="0" value="MACDStrategy"/>
             <StringItem index="1" value="DirectionalMovementIndex"/>
             <StringItem index="2" value="MovingAverageCrossover"/>
@@ -209,6 +209,7 @@
             <StringItem index="6" value="PriceSmaCrossover"/>
             <StringItem index="7" value="SimpleRSI"/>
             <StringItem index="8" value="Simple_MACD_ADX"/>
+            <StringItem index="9" value="Phantom"/>
           </StringArray>
         </Property>
       </Properties>

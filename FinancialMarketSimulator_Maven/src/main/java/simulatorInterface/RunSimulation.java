@@ -1,12 +1,21 @@
 package simulatorInterface;
 
 import com.grape.financialmarketsimulator_maven.MultiLineChart;
+import com.grape.financialmarketsimulator_maven.PriceMultiLineChart;
 import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.indicators.ADX;
+import financialmarketsimulator.indicators.ATR;
+import financialmarketsimulator.indicators.DirectionalIndex;
 import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.MACD;
+import financialmarketsimulator.indicators.NDI;
+import financialmarketsimulator.indicators.NDM;
+import financialmarketsimulator.indicators.PDI;
+import financialmarketsimulator.indicators.PDM;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.indicators.SMA;
-import financialmarketsimulator.interfaceCharts.PriceMultiLineChart;
+import financialmarketsimulator.indicators.StochasticOscillator;
+import financialmarketsimulator.indicators.Volatility;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketIndicator;
 import financialmarketsimulator.market.MarketParticipant;
@@ -15,21 +24,24 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import static java.awt.Frame.getFrames;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 import org.jfree.ui.RefineryUtilities;
 
 public class RunSimulation extends javax.swing.JFrame {
 
-    private MarketExchange exchange = MarketExchange.getInstance("JSE");
+    private MarketExchange exchange;
     private ParticipantList pList = null;
     private StockList stockList = null;
     private MultiLineChart chart = null;
     private PriceMultiLineChart pchart = null;
+    private MarketData marketData = null;
 
     /**
      * Creates new form RunSimulation
@@ -50,6 +62,13 @@ public class RunSimulation extends javax.swing.JFrame {
         cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
         setCursor(cursor);
 
+
+        exchange = MarketExchange.getInstance("JSE");
+        pList = null;
+        stockList = null;
+        chart = null;
+        pchart = null;
+        marketData = null;
     }
 
     /**
@@ -179,16 +198,22 @@ public class RunSimulation extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Participants.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Participants.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Participants.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Participants.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Participants.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Participants.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Participants.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Participants.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -201,199 +226,202 @@ public class RunSimulation extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jButton1.setEnabled(false);
-        jButton2.setEnabled(true);
-        jButton3.setEnabled(true);
+        try {
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(true);
+            jButton3.setEnabled(true);
 
-        exchange.openMarket();
-
-        if (pList == null) {
-            pList = new ParticipantList();
-
-            /* Set the Nimbus look and feel */
-            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+            if (marketData == null) {
+                /* Set the Nimbus look and feel */
+                //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-             */
-            try {
-                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
+                 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+                 */
+                try {
+                    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                        if ("Nimbus".equals(info.getName())) {
+                            javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                            break;
+
+
+
+
+                        }
+                    }
+                } catch (ClassNotFoundException ex) {
+                    java.util.logging.Logger.getLogger(MarketData.class
+                            .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    java.util.logging.Logger.getLogger(MarketData.class
+                            .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    java.util.logging.Logger.getLogger(MarketData.class
+                            .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+                    java.util.logging.Logger.getLogger(MarketData.class
+                            .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                //</editor-fold>
+
+                /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        marketData = new MarketData();
+                        marketData.setVisible(true);
+                        ArrayList<MarketParticipant> participants = exchange.getAllParticipants();
+                        Collection<StockManager> managers = exchange.getStocksManagers().values();
+                        marketData.populateTable(participants, managers);
+                    }
+                });
+            } else {
+                marketData.setVisible(true);
+            }
+
+            //Updates the GUI very 3 seconds
+            Runnable updateGUI = new Runnable() {
+                @Override
+                public void run() {
+                    ArrayList<MarketParticipant> participants = exchange.getAllParticipants();
+                    Collection<StockManager> managers = exchange.getStocksManagers().values();
+                    if (marketData != null) {
+                        marketData.updateGUI(participants, managers);
                     }
                 }
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(ParticipantList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            //</editor-fold>
+            };
 
-            /* Create and display the form */
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    pList.setVisible(true);
-                }
-            });
-        } else {
-            pList.setVisible(true);
+            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+            executor.scheduleAtFixedRate(updateGUI, 0, 3, TimeUnit.SECONDS);
+
+        } catch (Exception e) {
+            if (marketData != null) {
+                marketData.dispose();
+                exchange.clearStocks();
+                exchange = null;
+                MessageBox.infoBox("Simualtor has ran out of Memory", "Out of Running");
+            }
         }
-
-        if (stockList == null) {
-            stockList = new StockList();
-
-            /* Set the Nimbus look and feel */
-            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-             */
-            try {
-                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
-                }
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(StockList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            //</editor-fold>
-
-            /* Create and display the form */
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    stockList.setVisible(true);
-                }
-            });
-        } else {
-            stockList.setVisible(true);
-        }
-
-        //Updates the GUI very 3 seconds
-        Runnable updateGUI = new Runnable() {
-            public void run() {
-                ArrayList<MarketParticipant> parts = exchange.getAllParticipants();
-                pList.updateGUI(parts);
-                stockList.updateGUI(exchange.getStocksManagers().values());
-            }
-        };
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(updateGUI, 0, 3, TimeUnit.SECONDS);
 
         Vector<MarketIndicator> ind = new Vector<>();
+        
+        ind.add(new ADX(exchange.getBook("INV"),14));
+        ind.add(new ATR(exchange.getBook("INV"),14));
+        //ind.add(new BollingerBands(exchange.getBook("INV")));
+        ind.add(new DirectionalIndex(exchange.getBook("INV"),14));
+        ind.add(new EMA(exchange.getBook("INV"),14));
+        ind.add(new MACD(exchange.getBook("INV")));
+        ind.add(new NDI(exchange.getBook("INV"), 14));
+        ind.add(new NDM(exchange.getBook("INV"),14));
+        ind.add(new PDI(exchange.getBook("INV"),14));
+        ind.add(new PDM(exchange.getBook("INV"),14));
+        ind.add(new RSI(exchange.getBook("INV"),14));
+        ind.add(new SMA(exchange.getBook("INV"),14));
+        ind.add(new StochasticOscillator(exchange.getBook("INV")));
+        ind.add(new Volatility(14, exchange.getBook("INV")));
+        
+        
+        
+        Vector<String> indNames = new Vector<>();
+        
+        indNames.add("ADX Movement");
+        indNames.add("ATR Movement");
+        //indNames.add("Bollinger Movement");
+        indNames.add("Directional Movement");
+        indNames.add("EMA Movement");
+        indNames.add("MACD Movement");
+        indNames.add("NDI Movement");
+        indNames.add("NDM Movement");
+        indNames.add("PDI Movement");
+        indNames.add("PDM Movement");
+        indNames.add("RSI Movement");
+        indNames.add("SMA Movement");
+        indNames.add("Stochastic Movement");
+        indNames.add("Volatitlity Movement");
+        
+        try
+        {
+            chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
+            chart.pack();
+            RefineryUtilities.centerFrameOnScreen(chart);
+            chart.setVisible(true);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+
         Vector<StockManager> man = new Vector<StockManager>();
 
         for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-            //Creating multi line graphs
-            /*EMA ema = new EMA(stockmanager.getOrderList(), 14);
-            SMA sma = new SMA(stockmanager.getOrderList(), 14);
-            MACD macd = new MACD(stockmanager.getOrderList());*/
-            
-            //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-            //Creating multi line graphs
-            //EMA ema = new EMA(exchange.getBook("INV"), 14);
-            //SMA sma = new SMA(exchange.getBook("INV"), 14);
-            //MACD macd = new MACD(exchange.getBook("INV"));
-            
-            /*ind.add(ema);
-            ind.add(sma);
-            ind.add(macd);*/
             man.add(stockmanager);
-            //}
         }
 
-        Vector<String> indNames = new Vector<>();
         Vector<String> manNames = new Vector<>();
-        
-        //indNames.add("EMA Movement");
-        //indNames.add("SMA Movement");
-        //indNames.add("MACD Movement");
-        
-        for (StockManager stockmanager : exchange.getStocksManagers().values()) 
-        {
+
+        for (StockManager stockmanager : exchange.getStocksManagers().values()) {
             manNames.add(stockmanager.getStockName());
         }
-        
-        if (chart == null) {
-            try {
-                chart = new MultiLineChart(ind, indNames, "Indicators", -50, 50);
-               
-                chart.pack();
-                RefineryUtilities.centerFrameOnScreen(chart);
-            } catch (NotEnoughDataException ex) {
-                Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            //changed not to show indicators on graph
-            chart.setVisible(false);
-        }
-        
+
         if (pchart == null) {
             try {
-                pchart = new PriceMultiLineChart(man, manNames, -50, 50);
+                pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
                 pchart.pack();
                 RefineryUtilities.centerFrameOnScreen(pchart);
+                pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
+                pchart.setVisible(true);
             } catch (NotEnoughDataException ex) {
-                Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RunSimulation.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-            pchart.setVisible(true);
+        } else {
+            //pchart.setVisible(true);
         }
+
+        exchange.openMarket();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        exchange.pause();
+
         jButton2.setEnabled(false);
         jButton1.setEnabled(true);
         jButton3.setEnabled(true);
 
-        if (pList != null) {
-            pList.setVisible(false);
+        if (marketData != null) {
+            marketData.setVisible(false);
         }
 
         if (chart != null) {
             chart.setVisible(false);
         }
 
-        if (stockList != null) {
-            stockList.setVisible(false);
+        if (pchart != null) {
+            pchart.setVisible(false);
         }
-
-        exchange.pause();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        exchange.stop();
+        exchange.clearStocks();
+        exchange = null;
+
         jButton2.setEnabled(false);
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
 
-        if (pList != null) {
-            pList.dispose();
-            pList = null;
+        if (marketData != null) {
+            marketData.dispose();
+            marketData = null;
         }
 
         if (chart != null) {
             chart.dispose();
             chart = null;
         }
-
-        if (stockList != null) {
-            stockList.dispose();
-            stockList = null;
+        if (pchart != null) {
+            pchart.dispose();
+            pchart = null;
         }
-
-        exchange.stop();
-        exchange = null;
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -410,16 +438,22 @@ public class RunSimulation extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RunSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunSimulation.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RunSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunSimulation.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RunSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunSimulation.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RunSimulation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(RunSimulation.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
