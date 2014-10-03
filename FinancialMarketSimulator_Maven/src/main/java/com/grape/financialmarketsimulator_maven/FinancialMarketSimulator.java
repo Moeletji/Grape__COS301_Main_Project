@@ -1,7 +1,7 @@
 
 import com.grape.financialmarketsimulator_maven.MultiLineChart;
 import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.indicators.EMA;
+import financialmarketsimulator.indicators.*;
 import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.indicators.SMA;
@@ -96,19 +96,42 @@ public class FinancialMarketSimulator {
         
         //Creating multi line graphs
         Vector<MarketIndicator> ind = new Vector<>();
+        
+        ind.add(new ADX(exchange.getBook("INV"),14));
+        ind.add(new ATR(exchange.getBook("INV"),14));
+        //ind.add(new BollingerBands(exchange.getBook("INV")));
+        ind.add(new DirectionalIndex(exchange.getBook("INV"),14));
         ind.add(new EMA(exchange.getBook("INV"),14));
-        ind.add(new SMA(exchange.getBook("INV"),14));
-        ind.add(new RSI(exchange.getBook("INV"),14));
         ind.add(new MACD(exchange.getBook("INV")));
+        ind.add(new NDI(exchange.getBook("INV"), 14));
+        ind.add(new NDM(exchange.getBook("INV"),14));
+        ind.add(new PDI(exchange.getBook("INV"),14));
+        ind.add(new PDM(exchange.getBook("INV"),14));
+        ind.add(new RSI(exchange.getBook("INV"),14));
+        ind.add(new SMA(exchange.getBook("INV"),14));
+        ind.add(new StochasticOscillator(exchange.getBook("INV")));
+        ind.add(new Volatility(14, exchange.getBook("INV")));
+        
+        
         
         Vector<String> indNames = new Vector<>();
         
+        indNames.add("ADX Movement");
+        indNames.add("ATR Movement");
+        //indNames.add("Bollinger Movement");
+        indNames.add("Directional Movement");
         indNames.add("EMA Movement");
-        indNames.add("SMA Movement");
-        indNames.add("RSI Movement");
         indNames.add("MACD Movement");
+        indNames.add("NDI Movement");
+        indNames.add("NDM Movement");
+        indNames.add("PDI Movement");
+        indNames.add("PDM Movement");
+        indNames.add("RSI Movement");
+        indNames.add("SMA Movement");
+        indNames.add("Stochastic Movement");
+        indNames.add("Volatitlity Movement");
         
-        final MultiLineChart chart = new MultiLineChart(ind,indNames,"Indicators", 0, 5);
+        final MultiLineChart chart = new MultiLineChart(ind,indNames,"Indicators", -50, 100);
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
