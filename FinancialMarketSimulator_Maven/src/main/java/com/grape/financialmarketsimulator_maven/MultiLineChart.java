@@ -140,7 +140,7 @@ public class MultiLineChart extends ApplicationFrame implements ActionListener{
     @Override
     public void actionPerformed(final ActionEvent e) {
         double v1 = 0;
-        i = i + 750;
+        i = i + 700;
         try {
             
             XYSeries ser;
