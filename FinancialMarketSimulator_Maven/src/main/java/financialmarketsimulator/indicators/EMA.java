@@ -28,6 +28,10 @@ public final class EMA extends MarketIndicator{
      * Data with traded prices
      */
     private MarketEntryAttemptBook data;
+    /**
+     * The current ema value
+     */
+    private double currentEmaValue;
 
     public EMA(int numDays)
     {
@@ -52,18 +56,15 @@ public final class EMA extends MarketIndicator{
     public double calculateEMA() {
         this.setCurrentPrice(this.data.getLastTradePrice());
         if ((numOfDays <= 0) || (this.getCurrentPrice() <= 0)) {
-           System.out.println("The number of days " + numOfDays);
-           System.out.println("The get current price " + this.getCurrentPrice());
-           System.out.println("The get current price from order book " + this.data.getLastTradePrice());
            return 0.0;
         }
-
+        previousEMAValue = currentEmaValue;
         double k = 2 / (numOfDays + 1);
-        double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
+        currentEmaValue = ((this.getCurrentPrice() * k) + (previousEMAValue * (1 - k)));
         return currentEmaValue;
     }
     
-     public double calculateEMA(double prev, double current, int numDays) throws NotEnoughDataException {
+     public double calculateEMA(double prev, double current, int numDays) {
 
         if ((numDays <= 0) || (current == 0) || (prev == 0)) {
            return 0.0;
