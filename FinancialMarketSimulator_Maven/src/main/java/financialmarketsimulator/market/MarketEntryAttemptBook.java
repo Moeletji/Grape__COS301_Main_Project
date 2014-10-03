@@ -486,15 +486,23 @@ public class MarketEntryAttemptBook {
         }
         int length = matchedOrders.size();
         int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
-        double highest = matchedOrders.get(range).getPrice();
+        double highest =0;
+        
+        if (matchedOrders.size()>=range)
+        {
+            highest=0;
+        }
+        else
+        {
+            highest= matchedOrders.get(range).getPrice();
+            for (int i = range; i < length; i++) {
+                if (matchedOrders == null || matchedOrders.get(i) == null) {
+                    break;
+                }
 
-        for (int i = range; i < length; i++) {
-            if (matchedOrders == null || matchedOrders.get(i) == null) {
-                break;
-            }
-
-            if (matchedOrders.get(i).getPrice() > highest) {
-                highest = matchedOrders.get(i).getPrice();
+                if (matchedOrders.get(i).getPrice() > highest) {
+                    highest = matchedOrders.get(i).getPrice();
+                }
             }
         }
         return highest;
@@ -506,15 +514,22 @@ public class MarketEntryAttemptBook {
         }
         int length = matchedOrders.size();
         int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
-        double lowest = matchedOrders.get(range).getPrice();
+        double lowest=0 ;
+        if (matchedOrders.size()>= range)   
+        {
+            lowest =0;
+        }
+        else
+        {
+            lowest = matchedOrders.get(range).getPrice();
+            for (int i = range; i < length; i++) {
+                if (matchedOrders == null || matchedOrders.get(i) == null) {
+                    break;
+                }
 
-        for (int i = range; i < length; i++) {
-            if (matchedOrders == null || matchedOrders.get(i) == null) {
-                break;
-            }
-
-            if (matchedOrders.get(i).getPrice() < lowest) {
-                lowest = matchedOrders.get(i).getPrice();
+                if (matchedOrders.get(i).getPrice() < lowest) {
+                    lowest = matchedOrders.get(i).getPrice();
+                }
             }
         }
         return lowest;

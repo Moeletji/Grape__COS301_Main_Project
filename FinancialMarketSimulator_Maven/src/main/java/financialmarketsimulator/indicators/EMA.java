@@ -102,7 +102,7 @@ public final class EMA extends MarketIndicator{
     }
 
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateEMA();
     }
 }

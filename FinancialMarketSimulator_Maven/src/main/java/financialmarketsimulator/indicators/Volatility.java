@@ -37,14 +37,16 @@ public class Volatility extends MarketIndicator{
     public double calculateSD() throws NotEnoughDataException
     {
         if (period <=0 || data.getMatchedOrders().size()<period)
-            throw new NotEnoughDataException();
+        {
+            return 0.0;
+        }
         
         int range = data.getMatchedOrders().size()-period;
-        int length = data.getMatchedOrders().size()-1;
+        int length = data.getMatchedOrders().size();
         double variance = 0;
         Vector<MatchedMarketEntryAttempt> temp = data.getMatchedOrders();
         
-        for (int i=range;i<length-1;i++)
+        for (int i=0;i<length;i++)
         {
             variance += ((temp.get(i).getPrice() - getMean())*(temp.get(i).getPrice() - getMean()));
         }
@@ -64,6 +66,6 @@ public class Volatility extends MarketIndicator{
      */
     @Override
     public Double calculateIndicator() throws NotEnoughDataException {
-        return this.getMean();
+        return this.calculateSD();
     }
 }

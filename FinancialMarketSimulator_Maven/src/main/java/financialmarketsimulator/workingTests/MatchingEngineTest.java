@@ -39,6 +39,12 @@ public class MatchingEngineTest {
             i++;
         }
         System.out.printf("--------------------------------------------%n%n");
+        System.out.printf("The vector with all the matched orders.");
+        
+        for (MatchedMarketEntryAttempt matchedOrder : book.getMatchedOrders()) {
+            System.out.println("");
+        }
+        
         System.out.println("END OF LOOP _____________________________________________________________");
         System.out.println();
     }
