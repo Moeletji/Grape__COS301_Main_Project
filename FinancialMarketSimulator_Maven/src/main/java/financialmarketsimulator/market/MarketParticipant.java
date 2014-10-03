@@ -266,7 +266,7 @@ public class MarketParticipant extends Thread {
                 }
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
-            }
+            }   
 
             try {
 
