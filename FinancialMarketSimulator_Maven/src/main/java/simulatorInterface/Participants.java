@@ -120,7 +120,7 @@ public class Participants extends javax.swing.JFrame {
             }
         });
 
-        cbxStrategies.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MACDStrategy", "DirectionalMovementIndex", "MovingAverageCrossover", "MovingAverageEnvelope", "MovingAverageFilter", "PriceEmaCrossover", "PriceSmaCrossover", "SimpleRSI", "Simple_MACD_ADX" }));
+        cbxStrategies.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MACDStrategy", "DirectionalMovementIndex", "MovingAverageCrossover", "MovingAverageEnvelope", "MovingAverageFilter", "PriceEmaCrossover", "PriceSmaCrossover", "SimpleRSI", "Simple_MACD_ADX", "Phantom" }));
 
         jLabel2.setText("Strategy:");
 
@@ -505,6 +505,9 @@ public class Participants extends javax.swing.JFrame {
         }
 
         switch (strat) {
+            case "Phantom":
+                strategy = new Phantom();
+                break;
             case "DirectionalMovementIndex":
                 strategy = new DirectionalMovementIndex(exchange.getBook(stockName), 14);
                 break;

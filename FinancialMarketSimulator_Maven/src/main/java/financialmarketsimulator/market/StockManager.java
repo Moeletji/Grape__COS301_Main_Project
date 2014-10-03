@@ -179,11 +179,7 @@ public class StockManager extends Thread {
     public synchronized void sendMessage(Message message) {
         this.messageQueue.add(message);
     }
-
-    public void Notify() {
-        Collections.shuffle(participants);
-    }
-
+    
     /**
      * @brief StockManager thread that receives Messages and updates the market
      * according to those messages
@@ -239,7 +235,6 @@ public class StockManager extends Thread {
                                 }
                             }
                         }
-                        this.Notify();
                     }
                 }
             }

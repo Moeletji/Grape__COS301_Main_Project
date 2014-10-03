@@ -439,7 +439,7 @@ public class MarketParticipant extends Thread {
                     stockManager.sendMessage(message);
                 }
                 
-                this.print();
+                //this.print();
                 
                 if (downCounter == downBidTimer)
                 {
