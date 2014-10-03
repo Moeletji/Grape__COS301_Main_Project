@@ -49,7 +49,7 @@ public class NDM extends MarketIndicator{
     }
 
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator()  {
         return this.calculateNDM();
     }
 }

@@ -6,6 +6,7 @@ import financialmarketsimulator.indicators.EMA;
 import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.indicators.RSI;
 import financialmarketsimulator.indicators.SMA;
+import financialmarketsimulator.interfaceCharts.PriceMultiLineChart;
 import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketIndicator;
 import financialmarketsimulator.market.MarketParticipant;
@@ -28,6 +29,7 @@ public class RunSimulation extends javax.swing.JFrame {
     private ParticipantList pList = null;
     private StockList stockList = null;
     private MultiLineChart chart = null;
+    private PriceMultiLineChart pchart = null;
 
     /**
      * Creates new form RunSimulation
@@ -290,47 +292,63 @@ public class RunSimulation extends javax.swing.JFrame {
         executor.scheduleAtFixedRate(updateGUI, 0, 3, TimeUnit.SECONDS);
 
         Vector<MarketIndicator> ind = new Vector<>();
+        Vector<StockManager> man = new Vector<StockManager>();
 
-        try {
-
-            for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-                //Creating multi line graphs
-                EMA ema = new EMA(stockmanager.getOrderList(), 14);
-                SMA sma = new SMA(stockmanager.getOrderList(), 14);
-                MACD macd = new MACD(stockmanager.getOrderList());
-
-                //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-                //Creating multi line graphs
-                //EMA ema = new EMA(exchange.getBook("INV"), 14);
-                //SMA sma = new SMA(exchange.getBook("INV"), 14);
-                //MACD macd = new MACD(exchange.getBook("INV"));
-
-                ind.add(ema);
-                ind.add(sma);
-                ind.add(macd);
-                //}
-            }
-
-        } catch (NotEnoughDataException ex) {
-            Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
+        for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+            //Creating multi line graphs
+            /*EMA ema = new EMA(stockmanager.getOrderList(), 14);
+            SMA sma = new SMA(stockmanager.getOrderList(), 14);
+            MACD macd = new MACD(stockmanager.getOrderList());*/
+            
+            //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+            //Creating multi line graphs
+            //EMA ema = new EMA(exchange.getBook("INV"), 14);
+            //SMA sma = new SMA(exchange.getBook("INV"), 14);
+            //MACD macd = new MACD(exchange.getBook("INV"));
+            
+            /*ind.add(ema);
+            ind.add(sma);
+            ind.add(macd);*/
+            man.add(stockmanager);
+            //}
         }
 
         Vector<String> indNames = new Vector<>();
-
-        indNames.add("EMA Movement");
-        indNames.add("SMA Movement");
-        indNames.add("MACD Movement");
-
+        Vector<String> manNames = new Vector<>();
+        
+        //indNames.add("EMA Movement");
+        //indNames.add("SMA Movement");
+        //indNames.add("MACD Movement");
+        
+        for (StockManager stockmanager : exchange.getStocksManagers().values()) 
+        {
+            manNames.add(stockmanager.getStockName());
+        }
+        
         if (chart == null) {
             try {
                 chart = new MultiLineChart(ind, indNames, "Indicators", -50, 50);
+               
                 chart.pack();
                 RefineryUtilities.centerFrameOnScreen(chart);
             } catch (NotEnoughDataException ex) {
                 Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            chart.setVisible(true);
+            //changed not to show indicators on graph
+            chart.setVisible(false);
+        }
+        
+        if (pchart == null) {
+            try {
+                pchart = new PriceMultiLineChart(man, manNames, -50, 50);
+                pchart.pack();
+                RefineryUtilities.centerFrameOnScreen(pchart);
+            } catch (NotEnoughDataException ex) {
+                Logger.getLogger(RunSimulation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            pchart.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

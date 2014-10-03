@@ -67,7 +67,7 @@ public class NDI extends MarketIndicator{
     }
     
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateNDI();
     }
 }

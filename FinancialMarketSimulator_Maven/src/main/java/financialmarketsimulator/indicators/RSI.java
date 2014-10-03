@@ -52,7 +52,7 @@ public class RSI extends MarketIndicator{
      * @brief Calculates and returns the RSI value
      * @return Double value representing the RSI value
      */
-    public double calculateRSI() throws NotEnoughDataException {
+    public double calculateRSI() {
         RSIValue = 100 - (100 / (1 + calculateRS()));
         return RSIValue;
     }
@@ -62,7 +62,7 @@ public class RSI extends MarketIndicator{
      * @brief Calculates and returns the Relative Strength over 14 days
      * @return Double value representing the relative strength value.
      */
-    public double calculateRS() throws NotEnoughDataException {
+    public double calculateRS()  {
         
         Vector<Double> gains = this.book.getGains();
         Vector<Double> losses = this.book.getLosses();
@@ -119,7 +119,7 @@ public class RSI extends MarketIndicator{
     }
 
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateRSI();
     }
 }

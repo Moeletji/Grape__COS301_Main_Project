@@ -49,7 +49,6 @@ public class SMA extends MarketIndicator{
     public double calculateSMA() {
         if (book.getMatchedOrders().size() < numOfDays)
         {
-            //System.out.println("The size of getMatchedoders: "+book.getMatchedOrders().size()+" for "+book.getStockName());
             return 0.0;
         }
         

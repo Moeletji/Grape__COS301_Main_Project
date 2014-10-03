@@ -9,6 +9,7 @@ package financialmarketsimulator.interfaceCharts;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.StockManager;
 import java.util.Vector;
 import org.jfree.ui.RefineryUtilities;
 
@@ -26,13 +27,15 @@ public class ChartsManager {
     private final IndicatorData indicatorData;
     private final ChartData chartData;
     private final MarketEntryAttemptBook book;
+    private final StockManager manager;
     
-    public ChartsManager(MarketEntryAttemptBook _book) throws NotEnoughDataException
+    public ChartsManager(MarketEntryAttemptBook _book, StockManager _man) throws NotEnoughDataException
     {
         this.book = _book;
         this.indicatorMulitLineChartContainer = new Vector<>();
         this.priceMovementMultiLineChartContainer = new Vector<>();
         this.indicatorData = new IndicatorData(this.book);
+        this.manager = _man;
         this.chartData = new ChartData();
     }
     
@@ -64,7 +67,7 @@ public class ChartsManager {
         }
     }
     
-    public boolean createNewPriceMovementMultiLineChart(Vector<MarketEntryAttemptBook> items, Vector<String> itemNames, String title, int minYAxisValue, int maxYAxisValue)
+    public boolean createNewPriceMovementMultiLineChart(Vector<StockManager> items, Vector<String> itemNames, String title, int minYAxisValue, int maxYAxisValue)
     {
         try
         {   PriceMultiLineChart pmc = new PriceMultiLineChart(items, itemNames, minYAxisValue, maxYAxisValue);
@@ -73,11 +76,6 @@ public class ChartsManager {
             RefineryUtilities.centerFrameOnScreen(pmc);
             pmc.setVisible(true);
             return true;
-        }
-        catch(NotEnoughDataException e)
-        {
-            e.printStackTrace();
-            return false;
         }
         catch(NullPointerException e)
         {

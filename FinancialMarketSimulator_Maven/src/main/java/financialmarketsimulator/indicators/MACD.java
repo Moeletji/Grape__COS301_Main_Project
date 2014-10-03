@@ -34,7 +34,7 @@ public final class MACD extends MarketIndicator{
         super("Moving Average Convergence Divergence");
     }
 
-    public MACD(MarketEntryAttemptBook _data) throws NotEnoughDataException {
+    public MACD(MarketEntryAttemptBook _data)  {
         super("Moving Average Convergence Divergence");
         this.data = _data;
         prevMACDValues = new Vector<Double>();
@@ -45,21 +45,21 @@ public final class MACD extends MarketIndicator{
         prevMACDValues.add(getPreviousMACDValue());
     }
 
-    public double calculateMACDValue() throws NotEnoughDataException {
+    public double calculateMACDValue() {
         EMA longEMA = new EMA(this.data, LONG_DAY);
         EMA shortEMA = new EMA(this.data, SHORT_DAY);
         currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
         return currentMACDValue;
     }
 
-    public double calculateMACDValue(EMA _short, EMA _long) throws NotEnoughDataException {
+    public double calculateMACDValue(EMA _short, EMA _long) {
         EMA longEMA = _long;
         EMA shortEMA = _short;
         currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
         return currentMACDValue;
     }
 
-    public double calculateSignalValue() throws NotEnoughDataException {
+    public double calculateSignalValue() {
         if (prevMACDValues.size() == 1) {
             return 0.0;
         }
@@ -100,7 +100,7 @@ public final class MACD extends MarketIndicator{
     }
 
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateMACDValue();
     }
 

@@ -128,11 +128,11 @@ public class StochasticOscillator extends MarketIndicator{
         return k;
     }
     
-    public double calculateD() throws NotEnoughDataException
+    public double calculateD()
     {
         if (kValues.isEmpty() || kValues.size() < NUM_DAYS)
-            throw new NotEnoughDataException();
-
+            return 0.0;
+        
         double total =0;
         int start = (kValues.size()==3)?0:kValues.size()-NUM_DAYS;
         
@@ -198,7 +198,7 @@ public class StochasticOscillator extends MarketIndicator{
      * @todo ALTER FUNCTION TO RETURN CORRECT VALUE
      */
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateD();
     }
 }

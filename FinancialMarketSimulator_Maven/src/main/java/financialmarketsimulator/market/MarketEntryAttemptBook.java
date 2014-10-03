@@ -27,11 +27,11 @@ public class MarketEntryAttemptBook {
     /**
      * @brief Vector of all gain values from trade to trade
      */
-    Vector<Double> gains;
+    final Vector<Double> gains;
     /**
      * @bried Vector of all loss values from trade to trade
      */
-    Vector<Double> losses;
+    final Vector<Double> losses;
     /**
      * @brief Name of the stock stored as a string
      */
@@ -99,6 +99,8 @@ public class MarketEntryAttemptBook {
         this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
         this.timePeriod = timePeriod;
         this.pastTime = System.currentTimeMillis();
+        this.gains = new Vector<>();
+        this.losses = new Vector<>();
     }
 
     /**
@@ -114,6 +116,8 @@ public class MarketEntryAttemptBook {
         this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
         this.timePeriod = timePeriod;
         this.pastTime = System.currentTimeMillis();
+        this.gains = new Vector<>();
+        this.losses = new Vector<>();
     }
 
     /**
@@ -127,6 +131,8 @@ public class MarketEntryAttemptBook {
         this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
         this.timePeriod = 10;
         this.pastTime = System.currentTimeMillis();
+        this.gains = new Vector<>();
+        this.losses = new Vector<>();
     }
 
     /**

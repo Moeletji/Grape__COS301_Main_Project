@@ -28,13 +28,13 @@ public class Volatility extends MarketIndicator{
         sma = new SMA(this.data, period);
     }
           
-    public double getMean() throws NotEnoughDataException
+    public double getMean()
     {
         mean = sma.calculateSMA();
         return mean;
     }
     
-    public double calculateSD() throws NotEnoughDataException
+    public double calculateSD() 
     {
         if (period <=0 || data.getMatchedOrders().size()<period)
         {
@@ -62,10 +62,11 @@ public class Volatility extends MarketIndicator{
 
     /**
      * 
+     * @return 
      * @todo ALTER FUNCTION TO RETURN CORRECT DATA 
      */
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateSD();
     }
 }

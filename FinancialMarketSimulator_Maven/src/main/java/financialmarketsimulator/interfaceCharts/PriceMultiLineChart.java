@@ -9,6 +9,7 @@ package financialmarketsimulator.interfaceCharts;
 
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
+import financialmarketsimulator.market.StockManager;
 import java.awt.event.ActionEvent;
 import java.util.Vector;
 import org.jfree.data.time.Millisecond;
@@ -20,10 +21,10 @@ import org.jfree.data.xy.XYSeries;
  */
 public class PriceMultiLineChart extends MultiLineChart{
     
-    private final Vector<MarketEntryAttemptBook> prices;
+    private final Vector<StockManager> prices;
     private final Vector<String> priceNames;
     
-    public PriceMultiLineChart(Vector<MarketEntryAttemptBook> _prices, Vector<String> _priceNames, int minYAxisValue, int maxYAxis) throws NotEnoughDataException
+    public PriceMultiLineChart(Vector<StockManager> _prices, Vector<String> _priceNames, int minYAxisValue, int maxYAxis) throws NotEnoughDataException
     {
         super("Security Values", minYAxisValue, maxYAxis);
         this.prices = _prices;
@@ -33,6 +34,10 @@ public class PriceMultiLineChart extends MultiLineChart{
             this.serieses.add(new XYSeries(ind));
         }
     }
+
+    /*public PriceMultiLineChart(Vector<StockManager> man, Vector<String> manNames, String stock_Prices, int i, int i0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }*/
     
     @Override
     public void actionPerformed(final ActionEvent e) {
@@ -41,15 +46,15 @@ public class PriceMultiLineChart extends MultiLineChart{
         try {
 
             XYSeries ser;
-            MarketEntryAttemptBook ind;
+            StockManager man;
             double value;
             final Millisecond now = new Millisecond();
             for (int k = 0; k < this.serieses.size(); k++) {
                 ser = this.serieses.get(k);
-                ind = this.prices.get(k);
-                value = ind.getMatchedOrders().lastElement().getPrice();
+                man = this.prices.get(k);
+                value = man.getOrderList().getLastTradePrice();
                 ser.add(i, value);
-                System.out.print("Current Time in Milliseconds = " + now.toString() + ", Current " + this.priceNames.get(k) + " : " + value);
+                //System.out.print("Current Time in Milliseconds = " + now.toString() + ", Current " + this.priceNames.get(k) + " : " + value);
             }
 
         } catch (Exception ex) {

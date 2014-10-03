@@ -57,12 +57,12 @@ public class BollingerBands extends MarketIndicator{
         return 0.0;
     }*/
     
-    public void calculateSMA() throws NotEnoughDataException
+    public void calculateSMA() 
     {
        middleBand = sma.calculateSMA();
     }
     
-    public void calculateSD() throws NotEnoughDataException
+    public void calculateSD() throws NotEnoughDataException 
     {
        standDev = sd.calculateSD(); 
     }

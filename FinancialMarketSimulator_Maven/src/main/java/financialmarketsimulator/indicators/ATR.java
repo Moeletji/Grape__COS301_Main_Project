@@ -77,7 +77,7 @@ public class ATR extends MarketIndicator{
     }
 
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateATR();
     }
 }
