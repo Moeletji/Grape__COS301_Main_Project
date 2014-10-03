@@ -76,14 +76,14 @@
 		\newpage
 			\section{Vision and Scope}
 				\subsection{Vision}
-				The vision is to create a system that simulates the activities of a real-world financial market and the entities involved, while allowing interaction from both real-word and virtual entities.
+				The vision is to create a system that simulates the activities of a real-world financial market and the entities involved, while allowing interaction from both real-word and virtual entities. Furthermore, the aim is to observe how different multiple trading strategies behave when competing against each other and how they drive the price or value of securities.
 				
 				\subsection{Scope}
 				The proposed system is a financial markets simulator system which will allow trading entities to:
 				\begin{itemize}
 				\item trade instruments through the system as they would in a real-world financial market while adhering to free market principles,
-				\item observe and follow trends in the market through the system by means of observing technical analysis patterns and indicators. This would furthermore provide entities with information on when best to enter or exit the market,
-				\item compete with each other by assessing the profit and loss thy make.
+				\item observe and follow trends in the market through the system by means of observing technical indicators and strategies. This would furthermore provide entities with information on when best to enter or exit the market,
+				\item compete with each other by assessing the profit and loss they make.
 				\end{itemize}
 				
 				In particular, apart from allowing the participants to compete with each other in terms of the profits or loss they make, the system will allow the following specific activities for participants:
@@ -124,12 +124,12 @@
 		\section{Quality Requirements}
 			\subsection{Usability}
 			\begin{itemize}
-			\item The system should be usable in that the architecture should provide the neccessary components to view and interact with the system.
+			\item The system should be usable in that the architecture should provide the neccessary components to view and interact with the system. Furthermore, the system should be easily understood and self-affordable to novice users or users unfarmilia with financial markets.
 			\end{itemize}
 			\subsection{Scalability}
 			\begin{itemize}
-			\item If need be, the system should allow for independent entities operating from independent machines to participate in the market. i.e. The system should allow for at least two (2) participants to partiipate in the market from separate machines.
-			\item The system should allow for concurrent trading between at least two (2) separate machines.
+			\item If need be, the system should allow for independent entities operating from independent machines to participate in the market. i.e. The system should allow for at least two (2) participants to participate in the market from separate machines.
+			\item If need be, the system should allow for concurrent trading between at least two (2) separate machines.
 			\end{itemize}
 			\subsection{Performance}
 			\begin{itemize}
@@ -138,9 +138,7 @@
 		\section{Integration Requirements}
 		The system is self-contained and there is no need for integration with other external systems or components.
 		\section{Architectural Constraints}
-		\begin{itemize}
-		\item In order to minimize cost and complexity, the system can be developed to run and operate on a single physical machine. 
-		\end{itemize}
+		In order to minimize cost and complexity, the system can be developed to run and operate on a single physical machine. 
 	
         \newpage
                 \section{Architectural requirements}	    
@@ -156,7 +154,7 @@
 			    	\subsubsection{Security}
 			    	\begin{itemize}
 			    		\item Only system administrators may tweak trading algorithms or matching engine to follow current trends within the stock market.
-                                        \item The system allows anonymity in terms of no buyer or seller can view what another buyer or seller’s activities.
+                                        \item The system allows anonymity in terms of no buyer or seller can view what another buyer or sellerï¿½s activities.
                                         \item Matching engine is only allowed to be accessed directly by system administrators. 
                                         \item The matching engine is abstracted to the buyers and sellers of the system. 
                                         \item System administrators are not allowed to participate in the trading simulation.
@@ -210,7 +208,7 @@
 		\subsection{Architectural patterns/styles}
                                 \begin{itemize}
                                     \item \textbf{Interface Segregation:} system has an API that can be used by other interfaces other than its native interface.
-                                    \item \textbf{Singleton:} the system only allows an instance of one Stock Exchange to prevent overwhelming the system’s resources. With improved system the system may be adapted to work with more than one stock exchange
+                                    \item \textbf{Singleton:} the system only allows an instance of one Stock Exchange to prevent overwhelming the systemï¿½s resources. With improved system the system may be adapted to work with more than one stock exchange
                                     \item \textbf{Polymorphism:} All strategies inherit from a base strategy, but all sub-types have different strategies.
                                     \item \textbf{Encapsulation:} All Stocks are encapsulated by their managers to allow for further extensibility of the functionality.
                                     \item \textbf{Observer:} Market Participants will be notified of changes in Matching Engine. 
