@@ -262,9 +262,9 @@ public class MarketExchange {
 
         for (StockManager manager : stocksManagers.values()) {
             ArrayList<MarketParticipant> stockParticipants = manager.getAllParticipantsForStock();
-                for (MarketParticipant stPart : stockParticipants) {
-                    participants.add(stPart);
-                }
+            for (MarketParticipant stPart : stockParticipants) {
+                participants.add(stPart);
+            }
         }
 
         //Remove duplicate entries
@@ -276,7 +276,7 @@ public class MarketExchange {
                 result.add(item);
             }
         }
-        
+
         return result;
     }
 
@@ -305,5 +305,33 @@ public class MarketExchange {
         for (StockManager man : stocksManagers.values()) {
             man.terminateTrading();
         }
+    }
+
+    public void print(String stockName) {
+
+        Vector offers = this.getBook(stockName).getOffers();
+        Vector bids = this.getBook(stockName).getBids();
+        Vector matched = this.getBook(stockName).getMatchedOrders();
+
+        for (int i = 0; i < offers.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) offers.get(i);
+            System.out.println("Offers " + attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+
+        System.out.println("\n\n*****************");
+
+        for (int i = 0; i < bids.size(); i++) {
+            MarketEntryAttempt attempt = (MarketEntryAttempt) bids.get(i);
+            System.out.println("Bids " + attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
+        }
+
+        System.out.println("\n\n***********************");
+
+        for (int i = 0; i < matched.size(); i++) {
+            MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matched.get(i);
+            System.out.println("Matched " + attempt.getQuantity() + "  " + attempt.getPrice() + "\n");
+        }
+
+        System.out.println("\n\n****************************\n****************************");
     }
 }

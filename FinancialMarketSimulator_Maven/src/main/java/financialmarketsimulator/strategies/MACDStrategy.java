@@ -31,20 +31,20 @@ public class MACDStrategy extends MarketStrategy{
         if (prevMACDValue > 0 && currentValue < 0) {
             //buy
             System.out.println(new Date().toString() + " BUY");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.BID);
+            this.signalDetails.setSignal(SIGNAL.BID);
             this.signalDetails.setVolaility(VOLATILITY.NORMAL);
             return this.signalDetails;
         }
         else if (prevMACDValue < 0 && currentValue > 0) {
             //sell
             System.out.println(new Date().toString() + " SELL");
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.OFFER);
+            this.signalDetails.setSignal(SIGNAL.OFFER);
             this.signalDetails.setVolaility(VOLATILITY.NORMAL);
             return this.signalDetails;
         }
         else
         {
-            this.signalDetails.setSignal(MarketStrategy.SIGNAL.DO_NOTHING);
+            this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
             this.signalDetails.setVolaility(VOLATILITY.NORMAL);
             return this.signalDetails;
         }

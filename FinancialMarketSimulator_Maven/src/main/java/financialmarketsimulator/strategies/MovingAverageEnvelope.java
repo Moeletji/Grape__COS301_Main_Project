@@ -190,6 +190,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
         {
             this.signalDetails.setSignal(SIGNAL.DO_NOTHING);
         }
+        
         this.signalDetails.setVolaility(NORMAL);
         return this.signalDetails;
     }

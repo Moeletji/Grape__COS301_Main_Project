@@ -323,8 +323,8 @@ public class MarketData extends javax.swing.JFrame {
                 MarketEntryAttemptBook book = manager.getOrderList();
 
                 double lastPrice = book.getLastTradePrice();
-                double low = manager.getOrderList().getHighestTradedPrice();
-                double high = manager.getOrderList().getLowestTradedPrice();
+                double low = manager.getOrderList().getLowestTradedPrice();
+                double high = manager.getOrderList().getHighestTradedPrice();
 
                 SetData(tblStockList, String.valueOf(lastPrice), rowStock, lastPriceColumn);
                 SetData(tblStockList, String.valueOf(low), rowStock, lowPriceColumn);

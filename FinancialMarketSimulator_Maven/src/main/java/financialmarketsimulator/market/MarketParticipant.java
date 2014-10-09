@@ -10,7 +10,6 @@ import static financialmarketsimulator.market.MarketStrategy.SIGNAL.OFFER;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.HIGH;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.LOW;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.MEDIUM;
-import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.Message;
 import java.util.ArrayList;
 import java.util.Random;
@@ -31,6 +30,10 @@ public class MarketParticipant extends Thread {
      */
     private final double BUDGET = 10000;
     /**
+     * @brief Amount of shares a MarketParticipant has to trade
+     */
+    private final int SHARES = 5000;
+    /**
      * @brief Current amount of money remaining
      */
     private double currentAmount;
@@ -38,6 +41,10 @@ public class MarketParticipant extends Thread {
      * @brief amount of shares owned
      */
     private int amountOfShares;
+    /**
+     * @brief amount of current physical money
+     */
+    private double currentMoney;
     /**
      * @brief name of the market participant
      */
@@ -89,25 +96,40 @@ public class MarketParticipant extends Thread {
     /**
      * @brief different price ranges
      */
-    private final double[] PRICES_RANGE = {5, 10, 15};
+    private final double[] PRICES_RANGE = {16.66, 33.33, 50};
     /**
      * @brief different ranges for shares
      */
     private final int[] SHARES_RANGES = {100, 1000, 10000};
+
+    double maxPrice;
+    int maxShares;
+
+    double attemptPrice;
+    int attemptShares;
+
+    String ID;
+    MarketEntryAttempt.SIDE attemptSide;
+
+    MarketEntryAttempt.SIDE side;
     /**
      * @brief price step used to determine how much to increase the price with.
      */
     private final double[] PRICE_STEP = {0.05, 0.10, 0.15, 0.2, 0.25, 0.50};
-    
+
     private int downBidTimer, downCounter, randomDecrease;
-    private Random rand;    
+
+    private Random rand;
 
     public MarketParticipant() {
-        this.profit = 10000;
+        this.profit = 0;
+        this.currentMoney = BUDGET;
         this.rand = new Random();
-        this.downBidTimer = rand.nextInt((800-2)+2)+2;
-        this.randomDecrease = rand.nextInt((3-1)+1)+1;
+        this.downBidTimer = rand.nextInt((800 - 2) + 2) + 2;
+        this.randomDecrease = rand.nextInt((3 - 1) + 1) + 1;
         downCounter = 0;
+        this.amountOfShares = SHARES;
+        this.currentAmount = currentMoney;
     }
 
     /**
@@ -253,44 +275,49 @@ public class MarketParticipant extends Thread {
         throw new NameNotFoundException();
     }
 
+    /**
+     * @brief Update the StockManager with the latest information
+     * @param Updatedmanager StockManagwr to update.
+     */
+    public void update(StockManager Updatedmanager) {
+        exchange.updateManager(stock, Updatedmanager);
+    }
+
     @Override
     public void run() {
 
         System.out.println("Stock name: " + stock);
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                synchronized (this) {
-                    while (paused) {
-                        wait();
-                    }
+                while (paused) {
+                    wait();
                 }
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
             }   
 
-            try {
+            synchronized (this) {
+                try {
+                    //Receive a signalMessage from strategy 
+                    MarketStrategy.SignalMessage sigMessage = currentStrategy.trade();
 
-                double maxPrice;
-                int maxShares;
+                    if (sigMessage == null) {
+                        System.out.println("No Signal Message");
+                        continue;
+                    }
 
-                double attemptPrice;
-                int attemptShares;
-                String ID;
-                MarketEntryAttempt.SIDE attemptSide;
+                    if (sigMessage.getVolatility() == null) {
+                        sigMessage.setVolaility(MarketStrategy.VOLATILITY.LOW);
+                    }
 
-                MarketEntryAttempt.SIDE side;
+                    if (sigMessage.getSignal() == null) {
+                        if (new Random().nextBoolean()) {
+                            sigMessage.setSignal(MarketStrategy.SIGNAL.BID);
+                        } else {
+                            sigMessage.setSignal(MarketStrategy.SIGNAL.OFFER);
+                        }
+                    }
 
-                //Receive a signalMessage from strategy 
-                MarketStrategy.SignalMessage sigMessage = currentStrategy.trade();
-
-                if (sigMessage == null) {
-                    System.out.println("No Signal Message");
-                    continue;
-                }
-
-                double lastPrice = this.stockManager.getOrderList().getLastTradePrice();
-
-                if (lastPrice > 0.0) {
                     //Decide on what to do based of Signal Message
                     switch (sigMessage.getSignal()) {
                         case BID: {
@@ -303,58 +330,11 @@ public class MarketParticipant extends Thread {
                         break;
                         //Market is to volatile to create a MarketEntryAttempt
                         case DO_NOTHING: {
-                            continue;
-                        }
-                        default: {
-                            continue;
-                        }
-                    }
-
-                    switch (sigMessage.getVolatility()) {
-                        case LOW: {
-                            attemptPrice = lastPrice + this.PRICE_STEP[0];
-                            maxShares = SHARES_RANGES[0];
-                        }
-                        break;
-                        case MEDIUM: {
-                            attemptPrice = lastPrice + this.PRICE_STEP[1];
-                            maxShares = SHARES_RANGES[1];
-                        }
-                        break;
-                        case HIGH: {
-                            attemptPrice = lastPrice + this.PRICE_STEP[2];
-                            maxShares = SHARES_RANGES[2];
-                        }
-                        break;
-                        default: {
-                            attemptPrice = lastPrice + this.PRICE_STEP[0];
-                            maxShares = SHARES_RANGES[0];
-                        }
-                    }
-
-                    //Select a minimum shares range to trade
-                    int minShares = Math.round(maxShares / 10);
-
-                    //Create MarketEntryAttempt based on data
-                    attemptPrice = Math.abs(attemptPrice);
-                    attemptShares = (int) (Math.random() * (maxShares - minShares) + minShares);
-                    ID = this.getParticipantID();
-                    attemptSide = side;
-
-                } else {
-                    //Decide on what to do based of Signal Message
-                    switch (sigMessage.getSignal()) {
-                        case BID: {
-                            side = MarketEntryAttempt.SIDE.BID;
-                        }
-                        break;
-                        case OFFER: {
-                            side = MarketEntryAttempt.SIDE.OFFER;
-                        }
-                        break;
-                        //Market is to volatile to create a MarketEntryAttempt
-                        case DO_NOTHING: {
-                            continue;
+                            if (new Random().nextBoolean()) {
+                                side = MarketEntryAttempt.SIDE.BID;
+                            } else {
+                                side = MarketEntryAttempt.SIDE.OFFER;
+                            }
                         }
                         default: {
                             continue;
@@ -384,81 +364,40 @@ public class MarketParticipant extends Thread {
                     }
 
                     //Select a minimum price range to trade
-                    double minPrice = Math.round(maxPrice - 5);
+                    double minPrice = Math.round(maxPrice - 16.66);
                     //Select a minimum shares range to trade
                     int minShares = Math.round(maxShares / 10);
 
                     //Create MarketEntryAttempt based on data
                     attemptPrice = (double) (Math.random() * (maxPrice - minPrice) + minPrice);
                     attemptPrice = Math.abs(attemptPrice);
-                    attemptShares = (int) (Math.random() * (maxShares - minShares) + minShares);
+                    attemptShares = Math.abs((int) (Math.random() * (maxShares - minShares) + minShares));
                     ID = this.getParticipantID();
                     attemptSide = side;
-                }
 
-                //Trading with no price or shares is invalid
-                if (attemptPrice <= 0 || attemptShares <= 0) {
-                    System.out.println("Invalid Price or Share");
-                    continue;
-                }
-
-                if (side == MarketEntryAttempt.SIDE.BID) {
-                    //If you don't have enough money to buy shares, then don't buy
-                    //An alternative can be thought of later
-                    //Use PriceStep downwards until you find a suitable amount
-                    if (currentAmount < (attemptPrice * attemptShares)) {
+                    //Trading with no price or shares is invalid
+                    if (attemptPrice <= 0 || attemptShares <= 0) {
+                        System.out.println("Invalid Price or Share");
                         continue;
                     }
 
-                    currentAmount += (attemptPrice * attemptShares);
-                    amountOfShares += attemptShares;
+                    MarketEntryAttempt newAttempt = new MarketEntryAttempt(attemptPrice, attemptShares, ID, attemptSide);
 
-                } else if (side == MarketEntryAttempt.SIDE.OFFER) {
-                    //If you don't have enough shares to sell then sell only what you have
-                    if (amountOfShares < attemptShares) {
-                        attemptShares = amountOfShares;
-                    }
+                    System.out.println("Strategy " + this.currentStrategy.getStrategyName() + ", Signal " + sigMessage.getSignal().toString());
 
-                    if (attemptShares < 0) {
-                        continue;
-                    }
+                    //Construct message to be sent
+                    Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
+                    //System.out.println(this.participantName);
 
-                    //Get the current price of the stock
-                    double currentPrice = stockManager.getOrderList().getLastTradePrice();
-                    currentAmount -= (currentPrice * attemptShares);
-                    amountOfShares -= attemptShares;
-                }
-
-                MarketEntryAttempt newAttempt = new MarketEntryAttempt(attemptPrice, attemptShares, ID, attemptSide);
-                
-                //Construct message to be sent
-                Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
-                
-                //Only one thread may send a message at a time
-                synchronized (this) {
+                    //Only one thread may send a message at a time
                     stockManager.sendMessage(message);
+                    //this.print();
+                    bringDownTheMarket();
+
+                } catch (NotEnoughDataException ex) {
+                    ex.printStackTrace();
                 }
-                
-                //this.print();
-                
-                if (downCounter == downBidTimer)
-                {
-                    this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice()-this.randomDecrease,1000,ID,SIDE.BID));
-                    this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice()-this.randomDecrease,1000,ID,SIDE.OFFER));
-                    
-                    this.randomDecrease = rand.nextInt((3-1)+1)+1;
-                    downCounter = 0;
-                    downBidTimer = rand.nextInt((800-2)+2)+1;
-                }
-                else if (downCounter > downBidTimer)
-                {
-                    downCounter = 0;
-                    downBidTimer = rand.nextInt((800-2)+2)+1;
-                }
-                downCounter++;
-                
-            } catch (NotEnoughDataException ex) {
-                ex.printStackTrace();
+
             }
         }
     }
@@ -485,34 +424,6 @@ public class MarketParticipant extends Thread {
     synchronized public void terminateTrading() {
         cancel();
         stop = true;
-    }
-
-    public void print() {
-
-        Vector offers = exchange.getBook(this.stock).getOffers();
-        Vector bids = exchange.getBook(this.stock).getBids();
-        Vector matched = exchange.getBook(this.stock).getMatchedOrders();
-
-        for (int i = 0; i < offers.size(); i++) {
-            MarketEntryAttempt attempt = (MarketEntryAttempt) offers.get(i);
-            System.out.println("Offers " + attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
-        }
-
-        System.out.println("\n\n*****************");
-
-        for (int i = 0; i < bids.size(); i++) {
-            MarketEntryAttempt attempt = (MarketEntryAttempt) bids.get(i);
-            System.out.println("Bids " + attempt.getNumOfShares() + "  " + attempt.getPrice() + "\n");
-        }
-
-        System.out.println("\n\n***********************");
-
-        for (int i = 0; i < matched.size(); i++) {
-            MatchedMarketEntryAttempt attempt = (MatchedMarketEntryAttempt) matched.get(i);
-            System.out.println("Matched " + attempt.getQuantity() + "  " + attempt.getPrice() + "\n");
-        }
-
-        System.out.println("\n\n****************************\n****************************");
     }
 
     public boolean isTrading() {
@@ -571,5 +482,45 @@ public class MarketParticipant extends Thread {
 
     private void cancel() {
         interrupt();
+    }
+
+    /**
+     * @param tradePricePerShare
+     * @brief Update the worth of a MarketParticipant
+     * @param shares
+     * @param pricePerShare
+     * @param side
+     */
+    public void upadateWorth(int shares, double pricePerShare, double tradePricePerShare, MarketEntryAttempt.SIDE side) {
+        if (side == MarketEntryAttempt.SIDE.BID) {
+            currentAmount -= tradePricePerShare * shares;
+            amountOfShares += shares;
+            setCurrentAmount(pricePerShare);
+        } else if (side == MarketEntryAttempt.SIDE.OFFER) {
+            amountOfShares -= shares;
+            currentAmount += tradePricePerShare * shares;
+            setCurrentWorth(pricePerShare);
+        }
+    }
+
+    private void setCurrentWorth(double pricePerShare) {
+        currentAmount = 0.0;
+        currentAmount += currentMoney;
+        currentAmount += amountOfShares * pricePerShare;
+    }
+
+    private void bringDownTheMarket() {
+        if (downCounter == downBidTimer) {
+            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, ID, SIDE.BID));
+            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, ID, SIDE.OFFER));
+
+            this.randomDecrease = rand.nextInt((3 - 1) + 1) + 1;
+            downCounter = 0;
+            downBidTimer = rand.nextInt((800 - 2) + 2) + 1;
+        } else if (downCounter > downBidTimer) {
+            downCounter = 0;
+            downBidTimer = rand.nextInt((800 - 2) + 2) + 1;
+        }
+        downCounter++;
     }
 }

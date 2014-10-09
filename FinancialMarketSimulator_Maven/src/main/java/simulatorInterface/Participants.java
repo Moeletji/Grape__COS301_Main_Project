@@ -294,39 +294,54 @@ public class Participants extends javax.swing.JFrame {
                 }
 
                 try {
-                    MarketParticipant mp1 = new MarketParticipant("Participant 1", "1", exchange, manager.getStockName(), new DirectionalMovementIndex(exchange.getBook(manager.getStockName()), 14));
+                    MarketStrategy strategy1 = new DirectionalMovementIndex(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy2 = new MovingAverageCrossover(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy3 = new MovingAverageEnvelope(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy4 = new MovingAverageFilter(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy5 = new PriceEmaCrossover(exchange, exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy6 = new PriceSmaCrossover(exchange, exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy7 = new SimpleRSI(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy8 = new Simple_MACD_ADX(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy9 = new MACDStrategy(exchange.getBook(manager.getStockName()));
+
+                    MarketParticipant mp1 = new MarketParticipant("Participant 1 " + strategy1.getStrategyName(), "1", exchange, manager.getStockName(), strategy1);
                     manager.attach(mp1);
                     participants.add(mp1);
 
-                    MarketParticipant mp2 = new MarketParticipant("Participant 2", "2", exchange, manager.getStockName(), new MovingAverageCrossover(exchange.getBook(manager.getStockName()), 14));
+                    MarketParticipant mp2 = new MarketParticipant("Participant 2 " + strategy2.getStrategyName(), "2", exchange, manager.getStockName(), strategy2);
                     manager.attach(mp2);
                     participants.add(mp2);
 
-                    MarketParticipant mp3 = new MarketParticipant("Participant 3", "3", exchange, manager.getStockName(), new MovingAverageEnvelope(exchange.getBook(manager.getStockName())));
+                    MarketParticipant mp3 = new MarketParticipant("Participant 3 " + strategy3.getStrategyName(), "3", exchange, manager.getStockName(), strategy3);
                     manager.attach(mp3);
                     participants.add(mp3);
 
-                    MarketParticipant mp4 = new MarketParticipant("Participant 4", "4", exchange, manager.getStockName(), new MovingAverageFilter(exchange.getBook(manager.getStockName()), 14));
+                    MarketParticipant mp4 = new MarketParticipant("Participant 4 " + strategy4.getStrategyName(), "4", exchange, manager.getStockName(), strategy4);
                     manager.attach(mp4);
                     participants.add(mp4);
 
-                    MarketParticipant mp5 = new MarketParticipant("Participant 5", "5", exchange, manager.getStockName(), new PriceEmaCrossover(exchange, exchange.getBook(manager.getStockName()), 14));
+                    MarketParticipant mp5 = new MarketParticipant("Participant 5 " + strategy5.getStrategyName(), "5", exchange, manager.getStockName(), strategy5);
                     manager.attach(mp5);
                     participants.add(mp5);
 
-                    MarketParticipant mp6 = new MarketParticipant("Participant 6", "6", exchange, manager.getStockName(), new PriceSmaCrossover(exchange, exchange.getBook(manager.getStockName()), 14));
+                    MarketParticipant mp6 = new MarketParticipant("Participant 6 " + strategy6.getStrategyName(), "6", exchange, manager.getStockName(), strategy6);
                     manager.attach(mp6);
                     participants.add(mp6);
 
-                    MarketParticipant mp7 = new MarketParticipant("Participant 7", "7", exchange, manager.getStockName(), new SimpleRSI(exchange.getBook(manager.getStockName())));
+                    MarketParticipant mp7 = new MarketParticipant("Participant 7 " + strategy7.getStrategyName(), "7", exchange, manager.getStockName(), strategy7);
                     manager.attach(mp7);
                     participants.add(mp7);
 
-                    MarketParticipant mp8 = new MarketParticipant("Participant 8", "8", exchange, manager.getStockName(), new Simple_MACD_ADX(exchange.getBook(manager.getStockName())));
+                    MarketParticipant mp8 = new MarketParticipant("Participant 8 " + strategy8.getStrategyName(), "8", exchange, manager.getStockName(), strategy8);
                     manager.attach(mp8);
                     participants.add(mp8);
 
+                    MarketParticipant mp9 = new MarketParticipant("Participant 9 " + strategy9.getStrategyName(), "9", exchange, manager.getStockName(), strategy9);
+                    manager.attach(mp9);
+                    participants.add(mp9);
+
                 } catch (NotEnoughDataException e) {
+                } catch (Exception ee) {
                 }
             }
         }
@@ -360,15 +375,6 @@ public class Participants extends javax.swing.JFrame {
                 try {
                     manager.attach(new PhantomMarketParticipant("Phantom", "Phantom", exchange, manager.getStockName()));
 
-
-
-
-
-
-
-
-
-
                 } catch (NotEnoughDataException ex) {
                     Logger.getLogger(Participants.class
                             .getName()).log(Level.SEVERE, null, ex);
@@ -391,15 +397,6 @@ public class Participants extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
-
-
-
-
-
-
-
-
 
                 }
             }
@@ -440,15 +437,6 @@ public class Participants extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
-
-
-
-
-
-
-
-
 
                 }
             }
@@ -605,15 +593,6 @@ public class Participants extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
-
-
-
-
-
-
-
-
 
                 }
             }

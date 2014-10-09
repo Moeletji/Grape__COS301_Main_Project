@@ -65,6 +65,10 @@ public class MarketEntryAttemptBook {
      * @brief Current number of shares the stock holds
      */
     private int currentNumberOfShares;
+    /**
+     * @brief MarketExchange
+     */
+    private MarketExchange exchange;
 
     public MarketEntryAttemptBook(String stockName, long timePeriod, int totalNumberOfShares) {
         this();
@@ -133,6 +137,7 @@ public class MarketEntryAttemptBook {
         this.pastTime = System.currentTimeMillis();
         this.gains = new Vector<>();
         this.losses = new Vector<>();
+        this.exchange = MarketExchange.getInstance("JSE");
     }
 
     /**
@@ -216,6 +221,8 @@ public class MarketEntryAttemptBook {
                     }
                     matchedOrders.add(newTrade);
                     this.lastTradePrice = newTrade.getPrice();
+                    exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
+                    exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
@@ -240,6 +247,9 @@ public class MarketEntryAttemptBook {
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                     this.lastTradePrice = newTrade.getPrice();
+                    exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
+                    exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+
                 } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
@@ -265,6 +275,9 @@ public class MarketEntryAttemptBook {
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                     hasMoreShares = false;
                     this.lastTradePrice = newTrade.getPrice();
+                    exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
+                    exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+
                 }
             }
         }
@@ -272,29 +285,6 @@ public class MarketEntryAttemptBook {
         //if there are still more shares then add the order to the list
         if (hasMoreShares) {
             addOrderToList(newOrder);
-        }
-
-        //After elapsed time, sync with database
-        //syncDb();
-    }
-
-    /**
-     * @brief synchronize data with database
-     */
-    public void syncDb() {
-        long test = System.currentTimeMillis();
-        if (test >= (pastTime + timePeriod * 1000)) { //multiply by 1000 to get milliseconds
-            long dbSyncTime = pastTime;
-            pastTime = test;
-
-            //db = new DBConnect();
-            //Sync only matches that are not already in database
-            for (int i = 0; i < matchedOrders.size(); i++) {
-                MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) matchedOrders.elementAt(i);
-                if (matched.getDateIssued().getTime() >= dbSyncTime) {
-                    //db.recordTrade(matched);
-                }
-            }
         }
     }
 
@@ -309,7 +299,7 @@ public class MarketEntryAttemptBook {
     public synchronized void alterOrder(String orderID, double price, int shares, MarketEntryAttempt.SIDE side) throws OrderHasNoValuesException, CloneNotSupportedException {
         MarketEntryAttempt order = searchForOrder(orderID, side);
 
-        if (price <= 0 || shares <= 0 || order == null) //throw new OrderHasNoValuesException();
+        if (price <= 0 || shares <= 0 || order == null)
         {
             return;
         }
@@ -746,8 +736,8 @@ public class MarketEntryAttemptBook {
     public double getHighestTradedPrice() {
         double high = Double.MIN_VALUE;
 
-        Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>)matchedOrders.clone(); 
-        
+        Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>) matchedOrders.clone();
+
         for (int i = 0; i < tmp.size(); i++) {
             MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp.get(i);
             if (matched.getPrice() > high) {
@@ -759,9 +749,9 @@ public class MarketEntryAttemptBook {
 
     public double getLowestTradedPrice() {
         double low = Double.MAX_VALUE;
-        
-        Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>)matchedOrders.clone();
-        
+
+        Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>) matchedOrders.clone();
+
         for (int i = 0; i < tmp.size(); i++) {
             MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp.get(i);
             if (matched.getPrice() < low) {

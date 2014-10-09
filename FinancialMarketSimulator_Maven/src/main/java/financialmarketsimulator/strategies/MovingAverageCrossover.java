@@ -48,11 +48,9 @@ public class MovingAverageCrossover extends Crossover {
         if ((emaCurr > smaCurr) && (emaObj.getPreviousEMAValue() < smaObj.getPreviousSMAValue())) {
             //Generate Buy Signal
             this.signalDetails.setSignal(BID);
-            this.signalDetails.setVolaility(NORMAL);
         } else if ((emaCurr < smaCurr) && (emaObj.getPreviousEMAValue() > smaObj.getPreviousSMAValue())) {
             //Generate Sell Signal
             this.signalDetails.setSignal(OFFER);
-             this.signalDetails.setVolaility(NORMAL);
         } else {
             this.signalDetails.setSignal(DO_NOTHING);
         }

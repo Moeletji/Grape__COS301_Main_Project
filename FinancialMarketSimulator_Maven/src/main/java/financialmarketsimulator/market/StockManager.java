@@ -1,6 +1,7 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.exception.OrderHasNoValuesException;
+import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttemptUpdate;
 import financialmarketsimulator.marketData.Message;
 import static financialmarketsimulator.marketData.Message.MessageType.AMEND;
@@ -8,7 +9,9 @@ import static financialmarketsimulator.marketData.Message.MessageType.CANCEL;
 import static financialmarketsimulator.marketData.Message.MessageType.ORDER;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Exchanger;
 
 /**
  * @brief The StockManager class is the super class from which each concrete
@@ -45,6 +48,9 @@ public class StockManager extends Thread {
     private boolean stop;
 
     /**
+     * @param stockName
+     * @param timePeriod
+     * @param totalNumberOfShares
      * @brief MarketManager Constructor
      */
     public StockManager(String stockName, long timePeriod, int totalNumberOfShares) {
@@ -79,20 +85,18 @@ public class StockManager extends Thread {
      * accepted
      * @throws InterruptedException
      */
-    public boolean acceptOrder(MarketEntryAttempt order) throws InterruptedException {
-        if (order.getPrice() == 0 || order.getNumOfShares() == 0) {
-            return false;
+    public synchronized void acceptOrder(MarketEntryAttempt order) throws InterruptedException {
+        if (order.getPrice() <= 0 || order.getNumOfShares() <= 0) {
+            return;
         }
-
         orderList.placeOrder(order);
-        return true;
     }
 
     /**
      * @brief get a list of all orders
      * @return a list of orders
      */
-    public MarketEntryAttemptBook getOrderList() {
+    public synchronized MarketEntryAttemptBook getOrderList() {
         return orderList;
     }
 
@@ -102,7 +106,7 @@ public class StockManager extends Thread {
      * @param order MarketEntryAttempt to be removed
      * @return MarketEntryAttempt to be removed
      */
-    public MarketEntryAttempt removeOrder(MarketEntryAttempt order) {
+    public synchronized MarketEntryAttempt removeOrder(MarketEntryAttempt order) {
         return orderList.removeOrder(order);
     }
 
@@ -113,7 +117,7 @@ public class StockManager extends Thread {
      * @return MarketEntryAttempt to be removed
      * @brief Acknowledgement of the bid being removed by the market manager
      */
-    public MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE orderSide) {
+    public synchronized MarketEntryAttempt removeOrder(String orderId, MarketEntryAttempt.SIDE orderSide) {
         return orderList.removeOrder(orderId, orderSide);
     }
 
@@ -172,14 +176,14 @@ public class StockManager extends Thread {
      * @brief remove a MarketParticipant
      * @param participant MarketParticipant to be removed
      */
-    public synchronized void detach(MarketParticipant participant) {
+    public void detach(MarketParticipant participant) {
         participants.remove(participant);
     }
 
-    public synchronized void sendMessage(Message message) {
+    public void sendMessage(Message message) {
         this.messageQueue.add(message);
     }
-    
+
     /**
      * @brief StockManager thread that receives Messages and updates the market
      * according to those messages
@@ -188,55 +192,56 @@ public class StockManager extends Thread {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                synchronized (this) {
-                    while (paused) {
-                        wait();
-                    }
+                while (paused) {
+                    wait();
                 }
+
             } catch (InterruptedException exception) {
                 System.out.println("Interrupted Exception " + super.getId());
             }
 
-            synchronized (this) {
-                if (stop) {
-                    return;
-                }
+            if (stop) {
+                return;
             }
-            synchronized (this) {
-                if (!messageQueue.isEmpty()) {
-                    Message message = messageQueue.poll();
 
-                    if (message != null) {
-                        switch (message.getType()) {
-                            case AMEND: {
-                                double newPrice = message.getPrice();
-                                int newShares = message.getShares();
-                                String id = message.getAttempt().getOrderID();
-                                MarketEntryAttempt.SIDE side = message.getAttempt().getSide();
+            while (messageQueue.isEmpty()) {
+            }
 
-                                try {
-                                    this.editOrder(id, newPrice, newShares, side);
-                                } catch (OrderHasNoValuesException | CloneNotSupportedException ex) {
-                                    System.out.println("Order was not edited");
-                                }
-                            }
-                            break;
+            Message message = messageQueue.poll();
 
-                            case CANCEL: {
-                                this.removeOrder(message.getAttempt());
-                            }
-                            break;
+            if (message != null) {
+                switch (message.getType()) {
+                    case AMEND: {
+                        double newPrice = message.getPrice();
+                        int newShares = message.getShares();
+                        String id = message.getAttempt().getOrderID();
+                        MarketEntryAttempt.SIDE side = message.getAttempt().getSide();
 
-                            case ORDER: {
-                                try {
-                                    this.acceptOrder(message.getAttempt());
-                                } catch (InterruptedException ex) {
-                                    System.out.println("Interrupted Exception " + super.getId());
-                                }
-                            }
+                        try {
+                            this.editOrder(id, newPrice, newShares, side);
+                        } catch (OrderHasNoValuesException | CloneNotSupportedException ex) {
+                            System.out.println("Order was not edited");
+                        }
+                    }
+                    break;
+
+                    case CANCEL: {
+                        this.removeOrder(message.getAttempt());
+                    }
+                    break;
+
+                    case ORDER: {
+                        try {
+                            this.acceptOrder(message.getAttempt());
+                        } catch (InterruptedException ex) {
+                            System.out.println("Interrupted Exception " + super.getId());
                         }
                     }
                 }
+                this.Notify();
+                
+                MarketExchange exchange = MarketExchange.getInstance("JSE");
+                //exchange.print(stockName);
             }
         }
     }
@@ -248,10 +253,11 @@ public class StockManager extends Thread {
         if (!started) {
             started = true;
 
-            //start the stock market
+            //Start the stock market
             super.start();
 
-            Collections.shuffle(participants);
+            //Randomize the Market Participants
+            //Collections.shuffle(participants);
 
             //Begin to start trading with participants
             for (MarketParticipant participant : participants) {
@@ -265,6 +271,17 @@ public class StockManager extends Thread {
                 paused = false;
             }
         }
+    }
+
+    /**
+     * Notify all MarketParticipants randomly that the Stock has been updated.
+     */
+    public synchronized void Notify() {
+        //Collections.shuffle(participants);
+        for (MarketParticipant participant : participants) {
+            participant.update(this);
+        }
+        super.notifyAll();
     }
 
     /**
@@ -327,4 +344,5 @@ public class StockManager extends Thread {
     private void cancel() {
         interrupt();
     }
+
 }

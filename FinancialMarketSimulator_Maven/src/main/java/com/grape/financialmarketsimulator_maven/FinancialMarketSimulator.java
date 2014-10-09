@@ -11,7 +11,9 @@ import financialmarketsimulator.market.MarketParticipant;
 import financialmarketsimulator.market.MarketStrategy;
 import financialmarketsimulator.market.PhantomMarketParticipant;
 import financialmarketsimulator.market.StockManager;
+import financialmarketsimulator.strategies.MACDStrategy;
 import financialmarketsimulator.strategies.Phantom;
+import financialmarketsimulator.strategies.PriceEmaCrossover;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Vector;
@@ -39,8 +41,8 @@ public class FinancialMarketSimulator {
         //Trading Strategies
         MarketStrategy strategy1 = new Phantom();
         MarketStrategy strategy2 = new Phantom();
-        MarketStrategy strategy3 = new Phantom();
-        MarketStrategy strategy4 = new Phantom();
+        MarketStrategy strategy3 = new MACDStrategy(exchange.getBook("INV"));
+        MarketStrategy strategy4 = new PriceEmaCrossover(exchange, exchange.getBook("INV"), 14);
         MarketStrategy strategy5 = new Phantom();
         MarketStrategy strategy6 = new Phantom();
         MarketStrategy strategy7 = new Phantom();
@@ -75,22 +77,24 @@ public class FinancialMarketSimulator {
         }
 
         manager.attach(entity1);
-        manager.attach(entity2);
+        //manager.attach(entity2);
         manager.attach(entity3);
         manager.attach(entity4);
-        manager.attach(entity5);
-        manager.attach(entity6);
-        manager.attach(entity7);
-        manager.attach(entity8);
-        manager.attach(entity9);
-        manager.attach(entity10);
+        //manager.attach(entity5);
+        //manager.attach(entity6);
+        //manager.attach(entity7);
+        //manager.attach(entity8);
+        //manager.attach(entity9);
+        //manager.attach(entity10);
 
         manager.start();
 
         
         //Running the 2 phantoms
-        entity1.start();
-        entity2.start();
+        //entity1.start();
+        //sentity2.start();
+        
+        /*
         
         //FOR CREATING THE GRAPHS
         

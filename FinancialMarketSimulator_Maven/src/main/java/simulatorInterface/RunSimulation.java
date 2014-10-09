@@ -319,7 +319,7 @@ public class RunSimulation extends javax.swing.JFrame {
         ind.add(new Volatility(14, exchange.getBook("INV")));
         
         
-        
+        /*
         Vector<String> indNames = new Vector<>();
         
         indNames.add("ADX Movement");
@@ -335,47 +335,47 @@ public class RunSimulation extends javax.swing.JFrame {
         indNames.add("RSI Movement");
         indNames.add("SMA Movement");
         indNames.add("Stochastic Movement");
-        indNames.add("Volatitlity Movement");
+        indNames.add("Volatitlity Movement");*/
         
-        try
-        {
-            chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
-            chart.pack();
-            RefineryUtilities.centerFrameOnScreen(chart);
-            chart.setVisible(true);
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
+        //try
+        //{
+            //chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
+            //chart.pack();
+            //RefineryUtilities.centerFrameOnScreen(chart);
+            //chart.setVisible(true);
+        //}
+        //catch(Exception ex)
+        //{
+            //ex.printStackTrace();
+        //}
 
 
-        Vector<StockManager> man = new Vector<StockManager>();
+        //Vector<StockManager> man = new Vector<StockManager>();
 
-        for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-            man.add(stockmanager);
-        }
+        //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+            //man.add(stockmanager);
+        //}
 
-        Vector<String> manNames = new Vector<>();
+        //Vector<String> manNames = new Vector<>();
 
-        for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-            manNames.add(stockmanager.getStockName());
-        }
+        //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+            //manNames.add(stockmanager.getStockName());
+        //}
 
-        if (pchart == null) {
-            try {
-                pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
-                pchart.pack();
-                RefineryUtilities.centerFrameOnScreen(pchart);
-                pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
-                pchart.setVisible(true);
-            } catch (NotEnoughDataException ex) {
-                Logger.getLogger(RunSimulation.class
-                        .getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
+        if (pchart != null) {
+            //try {
+                //pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
+                //pchart.pack();
+                //RefineryUtilities.centerFrameOnScreen(pchart);
+                //pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
+                //pchart.setVisible(true);
+            //} //catch (NotEnoughDataException ex) {
+                //Logger.getLogger(RunSimulation.class
+                     //   .getName()).log(Level.SEVERE, null, ex);
+            //}
+        } //else {
             //pchart.setVisible(true);
-        }
+        //}
 
         exchange.openMarket();
     }//GEN-LAST:event_jButton1ActionPerformed
