@@ -38,6 +38,14 @@ public class MarketParticipant extends Thread {
      */
     private double currentAmount;
     /**
+     * @brief Percentage of shares to sell
+     */
+    private final double SHARES_PERCENTAGE = 0.1;
+    /**
+     * @brief Percentage of money to use when buying
+     */
+    private final double PRICE_PERCENTAGE = 0.15;
+    /**
      * @brief amount of shares owned
      */
     private int amountOfShares;
@@ -66,7 +74,7 @@ public class MarketParticipant extends Thread {
      */
     protected ArrayList<MarketStrategy> strategies;
     /**
-     * @brief If the entity is trading with a specfic stock
+     * @brief If the entity is trading with a specific stock
      */
     protected boolean started;
     /**
@@ -96,27 +104,25 @@ public class MarketParticipant extends Thread {
     /**
      * @brief different price ranges
      */
-    private final double[] PRICES_RANGE = {16.66, 33.33, 50};
+    private final int[] PRICES_RANGE = {5, 10, 15};
     /**
      * @brief different ranges for shares
      */
     private final int[] SHARES_RANGES = {100, 1000, 10000};
 
-    double maxPrice;
-    int maxShares;
+    /**
+     * @brief Side in which trade occurred
+     */
+    private MarketEntryAttempt.SIDE attemptSide;
 
-    double attemptPrice;
-    int attemptShares;
-
-    String ID;
-    MarketEntryAttempt.SIDE attemptSide;
-
-    MarketEntryAttempt.SIDE side;
     /**
      * @brief price step used to determine how much to increase the price with.
      */
     private final double[] PRICE_STEP = {0.05, 0.10, 0.15, 0.2, 0.25, 0.50};
 
+    /**
+     * @brief used to bring down the Market Trading Price
+     */
     private int downBidTimer, downCounter, randomDecrease;
 
     private Random rand;
@@ -127,7 +133,7 @@ public class MarketParticipant extends Thread {
         this.rand = new Random();
         this.downBidTimer = rand.nextInt((800 - 2) + 2) + 2;
         this.randomDecrease = rand.nextInt((3 - 1) + 1) + 1;
-        downCounter = 0;
+        this.downCounter = 0;
         this.amountOfShares = SHARES;
         this.currentAmount = currentMoney;
     }
@@ -294,109 +300,161 @@ public class MarketParticipant extends Thread {
                 }
             } catch (InterruptedException exception) {
                 exception.printStackTrace();
-            }   
+            }
 
             synchronized (this) {
-                try {
-                    //Receive a signalMessage from strategy 
-                    MarketStrategy.SignalMessage sigMessage = currentStrategy.trade();
+
+                MarketStrategy.SignalMessage sigMessage = null;
+                double price = 0;
+                int shares = 0;
+
+                /*if (currentAmount <= 0 && amountOfShares <= 0) {
+                    System.out.println(this.participantID + " Bankrupt");
+                    return;
+                } else if (currentAmount <= 0 && amountOfShares > 0) {
+                    float sellingShares = (float) (amountOfShares * SHARES_PERCENTAGE);
+                    if (sellingShares > 1) {
+                        shares = Math.round(sellingShares);
+                        price = exchange.getBook(stock).getLastTradePrice() - PRICE_STEP[2];
+                    } else {
+                        System.out.println(this.participantID + " Bankrupt");
+                        return;
+                    }
+                } else if (currentAmount > 0 && amountOfShares <= 0) {
+                    float sellingMoney = (float) (currentMoney * PRICE_PERCENTAGE);
+                    if (sellingMoney > 1) {
+                        double newPrice = (exchange.getBook(stock).getLastTradePrice() + PRICE_STEP[0]);
+                        if (newPrice > sellingMoney) {
+                            System.out.println("Not enough money to sell shares");
+                            return;
+                        } else {
+                            shares = (int)Math.floor(sellingMoney / newPrice);
+                            price = newPrice;
+                        }
+                    } else {
+                        System.out.println(this.participantID + " Bankrupt");
+                        return;
+                    }
+                } else {*/
+                    try {
+                        sigMessage = currentStrategy.trade();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     if (sigMessage == null) {
-                        System.out.println("No Signal Message");
                         continue;
                     }
 
-                    if (sigMessage.getVolatility() == null) {
-                        sigMessage.setVolaility(MarketStrategy.VOLATILITY.LOW);
-                    }
+                    MarketStrategy.SIGNAL signal = sigMessage.getSignal();
+                    MarketStrategy.VOLATILITY volatility = sigMessage.getVolatility();
 
-                    if (sigMessage.getSignal() == null) {
-                        if (new Random().nextBoolean()) {
-                            sigMessage.setSignal(MarketStrategy.SIGNAL.BID);
-                        } else {
-                            sigMessage.setSignal(MarketStrategy.SIGNAL.OFFER);
-                        }
-                    }
-
-                    //Decide on what to do based of Signal Message
-                    switch (sigMessage.getSignal()) {
-                        case BID: {
-                            side = MarketEntryAttempt.SIDE.BID;
-                        }
-                        break;
-                        case OFFER: {
-                            side = MarketEntryAttempt.SIDE.OFFER;
-                        }
-                        break;
-                        //Market is to volatile to create a MarketEntryAttempt
-                        case DO_NOTHING: {
-                            if (new Random().nextBoolean()) {
-                                side = MarketEntryAttempt.SIDE.BID;
-                            } else {
-                                side = MarketEntryAttempt.SIDE.OFFER;
+                    if (signal == null) {
+                        attemptSide = rand.nextBoolean() == true ? MarketEntryAttempt.SIDE.BID : MarketEntryAttempt.SIDE.OFFER;
+                    } else {
+                        switch (signal) {
+                            case BID: {
+                                attemptSide = MarketEntryAttempt.SIDE.BID;
+                            }
+                            break;
+                            case OFFER: {
+                                attemptSide = MarketEntryAttempt.SIDE.OFFER;
+                            }
+                            break;
+                            case DO_NOTHING:
+                            default: {
+                                attemptSide = rand.nextBoolean() == true ? MarketEntryAttempt.SIDE.BID : MarketEntryAttempt.SIDE.OFFER;
                             }
                         }
-                        default: {
-                            continue;
-                        }
                     }
 
-                    switch (sigMessage.getVolatility()) {
-                        case LOW: {
-                            maxPrice = PRICES_RANGE[0];
-                            maxShares = SHARES_RANGES[0];
+                    if (volatility == null) {
+                        StockManager manager = exchange.getManager(stock);
+                        if (!(manager == null)) {
+                            double lastTradedPrice = manager.getOrderList().getLastTradePrice();
+
+                            if (lastTradedPrice <= 0.0) {
+                                price = Math.abs(rand.nextInt(PRICES_RANGE[2]));
+                                shares = SHARES_RANGES[0];
+                            } else {
+                                price = lastTradedPrice + PRICE_STEP[0];
+                                shares = SHARES_RANGES[0];
+                            }
+                        } else {
+                            System.out.println("StockManager not define for MarketParticipnt");
+                            return;
                         }
-                        break;
-                        case MEDIUM: {
-                            maxPrice = PRICES_RANGE[1];
-                            maxShares = SHARES_RANGES[1];
-                        }
-                        break;
-                        case HIGH: {
-                            maxPrice = PRICES_RANGE[2];
-                            maxShares = SHARES_RANGES[2];
-                        }
-                        break;
-                        default: {
-                            maxPrice = PRICES_RANGE[0];
-                            maxShares = SHARES_RANGES[0];
+                    } else {
+                        if (attemptSide == MarketEntryAttempt.SIDE.BID) {
+                            switch (volatility) {
+                                case HIGH: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[6];
+                                    shares = SHARES_RANGES[2];
+                                }
+                                break;
+                                case MEDIUM: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[5];
+                                    shares = SHARES_RANGES[1];
+                                }
+                                break;
+                                case LOW: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[0];
+                                    shares = SHARES_RANGES[0];
+                                }
+                                break;
+                                case NORMAL:
+                                default: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[3];
+                                    shares = SHARES_RANGES[0];
+                                }
+                            }
+                        } else {
+                            switch (volatility) {
+                                case HIGH: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[6];
+                                    shares = SHARES_RANGES[2];
+                                }
+                                break;
+                                case MEDIUM: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[5];
+                                    shares = SHARES_RANGES[1];
+                                }
+                                break;
+                                case LOW: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[0];
+                                    shares = SHARES_RANGES[0];
+                                }
+                                break;
+                                case NORMAL:
+                                default: {
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[3];
+                                    shares = SHARES_RANGES[0];
+                                }
+                            }
                         }
                     }
+                //}
 
-                    //Select a minimum price range to trade
-                    double minPrice = Math.round(maxPrice - 16.66);
-                    //Select a minimum shares range to trade
-                    int minShares = Math.round(maxShares / 10);
+                price = Math.abs(price);
 
-                    //Create MarketEntryAttempt based on data
-                    attemptPrice = (double) (Math.random() * (maxPrice - minPrice) + minPrice);
-                    attemptPrice = Math.abs(attemptPrice);
-                    attemptShares = Math.abs((int) (Math.random() * (maxShares - minShares) + minShares));
-                    ID = this.getParticipantID();
-                    attemptSide = side;
-
-                    //Trading with no price or shares is invalid
-                    if (attemptPrice <= 0 || attemptShares <= 0) {
-                        System.out.println("Invalid Price or Share");
-                        continue;
-                    }
-
-                    MarketEntryAttempt newAttempt = new MarketEntryAttempt(attemptPrice, attemptShares, ID, attemptSide);
-
-                    System.out.println("Strategy " + this.currentStrategy.getStrategyName() + ", Signal " + sigMessage.getSignal().toString());
-
-                    //Construct message to be sent
-                    Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
-                    //System.out.println(this.participantName);
-
-                    //Only one thread may send a message at a time
-                    stockManager.sendMessage(message);
-                    //this.print();
-                    bringDownTheMarket();
-
-                } catch (NotEnoughDataException ex) {
-                    ex.printStackTrace();
+                if (price <= 0.0 || shares <= 0) {
+                    continue;
                 }
+
+                MarketEntryAttempt newAttempt = new MarketEntryAttempt(price, shares, this.participantID, attemptSide);
+
+                //Construct message to be sent
+                Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
+
+                //Only one thread may send a message at a time
+                stockManager.sendMessage(message);
+
+                if (!currentStrategy.getStrategyName().equals("phantom") && !currentStrategy.getStrategyName().equals("Phantom")) {
+                    System.out.println(currentStrategy.getStrategyName());
+                    System.out.println(exchange.getProfit(participantID));
+                    System.out.println("");
+                }
+                bringDownTheMarket();
 
             }
         }
@@ -511,8 +569,8 @@ public class MarketParticipant extends Thread {
 
     private void bringDownTheMarket() {
         if (downCounter == downBidTimer) {
-            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, ID, SIDE.BID));
-            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, ID, SIDE.OFFER));
+            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, this.participantID, SIDE.BID));
+            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, this.participantID, SIDE.OFFER));
 
             this.randomDecrease = rand.nextInt((3 - 1) + 1) + 1;
             downCounter = 0;

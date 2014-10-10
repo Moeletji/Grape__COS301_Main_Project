@@ -37,8 +37,6 @@ import org.jfree.ui.RefineryUtilities;
 public class RunSimulation extends javax.swing.JFrame {
 
     private MarketExchange exchange;
-    private ParticipantList pList = null;
-    private StockList stockList = null;
     private MultiLineChart chart = null;
     private PriceMultiLineChart pchart = null;
     private MarketData marketData = null;
@@ -62,10 +60,7 @@ public class RunSimulation extends javax.swing.JFrame {
         cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
         setCursor(cursor);
 
-
         exchange = MarketExchange.getInstance("JSE");
-        pList = null;
-        stockList = null;
         chart = null;
         pchart = null;
         marketData = null;
@@ -199,7 +194,6 @@ public class RunSimulation extends javax.swing.JFrame {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -243,9 +237,6 @@ public class RunSimulation extends javax.swing.JFrame {
                             javax.swing.UIManager.setLookAndFeel(info.getClassName());
                             break;
 
-
-
-
                         }
                     }
                 } catch (ClassNotFoundException ex) {
@@ -281,10 +272,12 @@ public class RunSimulation extends javax.swing.JFrame {
             Runnable updateGUI = new Runnable() {
                 @Override
                 public void run() {
-                    ArrayList<MarketParticipant> participants = exchange.getAllParticipants();
-                    Collection<StockManager> managers = exchange.getStocksManagers().values();
-                    if (marketData != null) {
-                        marketData.updateGUI(participants, managers);
+                    synchronized (this) {
+                        ArrayList<MarketParticipant> participants = exchange.getAllParticipants();
+                        Collection<StockManager> managers = exchange.getStocksManagers().values();
+                        if (marketData != null) {
+                            marketData.updateGUI(participants, managers);
+                        }
                     }
                 }
             };
@@ -302,79 +295,71 @@ public class RunSimulation extends javax.swing.JFrame {
         }
 
         Vector<MarketIndicator> ind = new Vector<>();
-        
-        ind.add(new ADX(exchange.getBook("INV"),14));
-        ind.add(new ATR(exchange.getBook("INV"),14));
+
+        ind.add(new ADX(exchange.getBook("INV"), 14));
+        ind.add(new ATR(exchange.getBook("INV"), 14));
         //ind.add(new BollingerBands(exchange.getBook("INV")));
-        ind.add(new DirectionalIndex(exchange.getBook("INV"),14));
-        ind.add(new EMA(exchange.getBook("INV"),14));
+        ind.add(new DirectionalIndex(exchange.getBook("INV"), 14));
+        ind.add(new EMA(exchange.getBook("INV"), 14));
         ind.add(new MACD(exchange.getBook("INV")));
         ind.add(new NDI(exchange.getBook("INV"), 14));
-        ind.add(new NDM(exchange.getBook("INV"),14));
-        ind.add(new PDI(exchange.getBook("INV"),14));
-        ind.add(new PDM(exchange.getBook("INV"),14));
-        ind.add(new RSI(exchange.getBook("INV"),14));
-        ind.add(new SMA(exchange.getBook("INV"),14));
+        ind.add(new NDM(exchange.getBook("INV"), 14));
+        ind.add(new PDI(exchange.getBook("INV"), 14));
+        ind.add(new PDM(exchange.getBook("INV"), 14));
+        ind.add(new RSI(exchange.getBook("INV"), 14));
+        ind.add(new SMA(exchange.getBook("INV"), 14));
         ind.add(new StochasticOscillator(exchange.getBook("INV")));
         ind.add(new Volatility(14, exchange.getBook("INV")));
-        
-        
+
         /*
-        Vector<String> indNames = new Vector<>();
+         Vector<String> indNames = new Vector<>();
         
-        indNames.add("ADX Movement");
-        indNames.add("ATR Movement");
-        //indNames.add("Bollinger Movement");
-        indNames.add("Directional Movement");
-        indNames.add("EMA Movement");
-        indNames.add("MACD Movement");
-        indNames.add("NDI Movement");
-        indNames.add("NDM Movement");
-        indNames.add("PDI Movement");
-        indNames.add("PDM Movement");
-        indNames.add("RSI Movement");
-        indNames.add("SMA Movement");
-        indNames.add("Stochastic Movement");
-        indNames.add("Volatitlity Movement");*/
-        
+         indNames.add("ADX Movement");
+         indNames.add("ATR Movement");
+         //indNames.add("Bollinger Movement");
+         indNames.add("Directional Movement");
+         indNames.add("EMA Movement");
+         indNames.add("MACD Movement");
+         indNames.add("NDI Movement");
+         indNames.add("NDM Movement");
+         indNames.add("PDI Movement");
+         indNames.add("PDM Movement");
+         indNames.add("RSI Movement");
+         indNames.add("SMA Movement");
+         indNames.add("Stochastic Movement");
+         indNames.add("Volatitlity Movement");*/
         //try
         //{
-            //chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
-            //chart.pack();
-            //RefineryUtilities.centerFrameOnScreen(chart);
-            //chart.setVisible(true);
+        //chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
+        //chart.pack();
+        //RefineryUtilities.centerFrameOnScreen(chart);
+        //chart.setVisible(true);
         //}
         //catch(Exception ex)
         //{
-            //ex.printStackTrace();
+        //ex.printStackTrace();
         //}
-
-
         //Vector<StockManager> man = new Vector<StockManager>();
-
         //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-            //man.add(stockmanager);
+        //man.add(stockmanager);
         //}
-
         //Vector<String> manNames = new Vector<>();
-
         //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-            //manNames.add(stockmanager.getStockName());
+        //manNames.add(stockmanager.getStockName());
         //}
-
         if (pchart != null) {
             //try {
-                //pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
-                //pchart.pack();
-                //RefineryUtilities.centerFrameOnScreen(pchart);
-                //pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
-                //pchart.setVisible(true);
+            //pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
+            //pchart.pack();
+            //RefineryUtilities.centerFrameOnScreen(pchart);
+            //pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
+            //pchart.setVisible(true);
             //} //catch (NotEnoughDataException ex) {
-                //Logger.getLogger(RunSimulation.class
-                     //   .getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(RunSimulation.class
+            //   .getName()).log(Level.SEVERE, null, ex);
             //}
         } //else {
-            //pchart.setVisible(true);
+        //pchart.setVisible(true);
         //}
 
         exchange.openMarket();
@@ -438,7 +423,6 @@ public class RunSimulation extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
 
                 }
             }
