@@ -156,7 +156,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
         if (pastSMAValues.isEmpty())
             //throw new NotEnoughDataException();
         
-        if (this.getClosingPrice() == this.calculateSMALowerEvelope() || (Math.abs(this.getClosingPrice() - this.calculateSMALowerEvelope())<0.05))
+        if (this.getClosingPrice() >= this.calculateSMALowerEvelope() || (Math.abs(this.getClosingPrice() - this.calculateSMALowerEvelope())<0.05))
         {
             /*if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {
@@ -171,7 +171,7 @@ public class MovingAverageEnvelope extends MarketStrategy{
                 this.signalDetails.setSignal(SIGNAL.BID);
             }
         }
-        else if (this.getClosingPrice() == this.calculateSMAUpperEvelope() || (Math.abs(this.getClosingPrice() - this.calculateSMAUpperEvelope())<0.05))
+        else if (this.getClosingPrice() >= this.calculateSMAUpperEvelope() || (Math.abs(this.getClosingPrice() - this.calculateSMAUpperEvelope())<0.05))
         {
             if (this.getPreviousClosingPrice() > this.getClosingPrice())
             {
