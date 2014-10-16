@@ -1,6 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 
@@ -12,6 +11,10 @@ import financialmarketsimulator.market.MarketIndicator;
  */
 public final class EMA extends MarketIndicator{
 
+    /**
+     * Singleton instance
+     */
+    private static EMA instance = null;
     /**
      * Number of days in EMA
      */
@@ -33,7 +36,7 @@ public final class EMA extends MarketIndicator{
      */
     private double currentEmaValue;
 
-    public EMA(int numDays)
+    private EMA(int numDays)
     {
         super("Exponential Moving Average");
         this.numOfDays = numDays;
@@ -44,12 +47,26 @@ public final class EMA extends MarketIndicator{
      * @brief Constructor for the EMA class
      * @param numDays
      */
-    public EMA(MarketEntryAttemptBook _data, int numDays) {
+    private EMA(MarketEntryAttemptBook _data, int numDays) {
         super("Exponential Moving Average");
         this.numOfDays = numDays;
         this.data = _data;
-        previousEMAValue = new SMA(this.data,numOfDays).calculateSMA();
+        previousEMAValue = SMA.getInstance(this.data,numOfDays).calculateSMA();
         this.setCurrentPrice(data.getLastTradePrice());
+    }
+    
+    public static EMA getInstance(int _numDays) {
+        if (instance == null) {
+            instance = new EMA(_numDays);
+        }
+        return instance;
+    }
+    
+    public static EMA getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new EMA(_book, _numDays);
+        }
+        return instance;
     }
 
     @SuppressWarnings("UnusedAssignment")

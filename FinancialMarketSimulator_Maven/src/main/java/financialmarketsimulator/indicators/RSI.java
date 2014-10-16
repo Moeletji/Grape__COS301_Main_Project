@@ -11,6 +11,11 @@ import java.util.Vector;
 public class RSI extends MarketIndicator{
 
     /**
+     * Singleton instance
+     */
+    private static RSI instance = null;
+    
+    /**
      * Variable housing RSI value
      */
     private double RSIValue;
@@ -36,11 +41,18 @@ public class RSI extends MarketIndicator{
      * @param _book The Market Entry Attempt Book
      * @param _numDays The number of days over which the RSI should be calculated. Should ideally be 14 days.
      */
-    public RSI(MarketEntryAttemptBook _book, int _numDays)
+    private RSI(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Reletive Strength Index");
         this.book = _book;
         this.numDays = _numDays;
+    }
+    
+    public static RSI getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new RSI(_book, _numDays);
+        }
+        return instance;
     }
     
     /**

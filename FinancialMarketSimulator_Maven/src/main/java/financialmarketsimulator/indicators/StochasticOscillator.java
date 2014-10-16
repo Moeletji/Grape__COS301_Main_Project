@@ -14,6 +14,12 @@ import java.util.ArrayList;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class StochasticOscillator extends MarketIndicator{
+    
+    /**
+     * Singleton instance
+     */
+    private static StochasticOscillator instance = null;
+    
     /**
      * The last traded price
      */
@@ -79,7 +85,7 @@ public class StochasticOscillator extends MarketIndicator{
      */
     private MarketEntryAttemptBook book;
     
-    public StochasticOscillator()
+    private StochasticOscillator()
     {
         super("Stochastic Oscillator");
         lowerBound = 20;
@@ -91,7 +97,7 @@ public class StochasticOscillator extends MarketIndicator{
      * 
      * @param _book 
      */
-    public StochasticOscillator(MarketEntryAttemptBook _book)
+    private StochasticOscillator(MarketEntryAttemptBook _book)
     {
         super("Stochastic Oscillator");
         lowerBound = 20;
@@ -106,13 +112,34 @@ public class StochasticOscillator extends MarketIndicator{
      * @param _upperBound
      * @param _book 
      */
-    public StochasticOscillator(int _lowerBound, int _upperBound,MarketEntryAttemptBook _book)
+    private StochasticOscillator(int _lowerBound, int _upperBound,MarketEntryAttemptBook _book)
     {
         super("Stochastic Oscillator");
         lowerBound = _lowerBound;
         upperBound = _upperBound;
         kValues = new ArrayList<Double>();
         this.book = _book;
+    }
+    
+    public static StochasticOscillator getInstance() {
+        if (instance == null) {
+            instance = new StochasticOscillator();
+        }
+        return instance;
+    }
+    
+    public static StochasticOscillator getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            instance = new StochasticOscillator(_book);
+        }
+        return instance;
+    }
+    
+    public static StochasticOscillator getInstance(MarketEntryAttemptBook _book, int _lowerBound, int _upperBound) {
+        if (instance == null) {
+            instance = new StochasticOscillator(_lowerBound,_upperBound,_book);
+        }
+        return instance;
     }
     
     public double calculateK()

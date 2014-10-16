@@ -12,6 +12,7 @@ import financialmarketsimulator.market.MarketIndicator;
  */
 public class BollingerBands extends MarketIndicator{
     
+    private static BollingerBands instance = null;
     private Volatility sd;
     private double upperBand;
     private double lowerBand;
@@ -19,32 +20,53 @@ public class BollingerBands extends MarketIndicator{
     private double middleBand;
     private final int NUM_DAYS = 20;
     private final int DEFAULT_FACTOR = 2;
-    private  int factor;
+    private final int factor;
     private MarketEntryAttemptBook data;
     private SMA sma;
     
-    public BollingerBands()
+    private BollingerBands()
     {
         super("Bollinger Bands");
         factor = DEFAULT_FACTOR;
     }
     
-    public BollingerBands(MarketEntryAttemptBook _data)
+    private BollingerBands(MarketEntryAttemptBook _data)
     {
         super("Bollinger Bands");
         this.data = _data;
-        this.sma = new SMA(DEFAULT_FACTOR);
-        sd = new Volatility(NUM_DAYS, this.data);
-        factor = DEFAULT_FACTOR;
+        this.sma = SMA.getInstance(DEFAULT_FACTOR);
+        this.sd = Volatility.getInstance(NUM_DAYS, this.data);
+        this.factor = DEFAULT_FACTOR;
     }
     
-    public BollingerBands(int _factor,MarketEntryAttemptBook _data)
+    private BollingerBands(int _factor,MarketEntryAttemptBook _data)
     {
         super("Bollinger Bands");
         this.data = _data;
-        this.sma = new SMA(DEFAULT_FACTOR);
-        sd = new Volatility(NUM_DAYS, this.data);
-        factor = (_factor >0)?_factor:DEFAULT_FACTOR;
+        this.sma = SMA.getInstance(DEFAULT_FACTOR);
+        this.sd = Volatility.getInstance(NUM_DAYS, this.data);
+        this.factor = (_factor >0)?_factor:DEFAULT_FACTOR;
+    }
+    
+    public static BollingerBands getInstance() {
+        if (instance == null) {
+            instance = new BollingerBands();
+        }
+        return instance;
+    }
+    
+    public static BollingerBands getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new BollingerBands(_book);
+        }
+        return instance;
+    }
+    
+    public static BollingerBands getInstance(int factor, MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            instance = new BollingerBands(factor, _book);
+        }
+        return instance;
     }
     
     public double getSMA()
@@ -136,6 +158,7 @@ public class BollingerBands extends MarketIndicator{
 
     /**
      * 
+     * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @todo ALTER FUNCTION TO RETURN THE CORRECT VALUE
      */
     @Override

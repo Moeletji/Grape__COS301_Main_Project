@@ -8,8 +8,9 @@ import java.util.Vector;
  * @brief ADX (Average Directional Index).
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class ADX extends MarketIndicator{
-    
+public class ADX extends MarketIndicator {
+
+    private static ADX instance = null;
     private final DirectionalIndex di;
     private final MarketEntryAttemptBook book;
     private final int numDays;
@@ -18,53 +19,54 @@ public class ADX extends MarketIndicator{
     private Vector<Double> diValues;
     private Double average;
     private Double result;
-    
-    public ADX(MarketEntryAttemptBook _book, int _numDays)
-    {
+
+    private ADX(MarketEntryAttemptBook _book, int _numDays) {
         super("Average Directional Index");
         this.book = _book;
         this.numDays = _numDays;
-        this.di = new DirectionalIndex(this.book, this.numDays);
+        this.di = DirectionalIndex.getInstance(_book, _numDays);
         this.executionCount = 0;
         this.previousADX = 0.0;
     }
-    
-    public double calculateADX()
-    {
+
+    public static ADX getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new ADX(_book, _numDays);
+        }
+        return instance;
+    }
+
+    public double calculateADX() {
         diValues = di.getDiretionalIndexValues();
-        
-        if( diValues.size() < numDays )
+
+        if (diValues.size() < numDays) {
             return 0.0;
-        
-        if( this.executionCount == 0 )
-        {
+        }
+
+        if (this.executionCount == 0) {
             this.executionCount++;
             average = 0.0;
-            
-            for(double val : diValues)
-            {
+
+            for (double val : diValues) {
                 average += val;
             }
-            
-            average = average/this.numDays;
+
+            average = average / this.numDays;
             this.previousADX = average;
             result = average;
+        } else {
+            result = ((this.previousADX * (numDays - 1)) + diValues.lastElement()) / this.numDays;
         }
-        else
-        {
-            result = ( (this.previousADX * (numDays-1)) + diValues.lastElement() )/this.numDays;
-        }
-        
+
         return result;
     }
-    
-    public double getPreviousADX()
-    {
+
+    public double getPreviousADX() {
         return this.previousADX;
     }
-    
+
     @Override
-    public Double calculateIndicator(){
+    public Double calculateIndicator() {
         return this.calculateADX();
     }
 }

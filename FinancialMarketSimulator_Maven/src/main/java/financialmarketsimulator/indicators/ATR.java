@@ -10,6 +10,8 @@ import static java.lang.Math.*;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class ATR extends MarketIndicator{
+    
+    private static ATR instance = null;
     private double previousATR;
     private double currentATR;
     private final int numDays;
@@ -20,14 +22,22 @@ public class ATR extends MarketIndicator{
     private final MarketEntryAttemptBook book;
     private Double val1, val2, val3;
     
-    public ATR(MarketEntryAttemptBook _book, int _numDays)
+    private ATR(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Average True Range");
+        
         book = _book;
         if(_numDays <= 0) numDays = 14; else numDays = _numDays;
         currentHigh = book.getHighestTradePrice(numDays);
         currentLow = book.getLowestTradePrice(numDays);
         previousClosing = book.getLastTradePrice(); //Might need to be changed
+    }
+    
+    public static ATR getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new ATR(_book, _numDays);
+        }
+        return instance;
     }
     
     public double calculateATR()

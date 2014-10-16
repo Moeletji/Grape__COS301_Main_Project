@@ -6,7 +6,6 @@ import financialmarketsimulator.indicators.MACD;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketStrategy;
 import java.util.Date;
-import java.util.Vector;
 
 /**
  *
@@ -14,13 +13,28 @@ import java.util.Vector;
  */
 public class MACDStrategy extends MarketStrategy{
 
-    private MarketEntryAttemptBook data;
-    private MACD macd;
+    /**
+     * Singleton instance
+     */
+    private static MACDStrategy instance = null;
+    private final MarketEntryAttemptBook data;
+    private final MACD macd;
 
-    public MACDStrategy(MarketEntryAttemptBook _data) throws NotEnoughDataException {
+    private MACDStrategy(MarketEntryAttemptBook _data) throws NotEnoughDataException {
         super("MACD Strategy");
         this.data = _data;
-        macd = new MACD(this.data);
+        macd = MACD.getInstance(this.data);
+    }
+    
+    public static MACDStrategy getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            try {
+                instance = new MACDStrategy(_book);
+            } catch (NotEnoughDataException ex) {
+                System.out.println("MACD STrategy - not enough data exception");
+            }
+        }
+        return instance;
     }
     
     @Override

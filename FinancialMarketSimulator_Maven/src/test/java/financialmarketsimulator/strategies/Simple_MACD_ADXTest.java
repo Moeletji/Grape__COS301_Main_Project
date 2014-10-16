@@ -57,18 +57,18 @@ public class Simple_MACD_ADXTest {
     public void testTrade() throws Exception {
         System.out.println("trade");
         MarketEntryAttemptBook book = new MarketEntryAttemptBook();
-        MovingAverageCrossover instance = new MovingAverageCrossover(book,14);
+        MovingAverageCrossover instance = MovingAverageCrossover.getInstance(book,14);
         
         try{
             //***************************
             //EXPECTED RESULT CALCULATION
             //***************************
-            MovingAverageCrossover dummy = new MovingAverageCrossover(book,14);
+            MovingAverageCrossover dummy = MovingAverageCrossover.getInstance(book,14);
             MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
-            ADX adx = new ADX(book,14);
-            PDI pdi = new PDI(book,14);
-            NDI ndi = new NDI(book,14);
-            MACDStrategy macdStrategy = new MACDStrategy(book);
+            ADX adx = ADX.getInstance(book,14);
+            PDI pdi = PDI.getInstance(book,14);
+            NDI ndi = NDI.getInstance(book,14);
+            MACDStrategy macdStrategy = MACDStrategy.getInstance(book);
 
             double adxValue = adx.calculateADX();
             double pdiValue = pdi.calculatePDI();

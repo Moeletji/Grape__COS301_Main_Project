@@ -1,7 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
-import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
@@ -14,18 +12,29 @@ import java.util.Vector;
 
 public class Volatility extends MarketIndicator{
     
-    private int period;
-    private SMA sma;
+    /**
+     * Singleton instance
+     */
+    private static Volatility instance = null;
+    private final int period;
+    private final SMA sma;
     private double mean;
-    private MarketEntryAttemptBook data;
+    private final MarketEntryAttemptBook data;
     private double sd;
     
-    public Volatility(int _period,MarketEntryAttemptBook _data )
+    private Volatility(int _period,MarketEntryAttemptBook _data )
     {
         super("Volatility");
         this.period = _period;
         this.data = _data;
-        sma = new SMA(this.data, period);
+        sma = SMA.getInstance(this.data, period);
+    }
+    
+    public static Volatility getInstance(int _numDays, MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            instance = new Volatility(_numDays, _book);
+        }
+        return instance;
     }
           
     public double getMean()

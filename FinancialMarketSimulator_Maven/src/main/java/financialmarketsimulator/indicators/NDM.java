@@ -10,6 +10,10 @@ import java.util.Vector;
  */
 public class NDM extends MarketIndicator{
     
+    /**
+     * Singleton instance
+     */
+    private static NDM instance = null;
     private final MarketEntryAttemptBook book; 
     private final int numDays;
     private final Vector<Double> NMDValues;
@@ -17,12 +21,19 @@ public class NDM extends MarketIndicator{
     private Double downMove;
     private Double result;
     
-    public NDM(MarketEntryAttemptBook _book, int _numDays)
+    private NDM(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Negative Directional Movement");
         this.book = _book;
         this.numDays = _numDays;
         this.NMDValues = new Vector<>();
+    }
+    
+    public static NDM getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new NDM(_book, _numDays);
+        }
+        return instance;
     }
     
     /**

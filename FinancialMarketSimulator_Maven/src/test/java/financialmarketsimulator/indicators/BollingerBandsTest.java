@@ -45,7 +45,7 @@ public class BollingerBandsTest {
     @Test
     public void testGetSMA() {
         System.out.println("getSMA");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         //double result = instance.getSMA();
         //assertEquals(expResult, result, 0.0);
@@ -59,7 +59,7 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateSMA() throws Exception {
         System.out.println("calculateSMA");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         //instance.calculateSMA();
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -71,7 +71,7 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateSD() throws Exception {
         System.out.println("calculateSD");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         //instance.calculateSD();
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -83,7 +83,7 @@ public class BollingerBandsTest {
     @Test
     public void testGetSD() {
         System.out.println("getSD");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         double result = instance.getSD();
         //assertEquals(expResult, result, 0.0);
@@ -98,7 +98,7 @@ public class BollingerBandsTest {
     public void testSetSMA() {
         System.out.println("setSMA");
         double _sma = 0.0;
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         instance.setSMA(_sma);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -110,7 +110,7 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateUpperBand() throws Exception {
         System.out.println("calculateUpperBand");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         //double result = instance.calculateUpperBand();
         //assertEquals(expResult, result, 0.0);
@@ -124,7 +124,7 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateLowerBand() throws Exception {
         System.out.println("calculateLowerBand");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         //double result = instance.calculateLowerBand();
         //assertEquals(expResult, result, 0.0);
@@ -138,7 +138,7 @@ public class BollingerBandsTest {
     @Test
     public void testGetFactor() {
         System.out.println("getFactor");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         int expResult = instance.getFactor();
         int result = instance.getFactor();
         //assertEquals(expResult, result);
@@ -153,7 +153,7 @@ public class BollingerBandsTest {
     public void testSetStandardDeviation() {
         System.out.println("setStandardDeviation");
         double sd = 0.0;
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         instance.setStandardDeviation(sd);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -165,7 +165,7 @@ public class BollingerBandsTest {
     @Test
     public void testGetLowerBand() {
         System.out.println("getLowerBand");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         double result = instance.getLowerBand();
         //assertEquals(expResult, result, 0.0);
@@ -179,7 +179,7 @@ public class BollingerBandsTest {
     @Test
     public void testGetUpperBand() {
         System.out.println("getUpperBand");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         double result = instance.getUpperBand();
         //assertEquals(expResult, result, 0.0);
@@ -193,7 +193,7 @@ public class BollingerBandsTest {
     @Test
     public void testGetBandWidth() {
         System.out.println("getBandWidth");
-        BollingerBands instance = new BollingerBands();
+        BollingerBands instance = BollingerBands.getInstance();
         double expResult = 0.0;
         double result = instance.getBandWidth();
         //assertEquals(expResult, result, 0.0);

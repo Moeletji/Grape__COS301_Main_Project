@@ -56,15 +56,15 @@ public class DirectionalMovementIndexTest {
         System.out.println("trade");
         
         MarketEntryAttemptBook book = new MarketEntryAttemptBook();
-        DirectionalMovementIndex instance = new DirectionalMovementIndex(book,14);
-        DirectionalMovementIndex dummy = new DirectionalMovementIndex(book,14);
+        DirectionalMovementIndex instance = DirectionalMovementIndex.getInstance(book,14);
+        DirectionalMovementIndex dummy = DirectionalMovementIndex.getInstance(book,14);
         
         //***************************
         //EXPECTED RESULT CALCULATION
         //***************************
         MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
-        PDI pdi = new PDI(book,14);
-        NDI ndi = new NDI(book,14);
+        PDI pdi = PDI.getInstance(book,14);
+        NDI ndi = NDI.getInstance(book,14);
         
         double currentPDI = pdi.calculatePDI();
         double currentNDI = ndi.calculateNDI();

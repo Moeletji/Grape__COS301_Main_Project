@@ -47,7 +47,7 @@ public class ATRTest {
     public void testCalculateATR() {
         System.out.println("calculateATR");
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         double expResult;
         double currentHigh = 0.51;
         double currentLow = 0.48;
@@ -78,7 +78,7 @@ public class ATRTest {
     public void testGetTrueRange() {
         System.out.println("getTrueRange");
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         double expResult = 0.0;
         double result = instance.getTrueRange();
         assertEquals(expResult, result, 0.0);
@@ -91,7 +91,7 @@ public class ATRTest {
     public void testSetTrueRange() {
         System.out.println("setTrueRange");
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         instance.setTrueRange();
     }
 
@@ -103,7 +103,7 @@ public class ATRTest {
         System.out.println("setPreviousATR");
         double prev = 0.0;
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         instance.setPreviousATR(prev);
     }
 
@@ -115,7 +115,7 @@ public class ATRTest {
         System.out.println("setCurrentHight");
         double val = 0.0;
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         instance.setCurrentHight(val);
     }
 
@@ -127,7 +127,7 @@ public class ATRTest {
         System.out.println("setCurrentLow");
         double val = 0.0;
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         instance.setCurrentLow(val);
     }
 
@@ -139,7 +139,7 @@ public class ATRTest {
         System.out.println("setPreviousClosing");
         double val = 0.0;
         book = new MarketEntryAttemptBook();
-        ATR instance = new ATR(book,14);
+        ATR instance = ATR.getInstance(book,14);
         instance.setPreviousClosing(val);
     }
     

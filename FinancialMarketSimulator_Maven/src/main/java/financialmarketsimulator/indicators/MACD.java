@@ -1,6 +1,5 @@
 package financialmarketsimulator.indicators;
 
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
 import financialmarketsimulator.market.MarketIndicator;
 import java.util.Vector;
@@ -13,6 +12,7 @@ import java.util.Vector;
  */
 public final class MACD extends MarketIndicator{
 
+    private static MACD instance = null;
     private double currentMACDValue = 0;
     private double previousMACDValue = 0;
     private final int LONG_DAY = 26;
@@ -29,25 +29,39 @@ public final class MACD extends MarketIndicator{
 
     private MarketEntryAttemptBook data;
 
-    public MACD() {
+    private MACD() {
         //currentMACDValue = previousMACDValue;
         super("Moving Average Convergence Divergence");
     }
 
-    public MACD(MarketEntryAttemptBook _data)  {
+    private MACD(MarketEntryAttemptBook _data)  {
         super("Moving Average Convergence Divergence");
         this.data = _data;
-        prevMACDValues = new Vector<Double>();
-        prevSignalValues = new Vector<Double>();
-        sma = new SMA(this.data, 12);
-        ema = new EMA(this.data, AVE_DAY);
+        prevMACDValues = new Vector<>();
+        prevSignalValues = new Vector<>();
+        sma = SMA.getInstance(this.data, 12);
+        ema = EMA.getInstance(this.data, AVE_DAY);
         setPreviousMACDValue(sma.calculateSMA());
         prevMACDValues.add(getPreviousMACDValue());
     }
+    
+    public static MACD getInstance() {
+        if (instance == null) {
+            instance = new MACD();
+        }
+        return instance;
+    }
+    
+    public static MACD getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            instance = new MACD(_book);
+        }
+        return instance;
+    }
 
     public double calculateMACDValue() {
-        EMA longEMA = new EMA(this.data, LONG_DAY);
-        EMA shortEMA = new EMA(this.data, SHORT_DAY);
+        EMA longEMA = EMA.getInstance(this.data, LONG_DAY);
+        EMA shortEMA = EMA.getInstance(this.data, SHORT_DAY);
         currentMACDValue = longEMA.calculateEMA() - shortEMA.calculateEMA();
         return currentMACDValue;
     }

@@ -18,6 +18,11 @@ import java.util.Vector;
  */
 public class MovingAverageEnvelope extends MarketStrategy{
 
+    /**
+     * Singleton instance
+     */
+    private static MovingAverageEnvelope instance = null;
+    
     public static enum STRATEGY_TYPE {
 
         SHORT_TERM, MEDIUM_TERM, LONG_TERM
@@ -44,13 +49,13 @@ public class MovingAverageEnvelope extends MarketStrategy{
     
     MarketEntryAttemptBook book;
 
-    public MovingAverageEnvelope(MarketEntryAttemptBook _book) throws NotEnoughDataException {
+    private MovingAverageEnvelope(MarketEntryAttemptBook _book) throws NotEnoughDataException {
         super("MovingAverageEnvelope");
         if (_book != null)
         {
             this.book = _book;
             //ema = new EMA(num_days);
-            sma = new SMA(book, num_days);
+            sma = SMA.getInstance(book, num_days);
             pastSMAValues = new Vector<Double>();
             type = MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM;
             percentage = this.medium_term;
@@ -58,14 +63,14 @@ public class MovingAverageEnvelope extends MarketStrategy{
         else throw new NotEnoughDataException();
     }
     
-    public MovingAverageEnvelope(MarketExchange exchange, MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
+    private MovingAverageEnvelope(MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
         super("MovingAverageEnvelope");
         
         if (_book != null)
         {
             this.book = _book;
             //ema = new EMA(num_days);
-            sma = new SMA(book, num_days);
+            sma = SMA.getInstance(book, num_days);
             pastSMAValues = new Vector<Double>();
             
             switch (_type)
@@ -82,6 +87,28 @@ public class MovingAverageEnvelope extends MarketStrategy{
             
         }
         else throw new NotEnoughDataException();
+    }
+    
+    public static MovingAverageEnvelope getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            try {
+                instance = MovingAverageEnvelope.getInstance(_book);
+            } catch (Exception ex) {
+                System.out.println("moving average envelope Strategy - not enough data exception");
+            }
+        }
+        return instance;
+    }
+    
+    public static MovingAverageEnvelope getInstance(MarketEntryAttemptBook _book, MovingAverageEnvelope.STRATEGY_TYPE _type) {
+        if (instance == null) {
+            try {
+                instance = MovingAverageEnvelope.getInstance(_book, _type);
+            } catch (Exception ex) {
+                System.out.println("Moving average envelope Strategy - not enough data exception");
+            }
+        }
+        return instance;
     }
     
     /**

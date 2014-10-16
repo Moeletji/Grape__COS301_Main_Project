@@ -12,6 +12,11 @@ import financialmarketsimulator.market.MarketIndicator;
 public class SMA extends MarketIndicator{
 
     /**
+     * Singleton instance
+     */
+    private static SMA instance = null;
+    
+    /**
      * Number of days
      */
     private int numOfDays;
@@ -33,16 +38,30 @@ public class SMA extends MarketIndicator{
      */
     private double currentSmaValue;
     
-    public SMA(int numDays)
+    private SMA(int numDays)
     {
         super("Simple Moving Average");
         numOfDays = numDays;
     }
     
-    public SMA(MarketEntryAttemptBook _book ,int numDays) {
+    private SMA(MarketEntryAttemptBook _book ,int numDays) {
         super("Simple moving Average");
         numOfDays = numDays;
         this.book = _book;
+    }
+    
+    public static SMA getInstance(int _numDays) {
+        if (instance == null) {
+            instance = new SMA(_numDays);
+        }
+        return instance;
+    }
+    
+    public static SMA getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new SMA(_book, _numDays);
+        }
+        return instance;
     }
 
     @SuppressWarnings("empty-statement")

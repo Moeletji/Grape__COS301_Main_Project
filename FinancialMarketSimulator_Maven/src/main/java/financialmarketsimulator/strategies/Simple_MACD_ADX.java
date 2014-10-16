@@ -24,6 +24,10 @@ import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
  */
 public class Simple_MACD_ADX extends MarketStrategy{
     
+    /**
+     * Singleton instance
+     */
+    private static Simple_MACD_ADX instance = null;
     private final MarketEntryAttemptBook book;
     private final ADX adx;
     private final MACDStrategy macdSrategy;
@@ -38,15 +42,26 @@ public class Simple_MACD_ADX extends MarketStrategy{
     private double pdiValue;
     private double ndiValue;
     
-    public Simple_MACD_ADX(MarketEntryAttemptBook _book) throws NotEnoughDataException
+    private Simple_MACD_ADX(MarketEntryAttemptBook _book) throws NotEnoughDataException
     {
         super("Simple MACD/ADX Strategy");
         this.book = _book;
         this.numDays = 14;
-        this.adx = new ADX(this.book,numDays);
-        this.macdSrategy = new MACDStrategy(this.book);
-        this.pdi = new PDI(this.book, numDays);
-        this.ndi = new NDI(this.book, numDays);
+        this.adx =ADX.getInstance(this.book,numDays);
+        this.macdSrategy = MACDStrategy.getInstance(this.book);
+        this.pdi = PDI.getInstance(this.book, numDays);
+        this.ndi = NDI.getInstance(this.book, numDays);
+    }
+    
+    public static Simple_MACD_ADX getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            try {
+                instance = new Simple_MACD_ADX(_book);
+            } catch (NotEnoughDataException ex) {
+                System.err.println("Simple MACD/ADX Strategy - Not enough data exception");
+            }
+        }
+        return instance;
     }
 
     @Override

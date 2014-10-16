@@ -58,16 +58,16 @@ public class SimpleRSITest {
     public void testTrade() throws Exception {
         System.out.println("trade");
         MarketEntryAttemptBook book = new MarketEntryAttemptBook();
-        MovingAverageCrossover instance = new MovingAverageCrossover(book,14);
+        MovingAverageCrossover instance = MovingAverageCrossover.getInstance(book,14);
         
         try{
             //***************************
             //EXPECTED RESULT CALCULATION
             //***************************
-            MovingAverageCrossover dummy = new MovingAverageCrossover(book,14);
+            MovingAverageCrossover dummy = MovingAverageCrossover.getInstance(book,14);
             MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
-            EMA ema = new EMA(book,14);
-            RSI rsi = new RSI(book,14);
+            EMA ema = EMA.getInstance(book,14);
+            RSI rsi = RSI.getInstance(book,14);
 
             double openingPrice = book.getOpeningPrice();
             double closingPrice = book.getLastTradePrice();

@@ -14,6 +14,10 @@ import java.util.Vector;
  */
 public class MovingAverageCrossover extends Crossover {
 
+    /**
+     * Singleton instance
+     */
+    private static MovingAverageCrossover instance = null;
     private final SMA smaObj;
     private final EMA emaObj;
     private final Vector<Double> closingEmas;
@@ -27,16 +31,26 @@ public class MovingAverageCrossover extends Crossover {
     //indicator1 = EMA
     //indicator2 = SMA
     @SuppressWarnings("Convert2Diamond")
-    public MovingAverageCrossover(MarketEntryAttemptBook _data, int _numDays) throws NotEnoughDataException {
+    private MovingAverageCrossover(MarketEntryAttemptBook _data, int _numDays) throws NotEnoughDataException {
         super(_data, _numDays, "EMA", "SMA");
-        emaObj = new EMA(this.data, numDays);
-        smaObj = new SMA(this.data, numDays);
+        emaObj = EMA.getInstance(this.data, numDays);
+        smaObj = SMA.getInstance(this.data, numDays);
         closingEmas = new Vector<>();
         closingSmas = new Vector<>();
 
         closingEmas.add(emaObj.getPreviousEMAValue());
         closingSmas.add(smaObj.getPreviousSMAValue());
-
+    }
+    
+    public static MovingAverageCrossover getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            try {
+                instance = new MovingAverageCrossover(_book, _numDays);
+            } catch (NotEnoughDataException ex) {
+                System.out.println("Moving average crossover - not enough data exception");
+            }
+        }
+        return instance;
     }
 
     @Override

@@ -3,7 +3,6 @@ package financialmarketsimulator.strategies;
 import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.indicators.SMA;
 import financialmarketsimulator.market.MarketEntryAttemptBook;
-import financialmarketsimulator.market.MarketExchange;
 import financialmarketsimulator.market.MarketStrategy;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
@@ -15,6 +14,10 @@ import java.util.Vector;
  */
 public class PriceSmaCrossover extends Crossover {
 
+    /**
+     * Singleton instance
+     */
+    private static PriceSmaCrossover instance = null;
     private final SMA smaObj;
     private final Vector<Double> closingSmas;
     private final Vector<Double> closingStockPrice;
@@ -27,9 +30,9 @@ public class PriceSmaCrossover extends Crossover {
     double previousPrice;
 
     @SuppressWarnings("Convert2Diamond")
-    public PriceSmaCrossover(MarketExchange exchange, MarketEntryAttemptBook _data, int _numDays) {
+    private PriceSmaCrossover(MarketEntryAttemptBook _data, int _numDays) {
         super(_data, _numDays, "Price", "SMA");
-        smaObj = new SMA(this.data, _numDays);
+        smaObj = SMA.getInstance(this.data, _numDays);
 
         closingSmas = new Vector<>();
         closingStockPrice = new Vector<>();
@@ -39,6 +42,13 @@ public class PriceSmaCrossover extends Crossover {
         closingSmas.add(smaObj.getPreviousSMAValue());
         closingStockPrice.add(_data.getHighestTradePrice(numDays));
 
+    }
+    
+    public static PriceSmaCrossover getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new PriceSmaCrossover(_book, _numDays);
+        }
+        return instance;
     }
 
     @Override

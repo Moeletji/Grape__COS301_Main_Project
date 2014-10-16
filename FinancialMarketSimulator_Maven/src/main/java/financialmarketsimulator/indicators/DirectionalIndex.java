@@ -17,6 +17,11 @@ import java.util.Vector;
  * @author Madimetja
  */
 public class DirectionalIndex extends MarketIndicator{
+    
+    /**
+     * Singleton instance
+     */
+    private static DirectionalIndex instance = null;
     private final int numDays;
     private final PDI pdi;
     private final NDI ndi;
@@ -26,14 +31,21 @@ public class DirectionalIndex extends MarketIndicator{
     private Double sum;
     private Double result;
     
-    public DirectionalIndex(MarketEntryAttemptBook _book, int _numDays)
+    private DirectionalIndex(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Directional Index");
         this.book = _book;
         this.numDays = _numDays;
-        this.pdi = new PDI(this.book, this.numDays);
-        this.ndi = new NDI(this.book, this.numDays);
+        this.pdi = PDI.getInstance(this.book, this.numDays);
+        this.ndi = NDI.getInstance(this.book, this.numDays);
         this.directionalIndexValues = new Vector<>();
+    }
+    
+    public static DirectionalIndex getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new DirectionalIndex(_book, _numDays);
+        }
+        return instance;
     }
     
     public double calculateDirectionalIndex()

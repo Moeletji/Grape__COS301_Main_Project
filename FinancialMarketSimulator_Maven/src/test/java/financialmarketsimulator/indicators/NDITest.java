@@ -51,7 +51,7 @@ public class NDITest {
         double _currNDM = 0.0;
         double _prevNDM = 0.0;
         book = new MarketEntryAttemptBook();
-        NDI instance = new NDI(book,14);
+        NDI instance = NDI.getInstance(book,14);
         double expResult;
         double currentNDM = 0.29;
         double previiousNDM = 0.31;
@@ -59,8 +59,8 @@ public class NDITest {
         //***********************
         // Expected result calculation
         //***********************
-        EMA ema = new EMA(book,14);
-        ATR atr = new ATR(book,14);
+        EMA ema = EMA.getInstance(book,14);
+        ATR atr = ATR.getInstance(book,14);
         
         ema.setCurrentPrice(currentNDM);
         ema.setPreviousEMAValue(previiousNDM);

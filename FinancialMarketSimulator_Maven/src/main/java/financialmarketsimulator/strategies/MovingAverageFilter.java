@@ -21,6 +21,11 @@ import java.util.Vector;
 public class MovingAverageFilter extends Filter{
     
     /**
+     * Singleton instance
+     */
+    private static MovingAverageFilter instance = null;
+            
+    /**
      * Moving Average Strategy Objects
      */
     MovingAverageEnvelope mae;
@@ -33,13 +38,24 @@ public class MovingAverageFilter extends Filter{
     double buySignalStregnth;
     double sellSignalStrength;
     
-    public MovingAverageFilter(MarketEntryAttemptBook _data, int numDays) throws NotEnoughDataException 
+    private MovingAverageFilter(MarketEntryAttemptBook _data) throws NotEnoughDataException 
     {
         super(_data, "Moving Average");
-        mae = new MovingAverageEnvelope(_data);
-        mac = new MovingAverageCrossover(_data,14); //Over 14days
-        macd = new MACDStrategy(_data);
+        mae = MovingAverageEnvelope.getInstance(_data);
+        mac = MovingAverageCrossover.getInstance(_data,14); //Over 14days
+        macd = MACDStrategy.getInstance(_data);
         outcome = new Vector<>();
+    }
+    
+    public static MovingAverageFilter getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            try {
+                instance = new MovingAverageFilter(_book);
+            } catch (NotEnoughDataException ex) {
+                System.out.println("Moving Average Crossover - Not enough data exception");
+            }
+        }
+        return instance;
     }
 
     @Override

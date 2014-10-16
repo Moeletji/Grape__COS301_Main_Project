@@ -10,6 +10,11 @@ import java.util.Vector;
  */
 
 public class NDI extends MarketIndicator{
+    
+    /**
+     * 
+     */
+    private static NDI instance = null;
     private final int numDays;
     private final NDM ndm;
     private final ATR atr;
@@ -25,14 +30,21 @@ public class NDI extends MarketIndicator{
      * @param _book MarketEntryAttemptBook object
      * @param _numDays number of days over which NDI must be calculated.
      */
-    public NDI(MarketEntryAttemptBook _book, int _numDays)
+    private NDI(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Negative Directional Indicator");
         this.book = _book;
         this.numDays = _numDays;
-        this.ndm = new NDM(this.book,14);
-        this.atr = new ATR(this.book,14);
+        this.ndm = NDM.getInstance(_book, _numDays);
+        this.atr = ATR.getInstance(_book, _numDays);
         this.NDIValues = new Vector<>();
+    }
+    
+    public static NDI getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new NDI(_book, _numDays);
+        }
+        return instance;
     }
     
     public Double calculateNDI()

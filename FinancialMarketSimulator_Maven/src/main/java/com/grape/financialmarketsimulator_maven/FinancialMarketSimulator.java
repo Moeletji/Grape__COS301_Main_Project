@@ -41,8 +41,8 @@ public class FinancialMarketSimulator {
         //Trading Strategies
         MarketStrategy strategy1 = new Phantom();
         MarketStrategy strategy2 = new Phantom();
-        MarketStrategy strategy3 = new MACDStrategy(exchange.getBook("INV"));
-        MarketStrategy strategy4 = new PriceEmaCrossover(exchange, exchange.getBook("INV"), 14);
+        MarketStrategy strategy3 = MACDStrategy.getInstance(exchange.getBook("INV"));
+        MarketStrategy strategy4 = PriceEmaCrossover.getInstance(exchange.getBook("INV"), 14);
         MarketStrategy strategy5 = new Phantom();
         MarketStrategy strategy6 = new Phantom();
         MarketStrategy strategy7 = new Phantom();

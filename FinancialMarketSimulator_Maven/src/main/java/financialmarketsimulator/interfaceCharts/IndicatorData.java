@@ -35,17 +35,17 @@ public class IndicatorData {
     public IndicatorData(MarketEntryAttemptBook _book) throws NotEnoughDataException
     {
         this.book = _book;
-        this.adx = new ADX(book, 14);
-        this.atr = new ATR(book, 14);
-        this.di = new DirectionalIndex(_book, 14);
-        this.ema = new EMA(book, 14);
-        this.macd = new MACD(book);
-        this.ndi = new NDI(book, 14);
-        this.ndm = new NDM(book, 14);
-        this.pdi = new PDI(book, 14);
-        this.pdm = new PDM(book, 14);
-        this.rsi = new RSI(book, 14);
-        this.sma= new SMA(book, 14);
+        this.adx = ADX.getInstance(book, 14);
+        this.atr = ATR.getInstance(book, 14);
+        this.di = DirectionalIndex.getInstance(_book, 14);
+        this.ema = EMA.getInstance(book, 14);
+        this.macd = MACD.getInstance(book);
+        this.ndi = NDI.getInstance(book, 14);
+        this.ndm = NDM.getInstance(book, 14);
+        this.pdi = PDI.getInstance(book, 14);
+        this.pdm = PDM.getInstance(book, 14);
+        this.rsi = RSI.getInstance(book, 14);
+        this.sma= SMA.getInstance(book, 14);
     }
     
     public Vector<MarketIndicator> getIndicators()

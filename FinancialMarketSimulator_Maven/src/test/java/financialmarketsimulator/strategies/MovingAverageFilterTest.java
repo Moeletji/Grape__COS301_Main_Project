@@ -57,17 +57,17 @@ public class MovingAverageFilterTest {
         System.out.println("trade");
         
         MarketEntryAttemptBook book = new MarketEntryAttemptBook();
-        MovingAverageCrossover instance = new MovingAverageCrossover(book,14);
+        MovingAverageCrossover instance = MovingAverageCrossover.getInstance(book,14);
         
         try{
             //***************************
             //EXPECTED RESULT CALCULATION
             //***************************
-            MovingAverageCrossover dummy = new MovingAverageCrossover(book,14);
+            MovingAverageCrossover dummy = MovingAverageCrossover.getInstance(book,14);
             MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
-            MovingAverageEnvelope mae = new MovingAverageEnvelope(book);
-            MovingAverageCrossover mac = new MovingAverageCrossover(book,14);
-            MACDStrategy macd = new MACDStrategy(book);
+            MovingAverageEnvelope mae = MovingAverageEnvelope.getInstance(book);
+            MovingAverageCrossover mac = MovingAverageCrossover.getInstance(book,14);
+            MACDStrategy macd = MACDStrategy.getInstance(book);
 
             Vector<SIGNAL> outcome = new Vector<>();
 

@@ -51,7 +51,7 @@ public class PDITest {
         double _currPDM = 0.0;
         double _prevPDM = 0.0;
         book = new MarketEntryAttemptBook();
-        PDI instance = new PDI(book,14);
+        PDI instance = PDI.getInstance(book,14);
         double expResult;
         double currentNDM = 0.29;
         double previiousNDM = 0.31;
@@ -59,8 +59,8 @@ public class PDITest {
         //***********************
         // Expected result calculation
         //***********************
-        EMA ema = new EMA(book,14);
-        ATR atr = new ATR(book,14);
+        EMA ema = EMA.getInstance(book,14);
+        ATR atr = ATR.getInstance(book,14);
         
         ema.setCurrentPrice(currentNDM);
         ema.setPreviousEMAValue(previiousNDM);

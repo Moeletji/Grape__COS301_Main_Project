@@ -14,6 +14,8 @@ import financialmarketsimulator.market.MarketStrategy;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
 import static financialmarketsimulator.market.MarketStrategy.SIGNAL.*;
 import static java.lang.Math.abs;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @brief Buy Condition 1 - if the closing price is greater than its 200 day
@@ -33,6 +35,10 @@ import static java.lang.Math.abs;
  */
 public class SimpleRSI extends MarketStrategy {
 
+    /**
+     * Singleton instance
+     */
+    private static SimpleRSI instance = null;
     private final MarketEntryAttemptBook book;
     private final RSI rsi;
     private final EMA ema;
@@ -47,12 +53,23 @@ public class SimpleRSI extends MarketStrategy {
     double highestTradePrice;
     double lowestTradePrice;
 
-    public SimpleRSI(MarketEntryAttemptBook _book) throws NotEnoughDataException {
+    private SimpleRSI(MarketEntryAttemptBook _book) throws NotEnoughDataException {
         super("Simple RSI");
         this.book = _book;
         this.numDays = 50; //Should preferebly be over 200 days
-        rsi = new RSI(this.book, numDays);
-        ema = new EMA(this.book, numDays);
+        rsi = RSI.getInstance(this.book, numDays);
+        ema = EMA.getInstance(this.book, numDays);
+    }
+    
+    public static SimpleRSI getInstance(MarketEntryAttemptBook _book) {
+        if (instance == null) {
+            try {
+                instance = new SimpleRSI(_book);
+            } catch (NotEnoughDataException ex) {
+                System.out.println("Simple RSI strategy - Not enough data exception");
+            }
+        }
+        return instance;
     }
 
     @Override

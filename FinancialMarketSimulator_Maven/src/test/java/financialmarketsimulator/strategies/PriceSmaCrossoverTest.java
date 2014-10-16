@@ -53,15 +53,15 @@ public class PriceSmaCrossoverTest {
     public void testTrade() throws Exception {
         System.out.println("trade");
         MarketEntryAttemptBook book = new MarketEntryAttemptBook();
-        MovingAverageCrossover instance = new MovingAverageCrossover(book,14);
+        MovingAverageCrossover instance = MovingAverageCrossover.getInstance(book,14);
         
         try{
         //***************************
         //EXPECTED RESULT CALCULATION
         //***************************
-        MovingAverageCrossover dummy = new MovingAverageCrossover(book,14);
+        MovingAverageCrossover dummy = MovingAverageCrossover.getInstance(book,14);
         MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
-        SMA smaObj = new SMA(book,14);
+        SMA smaObj = SMA.getInstance(book,14);
         
         double smaCurr = smaObj.calculateSMA();
         double smaPrev = smaObj.getPreviousSMAValue();

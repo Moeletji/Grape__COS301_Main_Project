@@ -296,20 +296,20 @@ public class RunSimulation extends javax.swing.JFrame {
 
         Vector<MarketIndicator> ind = new Vector<>();
 
-        ind.add(new ADX(exchange.getBook("INV"), 14));
-        ind.add(new ATR(exchange.getBook("INV"), 14));
+        ind.add(ADX.getInstance(exchange.getBook("INV"), 14));
+        ind.add(ATR.getInstance(exchange.getBook("INV"), 14));
         //ind.add(new BollingerBands(exchange.getBook("INV")));
-        ind.add(new DirectionalIndex(exchange.getBook("INV"), 14));
-        ind.add(new EMA(exchange.getBook("INV"), 14));
-        ind.add(new MACD(exchange.getBook("INV")));
-        ind.add(new NDI(exchange.getBook("INV"), 14));
-        ind.add(new NDM(exchange.getBook("INV"), 14));
-        ind.add(new PDI(exchange.getBook("INV"), 14));
-        ind.add(new PDM(exchange.getBook("INV"), 14));
-        ind.add(new RSI(exchange.getBook("INV"), 14));
-        ind.add(new SMA(exchange.getBook("INV"), 14));
-        ind.add(new StochasticOscillator(exchange.getBook("INV")));
-        ind.add(new Volatility(14, exchange.getBook("INV")));
+        ind.add(DirectionalIndex.getInstance(exchange.getBook("INV"), 14));
+        ind.add(EMA.getInstance(exchange.getBook("INV"), 14));
+        ind.add(MACD.getInstance(exchange.getBook("INV")));
+        ind.add(NDI.getInstance(exchange.getBook("INV"), 14));
+        ind.add(NDM.getInstance(exchange.getBook("INV"), 14));
+        ind.add(PDI.getInstance(exchange.getBook("INV"), 14));
+        ind.add(PDM.getInstance(exchange.getBook("INV"), 14));
+        ind.add(RSI.getInstance(exchange.getBook("INV"), 14));
+        ind.add(SMA.getInstance(exchange.getBook("INV"), 14));
+        ind.add(StochasticOscillator.getInstance(exchange.getBook("INV")));
+        ind.add(Volatility.getInstance(14, exchange.getBook("INV")));
 
         /*
          Vector<String> indNames = new Vector<>();

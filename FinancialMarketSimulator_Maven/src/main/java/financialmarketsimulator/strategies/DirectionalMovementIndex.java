@@ -25,6 +25,10 @@ import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.*;
  */
 public class DirectionalMovementIndex extends MarketStrategy {
 
+    /**
+     * Singleton instance
+     */
+    private static DirectionalMovementIndex instance = null;
     private final MarketEntryAttemptBook book;
     private final int numDays;
     private final PDI pdi;
@@ -35,12 +39,19 @@ public class DirectionalMovementIndex extends MarketStrategy {
     private double currentPDI;
     private double currentNDI;
 
-    public DirectionalMovementIndex(MarketEntryAttemptBook _book, int _numDays) {
+    private DirectionalMovementIndex(MarketEntryAttemptBook _book, int _numDays) {
         super("Directional Movement Index");
         this.book = _book;
         this.numDays = _numDays;
-        this.pdi = new PDI(this.book, this.numDays);
-        this.ndi = new NDI(this.book, this.numDays);
+        this.pdi = PDI.getInstance(this.book, this.numDays);
+        this.ndi = NDI.getInstance(this.book, this.numDays);
+    }
+    
+    public static DirectionalMovementIndex getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new DirectionalMovementIndex(_book, _numDays);
+        }
+        return instance;
     }
 
     @Override

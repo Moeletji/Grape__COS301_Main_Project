@@ -14,6 +14,8 @@ import java.util.Vector;
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
 public class PDI extends MarketIndicator{
+    
+    private static PDI instance = null;
     private final int numDays;
     private final PDM pdm;
     private final ATR atr;
@@ -30,14 +32,21 @@ public class PDI extends MarketIndicator{
      * @param _book MarketEntryAttemptBook object
      * @param _numDays number of days over which NDI must be calculated.
      */
-    public PDI(MarketEntryAttemptBook _book, int _numDays)
+    private PDI(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Positive Directional Movement");
         book = _book;
         numDays = _numDays;
-        this.pdm = new PDM(this.book,14);
-        this.atr = new ATR(this.book,14);
+        this.pdm = PDM.getInstance(_book, _numDays);
+        this.atr = ATR.getInstance(_book, _numDays);
         this.PDIValues = new Vector<>();
+    }
+    
+    public static PDI getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new PDI(_book, _numDays);
+        }
+        return instance;
     }
     
     public Double calculatePDI()

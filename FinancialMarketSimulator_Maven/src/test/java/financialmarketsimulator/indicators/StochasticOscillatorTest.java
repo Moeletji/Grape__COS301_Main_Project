@@ -60,7 +60,7 @@ public class StochasticOscillatorTest {
     @Test
     public void testCalculateD() throws Exception {
         System.out.println("calculateD");
-        StochasticOscillator instance = new StochasticOscillator();
+        StochasticOscillator instance = StochasticOscillator.getInstance();
         double expResult = 0.0;
         //double result = instance.calculateD();
         //assertEquals(expResult, result, 0.0);
@@ -74,7 +74,7 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetD() {
         System.out.println("getD");
-        StochasticOscillator instance = new StochasticOscillator();
+        StochasticOscillator instance = StochasticOscillator.getInstance();
         double expResult = 0.0;
         //double result = instance.getD();
         //assertEquals(expResult, result, 0.0);
@@ -88,7 +88,7 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetK() {
         System.out.println("getK");
-        StochasticOscillator instance = new StochasticOscillator();
+        StochasticOscillator instance = StochasticOscillator.getInstance();
         double expResult = 0.0;
         //double result = instance.getK();
         //assertEquals(expResult, result, 0.0);

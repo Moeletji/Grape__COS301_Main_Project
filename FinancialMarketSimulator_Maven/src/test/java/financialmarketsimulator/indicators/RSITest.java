@@ -48,7 +48,7 @@ public class RSITest {
     public void testCalculateRSI() throws Exception {
         System.out.println("calculateRSI");
         book = new MarketEntryAttemptBook();
-        RSI instance = new RSI(book,14);
+        RSI instance = RSI.getInstance(book,14);
         double currentUpClose = 0.49;
         double currentDownClose = 0.44; 
         double currentClose = 0.48;
@@ -60,8 +60,8 @@ public class RSITest {
         //*****************************
         // Expected result calculation
         //*****************************
-        EMA emaUp = new EMA(book,14);
-        EMA emaDown = new EMA(book,14);
+        EMA emaUp = EMA.getInstance(book,14);
+        EMA emaDown = EMA.getInstance(book,14);
         
         previousUpClose = currentUpClose;
         previousDownClose = currentDownClose;
@@ -94,7 +94,7 @@ public class RSITest {
     public void testCalculateRS() throws Exception {
         System.out.println("calculateRS");
         book = new MarketEntryAttemptBook();
-        RSI instance = new RSI(book,14);
+        RSI instance = RSI.getInstance(book,14);
         double previousUpClose;
         double currentUpClose;
         double previousDownClose;
@@ -104,8 +104,8 @@ public class RSITest {
         double expResult;
         
         //Empirical
-        EMA emaUp = new EMA(book,14);
-        EMA emaDown = new EMA(book,14);
+        EMA emaUp = EMA.getInstance(book,14);
+        EMA emaDown = EMA.getInstance(book,14);
         
         previousClose = 0.0;
         currentClose = book.getLastTradePrice();
@@ -137,7 +137,7 @@ public class RSITest {
     public void testGetRSI() {
         System.out.println("getRSI");
         book = new MarketEntryAttemptBook();
-        RSI instance = new RSI(book,14);
+        RSI instance = RSI.getInstance(book,14);
         double expResult = 0.0;
         double result = instance.getRSI();
         assertEquals(expResult, result, 0.0);
@@ -150,7 +150,7 @@ public class RSITest {
     public void testGetRS() {
         System.out.println("getRS");
         book = new MarketEntryAttemptBook();
-        RSI instance = new RSI(book,14);
+        RSI instance = RSI.getInstance(book,14);
         double expResult = 0.0;
         double result = instance.getRS();
         assertEquals(expResult, result, 0.0);

@@ -294,15 +294,15 @@ public class Participants extends javax.swing.JFrame {
                 }
 
                 try {
-                    MarketStrategy strategy1 = new DirectionalMovementIndex(exchange.getBook(manager.getStockName()), 14);
-                    MarketStrategy strategy2 = new MovingAverageCrossover(exchange.getBook(manager.getStockName()), 14);
-                    MarketStrategy strategy3 = new MovingAverageEnvelope(exchange.getBook(manager.getStockName()));
-                    MarketStrategy strategy4 = new MovingAverageFilter(exchange.getBook(manager.getStockName()), 14);
-                    MarketStrategy strategy5 = new PriceEmaCrossover(exchange, exchange.getBook(manager.getStockName()), 14);
-                    MarketStrategy strategy6 = new PriceSmaCrossover(exchange, exchange.getBook(manager.getStockName()), 14);
-                    MarketStrategy strategy7 = new SimpleRSI(exchange.getBook(manager.getStockName()));
-                    MarketStrategy strategy8 = new Simple_MACD_ADX(exchange.getBook(manager.getStockName()));
-                    MarketStrategy strategy9 = new MACDStrategy(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy1 = DirectionalMovementIndex.getInstance(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy2 = MovingAverageCrossover.getInstance(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy3 = MovingAverageEnvelope.getInstance(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy4 = MovingAverageFilter.getInstance(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy5 = PriceEmaCrossover.getInstance(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy6 = PriceSmaCrossover.getInstance(exchange.getBook(manager.getStockName()), 14);
+                    MarketStrategy strategy7 = SimpleRSI.getInstance(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy8 = Simple_MACD_ADX.getInstance(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy9 = MACDStrategy.getInstance(exchange.getBook(manager.getStockName()));
 
                     MarketParticipant mp1 = new MarketParticipant("Participant 1 " + strategy1.getStrategyName(), "1", exchange, manager.getStockName(), strategy1);
                     manager.attach(mp1);
@@ -497,57 +497,57 @@ public class Participants extends javax.swing.JFrame {
                 strategy = new Phantom();
                 break;
             case "DirectionalMovementIndex":
-                strategy = new DirectionalMovementIndex(exchange.getBook(stockName), 14);
+                strategy = DirectionalMovementIndex.getInstance(exchange.getBook(stockName), 14);
                 break;
             case "MACDStrategy":
                 try {
-                    strategy = new MACDStrategy(exchange.getBook(stockName));
-                } catch (NotEnoughDataException ex) {
+                    strategy = MACDStrategy.getInstance(exchange.getBook(stockName));
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create MACD Strategy", "");
                 }
                 break;
             case "MovingAverageCrossover":
                 try {
-                    strategy = new MovingAverageCrossover(exchange.getBook(stockName), 14);
-                } catch (NotEnoughDataException ex) {
+                    strategy = MovingAverageCrossover.getInstance(exchange.getBook(stockName), 14);
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create MovingAverageCrossover Strategy", "");
                 }
                 break;
             case "MovingAverageEnvelope":
                 try {
-                    strategy = new MovingAverageEnvelope(exchange.getBook(stockName));
-                } catch (NotEnoughDataException ex) {
+                    strategy = MovingAverageEnvelope.getInstance(exchange.getBook(stockName));
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create Moving Average Envelope Strategy", "");
                 }
                 break;
             case "MovingAverageFilter":
                 try {
-                    strategy = new MovingAverageFilter(exchange.getBook(stockName), 14);
-                } catch (NotEnoughDataException ex) {
+                    strategy = MovingAverageFilter.getInstance(exchange.getBook(stockName));
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create Moving Average Filter Strategy", "");
                 }
                 break;
             case "PriceEmaCrossover":
                 try {
-                    strategy = new PriceEmaCrossover(exchange, exchange.getBook(stockName), 14);
-                } catch (NotEnoughDataException ex) {
+                    strategy = PriceEmaCrossover.getInstance(exchange.getBook(stockName), 14);
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create Price EMA Crossover Strategy", "");
                 }
                 break;
             case "PriceSmaCrossover":
-                strategy = new PriceSmaCrossover(exchange, exchange.getBook(stockName), 14);
+                strategy = PriceSmaCrossover.getInstance(exchange.getBook(stockName), 14);
                 break;
             case "SimpleRSI":
                 try {
-                    strategy = new SimpleRSI(exchange.getBook(stockName));
-                } catch (NotEnoughDataException ex) {
+                    strategy = SimpleRSI.getInstance(exchange.getBook(stockName));
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create Simple RSI Strategy", "");
                 }
                 break;
             case "Simple_MACD_ADX":
                 try {
-                    strategy = new Simple_MACD_ADX(exchange.getBook(stockName));
-                } catch (NotEnoughDataException ex) {
+                    strategy = Simple_MACD_ADX.getInstance(exchange.getBook(stockName));
+                } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create Simple MACD ADX Strategy", "");
                 }
                 break;

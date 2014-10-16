@@ -10,6 +10,10 @@ import java.util.Vector;
  */
 public class PDM extends MarketIndicator{
     
+    /**
+     * Singleton instance
+     */
+    private static PDM instance = null;
     private final MarketEntryAttemptBook book; 
     private final int numDays;
     private final Vector<Double> PDMValues;
@@ -17,12 +21,19 @@ public class PDM extends MarketIndicator{
     private Double downMove;
     private Double result;
     
-    public PDM(MarketEntryAttemptBook _book, int _numDays)
+    private PDM(MarketEntryAttemptBook _book, int _numDays)
     {
         super("Positive Directional Movement");
         book = _book;
         numDays = _numDays;
         PDMValues = new Vector<>();
+    }
+    
+    public static PDM getInstance(MarketEntryAttemptBook _book, int _numDays) {
+        if (instance == null) {
+            instance = new PDM(_book, _numDays);
+        }
+        return instance;
     }
     
     /**
