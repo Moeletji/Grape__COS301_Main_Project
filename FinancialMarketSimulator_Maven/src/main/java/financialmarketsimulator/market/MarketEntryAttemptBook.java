@@ -1,7 +1,6 @@
 package financialmarketsimulator.market;
 
 import financialmarketsimulator.database.DBConnect;
-import financialmarketsimulator.exception.NotEnoughDataException;
 import financialmarketsimulator.exception.OrderHasNoValuesException;
 import financialmarketsimulator.marketData.MatchedMarketEntryAttempt;
 import java.util.Vector;
@@ -27,11 +26,11 @@ public class MarketEntryAttemptBook {
     /**
      * @brief Vector of all gain values from trade to trade
      */
-    final Vector<Double> gains;
+    Vector<Double> gains;
     /**
      * @bried Vector of all loss values from trade to trade
      */
-    final Vector<Double> losses;
+    Vector<Double> losses;
     /**
      * @brief Name of the stock stored as a string
      */
@@ -69,23 +68,36 @@ public class MarketEntryAttemptBook {
      * @brief MarketExchange
      */
     private MarketExchange exchange;
-
-    public MarketEntryAttemptBook(String stockName, long timePeriod, int totalNumberOfShares) {
+    
+    /**
+     * @brief Used for garbage collection
+     */
+    private Vector<MatchedMarketEntryAttempt> tempMatchedOrders;
+    /**
+     * @brief Used for garbage collection
+     */
+    private Vector<Double> tempGains;
+    /**
+     * @brief Used for garbage collection
+     */
+    private Vector<Double> tempLosees;
+    
+    public MarketEntryAttemptBook(String _stockName, long _timePeriod, int _totalNumberOfShares) {
         this();
-        this.timePeriod = timePeriod;
-        this.totalNumberOfShares = totalNumberOfShares;
+        this.timePeriod = _timePeriod;
+        this.totalNumberOfShares = _totalNumberOfShares;
         this.currentNumberOfShares = this.totalNumberOfShares;
-        this.stockName = stockName;
+        this.stockName = _stockName;
         this.lastTradePrice = 0.0;
     }
 
     /**
      * @brief constructor for MarketEntryAttemptBook
-     * @param _stock
+     * @param _stockName
      */
-    public MarketEntryAttemptBook(String stockName) {
+    public MarketEntryAttemptBook(String _stockName) {
         this();
-        this.stockName = stockName;
+        this.stockName = _stockName;
         this.lastTradePrice = 0.0;
     }
 
@@ -98,13 +110,16 @@ public class MarketEntryAttemptBook {
         this.stockName = stockName;
         this.totalNumberOfShares = 10000;
         this.currentNumberOfShares = this.totalNumberOfShares;
-        this.bids = new Vector<MarketEntryAttempt>();
-        this.offers = new Vector<MarketEntryAttempt>();
-        this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.bids = new Vector<>();
+        this.offers = new Vector<>();
+        this.matchedOrders = new Vector<>();
         this.timePeriod = timePeriod;
         this.pastTime = System.currentTimeMillis();
         this.gains = new Vector<>();
         this.losses = new Vector<>();
+        this.tempGains = new Vector<>();
+        this.tempLosees = new Vector<>();
+        this.tempMatchedOrders = new Vector<>();
     }
 
     /**
@@ -115,9 +130,9 @@ public class MarketEntryAttemptBook {
         this.stockName = "";
         this.totalNumberOfShares = 10000;
         this.currentNumberOfShares = this.totalNumberOfShares;
-        this.bids = new Vector<MarketEntryAttempt>();
-        this.offers = new Vector<MarketEntryAttempt>();
-        this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.bids = new Vector<>();
+        this.offers = new Vector<>();
+        this.matchedOrders = new Vector<>();
         this.timePeriod = timePeriod;
         this.pastTime = System.currentTimeMillis();
         this.gains = new Vector<>();
@@ -130,9 +145,9 @@ public class MarketEntryAttemptBook {
     public MarketEntryAttemptBook() {
         this.stockName = "";
         this.totalNumberOfShares = 0;
-        this.bids = new Vector<MarketEntryAttempt>();
-        this.offers = new Vector<MarketEntryAttempt>();
-        this.matchedOrders = new Vector<MatchedMarketEntryAttempt>();
+        this.bids = new Vector<>();
+        this.offers = new Vector<>();
+        this.matchedOrders = new Vector<>();
         this.timePeriod = 10;
         this.pastTime = System.currentTimeMillis();
         this.gains = new Vector<>();
@@ -286,12 +301,61 @@ public class MarketEntryAttemptBook {
         if (hasMoreShares) {
             addOrderToList(newOrder);
         }
+        
+        if( gains.size() > 500 )
+        {
+            tempGains.clear();
+            for( int i=0; i<200;i++ )
+            {
+                tempGains.add(gains.elementAt(i));
+            }
+            
+            gains.clear();
+            gains = null;
+            gains = (Vector<Double>) tempGains.clone();
+        }
+        
+        if( losses.size() > 500 )
+        {
+            tempLosees.clear();
+            for( int i=0; i<200;i++ )
+            {
+                tempLosees.add(losses.elementAt(i));
+            }
+            
+            losses.clear();
+            losses = null;
+            losses = (Vector<Double>) tempLosees.clone();
+        }
+        
+        if( matchedOrders.size() > 500 )
+        {
+            tempMatchedOrders.clear();
+            for( int i=0; i<200;i++ )
+            {
+                tempMatchedOrders.add(matchedOrders.elementAt(i));
+            }
+            
+            MatchedMarketEntryAttempt att;
+            for(int i = 200; i < matchedOrders.size(); i++)
+            {
+                att = matchedOrders.elementAt(i);
+                att = null;
+            }
+            
+            matchedOrders.clear();
+            matchedOrders = null;
+            matchedOrders = (Vector<MatchedMarketEntryAttempt>) tempMatchedOrders.clone();
+        }
+        
+        System.gc();
     }
 
     /**
      * @param side
      * @throws financialmarketsimulator.exception.OrderHasNoValuesException
-     * @brief Alter the price and/or shares of an Order
+     * @throws java.lang.CloneNotSupportedException
+     * @brief Alter the price and/or share
      * @param orderID Id of the order
      * @param price price of the order
      * @param shares number of the order
@@ -409,12 +473,11 @@ public class MarketEntryAttemptBook {
     private MarketEntryAttempt searchForOrder(String orderId, MarketEntryAttempt.SIDE side) {
         Vector<MarketEntryAttempt> orders = (side == MarketEntryAttempt.SIDE.BID ? bids : offers);
 
-        for (int i = 0; i < orders.size(); i++) {
-            MarketEntryAttempt order = orders.get(i);
+        for (MarketEntryAttempt order : orders) {
             if (order.getOrderID().equals(orderId)) {
                 //update listeners
                 //set ids at a later stage
-                return orders.get(i);
+                return order;
             }
         }
 
@@ -424,10 +487,9 @@ public class MarketEntryAttemptBook {
     private MarketEntryAttempt searchForOrder(MarketEntryAttempt attempt) {
         Vector<MarketEntryAttempt> orders = (attempt.side == MarketEntryAttempt.SIDE.BID ? bids : offers);
 
-        for (int i = 0; i < orders.size(); i++) {
-            MarketEntryAttempt order = orders.get(i);
+        for (MarketEntryAttempt order : orders) {
             if (order.getOrderID().equals(attempt.getOrderID())) {
-                return orders.get(i);
+                return order;
             }
         }
 
@@ -475,14 +537,19 @@ public class MarketEntryAttemptBook {
     public synchronized Vector<MatchedMarketEntryAttempt> getMatchedOrders() {
         return matchedOrders;
     }
-
+    
+    /**
+     * @brief Returns the current highest trade price
+     * @param period The period over which the trade price is calculated
+     * @return Returns the current highest trade price
+     */
     public synchronized double getHighestTradePrice(int period) {
         if (period <= 0 || matchedOrders.size() <= 0) {
             return 0.0;//an exception must be thrown here
         }
         int length = matchedOrders.size();
         int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
-        double highest = 0;
+        double highest;
 
         if (matchedOrders.size() >= range) {
             highest = 0;
@@ -501,13 +568,18 @@ public class MarketEntryAttemptBook {
         return highest;
     }
 
+    /**
+     * @brief Returns the current lowest trade price
+     * @param period The period over which the trade price is calculated
+     * @return Returns the current lowest trade price
+     */
     public synchronized double getLowestTradePrice(int period) {
         if (period <= 0 || matchedOrders.size() <= 0) {
             return 0.0;//an exception must be thrown here
         }
         int length = matchedOrders.size();
         int range = ((length - 2) - period < 0) ? (length - 2) - period : 0;
-        double lowest = 0;
+        double lowest;
         if (matchedOrders.size() >= range) {
             lowest = 0;
         } else {
@@ -525,6 +597,10 @@ public class MarketEntryAttemptBook {
         return lowest;
     }
 
+    /**
+     * @brief Returns the first trade price
+     * @return Returns the first trade price
+     */
     public synchronized double getFirstTradePrice() {
         return (!matchedOrders.isEmpty()) ? matchedOrders.firstElement().getPrice() : 0.0;
     }
@@ -696,34 +772,54 @@ public class MarketEntryAttemptBook {
      * either one of the bid or offer stacks is not empty.
      */
     public Boolean isEmpty() {
-        if (bids.isEmpty() == true && offers.isEmpty() == true) {
-            return true;
-        } else {
-            return false;
-        }
+        return bids.isEmpty() == true && offers.isEmpty() == true;
     }
 
+    /**
+     * @brief Returns the last trade price
+     * @return Returns the last trade price
+     */
     public double getLastTradePrice() {
         return lastTradePrice;
     }
 
+    /**
+     * @brief Sets the last trade price
+     * @param lastTradePrice The last trade price to set to
+     */
     public void setLastTradePrice(double lastTradePrice) {
         this.previousTradePrice = this.lastTradePrice;
         this.lastTradePrice = lastTradePrice;
     }
 
+    /**
+     * @brief Returns the previous trade price
+     * @return Returns the previous trade price
+     */
     public double getPreviousTradePrice() {
         return this.previousTradePrice;
     }
 
+    /**
+     * @brief Returns the total number of shares for this stock
+     * @return Returns the total number of shares for this stock
+     */
     public int getTotalNumberOfShares() {
         return totalNumberOfShares;
     }
 
+    /**
+     * @brief Sets the total number of shares
+     * @param totalNumberOfShares The total number of shares to be set to
+     */
     public void setTotalNumberOfShares(int totalNumberOfShares) {
         this.totalNumberOfShares = totalNumberOfShares;
     }
 
+    /**
+     * @brief Returns the opening price of the stock
+     * @return Returns the opening price of the stock
+     */
     public double getOpeningPrice() {
         if (this.matchedOrders.isEmpty()) {
             //throw new NotEnoughDataException();
@@ -733,13 +829,17 @@ public class MarketEntryAttemptBook {
         return this.matchedOrders.firstElement().getPrice();
     }
 
+    /**
+     * @brief Returns the current highest trade price over all recorded trades
+     * @return Returns the current trade price over all the recorded trades
+     */
     public double getHighestTradedPrice() {
         double high = Double.MIN_VALUE;
 
         Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>) matchedOrders.clone();
 
-        for (int i = 0; i < tmp.size(); i++) {
-            MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp.get(i);
+        for (MatchedMarketEntryAttempt tmp1 : tmp) {
+            MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp1;
             if (matched.getPrice() > high) {
                 high = matched.getPrice();
             }
@@ -747,13 +847,17 @@ public class MarketEntryAttemptBook {
         return (high == Double.MIN_VALUE) ? 0.0 : high;
     }
 
+    /**
+     * @brief Returns the lowest trade price over all the trades 
+     * @return Returns the lowest trade price over all the trades
+     */
     public double getLowestTradedPrice() {
         double low = Double.MAX_VALUE;
 
         Vector<MatchedMarketEntryAttempt> tmp = (Vector<MatchedMarketEntryAttempt>) matchedOrders.clone();
 
-        for (int i = 0; i < tmp.size(); i++) {
-            MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp.get(i);
+        for (MatchedMarketEntryAttempt tmp1 : tmp) {
+            MatchedMarketEntryAttempt matched = (MatchedMarketEntryAttempt) tmp1;
             if (matched.getPrice() < low) {
                 low = Math.abs(matched.getPrice());
             }
