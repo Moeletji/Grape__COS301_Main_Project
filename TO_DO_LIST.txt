@@ -1,0 +1,25 @@
+TO DO:
+
+****CODE*****
+-More strategies
+-Interface class
+-Market Participant last trade price [add the two phantons]
+-CSV
+-Code Commenting
+-
+-
+
+
+
+***OTHER*****
+---Usability testing, testing and project management docs
+---Posters and graphic
+---Update requirements documention
+---
+---
+
+****THIGNS NEEDED FOR THE DAY*****
+---Table cloth
+---Posters and graphic
+---
+---
