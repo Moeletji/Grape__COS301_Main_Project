@@ -149,7 +149,13 @@ public class StochasticOscillator extends MarketIndicator{
             highestHigh = book.getHighestTradePrice(period);
             lowestLow = book.getLowestTradePrice(period);
         }
+        else
+        {
+            highestHigh = book.getHighestTradePrice(period);
+            lowestLow = book.getLowestTradePrice(period);
+        }
         
+        this.setCurrentPrice(this.book.getLastTradePrice());
         k = (currentPrice - lowestLow)/(highestHigh - lowestLow)*100;
         setKValues(k);
         return k;
@@ -226,6 +232,6 @@ public class StochasticOscillator extends MarketIndicator{
      */
     @Override
     public Double calculateIndicator() {
-        return this.calculateD();
+        return this.calculateK();
     }
 }
