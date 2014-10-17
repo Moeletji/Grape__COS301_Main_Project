@@ -41,7 +41,7 @@ public class MovingAverageFilter extends Filter{
     private MovingAverageFilter(MarketEntryAttemptBook _data) throws NotEnoughDataException 
     {
         super(_data, "Moving Average");
-        mae = MovingAverageEnvelope.getInstance(_data);
+        mae = MovingAverageEnvelopeSMA.getInstance(_data,MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM);
         mac = MovingAverageCrossover.getInstance(_data,14); //Over 14days
         macd = MACDStrategy.getInstance(_data);
         outcome = new Vector<>();

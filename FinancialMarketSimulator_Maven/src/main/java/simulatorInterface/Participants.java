@@ -14,6 +14,7 @@ import financialmarketsimulator.strategies.DirectionalMovementIndex;
 import financialmarketsimulator.strategies.MACDStrategy;
 import financialmarketsimulator.strategies.MovingAverageCrossover;
 import financialmarketsimulator.strategies.MovingAverageEnvelope;
+import financialmarketsimulator.strategies.MovingAverageEnvelopeSMA;
 import financialmarketsimulator.strategies.MovingAverageFilter;
 import financialmarketsimulator.strategies.Phantom;
 import financialmarketsimulator.strategies.PriceEmaCrossover;
@@ -296,7 +297,7 @@ public class Participants extends javax.swing.JFrame {
                 try {
                     MarketStrategy strategy1 = DirectionalMovementIndex.getInstance(exchange.getBook(manager.getStockName()), 14);
                     MarketStrategy strategy2 = MovingAverageCrossover.getInstance(exchange.getBook(manager.getStockName()), 14);
-                    MarketStrategy strategy3 = MovingAverageEnvelope.getInstance(exchange.getBook(manager.getStockName()));
+                    MarketStrategy strategy3 = MovingAverageEnvelopeSMA.getInstance(exchange.getBook(manager.getStockName()),MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM);
                     MarketStrategy strategy4 = MovingAverageFilter.getInstance(exchange.getBook(manager.getStockName()));
                     MarketStrategy strategy5 = PriceEmaCrossover.getInstance(exchange.getBook(manager.getStockName()), 14);
                     MarketStrategy strategy6 = PriceSmaCrossover.getInstance(exchange.getBook(manager.getStockName()), 14);
@@ -515,7 +516,7 @@ public class Participants extends javax.swing.JFrame {
                 break;
             case "MovingAverageEnvelope":
                 try {
-                    strategy = MovingAverageEnvelope.getInstance(exchange.getBook(stockName));
+                    strategy = MovingAverageEnvelopeSMA.getInstance(exchange.getBook(stockName),MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM);
                 } catch (Exception ex) {
                     MessageBox.infoBox("Insufficient Data to create Moving Average Envelope Strategy", "");
                 }

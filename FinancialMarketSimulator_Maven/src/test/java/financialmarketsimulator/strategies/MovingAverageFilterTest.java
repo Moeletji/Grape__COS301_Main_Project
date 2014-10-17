@@ -65,7 +65,7 @@ public class MovingAverageFilterTest {
             //***************************
             MovingAverageCrossover dummy = MovingAverageCrossover.getInstance(book,14);
             MarketStrategy.SignalMessage expResult = dummy.new SignalMessage();
-            MovingAverageEnvelope mae = MovingAverageEnvelope.getInstance(book);
+            MovingAverageEnvelope mae = MovingAverageEnvelopeSMA.getInstance(book, MovingAverageEnvelope.STRATEGY_TYPE.MEDIUM_TERM);
             MovingAverageCrossover mac = MovingAverageCrossover.getInstance(book,14);
             MACDStrategy macd = MACDStrategy.getInstance(book);
 
