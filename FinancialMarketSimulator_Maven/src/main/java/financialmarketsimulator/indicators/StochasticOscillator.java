@@ -226,10 +226,14 @@ public class StochasticOscillator extends MarketIndicator{
         return this.NUM_DAYS;
     }
 
-    /**
-     * 
-     * @todo ALTER FUNCTION TO RETURN CORRECT VALUE
-     */
+    public int getLowerBound() {
+        return lowerBound;
+    }
+
+    public int getUpperBound() {
+        return upperBound;
+    }
+    
     @Override
     public Double calculateIndicator() {
         return this.calculateK();
