@@ -17,11 +17,6 @@ import java.util.Vector;
  *
  */
 public abstract class MovingAverageEnvelope extends MarketStrategy{
-
-    /**
-     * Singleton instance
-     */
-    private static MovingAverageEnvelope instance = null;
     
     public static enum STRATEGY_TYPE {
 
@@ -44,7 +39,7 @@ public abstract class MovingAverageEnvelope extends MarketStrategy{
     protected Vector<Double> pastSMAValues;
     protected Vector<Double> pastEMAValues;
     
-    MarketEntryAttemptBook book;
+    protected MarketEntryAttemptBook book;
 
     public MovingAverageEnvelope(MarketEntryAttemptBook _book,MovingAverageEnvelope.STRATEGY_TYPE _type) throws NotEnoughDataException {
         super("Moving Average Envelope");

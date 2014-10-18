@@ -11,6 +11,11 @@ import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.HIGH;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.LOW;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.MEDIUM;
 import financialmarketsimulator.marketData.Message;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
@@ -124,7 +129,7 @@ public class MarketParticipant extends Thread {
      * @brief used to bring down the Market Trading Price
      */
     private int downBidTimer, downCounter, randomDecrease;
-
+    
     private Random rand;
 
     public MarketParticipant() {
@@ -580,5 +585,18 @@ public class MarketParticipant extends Thread {
             downBidTimer = rand.nextInt((800 - 2) + 2) + 1;
         }
         downCounter++;
+    }
+    
+    public void writeTradesToFile() throws IOException
+    {
+         Path path = Paths.get("/tmp/foo/bar.txt");
+
+        Files.createDirectories(path.getParent());
+
+        try {
+            Files.createFile(path);
+        } catch (FileAlreadyExistsException e) {
+            System.err.println("already exists: " + e.getMessage());
+        }
     }
 }
