@@ -302,16 +302,16 @@ public class RunSimulation extends javax.swing.JFrame {
         ind.add(DirectionalIndex.getInstance(exchange.getBook("INV"), 14));
         ind.add(EMA.getInstance(exchange.getBook("INV"), 14));
         ind.add(MACD.getInstance(exchange.getBook("INV")));
-        ind.add(NDI.getInstance(exchange.getBook("INV"), 14));
-        ind.add(NDM.getInstance(exchange.getBook("INV"), 14));
-        ind.add(PDI.getInstance(exchange.getBook("INV"), 14));
-        ind.add(PDM.getInstance(exchange.getBook("INV"), 14));
-        ind.add(RSI.getInstance(exchange.getBook("INV"), 14));
+        //ind.add(NDI.getInstance(exchange.getBook("INV"), 14));
+        //ind.add(NDM.getInstance(exchange.getBook("INV"), 14));
+        //ind.add(PDI.getInstance(exchange.getBook("INV"), 14));
+        //ind.add(PDM.getInstance(exchange.getBook("INV"), 14));
+        //ind.add(RSI.getInstance(exchange.getBook("INV"), 14));
         ind.add(SMA.getInstance(exchange.getBook("INV"), 14));
         ind.add(StochasticOscillator.getInstance(exchange.getBook("INV")));
         ind.add(Volatility.getInstance(14, exchange.getBook("INV")));
 
-        /*
+        
          Vector<String> indNames = new Vector<>();
         
          indNames.add("ADX Movement");
@@ -320,25 +320,25 @@ public class RunSimulation extends javax.swing.JFrame {
          indNames.add("Directional Movement");
          indNames.add("EMA Movement");
          indNames.add("MACD Movement");
-         indNames.add("NDI Movement");
-         indNames.add("NDM Movement");
-         indNames.add("PDI Movement");
-         indNames.add("PDM Movement");
-         indNames.add("RSI Movement");
+         //indNames.add("NDI Movement");
+         //indNames.add("NDM Movement");
+         //indNames.add("PDI Movement");
+         //indNames.add("PDM Movement");
+         //indNames.add("RSI Movement");
          indNames.add("SMA Movement");
          indNames.add("Stochastic Movement");
-         indNames.add("Volatitlity Movement");*/
-        //try
-        //{
-        //chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
-        //chart.pack();
-        //RefineryUtilities.centerFrameOnScreen(chart);
-        //chart.setVisible(true);
-        //}
-        //catch(Exception ex)
-        //{
-        //ex.printStackTrace();
-        //}
+         indNames.add("Volatitlity Movement");
+        try
+        {
+        chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+        }
+        catch(Exception ex)
+        {
+        ex.printStackTrace();
+        }
         //Vector<StockManager> man = new Vector<StockManager>();
         //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
         //man.add(stockmanager);
