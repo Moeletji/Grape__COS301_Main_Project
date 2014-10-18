@@ -390,49 +390,51 @@ public class MarketParticipant extends Thread {
                             return;
                         }
                     } else {
+                        Random random = new Random();
+                        double factor = random.nextDouble();
                         if (attemptSide == MarketEntryAttempt.SIDE.BID) {
                             switch (volatility) {
                                 case HIGH: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[6];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[6]*factor);
                                     shares = SHARES_RANGES[2];
                                 }
                                 break;
                                 case MEDIUM: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[5];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[5]*factor);
                                     shares = SHARES_RANGES[1];
                                 }
                                 break;
                                 case LOW: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[0];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[0]*factor);
                                     shares = SHARES_RANGES[0];
                                 }
                                 break;
                                 case NORMAL:
                                 default: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + PRICE_STEP[3];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[3]*factor);
                                     shares = SHARES_RANGES[0];
                                 }
                             }
                         } else {
                             switch (volatility) {
                                 case HIGH: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[6];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[6]*factor);
                                     shares = SHARES_RANGES[2];
                                 }
                                 break;
                                 case MEDIUM: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[5];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[5]*factor);
                                     shares = SHARES_RANGES[1];
                                 }
                                 break;
                                 case LOW: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[0];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[0]*factor);
                                     shares = SHARES_RANGES[0];
                                 }
                                 break;
                                 case NORMAL:
                                 default: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - PRICE_STEP[3];
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[3]*factor);
                                     shares = SHARES_RANGES[0];
                                 }
                             }

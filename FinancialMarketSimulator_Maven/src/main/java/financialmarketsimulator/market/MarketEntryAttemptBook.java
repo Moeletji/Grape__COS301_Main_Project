@@ -234,6 +234,7 @@ public class MarketEntryAttemptBook {
                             }
                         }
                     }
+                    System.out.println("Matched at: " + newTrade.getPrice());
                     matchedOrders.add(newTrade);
                     this.lastTradePrice = newTrade.getPrice();
                     exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
@@ -258,6 +259,7 @@ public class MarketEntryAttemptBook {
                             }
                         }
                     }
+                    System.out.println("Matched at: " + newTrade.getPrice());
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
@@ -286,6 +288,7 @@ public class MarketEntryAttemptBook {
                             }
                         }
                     }
+                    System.out.println("Matched at: " + newTrade.getPrice());
                     matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                     hasMoreShares = false;
