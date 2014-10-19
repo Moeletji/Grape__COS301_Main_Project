@@ -63,14 +63,6 @@ public class EMATest {
     }
     
     @Test
-    public void testMarketEntryAttemptBook()
-    {
-        this.setUp();
-        int numTrades = prices.length;
-        int expNumTrades = data.getBids().size();
-        assertEquals(expNumTrades, numTrades, 0);
-    }
-    @Test
     public void testMultiplier()
     {
         System.out.println("calculateEMA");
@@ -88,13 +80,11 @@ public class EMATest {
         System.out.println("calculateEMA");
         this.setUp();
         EMA instance = EMA.getInstance(data, numDays);
-        instance.setCurrentPrice(prices[prices.length-1]);
-        double result = 0.0;
-        instance.setCurrentPrice(result);
-        double currentPrice = prices[prices.length-1];
+        double result;
+        double currentPrice = data.getLastTradePrice();
         double previousEMAValue = instance.getPreviousEMAValue();
         if ((numDays <= 0) || (currentPrice == 0) || (previousEMAValue == 0)) {
-           //result= 0.0;
+           result= 0.0;
         }
         
         double k = 2.0 / (numDays + 1);
@@ -164,6 +154,7 @@ public class EMATest {
     @Test
     public void testSetCurrentPrice() {
         System.out.println("setCurrentPrice");
+        setUp();
         double current = 0.0;
         EMA instance = EMA.getInstance(data, numDays);
         instance.setCurrentPrice(data.getLastTradePrice());
@@ -183,8 +174,8 @@ public class EMATest {
         setUp();
         EMA instance = EMA.getInstance(data, numDays);
         double expResult =instance.getPreviousEMAValue() ;
-        double result = SMA.getInstance(data, numDays).calculateSMA();
-        assertEquals(expResult, result, 0.0);
+        //double result = instance;
+        //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
