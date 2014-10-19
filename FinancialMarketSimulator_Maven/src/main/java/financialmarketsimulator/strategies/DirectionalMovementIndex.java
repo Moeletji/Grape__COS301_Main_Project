@@ -55,7 +55,7 @@ public class DirectionalMovementIndex extends MarketStrategy {
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
 
         this.currentPDI = this.pdi.calculatePDI();
         this.currentNDI = this.ndi.calculateNDI();

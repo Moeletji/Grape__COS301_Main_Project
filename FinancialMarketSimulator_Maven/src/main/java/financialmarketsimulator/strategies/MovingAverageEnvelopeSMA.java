@@ -83,7 +83,7 @@ public class MovingAverageEnvelopeSMA extends MovingAverageEnvelope {
      * oversold/overbought
      */
     @Override
-    public SignalMessage trade() throws NotEnoughDataException{
+    public synchronized SignalMessage trade() throws NotEnoughDataException{
         //Implement one trade instance here, infinite loop is in MarketParticipant
         if (pastSMAValues.isEmpty())
             //throw new NotEnoughDataException();

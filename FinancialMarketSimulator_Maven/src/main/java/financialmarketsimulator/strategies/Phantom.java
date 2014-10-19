@@ -32,7 +32,7 @@ public class Phantom extends MarketStrategy {
     }
 
     @Override
-    public MarketStrategy.SignalMessage trade() {
+    public synchronized MarketStrategy.SignalMessage trade() {
 
         MarketStrategy.SIGNAL signal;
 

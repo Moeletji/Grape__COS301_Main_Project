@@ -73,7 +73,7 @@ public class SimpleRSI extends MarketStrategy {
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
         openingPrice = book.getOpeningPrice();
         closingPrice = book.getLastTradePrice();
         currEma = ema.calculateEMA();

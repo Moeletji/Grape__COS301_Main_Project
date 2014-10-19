@@ -54,7 +54,7 @@ public class MovingAverageCrossover extends Crossover {
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
 
         emaCurr = emaObj.calculateEMA();
         smaCurr = smaObj.calculateSMA();

@@ -65,7 +65,7 @@ public class Simple_MACD_ADX extends MarketStrategy{
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
        
         adxValue = adx.calculateADX();
         pdiValue = pdi.calculatePDI();

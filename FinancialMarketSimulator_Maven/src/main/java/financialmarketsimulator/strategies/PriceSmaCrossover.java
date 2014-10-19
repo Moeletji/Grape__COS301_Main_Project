@@ -52,7 +52,7 @@ public class PriceSmaCrossover extends Crossover {
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
         
         smaCurr = smaObj.calculateSMA();
         smaPrev = smaObj.getPreviousSMAValue();

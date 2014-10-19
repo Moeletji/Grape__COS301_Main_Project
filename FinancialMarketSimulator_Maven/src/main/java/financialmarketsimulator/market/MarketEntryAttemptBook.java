@@ -107,6 +107,7 @@ public class MarketEntryAttemptBook {
      * @param stockName
      */
     public MarketEntryAttemptBook(long timePeriod, String stockName) {
+        this();
         this.stockName = stockName;
         this.totalNumberOfShares = 10000;
         this.currentNumberOfShares = this.totalNumberOfShares;
@@ -119,7 +120,6 @@ public class MarketEntryAttemptBook {
         this.losses = new Vector<>();
         this.tempGains = new Vector<>();
         this.tempLosees = new Vector<>();
-        this.tempMatchedOrders = new Vector<>();
     }
 
     /**
@@ -127,6 +127,7 @@ public class MarketEntryAttemptBook {
      * @param timePeriod time before synchronizing with db
      */
     public MarketEntryAttemptBook(long timePeriod) {
+        this();
         this.stockName = "";
         this.totalNumberOfShares = 10000;
         this.currentNumberOfShares = this.totalNumberOfShares;
@@ -152,6 +153,7 @@ public class MarketEntryAttemptBook {
         this.pastTime = System.currentTimeMillis();
         this.gains = new Vector<>();
         this.losses = new Vector<>();
+        this.tempMatchedOrders = new Vector<>();
         this.exchange = MarketExchange.getInstance("JSE");
     }
 
@@ -215,13 +217,7 @@ public class MarketEntryAttemptBook {
                     hasMoreShares = false;
                     removeOrder(topOrder);
                     MatchedMarketEntryAttempt newTrade = new MatchedMarketEntryAttempt(newOrder, topOrder);
-                    //If there's not enough shares remaining to honour the Match
-                    //Only Match with whatever shares are remaining.
-                    //if ((currentNumberOfShares - newOrder.getNumOfShares()) < 0) {
-                    //    newOrder.setNumOfShares(currentNumberOfShares);
-                    //}
-
-                    //currentNumberOfShares -= newOrder.getNumOfShares();
+                    
                     if (!matchedOrders.isEmpty()) {
                         double difference = newTrade.getPrice() - matchedOrders.lastElement().getPrice();
                         if (difference < 0) {
@@ -234,7 +230,7 @@ public class MarketEntryAttemptBook {
                             }
                         }
                     }
-                    System.out.println("Matched at: " + newTrade.getPrice());
+                    
                     matchedOrders.add(newTrade);
                     this.lastTradePrice = newTrade.getPrice();
                     if (exchange != null)
@@ -262,7 +258,7 @@ public class MarketEntryAttemptBook {
                             }
                         }
                     }
-                    System.out.println("Matched at: " + newTrade.getPrice());
+                    
                     matchedOrders.add(newTrade);
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
@@ -294,7 +290,7 @@ public class MarketEntryAttemptBook {
                             }
                         }
                     }
-                    System.out.println("Matched at: " + newTrade.getPrice());
+                    
                     matchedOrders.add(newTrade);
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                     hasMoreShares = false;
@@ -308,9 +304,7 @@ public class MarketEntryAttemptBook {
                 }
             }
         }
-        /*System.out.println("===================================================");
-        System.out.println("Last Traded Price"+"("+this.getStockName()+")"+": "+this.getLastTradePrice());
-        System.out.println("===================================================");*/
+        
         //if there are still more shares then add the order to the list
         if (hasMoreShares) {
             addOrderToList(newOrder);
@@ -342,7 +336,7 @@ public class MarketEntryAttemptBook {
             losses = (Vector<Double>) tempLosees.clone();
         }
         
-        if( matchedOrders.size() > 500 )
+        if(matchedOrders != null && matchedOrders.size() > 500 )
         {
             tempMatchedOrders.clear();
             for( int i=0; i<200;i++ )

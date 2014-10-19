@@ -91,5 +91,5 @@ public abstract class MarketStrategy {
      * @throws financialmarketsimulator.exception.NotEnoughDataException
      * @Brief where trade signals are generated
      */
-    public abstract MarketStrategy.SignalMessage trade() throws NotEnoughDataException;
+    public abstract  MarketStrategy.SignalMessage trade() throws NotEnoughDataException;
 }

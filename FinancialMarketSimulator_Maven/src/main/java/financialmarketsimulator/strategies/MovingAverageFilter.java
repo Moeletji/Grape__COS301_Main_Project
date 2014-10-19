@@ -59,7 +59,7 @@ public class MovingAverageFilter extends Filter{
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException{
+    public synchronized SignalMessage trade() throws NotEnoughDataException{
        
         outcome.clear();
         buyCount = 0;

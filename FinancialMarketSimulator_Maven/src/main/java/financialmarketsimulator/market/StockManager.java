@@ -18,7 +18,7 @@ import java.util.concurrent.Exchanger;
  * stock/security manager will inherit.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class StockManager extends Thread {
+public class StockManager {
 
     /**
      * @brief Name of the stock
@@ -40,12 +40,18 @@ public class StockManager extends Thread {
      * @brief Holds A list of all messages sent by MarketParticipants
      */
     private ConcurrentLinkedQueue<Message> messageQueue;
-    //Thread started
-    private boolean started;
-    //Thread paused
-    private boolean paused;
-    //Thread stopeed
-    private boolean stop;
+    /**
+     * @brief If StockManger has opened trading
+     */
+    protected volatile boolean started;
+    /**
+     * @brief If StockManager has paused trading
+     */
+    protected volatile boolean paused;
+    /**
+     * @brief If StockManager has closed Trading
+     */
+    protected volatile boolean stop;
 
     /**
      * @param stockName
@@ -188,76 +194,69 @@ public class StockManager extends Thread {
      * @brief StockManager thread that receives Messages and updates the market
      * according to those messages
      */
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                while (paused) {
-                    wait();
-                }
-
-            } catch (InterruptedException exception) {
-                System.out.println("Interrupted Exception " + super.getId());
-            }
-
-            if (stop) {
-                return;
-            }
-
-            while (messageQueue.isEmpty()) {
-            }
-
-            Message message = messageQueue.poll();
-
-            if (message != null) {
-                switch (message.getType()) {
-                    case AMEND: {
-                        double newPrice = message.getPrice();
-                        int newShares = message.getShares();
-                        String id = message.getAttempt().getOrderID();
-                        MarketEntryAttempt.SIDE side = message.getAttempt().getSide();
-
-                        try {
-                            this.editOrder(id, newPrice, newShares, side);
-                        } catch (OrderHasNoValuesException | CloneNotSupportedException ex) {
-                            System.out.println("Order was not edited");
+    public void runStockManager() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                while (!stop) {
+                    try {
+                        while (paused) {
+                            wait();
                         }
-                    }
-                    break;
 
-                    case CANCEL: {
-                        this.removeOrder(message.getAttempt());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    break;
 
-                    case ORDER: {
-                        try {
-                            this.acceptOrder(message.getAttempt());
-                        } catch (InterruptedException ex) {
-                            System.out.println("Interrupted Exception " + super.getId());
+                    while (messageQueue.isEmpty()) {
+                    }
+
+                    Message message = messageQueue.poll();
+
+                    if (message != null) {
+                        switch (message.getType()) {
+                            case AMEND: {
+                                double newPrice = message.getPrice();
+                                int newShares = message.getShares();
+                                String id = message.getAttempt().getOrderID();
+                                MarketEntryAttempt.SIDE side = message.getAttempt().getSide();
+
+                                try {
+                                    editOrder(id, newPrice, newShares, side);
+                                } catch (OrderHasNoValuesException | CloneNotSupportedException ex) {
+                                    System.out.println("Order was not edited");
+                                }
+                            }
+                            break;
+
+                            case CANCEL: {
+                                removeOrder(message.getAttempt());
+                            }
+                            break;
+
+                            case ORDER: {
+                                try {
+                                    acceptOrder(message.getAttempt());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
+                        Notify();
                     }
                 }
-                this.Notify();
-                
-                MarketExchange exchange = MarketExchange.getInstance("JSE");
-                //exchange.print(stockName);
             }
-        }
+        };
+        t.start();
     }
 
-    @Override
     public void start() {
         System.out.println("StockManager : " + this.getStockName() + " Thread has started");
 
         if (!started) {
             started = true;
 
-            //Start the stock market
-            super.start();
-
-            //Randomize the Market Participants
-            //Collections.shuffle(participants);
+            this.runStockManager();
 
             //Begin to start trading with participants
             for (MarketParticipant participant : participants) {
@@ -281,7 +280,6 @@ public class StockManager extends Thread {
         for (MarketParticipant participant : participants) {
             participant.update(this);
         }
-        super.notifyAll();
     }
 
     /**
@@ -342,7 +340,6 @@ public class StockManager extends Thread {
     }
 
     private void cancel() {
-        interrupt();
+        stop = true;
     }
-
 }

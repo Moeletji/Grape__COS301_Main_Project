@@ -10,6 +10,7 @@ import static financialmarketsimulator.market.MarketStrategy.SIGNAL.OFFER;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.HIGH;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.LOW;
 import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.MEDIUM;
+import static financialmarketsimulator.market.MarketStrategy.VOLATILITY.NORMAL;
 import financialmarketsimulator.marketData.Message;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -28,7 +29,7 @@ import javax.swing.JList;
  * using.
  * @author Grape <cos301.mainproject.grape@gmail.com>
  */
-public class MarketParticipant extends Thread {
+public class MarketParticipant {
 
     /**
      * @brief Amount a MarketParticipant has to trade
@@ -81,15 +82,15 @@ public class MarketParticipant extends Thread {
     /**
      * @brief If the entity is trading with a specific stock
      */
-    protected boolean started;
+    protected volatile boolean started;
     /**
      * @brief pauses an entity from trading
      */
-    protected boolean paused;
+    protected volatile boolean paused;
     /**
      * @brief stops an entity from trading
      */
-    protected boolean stop;
+    protected volatile boolean stop;
     /**
      * @brief name of the stock the Market Entity is trading in
      */
@@ -114,33 +115,29 @@ public class MarketParticipant extends Thread {
      * @brief different ranges for shares
      */
     private final int[] SHARES_RANGES = {100, 1000, 10000};
-
     /**
      * @brief Side in which trade occurred
      */
     private MarketEntryAttempt.SIDE attemptSide;
-
     /**
      * @brief price step used to determine how much to increase the price with.
      */
     private final double[] PRICE_STEP = {0.05, 0.10, 0.15, 0.2, 0.25, 0.50};
-
     /**
      * @brief used to bring down the Market Trading Price
      */
-    private int downBidTimer, downCounter, randomDecrease;
-    
+    /**
+     * @brief used to randomize the MarketParticipant
+     */
     private Random rand;
 
     public MarketParticipant() {
         this.profit = 0;
         this.currentMoney = BUDGET;
         this.rand = new Random();
-        this.downBidTimer = rand.nextInt((800 - 2) + 2) + 2;
-        this.randomDecrease = rand.nextInt((3 - 1) + 1) + 1;
-        this.downCounter = 0;
         this.amountOfShares = SHARES;
         this.currentAmount = currentMoney;
+        this.stop = this.paused = this.started = false;
     }
 
     /**
@@ -156,9 +153,6 @@ public class MarketParticipant extends Thread {
         this.participantID = participantID;
         this.exchange = exchange;
         this.stock = stock;
-        this.started = false;
-        this.paused = false;
-        this.stop = false;
         this.currentStrategy = strategy;
         this.amountOfShares = 0;
         this.currentAmount = BUDGET;
@@ -169,37 +163,10 @@ public class MarketParticipant extends Thread {
         //Get the OrderList book for the stock 
         if (exchange != null) {
             this.stockManager = exchange.getStocksManagers().get(this.stock);
-        }
-    }
-
-    /**
-     * @param exchange
-     * @param stock
-     * @brief Constructing a MarketEnity object with parameters
-     * @param participantName name of the entity
-     * @param participantID id of the entity
-     */
-    public MarketParticipant(String participantName, String participantID, MarketExchange exchange, String stock, Variants variants, MarketStrategy strategy, JList bidsList, JList offersList, JList matchedList) throws NotEnoughDataException {
-        this();
-        this.participantName = participantName;
-        this.participantID = participantID;
-        this.exchange = exchange;
-        this.stock = stock;
-        this.started = false;
-        this.paused = false;
-        this.stop = false;
-        this.currentStrategy = strategy;
-        this.amountOfShares = 0;
-        this.currentAmount = BUDGET;
-
-        //Initialise trading strategies
-        this.strategies = new ArrayList<>();
-
-        bidsList = offersList = matchedList = null;
-
-        //Get the OrderList book for the stock
-        if (exchange != null) {
-            this.stockManager = exchange.getStocksManagers().get(this.stock);
+        } else {
+            System.out.println("No MarketExchange to trade from");
+            System.out.println("Exiting system");
+            System.exit(0);
         }
     }
 
@@ -294,53 +261,22 @@ public class MarketParticipant extends Thread {
         exchange.updateManager(stock, Updatedmanager);
     }
 
-    @Override
-    public void run() {
-
-        System.out.println("Stock name: " + stock);
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                while (paused) {
-                    wait();
-                }
-            } catch (InterruptedException exception) {
-                exception.printStackTrace();
-            }
-
-            synchronized (this) {
-
-                MarketStrategy.SignalMessage sigMessage = null;
-                double price = 0;
-                int shares = 0;
-
-                /*if (currentAmount <= 0 && amountOfShares <= 0) {
-                    System.out.println(this.participantID + " Bankrupt");
-                    return;
-                } else if (currentAmount <= 0 && amountOfShares > 0) {
-                    float sellingShares = (float) (amountOfShares * SHARES_PERCENTAGE);
-                    if (sellingShares > 1) {
-                        shares = Math.round(sellingShares);
-                        price = exchange.getBook(stock).getLastTradePrice() - PRICE_STEP[2];
-                    } else {
-                        System.out.println(this.participantID + " Bankrupt");
-                        return;
-                    }
-                } else if (currentAmount > 0 && amountOfShares <= 0) {
-                    float sellingMoney = (float) (currentMoney * PRICE_PERCENTAGE);
-                    if (sellingMoney > 1) {
-                        double newPrice = (exchange.getBook(stock).getLastTradePrice() + PRICE_STEP[0]);
-                        if (newPrice > sellingMoney) {
-                            System.out.println("Not enough money to sell shares");
-                            return;
-                        } else {
-                            shares = (int)Math.floor(sellingMoney / newPrice);
-                            price = newPrice;
+    public void runSimulator() {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                while (!stop) {
+                    try {
+                        while (paused) {
                         }
-                    } else {
-                        System.out.println(this.participantID + " Bankrupt");
-                        return;
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } else {*/
+
+                    MarketStrategy.SignalMessage sigMessage = null;
+                    double price = 0;
+                    int shares = 0;
+
                     try {
                         sigMessage = currentStrategy.trade();
                     } catch (Exception e) {
@@ -395,91 +331,84 @@ public class MarketParticipant extends Thread {
                         if (attemptSide == MarketEntryAttempt.SIDE.BID) {
                             switch (volatility) {
                                 case HIGH: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[6]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[5] * factor);
                                     shares = SHARES_RANGES[2];
                                 }
                                 break;
                                 case MEDIUM: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[5]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[4] * factor);
                                     shares = SHARES_RANGES[1];
                                 }
                                 break;
                                 case LOW: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[0]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[3] * factor);
                                     shares = SHARES_RANGES[0];
                                 }
                                 break;
                                 case NORMAL:
                                 default: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[3]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() + (PRICE_STEP[3] * factor);
                                     shares = SHARES_RANGES[0];
                                 }
                             }
                         } else {
                             switch (volatility) {
                                 case HIGH: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[6]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[5] * factor);
                                     shares = SHARES_RANGES[2];
                                 }
                                 break;
                                 case MEDIUM: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[5]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[4] * factor);
                                     shares = SHARES_RANGES[1];
                                 }
                                 break;
                                 case LOW: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[0]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[3] * factor);
                                     shares = SHARES_RANGES[0];
                                 }
                                 break;
                                 case NORMAL:
                                 default: {
-                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[3]*factor);
+                                    price = exchange.getManager(stock).getOrderList().getLastTradePrice() - (PRICE_STEP[3] * factor);
                                     shares = SHARES_RANGES[0];
                                 }
                             }
                         }
                     }
-                //}
 
-                price = Math.abs(price);
+                    price = Math.abs(price);
 
-                if (price <= 0.0 || shares <= 0) {
-                    continue;
+                    if (price <= 0.0 || shares <= 0) {
+                        continue;
+                    }
+
+                    MarketEntryAttempt newAttempt = new MarketEntryAttempt(price, shares, participantID, attemptSide);
+
+                    //Construct message to be sent
+                    Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
+
+                    //Only one thread may send a message at a time
+                    stockManager.sendMessage(message);
                 }
-
-                MarketEntryAttempt newAttempt = new MarketEntryAttempt(price, shares, this.participantID, attemptSide);
-
-                //Construct message to be sent
-                Message message = new Message(newAttempt, 0, 0, Message.MessageType.ORDER);
-
-                //Only one thread may send a message at a time
-                stockManager.sendMessage(message);
-
-                if (!currentStrategy.getStrategyName().equals("phantom") && !currentStrategy.getStrategyName().equals("Phantom")) {
-                    System.out.println(currentStrategy.getStrategyName());
-                    System.out.println(exchange.getProfit(participantID));
-                    System.out.println("");
-                }
-                bringDownTheMarket();
-
             }
-        }
+        };
+        t.start();
     }
 
-    @Override
-    synchronized public void start() {
+    public void start() {
         System.out.println(this.participantID + " Thread has started");
 
         if (!started) {
             started = true;
-            super.start();
         }
 
         if (paused) {
             notify();
             paused = false;
         }
+        
+        this.runSimulator();
     }
 
     synchronized public void pause() {
@@ -487,10 +416,13 @@ public class MarketParticipant extends Thread {
     }
 
     synchronized public void terminateTrading() {
-        cancel();
         stop = true;
     }
 
+    /**
+     * @brief see if a particular StockManager is trading
+     * @return  if the participant has strated trading or not
+     */
     public boolean isTrading() {
         return this.started;
     }
@@ -545,10 +477,6 @@ public class MarketParticipant extends Thread {
         return participantName + ", " + participantID + ", " + stock + ", " + currentStrategy.getStrategyName();
     }
 
-    private void cancel() {
-        interrupt();
-    }
-
     /**
      * @param tradePricePerShare
      * @brief Update the worth of a MarketParticipant
@@ -574,24 +502,8 @@ public class MarketParticipant extends Thread {
         currentAmount += amountOfShares * pricePerShare;
     }
 
-    private void bringDownTheMarket() {
-        if (downCounter == downBidTimer) {
-            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, this.participantID, SIDE.BID));
-            this.exchange.getBook(this.stock).placeOrder(new MarketEntryAttempt(this.exchange.getBook(stock).getLastTradePrice() - this.randomDecrease, 1000, this.participantID, SIDE.OFFER));
-
-            this.randomDecrease = rand.nextInt((3 - 1) + 1) + 1;
-            downCounter = 0;
-            downBidTimer = rand.nextInt((800 - 2) + 2) + 1;
-        } else if (downCounter > downBidTimer) {
-            downCounter = 0;
-            downBidTimer = rand.nextInt((800 - 2) + 2) + 1;
-        }
-        downCounter++;
-    }
-    
-    public void writeTradesToFile() throws IOException
-    {
-         Path path = Paths.get("/tmp/foo/bar.txt");
+    public void writeTradesToFile() throws IOException {
+        Path path = Paths.get("/tmp/foo/bar.txt");
 
         Files.createDirectories(path.getParent());
 

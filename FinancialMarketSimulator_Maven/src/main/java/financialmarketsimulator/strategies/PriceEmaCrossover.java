@@ -57,7 +57,7 @@ public class PriceEmaCrossover extends Crossover {
     }
 
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
         emaCurr = emaObj.calculateEMA();
         emaPrev = emaObj.getPreviousEMAValue();
         priceCurr = data.getLastTradePrice(); //smaObj.calculateSMA();

@@ -224,6 +224,12 @@ public class RunSimulation extends javax.swing.JFrame {
             jButton1.setEnabled(false);
             jButton2.setEnabled(true);
             jButton3.setEnabled(true);
+            
+            try{
+                Thread.sleep(3000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
 
             if (marketData == null) {
                 /* Set the Nimbus look and feel */
@@ -253,9 +259,8 @@ public class RunSimulation extends javax.swing.JFrame {
                             .getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
                 //</editor-fold>
-
-                /* Create and display the form */
-                java.awt.EventQueue.invokeLater(new Runnable() {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         marketData = new MarketData();
                         marketData.setVisible(true);
@@ -268,22 +273,87 @@ public class RunSimulation extends javax.swing.JFrame {
                 marketData.setVisible(true);
             }
 
-            //Updates the GUI very 3 seconds
-            Runnable updateGUI = new Runnable() {
-                @Override
-                public void run() {
-                    synchronized (this) {
-                        ArrayList<MarketParticipant> participants = exchange.getAllParticipants();
-                        Collection<StockManager> managers = exchange.getStocksManagers().values();
-                        if (marketData != null) {
-                            marketData.updateGUI(participants, managers);
+            if (chart == null) {
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Vector<MarketIndicator> ind = new Vector<>();
+
+                        ind.add(ADX.getInstance(exchange.getBook("INV"), 14));
+                        ind.add(ATR.getInstance(exchange.getBook("INV"), 14));
+                        //ind.add(new BollingerBands(exchange.getBook("INV")));
+                        ind.add(DirectionalIndex.getInstance(exchange.getBook("INV"), 14));
+                        ind.add(EMA.getInstance(exchange.getBook("INV"), 14));
+                        ind.add(MACD.getInstance(exchange.getBook("INV")));
+                        //ind.add(NDI.getInstance(exchange.getBook("INV"), 14));
+                        //ind.add(NDM.getInstance(exchange.getBook("INV"), 14));
+                        //ind.add(PDI.getInstance(exchange.getBook("INV"), 14));
+                        //ind.add(PDM.getInstance(exchange.getBook("INV"), 14));
+                        //ind.add(RSI.getInstance(exchange.getBook("INV"), 14));
+                        ind.add(SMA.getInstance(exchange.getBook("INV"), 14));
+                        ind.add(StochasticOscillator.getInstance(exchange.getBook("INV")));
+                        ind.add(Volatility.getInstance(14, exchange.getBook("INV")));
+
+
+                        Vector<String> indNames = new Vector<>();
+
+                        indNames.add("ADX Movement");
+                        indNames.add("ATR Movement");
+                        //indNames.add("Bollinger Movement");
+                        indNames.add("Directional Movement");
+                        indNames.add("EMA Movement");
+                        indNames.add("MACD Movement");
+                        //indNames.add("NDI Movement");
+                        //indNames.add("NDM Movement");
+                        //indNames.add("PDI Movement");
+                        //indNames.add("PDM Movement");
+                        //indNames.add("RSI Movement");
+                        indNames.add("SMA Movement");
+                        indNames.add("Stochastic Movement");
+                        indNames.add("Volatitlity Movement");
+
+                        try {
+                            chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
+                            chart.pack();
+                            RefineryUtilities.centerFrameOnScreen(chart);
+                            chart.setVisible(true);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
                     }
-                }
-            };
+                });
+            } else {
+                chart.setVisible(true);
+            }
 
-            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-            executor.scheduleAtFixedRate(updateGUI, 0, 3, TimeUnit.SECONDS);
+            /*
+             if (pchart == null) {
+             javax.swing.SwingUtilities.invokeLater(new Runnable() {
+             @Override
+             public void run() {
+             try {
+             Vector<StockManager> man = new Vector<StockManager>();
+             for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+             man.add(stockmanager);
+             }
+             Vector<String> manNames = new Vector<>();
+             for (StockManager stockmanager : exchange.getStocksManagers().values()) {
+             manNames.add(stockmanager.getStockName());
+             }
+             pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
+             pchart.pack();
+             RefineryUtilities.centerFrameOnScreen(pchart);
+             pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
+             pchart.setVisible(true);
+             } catch (NotEnoughDataException ex) {
+             Logger.getLogger(RunSimulation.class
+             .getName()).log(Level.SEVERE, null, ex);
+             }
+             }
+             });
+             } else {
+             pchart.setVisible(true);
+             }*/
 
         } catch (Exception e) {
             if (marketData != null) {
@@ -294,75 +364,24 @@ public class RunSimulation extends javax.swing.JFrame {
             }
         }
 
-        Vector<MarketIndicator> ind = new Vector<>();
-
-        ind.add(ADX.getInstance(exchange.getBook("INV"), 14));
-        ind.add(ATR.getInstance(exchange.getBook("INV"), 14));
-        //ind.add(new BollingerBands(exchange.getBook("INV")));
-        ind.add(DirectionalIndex.getInstance(exchange.getBook("INV"), 14));
-        ind.add(EMA.getInstance(exchange.getBook("INV"), 14));
-        ind.add(MACD.getInstance(exchange.getBook("INV")));
-        //ind.add(NDI.getInstance(exchange.getBook("INV"), 14));
-        //ind.add(NDM.getInstance(exchange.getBook("INV"), 14));
-        //ind.add(PDI.getInstance(exchange.getBook("INV"), 14));
-        //ind.add(PDM.getInstance(exchange.getBook("INV"), 14));
-        //ind.add(RSI.getInstance(exchange.getBook("INV"), 14));
-        ind.add(SMA.getInstance(exchange.getBook("INV"), 14));
-        ind.add(StochasticOscillator.getInstance(exchange.getBook("INV")));
-        ind.add(Volatility.getInstance(14, exchange.getBook("INV")));
-
-        
-         Vector<String> indNames = new Vector<>();
-        
-         indNames.add("ADX Movement");
-         indNames.add("ATR Movement");
-         //indNames.add("Bollinger Movement");
-         indNames.add("Directional Movement");
-         indNames.add("EMA Movement");
-         indNames.add("MACD Movement");
-         //indNames.add("NDI Movement");
-         //indNames.add("NDM Movement");
-         //indNames.add("PDI Movement");
-         //indNames.add("PDM Movement");
-         //indNames.add("RSI Movement");
-         indNames.add("SMA Movement");
-         indNames.add("Stochastic Movement");
-         indNames.add("Volatitlity Movement");
-        try
-        {
-        chart = new MultiLineChart(ind, indNames, "Indicators", -50, 100);
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
-        }
-        catch(Exception ex)
-        {
-        ex.printStackTrace();
-        }
-        //Vector<StockManager> man = new Vector<StockManager>();
-        //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-        //man.add(stockmanager);
-        //}
-        //Vector<String> manNames = new Vector<>();
-        //for (StockManager stockmanager : exchange.getStocksManagers().values()) {
-        //manNames.add(stockmanager.getStockName());
-        //}
-        if (pchart != null) {
-            //try {
-            //pchart = new PriceMultiLineChart(man, manNames, "Stock Prices", 0, 30);
-            //pchart.pack();
-            //RefineryUtilities.centerFrameOnScreen(pchart);
-            //pchart.setDefaultCloseOperation(HIDE_ON_CLOSE);
-            //pchart.setVisible(true);
-            //} //catch (NotEnoughDataException ex) {
-            //Logger.getLogger(RunSimulation.class
-            //   .getName()).log(Level.SEVERE, null, ex);
-            //}
-        } //else {
-        //pchart.setVisible(true);
-        //}
-
         exchange.openMarket();
+
+        //Updates the GUI very 3 seconds
+        Runnable updateGUI = new Runnable() {
+            @Override
+            public void run() {
+                synchronized (this) {
+                    ArrayList<MarketParticipant> participants = exchange.getAllParticipants();
+                    Collection<StockManager> managers = exchange.getStocksManagers().values();
+                    if (marketData != null) {
+                        marketData.updateGUI(participants, managers);
+                    }
+                }
+            }
+        };
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(updateGUI, 0, 3, TimeUnit.SECONDS);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -390,10 +409,6 @@ public class RunSimulation extends javax.swing.JFrame {
         exchange.clearStocks();
         exchange = null;
 
-        jButton2.setEnabled(false);
-        jButton1.setEnabled(false);
-        jButton3.setEnabled(false);
-
         if (marketData != null) {
             marketData.dispose();
             marketData = null;
@@ -407,6 +422,13 @@ public class RunSimulation extends javax.swing.JFrame {
             pchart.dispose();
             pchart = null;
         }
+
+        //Call garbage collector
+        System.gc();
+
+        jButton2.setEnabled(false);
+        jButton1.setEnabled(false);
+        jButton3.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

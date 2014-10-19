@@ -38,7 +38,7 @@ public class MACDStrategy extends MarketStrategy{
     }
     
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
         double currentValue = macd.calculateMACDValue();
         double prevMACDValue = macd.getPreviousMACDValue();
         //double signalLine = macd.calculateSignalValue();

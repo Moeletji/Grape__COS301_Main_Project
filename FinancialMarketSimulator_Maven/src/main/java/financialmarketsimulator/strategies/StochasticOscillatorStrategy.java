@@ -38,7 +38,7 @@ public class StochasticOscillatorStrategy extends MarketStrategy{
     }
     
     @Override
-    public SignalMessage trade() throws NotEnoughDataException {
+    public synchronized SignalMessage trade() throws NotEnoughDataException {
         k = so.calculateIndicator();
         d = so.calculateD();
         
