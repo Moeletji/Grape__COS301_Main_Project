@@ -71,6 +71,8 @@ public final class EMA extends MarketIndicator{
 
     @SuppressWarnings("UnusedAssignment")
     public double calculateEMA() {
+        if (data.getMatchedOrders().isEmpty())
+            return 0;
         this.setCurrentPrice(this.data.getLastTradePrice());
         if ((numOfDays <= 0) || (this.getCurrentPrice() <= 0)) {
            return 0.0;

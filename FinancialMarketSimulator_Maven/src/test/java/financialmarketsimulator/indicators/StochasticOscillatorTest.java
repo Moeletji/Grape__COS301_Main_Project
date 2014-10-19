@@ -7,7 +7,10 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import java.util.ArrayList;
+import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,7 +23,30 @@ import static org.junit.Assert.*;
  * @author Madimetja
  */
 public class StochasticOscillatorTest {
-    
+    MarketEntryAttemptBook data;
+    int period = 14;
+    StochasticOscillator instance;
+    ArrayList<Double> prevKValues;
+    double errorBound = 0.00001;
+    double currentPrice = 127.29;
+    double high = 128.43;
+    double low = 124.56;
+    double[] prices = {127.01,125.36,127.62,126.16,
+        126.59,	124.93,
+        127.35,	126.09,
+        128.17,	126.82,
+        128.43,	126.48,
+        127.37,	126.03,
+        126.42,	124.83,
+        126.90,	126.39,
+        126.85,	125.72,
+        125.65,	124.56,
+        125.72,	124.57,
+        127.16,	125.07,
+        127.72,	126.86,
+        127.69,	126.63
+        };
+    double k1,k2,k3;
     public StochasticOscillatorTest() {
     }
     
@@ -34,6 +60,22 @@ public class StochasticOscillatorTest {
     
     @Before
     public void setUp() {
+        data = new MarketEntryAttemptBook();
+        
+        for(int i=0;i<prices.length;i++)
+        {
+            MarketEntryAttempt temp1 = new MarketEntryAttempt();
+            temp1.setPrice(prices[i]);
+            temp1.setSide(MarketEntryAttempt.SIDE.BID);
+            temp1.setNumOfShares(i+1);
+            data.placeOrder(temp1);
+            
+            MarketEntryAttempt temp2 = new MarketEntryAttempt();
+            temp2.setPrice(prices[i]);
+            temp2.setSide(MarketEntryAttempt.SIDE.OFFER);
+            temp2.setNumOfShares(i+1);
+            data.placeOrder(temp2);
+        }
     }
     
     @After
@@ -46,10 +88,42 @@ public class StochasticOscillatorTest {
     @Test
     public void testCalculateK() {
         System.out.println("calculateK");
-        //StochasticOscillator instance = new StochasticOscillator();
-        double expResult = 0.0;
-        //double result = instance.calculateK();
-        //assertEquals(expResult, result, 0.0);
+        prevKValues = new ArrayList<Double>();
+        setUp();
+        instance = StochasticOscillator.getInstance(data);
+        
+        //expected answer
+        double expected = instance.calculateK(currentPrice,low,high );
+        
+        //calculated answer
+        double result = (instance.getCurrentPrice() - instance.getLowestLow()) / (instance.getHighestHigh() - instance.getLowestLow()) * 100;
+        
+        assertEquals(expected, result, errorBound);
+        k1 = expected;
+        prevKValues.add(expected);
+        
+        //Repeated test to be used in testing the calculation of %D 
+        currentPrice = 127.18;
+        instance.setCurrentPrice(currentPrice);
+        result = instance.calculateK(currentPrice,low,high );
+        expected = (currentPrice - low) / (high - low) * 100;
+        assertEquals(expected, result, errorBound);
+        prevKValues.add(expected);
+        k3 = expected;
+        
+        //Repeated test to be used in testing the calculation of %D
+        currentPrice = 128.01;
+        instance.setCurrentPrice(currentPrice);
+        result = instance.calculateK(currentPrice,low,high );
+        expected = (currentPrice - low) / (high - low) * 100;
+        assertEquals(expected, result, errorBound);
+        prevKValues.add(expected);
+        k3 = expected;
+        
+        int exp = prevKValues.size();     
+        int ans = instance.getKValues().size();
+
+        assertEquals(exp, ans,0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -60,14 +134,33 @@ public class StochasticOscillatorTest {
     @Test
     public void testCalculateD() throws Exception {
         System.out.println("calculateD");
+        setUp();
         StochasticOscillator instance = StochasticOscillator.getInstance();
-        double expResult = 0.0;
+        double result = 0.0;
+        double expectedAns = 0;
+        
+        prevKValues = new ArrayList<Double>();
+        prevKValues.add(k1);
+        prevKValues.add(k2);
+        prevKValues.add(k3);
+        //calcuate Average of kValues
+        for (Double prevKValue : prevKValues) {
+            instance.setKValues(prevKValue);
+            expectedAns += prevKValue;
+        }
+        //the expected %D
+        result = expectedAns / instance.getNumDays();
+
+        //calculated %D
+        double expResult = instance.calculateD();
+
+        assertEquals(expResult, expectedAns, errorBound);
         //double result = instance.calculateD();
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-
+    
     /**
      * Test of getD method, of class StochasticOscillator.
      */
@@ -75,9 +168,9 @@ public class StochasticOscillatorTest {
     public void testGetD() {
         System.out.println("getD");
         StochasticOscillator instance = StochasticOscillator.getInstance();
-        double expResult = 0.0;
-        //double result = instance.getD();
-        //assertEquals(expResult, result, 0.0);
+        double expected = instance.calculateD();
+        double result = instance.getD();
+        assertEquals(expected,result,0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -88,10 +181,11 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetK() {
         System.out.println("getK");
+        setUp();
         StochasticOscillator instance = StochasticOscillator.getInstance();
-        double expResult = 0.0;
-        //double result = instance.getK();
-        //assertEquals(expResult, result, 0.0);
+        double expResult = instance.calculateK();
+        double result = instance.getK();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -102,9 +196,11 @@ public class StochasticOscillatorTest {
     @Test
     public void testSetPeriod() {
         System.out.println("setPeriod");
-        int _period = 0;
-        //StochasticOscillator instance = new StochasticOscillator();
-        //instance.setPeriod(_period);
+        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance.setPeriod(period);
+        int expected = period;
+        int result = instance.getPeriod();
+        assertEquals(expected, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -115,9 +211,12 @@ public class StochasticOscillatorTest {
     @Test
     public void testSetKValues() {
         System.out.println("setKValues");
-        double _kValue = 0.0;
-        //StochasticOscillator instance = new StochasticOscillator();
-        //instance.setKValues(_kValue);
+        double expected_kValue = new Random().nextDouble();
+        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance.setKValues(expected_kValue);
+        int index = instance.getKValues().size()-1;
+        double result = instance.getKValues().get(index);
+        assertEquals(expected_kValue, result, errorBound);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

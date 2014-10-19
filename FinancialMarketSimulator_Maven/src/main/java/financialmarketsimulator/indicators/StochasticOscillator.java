@@ -24,11 +24,35 @@ public class StochasticOscillator extends MarketIndicator{
      * The last traded price
      */
     private double currentPrice;
+
+    public double getCurrentPrice() {
+        return currentPrice;
+    }
     
     /**
      * The trade of the lowest price over a given period of time 
      */
     private double lowestLow=0;
+
+    public double getLowestLow() {
+        return lowestLow;
+    }
+
+    public double getHighestHigh() {
+        return highestHigh;
+    }
+
+    public int getNUM_DAYS() {
+        return NUM_DAYS;
+    }
+
+    public SMA getSma() {
+        return sma;
+    }
+
+    public ArrayList<Double> getkValues() {
+        return kValues;
+    }
     
     /**
      * The trade of the highest price over a given period of time 
@@ -156,6 +180,16 @@ public class StochasticOscillator extends MarketIndicator{
         }
         
         this.setCurrentPrice(this.book.getLastTradePrice());
+        k = (currentPrice - lowestLow)/(highestHigh - lowestLow)*100;
+        setKValues(k);
+        return k;
+    }
+    
+    public double calculateK(double curr, double low, double high)
+    {        
+        lowestLow = low;
+        highestHigh = high;
+        this.setCurrentPrice(curr);
         k = (currentPrice - lowestLow)/(highestHigh - lowestLow)*100;
         setKValues(k);
         return k;
