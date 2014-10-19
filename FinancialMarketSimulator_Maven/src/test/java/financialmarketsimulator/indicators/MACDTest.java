@@ -7,6 +7,8 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,6 +22,9 @@ import static org.junit.Assert.*;
  */
 public class MACDTest {
     
+    double[] prices = {459.99,448.85,446.06,450.81,442.8,448.97,444.57,441.4,430.47,420.05,431.14,425.66,430.58,431.72,437.87,428.43,428.35,432.5,443.66,455.72,454.49,452.08,452.73,461.91,463.58,461.14};
+    MarketEntryAttemptBook data;
+    
     public MACDTest() {
     }
     
@@ -31,8 +36,24 @@ public class MACDTest {
     public static void tearDownClass() {
     }
     
-    @Before
+    
     public void setUp() {
+        data = new MarketEntryAttemptBook();
+        
+        for(int i=0;i<prices.length;i++)
+        {
+            MarketEntryAttempt temp1 = new MarketEntryAttempt();
+            temp1.setPrice(prices[i]);
+            temp1.setSide(MarketEntryAttempt.SIDE.BID);
+            temp1.setNumOfShares(i+1);
+            data.placeOrder(temp1);
+            
+            MarketEntryAttempt temp2 = new MarketEntryAttempt();
+            temp2.setPrice(prices[i]);
+            temp2.setSide(MarketEntryAttempt.SIDE.OFFER);
+            temp2.setNumOfShares(i+1);
+            data.placeOrder(temp2);
+        }
     }
     
     @After
@@ -45,10 +66,14 @@ public class MACDTest {
     @Test
     public void testCalculateMACDValue_0args() throws Exception {
         System.out.println("calculateMACDValue");
-        //MACD instance = new MACD();
-        double expResult = 0.0;
-        //double result = instance.calculateMACDValue();
-        //assertEquals(expResult, result, 0.0);
+        MACD instance =MACD.getInstance(data);
+        int LONG_DAY=26;
+        int SHORT_DAY=12;
+        double expResult = instance.calculateMACDValue();
+        EMA longEMA = EMA.getInstance(this.data, LONG_DAY);
+        EMA shortEMA = EMA.getInstance(this.data, SHORT_DAY);
+        double result = longEMA.calculateEMA() - shortEMA.calculateEMA();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -59,12 +84,15 @@ public class MACDTest {
     @Test
     public void testCalculateMACDValue_EMA_EMA() throws Exception {
         System.out.println("calculateMACDValue");
-        EMA _short = null;
-        EMA _long = null;
-        //MACD instance = new MACD();
-        double expResult = 0.0;
-        //double result = instance.calculateMACDValue(_short, _long);
-        //assertEquals(expResult, result, 0.0);
+        this.setUp();
+        MACD instance =MACD.getInstance(data);
+        int LONG_DAY=26;
+        int SHORT_DAY=12;
+        EMA longEMA = EMA.getInstance(this.data, LONG_DAY);
+        EMA shortEMA = EMA.getInstance(this.data, SHORT_DAY);
+        double result = longEMA.calculateEMA() - shortEMA.calculateEMA();
+        double expResult = instance.calculateMACDValue(shortEMA, longEMA);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -75,10 +103,15 @@ public class MACDTest {
     @Test
     public void testCalculateSignalValue() throws Exception {
         System.out.println("calculateSignalValue");
-        //MACD instance = new MACD();
-        double expResult = 0.0;
-        //double result = instance.calculateSignalValue();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double expResult = instance.calculateSignalValue();
+        double result;
+        if (instance.getPrevMACDValues().size() == 1) {
+            result = 0.0;
+        }
+        result = EMA.getInstance(data, instance.getAVE_DAY()).calculateEMA(instance.getPreviousMACDValue(), instance.getCurrentMACDValue(), instance.getAVE_DAY());
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -89,10 +122,11 @@ public class MACDTest {
     @Test
     public void testGetCurrentMACDValue() {
         System.out.println("getCurrentMACDValue");
-        //MACD instance = new MACD();
-        double expResult = 0.0;
-        //double result = instance.getCurrentMACDValue();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double result = instance.calculateMACDValue();
+        double expResult = instance.getCurrentMACDValue();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -103,10 +137,11 @@ public class MACDTest {
     @Test
     public void testGetPreviousMACDValue() {
         System.out.println("getPreviousMACDValue");
-        //MACD instance = new MACD();
-        double expResult = 0.0;
-        //double result = instance.getPreviousMACDValue();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double expResult = instance.getPreviousMACDValue();
+        double result = instance.getPrevMACDValues().firstElement(); 
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -117,9 +152,12 @@ public class MACDTest {
     @Test
     public void testSetCurrentMACDValue() {
         System.out.println("setCurrentMACDValue");
-        double curr = 0.0;
-        //MACD instance = new MACD();
-        //instance.setCurrentMACDValue(curr);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double expected = instance.calculateMACDValue();
+        instance.setCurrentMACDValue(expected);
+        double result = instance.getCurrentMACDValue();
+        assertEquals(expected,result,0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -130,9 +168,12 @@ public class MACDTest {
     @Test
     public void testSetPreviousMACDValue() {
         System.out.println("setPreviousMACDValue");
-        double prev = 0.0;
-        //MACD instance = new MACD();
-        //instance.setPreviousMACDValue(prev);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double expected = instance.calculateMACDValue();
+        instance.setPreviousMACDValue(expected);
+        double result = instance.getPreviousMACDValue();
+        assertEquals(expected,result,0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -143,9 +184,12 @@ public class MACDTest {
     @Test
     public void testSetSignalValue() {
         System.out.println("setSignalValue");
-        double signal = 0.0;
-        //MACD instance = new MACD();
-        //instance.setSignalValue(signal);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double expResult = instance.calculateSignalValue();
+        instance.setSignalValue(expResult);
+        double result = instance.getSignaValue();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -156,10 +200,11 @@ public class MACDTest {
     @Test
     public void testGetSignaValue() {
         System.out.println("getSignaValue");
-        //MACD instance = new MACD();
-        double expResult = 0.0;
-        //double result = instance.getSignaValue();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        MACD instance = MACD.getInstance(data);
+        double expResult = instance.calculateSignalValue();
+        double result = instance.getSignaValue();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

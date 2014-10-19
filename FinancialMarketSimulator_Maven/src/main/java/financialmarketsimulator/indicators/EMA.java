@@ -51,7 +51,7 @@ public final class EMA extends MarketIndicator{
         super("Exponential Moving Average");
         this.numOfDays = numDays;
         this.data = _data;
-        previousEMAValue = SMA.getInstance(this.data,numOfDays).calculateSMA();
+        currentEmaValue = SMA.getInstance(this.data,numOfDays).calculateSMA();
         this.setCurrentPrice(data.getLastTradePrice());
     }
     
