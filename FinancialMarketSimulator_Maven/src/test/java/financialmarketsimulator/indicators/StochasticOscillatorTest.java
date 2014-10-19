@@ -130,12 +130,13 @@ public class StochasticOscillatorTest {
 
     /**
      * Test of calculateD method, of class StochasticOscillator.
+     * @throws java.lang.Exception
      */
     @Test
     public void testCalculateD() throws Exception {
         System.out.println("calculateD");
         setUp();
-        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance = StochasticOscillator.getInstance(data);
         double result = 0.0;
         double expectedAns = 0;
         
@@ -167,7 +168,7 @@ public class StochasticOscillatorTest {
     @Test
     public void testGetD() {
         System.out.println("getD");
-        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance = StochasticOscillator.getInstance(data);
         double expected = instance.calculateD();
         double result = instance.getD();
         assertEquals(expected,result,0.0);
@@ -182,7 +183,7 @@ public class StochasticOscillatorTest {
     public void testGetK() {
         System.out.println("getK");
         setUp();
-        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance = StochasticOscillator.getInstance(data);
         double expResult = instance.calculateK();
         double result = instance.getK();
         assertEquals(expResult, result, 0.0);
@@ -196,7 +197,7 @@ public class StochasticOscillatorTest {
     @Test
     public void testSetPeriod() {
         System.out.println("setPeriod");
-        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance = StochasticOscillator.getInstance(data);
         instance.setPeriod(period);
         int expected = period;
         int result = instance.getPeriod();
@@ -212,7 +213,7 @@ public class StochasticOscillatorTest {
     public void testSetKValues() {
         System.out.println("setKValues");
         double expected_kValue = new Random().nextDouble();
-        StochasticOscillator instance = StochasticOscillator.getInstance();
+        instance = StochasticOscillator.getInstance(data);
         instance.setKValues(expected_kValue);
         int index = instance.getKValues().size()-1;
         double result = instance.getKValues().get(index);
