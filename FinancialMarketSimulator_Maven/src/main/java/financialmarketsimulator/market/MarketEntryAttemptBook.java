@@ -237,8 +237,11 @@ public class MarketEntryAttemptBook {
                     System.out.println("Matched at: " + newTrade.getPrice());
                     matchedOrders.add(newTrade);
                     this.lastTradePrice = newTrade.getPrice();
-                    exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
-                    exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+                    if (exchange != null)
+                    {
+                        exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
+                        exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+                    }
                 } else if (newOrder.getNumOfShares() > topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
                     //Only Match with whatever shares are remaining.
@@ -264,8 +267,11 @@ public class MarketEntryAttemptBook {
                     newOrder.setNumOfShares(newOrder.getNumOfShares() - topOrder.getNumOfShares());
                     removeOrder(topOrder);
                     this.lastTradePrice = newTrade.getPrice();
-                    exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
-                    exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+                    if (exchange != null)
+                    {
+                        exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
+                        exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+                    }
 
                 } else if (newOrder.getNumOfShares() < topOrder.getNumOfShares()) {
                     //If there's not enough shares remaining to honour the Match
@@ -293,8 +299,11 @@ public class MarketEntryAttemptBook {
                     topOrder.setNumOfShares(topOrder.getNumOfShares() - newOrder.getNumOfShares());
                     hasMoreShares = false;
                     this.lastTradePrice = newTrade.getPrice();
-                    exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
-                    exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+                    if (exchange != null)
+                    {
+                        exchange.getManager(stockName).getParticipant(newTrade.getBid().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.BID);
+                        exchange.getManager(stockName).getParticipant(newTrade.getOffer().getParticipantID()).upadateWorth(newTrade.getQuantity(), this.getLastTradePrice(), newTrade.getPrice(), MarketEntryAttempt.SIDE.OFFER);
+                    }
 
                 }
             }
