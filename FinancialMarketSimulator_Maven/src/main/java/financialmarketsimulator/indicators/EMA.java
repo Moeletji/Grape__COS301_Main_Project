@@ -90,7 +90,7 @@ public final class EMA extends MarketIndicator{
         previousEMAValue = prev;
         numOfDays = numDays;
         
-        double k = 2 / (numOfDays + 1);
+        double k = 2.0 / (numOfDays + 1);
         double currentEmaValue = ((currentPrice * k) + (previousEMAValue * (1 - k)));
         return currentEmaValue;
     }
@@ -118,7 +118,11 @@ public final class EMA extends MarketIndicator{
     {
         return this.data.getLastTradePrice();
     }
-
+    
+    public double getMultiplier()
+    {
+        return (2.0 / (numOfDays + 1)); 
+    }
     @Override
     public Double calculateIndicator() {
         return this.calculateEMA();

@@ -70,7 +70,7 @@ public class SMA extends MarketIndicator{
         {
             return 0.0;
         }
-        
+        previousSMAValue = currentSmaValue;
         double sum = 0.0;
         int range = book.getMatchedOrders().size() - numOfDays;
         for (int i= range; i<book.getMatchedOrders().size();i++ )
@@ -98,7 +98,7 @@ public class SMA extends MarketIndicator{
     }
 
     @Override
-    public Double calculateIndicator() throws NotEnoughDataException {
+    public Double calculateIndicator() {
         return this.calculateSMA();
     }
 }

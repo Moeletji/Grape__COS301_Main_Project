@@ -7,6 +7,8 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,6 +22,10 @@ import static org.junit.Assert.*;
  */
 public class SMATest {
     
+    private double []prices = {53.73,53.87,53.85,53.88,54.08,54.14,54.50,54.30,54.40,54.16};
+    private MarketEntryAttemptBook data;
+    private int numDays = 10;
+    
     public SMATest() {
     }
     
@@ -31,8 +37,24 @@ public class SMATest {
     public static void tearDownClass() {
     }
     
-    @Before
+    
     public void setUp() {
+        data = new MarketEntryAttemptBook();
+        
+        for(int i=0;i<prices.length;i++)
+        {
+            MarketEntryAttempt temp1 = new MarketEntryAttempt();
+            temp1.setPrice(prices[i]);
+            temp1.setSide(MarketEntryAttempt.SIDE.BID);
+            temp1.setNumOfShares(i+1);
+            data.placeOrder(temp1);
+            
+            MarketEntryAttempt temp2 = new MarketEntryAttempt();
+            temp2.setPrice(prices[i]);
+            temp2.setSide(MarketEntryAttempt.SIDE.OFFER);
+            temp2.setNumOfShares(i+1);
+            data.placeOrder(temp2);
+        }
     }
     
     @After
@@ -45,9 +67,24 @@ public class SMATest {
     @Test
     public void testCalculateSMA_0args() throws Exception {
         System.out.println("calculateSMA");
-        SMA instance = null;
-        double expResult = 0.0;
-        //double result = instance.calculateSMA();
+        this.setUp();
+        SMA instance = SMA.getInstance(data, numDays);
+        double expResult = instance.calculateIndicator();
+        double result = 0;
+        if (data.getMatchedOrders().size() < numDays)
+        {
+            result = 0.0;
+        }
+        
+        double sum = 0.0;
+        int range = data.getMatchedOrders().size() - numDays;
+        for (int i= 0; i<data.getMatchedOrders().size();i++ )
+        {
+            sum += data.getMatchedOrders().get(i).getPrice();
+        }
+        
+        double currentSmaValue = sum / numDays;
+        result = currentSmaValue;
         //assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
@@ -59,11 +96,26 @@ public class SMATest {
     @Test
     public void testCalculateSMA_double() {
         System.out.println("calculateSMA");
+        setUp();
+        double result = 0.0;
+        if (data.getMatchedOrders().size() < numDays)
+        {
+            result = 0.0;
+        }
+        
+        double sum = 0.0;
+        int range = data.getMatchedOrders().size() - numDays;
+        for (int i= 0; i<data.getMatchedOrders().size();i++ )
+        {
+            sum += data.getMatchedOrders().get(i).getPrice();
+        }
+        
+        double currentSmaValue = sum / numDays;
+        result = currentSmaValue;
         double total = 0.0;
-        SMA instance = null;
-        double expResult = 0.0;
-        //double result = instance.calculateSMA(total);
-        //assertEquals(expResult, result, 0.0);
+        SMA instance = SMA.getInstance(numDays);
+        double expResult = instance.calculateSMA(sum);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -74,10 +126,11 @@ public class SMATest {
     @Test
     public void testGetPreviousSMAValue() {
         System.out.println("getPreviousSMAValue");
-        SMA instance = null;
+        this.setUp();
+        SMA instance = SMA.getInstance(numDays);
         double expResult = 0.0;
-        //double result = instance.getPreviousSMAValue();
-        //assertEquals(expResult, result, 0.0);
+        double result = instance.getPreviousSMAValue();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -87,11 +140,12 @@ public class SMATest {
      */
     @Test
     public void testGetCurrentSMAValue() {
+        this.setUp();
         System.out.println("getCurrentSMAValue");
-        SMA instance = null;
-        double expResult = 0.0;
-        //double result = instance.getCurrentSMAValue();
-        //assertEquals(expResult, result, 0.0);
+        SMA instance = SMA.getInstance(data, numDays);
+        double expResult = instance.calculateIndicator();
+        double result = instance.getCurrentSMAValue();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

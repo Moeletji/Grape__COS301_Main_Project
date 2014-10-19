@@ -299,9 +299,9 @@ public class MarketEntryAttemptBook {
                 }
             }
         }
-        System.out.println("===================================================");
+        /*System.out.println("===================================================");
         System.out.println("Last Traded Price"+"("+this.getStockName()+")"+": "+this.getLastTradePrice());
-        System.out.println("===================================================");
+        System.out.println("===================================================");*/
         //if there are still more shares then add the order to the list
         if (hasMoreShares) {
             addOrderToList(newOrder);
