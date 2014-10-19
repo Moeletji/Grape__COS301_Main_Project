@@ -21,6 +21,42 @@ public final class MACD extends MarketIndicator{
 
     private double signalValue;
 
+    public int getLONG_DAY() {
+        return LONG_DAY;
+    }
+
+    public int getSHORT_DAY() {
+        return SHORT_DAY;
+    }
+
+    public int getAVE_DAY() {
+        return AVE_DAY;
+    }
+
+    public double getSignalValue() {
+        return signalValue;
+    }
+
+    public SMA getSma() {
+        return sma;
+    }
+
+    public EMA getEma() {
+        return ema;
+    }
+
+    public Vector<Double> getPrevMACDValues() {
+        return prevMACDValues;
+    }
+
+    public Vector<Double> getPrevSignalValues() {
+        return prevSignalValues;
+    }
+
+    public MarketEntryAttemptBook getData() {
+        return data;
+    }
+
     private SMA sma;
     private EMA ema;
 
@@ -110,7 +146,7 @@ public final class MACD extends MarketIndicator{
     public double getSignaValue() {
         double previousSignalValue = prevSignalValues.lastElement();
         prevMACDValues.add(currentMACDValue);
-        return previousSignalValue;
+        return signalValue;
     }
 
     @Override
