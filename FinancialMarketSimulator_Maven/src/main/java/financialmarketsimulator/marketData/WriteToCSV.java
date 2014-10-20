@@ -23,7 +23,7 @@ import java.nio.file.Paths;
  */
 public class WriteToCSV {
 
-    private MarketParticipant participant;
+    /*private MarketParticipant participant;
     private String stockName;
     private String fileName;
     private Path path;
@@ -77,5 +77,5 @@ public class WriteToCSV {
         }
     }
     
-    
+    */
 }

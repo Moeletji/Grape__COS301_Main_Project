@@ -7,6 +7,10 @@
 
 package financialmarketsimulator.indicators;
 
+import financialmarketsimulator.exception.NotEnoughDataException;
+import financialmarketsimulator.market.MarketEntryAttempt;
+import financialmarketsimulator.market.MarketEntryAttemptBook;
+import java.util.Random;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,7 +23,29 @@ import static org.junit.Assert.*;
  * @author Madimetja
  */
 public class BollingerBandsTest {
-    
+    MarketEntryAttemptBook data = new MarketEntryAttemptBook();
+    int numDays = 20;
+    double[] prices = {86.16,
+89.09,
+88.78,
+90.32,
+89.07,
+91.15,
+89.44,
+89.18,
+86.93,
+87.68,
+86.96,
+89.43,
+89.32,
+88.72,
+87.45,
+87.26,
+89.50,
+87.90,
+89.13,
+90.70
+};
     public BollingerBandsTest() {
     }
     
@@ -31,8 +57,23 @@ public class BollingerBandsTest {
     public static void tearDownClass() {
     }
     
-    @Before
     public void setUp() {
+        data = new MarketEntryAttemptBook();
+        
+        for(int i=0;i<prices.length;i++)
+        {
+            MarketEntryAttempt temp1 = new MarketEntryAttempt();
+            temp1.setPrice(prices[i]);
+            temp1.setSide(MarketEntryAttempt.SIDE.BID);
+            temp1.setNumOfShares(i+1);
+            data.placeOrder(temp1);
+            
+            MarketEntryAttempt temp2 = new MarketEntryAttempt();
+            temp2.setPrice(prices[i]);
+            temp2.setSide(MarketEntryAttempt.SIDE.OFFER);
+            temp2.setNumOfShares(i+1);
+            data.placeOrder(temp2);
+        }
     }
     
     @After
@@ -45,10 +86,12 @@ public class BollingerBandsTest {
     @Test
     public void testGetSMA() {
         System.out.println("getSMA");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
-        //double result = instance.getSMA();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double expResult = new Random().nextDouble();
+        instance.setSMA(expResult);
+        double result = instance.getSMA();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -59,8 +102,14 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateSMA() throws Exception {
         System.out.println("calculateSMA");
-        BollingerBands instance = BollingerBands.getInstance();
-        //instance.calculateSMA();
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double expResult = instance.getSMA();
+        double result;
+        instance.setSMA(expResult);
+        SMA sma = SMA.getInstance(data, numDays);
+        result = instance.getSMA();
+        assertEquals(expResult,result,0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -71,8 +120,14 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateSD() throws Exception {
         System.out.println("calculateSD");
-        BollingerBands instance = BollingerBands.getInstance();
-        //instance.calculateSD();
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double expResult = instance.getSD();
+        double result;
+        instance.setSMA(expResult);
+        Volatility sd = Volatility.getInstance(numDays, data);
+        result = instance.getSD();
+        assertEquals(expResult,result,0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -83,10 +138,13 @@ public class BollingerBandsTest {
     @Test
     public void testGetSD() {
         System.out.println("getSD");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double sd = new Random().nextDouble();
+        instance.setStandardDeviation(sd);
+        double expResult = sd;
         double result = instance.getSD();
-        //assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -97,9 +155,13 @@ public class BollingerBandsTest {
     @Test
     public void testSetSMA() {
         System.out.println("setSMA");
-        double _sma = 0.0;
-        BollingerBands instance = BollingerBands.getInstance();
-        instance.setSMA(_sma);
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double sma = new Random().nextDouble();
+        instance.setSMA(sma);
+        double expResult = sma;
+        double result = instance.getSMA();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -110,10 +172,25 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateUpperBand() throws Exception {
         System.out.println("calculateUpperBand");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
-        //double result = instance.calculateUpperBand();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double result = 0.0;
+        double upperBand;
+        double factor = instance.getFactor();
+        double mean=0;
+        if (instance.getSMA() > 0)
+        {
+            mean = instance.getSMA();
+        }
+        else
+        {
+            //throw new NotEnoughDataException();
+        }
+        
+        upperBand = mean + (factor * instance.getSD());
+        result = upperBand;
+        double expResult = instance.calculateUpperBand();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -124,10 +201,25 @@ public class BollingerBandsTest {
     @Test
     public void testCalculateLowerBand() throws Exception {
         System.out.println("calculateLowerBand");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
-        //double result = instance.calculateLowerBand();
-        //assertEquals(expResult, result, 0.0);
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double result = 0.0;
+        double lowerBand;
+        double factor = instance.getFactor();
+        double mean=0;
+        if (instance.getSMA() > 0)
+        {
+            mean = instance.getSMA();
+        }
+        else
+        {
+            //throw new NotEnoughDataException();
+        }
+        
+        lowerBand = mean - (factor * instance.getSD());
+        result = lowerBand;
+        double expResult = instance.calculateLowerBand();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -138,10 +230,11 @@ public class BollingerBandsTest {
     @Test
     public void testGetFactor() {
         System.out.println("getFactor");
-        BollingerBands instance = BollingerBands.getInstance();
-        int expResult = instance.getFactor();
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        int expResult = 2;
         int result = instance.getFactor();
-        //assertEquals(expResult, result);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -152,9 +245,12 @@ public class BollingerBandsTest {
     @Test
     public void testSetStandardDeviation() {
         System.out.println("setStandardDeviation");
+        setUp();
         double sd = 0.0;
-        BollingerBands instance = BollingerBands.getInstance();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
         instance.setStandardDeviation(sd);
+        double expResult = instance.getSD();
+        assertEquals(expResult,sd,0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -163,12 +259,13 @@ public class BollingerBandsTest {
      * Test of getLowerBand method, of class BollingerBands.
      */
     @Test
-    public void testGetLowerBand() {
+    public void testGetLowerBand() throws NotEnoughDataException {
         System.out.println("getLowerBand");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double expResult = instance.calculateLowerBand();
         double result = instance.getLowerBand();
-        //assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -177,12 +274,13 @@ public class BollingerBandsTest {
      * Test of getUpperBand method, of class BollingerBands.
      */
     @Test
-    public void testGetUpperBand() {
+    public void testGetUpperBand() throws NotEnoughDataException {
         System.out.println("getUpperBand");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double expResult = instance.calculateUpperBand();
         double result = instance.getUpperBand();
-        //assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -193,10 +291,11 @@ public class BollingerBandsTest {
     @Test
     public void testGetBandWidth() {
         System.out.println("getBandWidth");
-        BollingerBands instance = BollingerBands.getInstance();
-        double expResult = 0.0;
+        setUp();
+        BollingerBands instance = BollingerBands.getInstance(data,numDays);
+        double expResult = instance.getUpperBand()-instance.getLowerBand();
         double result = instance.getBandWidth();
-        //assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

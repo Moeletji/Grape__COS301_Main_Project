@@ -13,6 +13,7 @@ public class ATR extends MarketIndicator{
     
     private static ATR instance = null;
     private double previousATR;
+
     private double currentATR;
     private final int numDays;
     private double currentTrueRange;
@@ -85,7 +86,39 @@ public class ATR extends MarketIndicator{
     {
         previousClosing = val;
     }
+    
+    public static ATR getInstance() {
+        return instance;
+    }
 
+    public double getPreviousATR() {
+        return previousATR;
+    }
+
+    public double getCurrentATR() {
+        return currentATR;
+    }
+
+    public int getNumDays() {
+        return numDays;
+    }
+
+    public double getCurrentTrueRange() {
+        return currentTrueRange;
+    }
+
+    public double getCurrentHigh() {
+        return currentHigh;
+    }
+
+    public double getCurrentLow() {
+        return currentLow;
+    }
+
+    public double getPreviousClosing() {
+        return previousClosing;
+    }
+    
     @Override
     public Double calculateIndicator() {
         return this.calculateATR();

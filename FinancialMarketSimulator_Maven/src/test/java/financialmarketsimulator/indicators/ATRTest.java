@@ -92,7 +92,9 @@ public class ATRTest {
         System.out.println("setTrueRange");
         book = new MarketEntryAttemptBook();
         ATR instance = ATR.getInstance(book,14);
+        double val = 0.0;
         instance.setTrueRange();
+        assertEquals(instance.getTrueRange(),val,0.0);
     }
 
     /**
@@ -105,6 +107,7 @@ public class ATRTest {
         book = new MarketEntryAttemptBook();
         ATR instance = ATR.getInstance(book,14);
         instance.setPreviousATR(prev);
+        assertEquals(instance.getPreviousATR(),prev,0.0);
     }
 
     /**
@@ -117,6 +120,7 @@ public class ATRTest {
         book = new MarketEntryAttemptBook();
         ATR instance = ATR.getInstance(book,14);
         instance.setCurrentHight(val);
+        assertEquals(instance.getCurrentHigh(),val,0.0);
     }
 
     /**
@@ -129,6 +133,7 @@ public class ATRTest {
         book = new MarketEntryAttemptBook();
         ATR instance = ATR.getInstance(book,14);
         instance.setCurrentLow(val);
+        assertEquals(instance.getCurrentLow(),val,0.0);
     }
 
     /**
@@ -141,6 +146,7 @@ public class ATRTest {
         book = new MarketEntryAttemptBook();
         ATR instance = ATR.getInstance(book,14);
         instance.setPreviousClosing(val);
+        assertEquals(instance.getPreviousClosing(),val,0.0);
     }
     
 }

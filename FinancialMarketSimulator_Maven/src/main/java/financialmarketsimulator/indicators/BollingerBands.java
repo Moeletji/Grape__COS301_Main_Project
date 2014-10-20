@@ -108,7 +108,8 @@ public class BollingerBands extends MarketIndicator{
         }
         else
         {
-            throw new NotEnoughDataException();
+            //throw new NotEnoughDataException();
+            return 0.0;
         }
         
         upperBand = mean + (factor * getSD());
@@ -124,7 +125,8 @@ public class BollingerBands extends MarketIndicator{
         }
         else
         {
-            throw new NotEnoughDataException();
+            //throw new NotEnoughDataException();
+            return 0.0;
         }
         
         lowerBand = mean - (factor * getSD());
