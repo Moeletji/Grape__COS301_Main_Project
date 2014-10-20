@@ -82,7 +82,6 @@ public class EMATest {
         EMA instance = EMA.getInstance(data, numDays);
         double result;
         double currentPrice = data.getLastTradePrice();
-        instance.setCurrentPrice(currentPrice);
         double previousEMAValue = instance.getPreviousEMAValue();
         if ((numDays <= 0) || (currentPrice == 0) || (previousEMAValue == 0)) {
            result= 0.0;
@@ -91,7 +90,7 @@ public class EMATest {
         double k = 2.0 / (numDays + 1);
         result = ((currentPrice * k) + (previousEMAValue * (1 - k)));
         double expResult = instance.calculateEMA();
-        //assertEquals(expResult, result, 0.0);
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
@@ -125,7 +124,6 @@ public class EMATest {
     @Test
     public void testGetNumberOfDays() {
         System.out.println("getNumberOfDays");
-        this.setUp();
         EMA instance = EMA.getInstance(data, numDays);
         int result = numDays;
         int expResult = instance.getNumberOfDays();
@@ -140,7 +138,6 @@ public class EMATest {
     @Test
     public void testSetPreviousEMAValue() {
         System.out.println("setPreviousEMAValue");
-        this.setUp();
         double previous = new Random().nextDouble();
         EMA instance = EMA.getInstance(data, numDays);
         instance.setPreviousEMAValue(previous);
@@ -162,8 +159,8 @@ public class EMATest {
         EMA instance = EMA.getInstance(data, numDays);
         instance.setCurrentPrice(data.getLastTradePrice());
         double result = data.getLastTradePrice();
-        //double expected = instance.getCurrentPrice();
-        //assertEquals(expected, result,0);
+        double expected = instance.getCurrentPrice();
+        assertEquals(expected, result,0);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

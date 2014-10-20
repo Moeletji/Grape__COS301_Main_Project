@@ -33,6 +33,26 @@ public class StochasticOscillator extends MarketIndicator{
      * The trade of the lowest price over a given period of time 
      */
     private double lowestLow=0;
+
+    public double getLowestLow() {
+        return lowestLow;
+    }
+
+    public double getHighestHigh() {
+        return highestHigh;
+    }
+
+    public int getNUM_DAYS() {
+        return NUM_DAYS;
+    }
+
+    public SMA getSma() {
+        return sma;
+    }
+
+    public ArrayList<Double> getkValues() {
+        return kValues;
+    }
     
     /**
      * The trade of the highest price over a given period of time 
@@ -148,8 +168,6 @@ public class StochasticOscillator extends MarketIndicator{
     
     public double calculateK()
     {
-        if (book == null)
-            return 0.0;
         if (highestHigh == 0 || lowestLow == 0)
         {    
             highestHigh = book.getHighestTradePrice(period);
@@ -248,26 +266,6 @@ public class StochasticOscillator extends MarketIndicator{
 
     public int getUpperBound() {
         return upperBound;
-    }
-    
-    public double getLowestLow() {
-        return lowestLow;
-    }
-
-    public double getHighestHigh() {
-        return highestHigh;
-    }
-
-    public int getNUM_DAYS() {
-        return NUM_DAYS;
-    }
-
-    public SMA getSma() {
-        return sma;
-    }
-
-    public ArrayList<Double> getkValues() {
-        return kValues;
     }
     
     @Override

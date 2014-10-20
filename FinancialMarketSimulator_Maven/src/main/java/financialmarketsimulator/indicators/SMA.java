@@ -66,8 +66,6 @@ public class SMA extends MarketIndicator{
 
     @SuppressWarnings("empty-statement")
     public double calculateSMA() {
-        if (book == null)
-            return 0.0;        
         if (book.getMatchedOrders().size() < numOfDays)
         {
             return 0.0;

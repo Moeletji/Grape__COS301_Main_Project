@@ -67,7 +67,7 @@ public class MarketEntryAttemptBook {
     /**
      * @brief MarketExchange
      */
-    private volatile MarketExchange exchange;
+    private MarketExchange exchange;
     
     /**
      * @brief Used for garbage collection
@@ -186,7 +186,7 @@ public class MarketEntryAttemptBook {
      * made the order is added to the relevant order(bid or order) list.
      * @param newOrder
      */
-    public void placeOrder(MarketEntryAttempt newOrder) {
+    public synchronized void placeOrder(MarketEntryAttempt newOrder) {
         if (newOrder.getPrice() <= 0 || newOrder.getNumOfShares() <= 0) {
             return;//throw exception
         }
